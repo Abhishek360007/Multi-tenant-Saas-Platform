@@ -1,29 +1,30 @@
 import dayjs from "dayjs"
+import { parseAppDate } from "./utc-time"
 import { removeConfigLayout } from "@/utils/cache/local-storage"
 import indiaAreaJson from "@/assets/IndiaArea.json"
 import { ISimpleProject } from "@/types/base"
 import { CascaderOption } from "element-plus"
 
 //#region Format date and time
-export const DEFAULT_DATE_TIME_PATTERN = "YYYY-MM-DD HH:mm:ss"
+export const DEFAULT_DATE_TIME_PATTERN = "DD-MM-YYYY HH:mm:ss"
 
-export const DEFAULT_DATE_PATTERN = "YYYY-MM-DD"
+export const DEFAULT_DATE_PATTERN = "DD-MM-YYYY"
 
 export const DEFAULT_TIME_PATTERN = "HH:mm:ss"
 
 /** Format date and time */
 export const formatDateTime = (time: string | number | Date) => {
-  return time ? dayjs(new Date(time)).format(DEFAULT_DATE_TIME_PATTERN) : "N/A"
+  return time ? parseAppDate(time).format(DEFAULT_DATE_TIME_PATTERN) : "N/A"
 }
 
 /** Format date */
 export const formatDate = (time: string | number | Date) => {
-  return time ? dayjs(new Date(time)).format(DEFAULT_DATE_PATTERN) : "N/A"
+  return time ? parseAppDate(time).format(DEFAULT_DATE_PATTERN) : "N/A"
 }
 
 /** Format time */
 export const formatTime = (time: string | number | Date) => {
-  return time ? dayjs(new Date(time)).format(DEFAULT_TIME_PATTERN) : "N/A"
+  return time ? parseAppDate(time).format(DEFAULT_TIME_PATTERN) : "N/A"
 }
 
 /** Time difference */
@@ -34,7 +35,7 @@ export const diffDateTime = (time1: string | number | Date, time2: string | numb
   if (!time2) {
     return "N/A"
   }
-  const diff = dayjs(new Date(time1)).diff(new Date(time2), "days")
+  const diff = parseAppDate(time1).diff(parseAppDate(time2), "days")
   return diff
 }
 
@@ -42,7 +43,7 @@ export const diffDateTime = (time1: string | number | Date, time2: string | numb
  * @param {number} time
  */
 export function timeAgo(time: string | number | Date) {
-  const limit = dayjs(Date.now()).diff(dayjs(new Date(time)), "second")
+  const limit = dayjs().diff(parseAppDate(time), "second")
   let content = ""
   if (limit < 60) {
     content = "just now"
@@ -55,13 +56,13 @@ export function timeAgo(time: string | number | Date) {
   } else if (limit >= 2592000 && limit < 31104000) {
     content = Math.floor(limit / 2592000) + " months ago"
   } else {
-    content = dayjs(time).format(DEFAULT_DATE_PATTERN)
+    content = parseAppDate(time).format(DEFAULT_DATE_PATTERN)
   }
   return content
 }
 
 export function expiredDateAgo(time: string | number | Date) {
-  const data = dayjs(time, DEFAULT_DATE_TIME_PATTERN)
+  const data = parseAppDate(time)
   const now = dayjs()
   if (data.diff(now, "year") > 0) {
     return `${data.diff(now, "year")} years from now`
@@ -72,7 +73,7 @@ export function expiredDateAgo(time: string | number | Date) {
   } else if (data.isBefore(now)) {
     return "Expired"
   } else {
-    return data.format("MM-DD HH:mm")
+    return data.format("DD-MM HH:mm")
   }
 }
 

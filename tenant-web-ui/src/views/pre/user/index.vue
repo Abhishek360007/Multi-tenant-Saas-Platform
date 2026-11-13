@@ -242,8 +242,8 @@
                 v-model="entityForm.expired"
                 type="datetime"
                 placeholder="Select an expiry time; leave empty to never expire"
-                format="YYYY-MM-DD HH:mm:ss"
-                value-format="YYYY-MM-DD HH:mm:ss"
+                format="DD-MM-YYYY HH:mm:ss"
+                value-format="DD-MM-YYYY HH:mm:ss"
                 :shortcuts="futureShortcuts"
               />
             </el-form-item>

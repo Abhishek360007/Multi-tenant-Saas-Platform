@@ -253,8 +253,8 @@
                   clearable
                   type="datetime"
                   placeholder="Select an expiry time"
-                  format="YYYY-MM-DD HH:mm:ss"
-                  value-format="YYYY-MM-DD HH:mm:ss"
+                  format="DD-MM-YYYY HH:mm:ss"
+                  value-format="DD-MM-YYYY HH:mm:ss"
                   :shortcuts="futureShortcuts"
                   tabindex="7"
                 />
