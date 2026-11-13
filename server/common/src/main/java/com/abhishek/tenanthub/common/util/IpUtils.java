@@ -4,16 +4,18 @@ import cn.hutool.core.net.NetUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.lionsoul.ip2region.xdb.Searcher;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.FileCopyUtils;
+import com.maxmind.db.CHMCache;
+import com.maxmind.geoip2.DatabaseReader;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static cn.hutool.core.net.NetUtil.LOCAL_IP;
 
@@ -35,27 +37,45 @@ public class IpUtils {
 
     private static final String LOCALHOST_IP = "0:0:0:0:0:0:0:1";
 
-    private static Searcher SEARCHER = null;
+    /**
+     * MaxMind GeoLite2 City database. Download GeoLite2-City.mmdb with a free MaxMind account
+     * (https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) and point GEOIP_CITY_DB at it.
+     * Without it, locations are reported as "Unknown".
+     */
+    private static final DatabaseReader GEOIP = openGeoIp();
 
-    static {
-        final var cpr = new ClassPathResource("ip2region.xdb");
+    private static DatabaseReader openGeoIp() {
+        var path = StringUtils.defaultIfBlank(System.getenv("GEOIP_CITY_DB"), "./data/GeoLite2-City.mmdb");
+        var file = new File(path);
+        if (!file.isFile()) {
+            log.info("GeoLite2 database not found at {}; IP locations will show as Unknown", file.getAbsolutePath());
+            return null;
+        }
         try {
-            byte[] dbBinStr = FileCopyUtils.copyToByteArray(cpr.getInputStream());
-            SEARCHER = Searcher.newWithBuffer(dbBinStr);
+            return new DatabaseReader.Builder(file).withCache(new CHMCache()).build();
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            log.warn("Could not open GeoLite2 database {}: {}", file.getAbsolutePath(), e.getMessage());
+            return null;
         }
     }
 
     /**
-     * Get the real location of an IP
+     * Location of an IP, e.g. "Bengaluru, Karnataka, India".
      */
     public static String getRealAddressByIP(String ip) {
-        if (NetUtil.isInnerIP(ip)) {
-            return "Private network IP";
+        if (NetUtil.isInnerIP(ip) || LOCAL_IP.equals(ip) || LOCALHOST_IP.equals(ip)) {
+            return "Private network";
+        }
+        if (GEOIP == null) {
+            return "Unknown";
         }
         try {
-            return SEARCHER.search(ip);
+            return GEOIP.tryCity(InetAddress.getByName(ip))
+                    .map(r -> Stream.of(r.getCity().getName(), r.getMostSpecificSubdivision().getName(), r.getCountry().getName())
+                            .filter(StringUtils::isNotBlank)
+                            .collect(Collectors.joining(", ")))
+                    .filter(StringUtils::isNotBlank)
+                    .orElse("Unknown");
         } catch (Exception e) {
             return "Unknown";
         }

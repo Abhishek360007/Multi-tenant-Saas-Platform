@@ -239,8 +239,7 @@ public class NoSpringTests {
                 ConfigDataConst.REDIS_CACHE_KEY,
                 ConfigDataConst.DEFAULT_USER_PASSWORD.getKey(),
                 ConfigDataConst.DEFAULT_TENANT_LOGO.getKey(),
-                ConfigDataConst.DEFAULT_ROLE_NAME.getKey(),
-                ConfigDataConst.GET_HOLIDAY_URL.getKey()
+                ConfigDataConst.DEFAULT_ROLE_NAME.getKey()
         );
         var str = "waeq" + IdUtil.nanoId();
         boolean b1 = ignoreContainsKeys.stream().noneMatch(s -> StrUtil.contains(str, s));
@@ -280,9 +279,7 @@ public class NoSpringTests {
 
     @Test
     public void test18() throws IOException {
-        System.out.println(IpUtils.getRealAddressByIP("14.154.120.216"));
         System.out.println(IpUtils.getRealAddressByIP("115.151.120.216"));
-        System.out.println(IpUtils.getRealAddressByIP("195.151.120.216"));
     }
 
 

@@ -59,11 +59,11 @@
             <version>${storage.version}</version>
         </dependency>
 
-        <!-- Not needed if Qiniu Kodo is unused -->
+        <!-- S3-compatible object storage (used when STORAGE_PLATFORM=s3-1) -->
         <dependency>
-            <groupId>com.qiniu</groupId>
-            <artifactId>qiniu-java-sdk</artifactId>
-            <version>${qiniu-storage.version}</version>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>${aws-s3.version}</version>
         </dependency>
 
     </dependencies>

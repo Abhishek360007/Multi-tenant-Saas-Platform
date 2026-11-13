@@ -98,15 +98,35 @@ services:
     ports:
       - "18891:18891"
     environment:
-      - SPRING_PROFILES_ACTIVE=pro
+      - SPRING_PROFILES_ACTIVE=prod
+      # The app creates one database per tenant, so it needs a MySQL user allowed to CREATE DATABASE
+      - DB_HOST=mysql8
+      - DB_USERNAME=root
+      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - REDIS_HOST=redis7
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      # File storage: local disk by default; set STORAGE_PLATFORM=s3-1 and the S3_* values for S3
+      - STORAGE_PLATFORM=${STORAGE_PLATFORM:-local-1}
+      - STORAGE_LOCAL_PATH=/uploads/
+      - STORAGE_LOCAL_DOMAIN=${STORAGE_LOCAL_DOMAIN:-http://localhost/api/files/}
+      - S3_ENABLED=${S3_ENABLED:-false}
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY:-}
+      - S3_SECRET_KEY=${S3_SECRET_KEY:-}
+      - S3_REGION=${S3_REGION:-ap-south-1}
+      - S3_ENDPOINT=${S3_ENDPOINT:-}
+      - S3_BUCKET=${S3_BUCKET:-}
+      - S3_PUBLIC_URL=${S3_PUBLIC_URL:-}
+      # Optional MaxMind GeoLite2 City database for login locations
+      - GEOIP_CITY_DB=/data/GeoLite2-City.mmdb
       # JWT secret + RSA key pair are generated in this directory on first start
       - JWT_TOKEN_KEYS_DIR=/keys
       - TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD=${TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD:-}
     volumes:
       - /data/tenanthub/keys:/keys
+      - /data/tenanthub/uploads:/uploads
+      - /data/tenanthub/geoip:/data
       - /data/tenanthub/logs:/logs/tenanthub
-      - /data/tenanthub/tenanthub-pro.jar:/app.jar
-      - /data/tenanthub/application-pro.yml:/config/application-pro.yml
+      - /data/tenanthub/tenanthub.jar:/app.jar
     command: java -server -Xms1g -Xmx1g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Duser.timezone=UTC -Djava.security.egd=file:/dev/./urandom -jar /app.jar
     privileged: true
     restart: always

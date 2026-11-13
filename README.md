@@ -70,11 +70,12 @@ The server needs a MySQL user that can create databases, because each new tenant
 ```bash
 cd server
 mvn -DskipTests package
-java -jar tenanthub-service/target/tenanthub-service-1.0.1.jar --spring.profiles.active=test
+java -jar tenanthub-service/target/tenanthub-service-1.0.1.jar
 ```
 
-The `test` profile points at `127.0.0.1:3306` (root/123456) and `127.0.0.1:6379`. Liquibase creates
-and seeds `tenanthub_master` on first start. Open the API docs at http://localhost:18891/doc.html.
+By default it connects to MySQL at `127.0.0.1:3306` (root/123456) and Redis at `127.0.0.1:6379`;
+override with the environment variables below. Liquibase creates and seeds `tenanthub_master` on
+first start. Open the API docs at http://localhost:18891/doc.html.
 
 ### 3. Run the frontends
 
@@ -102,7 +103,8 @@ whose password is set or reset by an administrator.
 ## Deployment
 
 1. Copy `.env.example` to `.env` and set real passwords.
-2. Build the jar and copy it, along with an `application-pro.yml`, to `/data/tenanthub/` on the host.
+2. Build the jar and copy it to `/data/tenanthub/tenanthub.jar` on the host.
+   Optionally put `GeoLite2-City.mmdb` in `/data/tenanthub/geoip/` for login locations.
 3. `docker compose up -d`
 
 See [server/README.md](server/README.md) for the shell script (`server/shell/tenanthub.sh`) and
@@ -118,6 +120,20 @@ Key settings in `server/tenanthub-service/src/main/resources/application.yml`:
 | `multi.tenant.default-tenant-id` | `master` | the platform's own tenant |
 | `multi.tenant.enable-project` | `true` | enable per-tenant projects |
 | `jwt.token.keys-dir` | `./keys` | where the JWT secret and RSA key pair are generated on first start. **Keep private and persistent.** |
+
+Environment variables (defaults suit local development; the `prod` profile requires the credentials):
+
+| Variable | Default | Meaning |
+| --- | --- | --- |
+| `DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD` | `127.0.0.1`, `3306`, `root`, `123456` | MySQL; the user must be allowed to `CREATE DATABASE` |
+| `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD` | `127.0.0.1`, `6379`, empty | Redis |
+| `STORAGE_PLATFORM` | `local-1` | `local-1` (disk, served at `/files/**`) or `s3-1` |
+| `STORAGE_LOCAL_PATH`, `STORAGE_LOCAL_DOMAIN` | `<working dir>/uploads/`, `http://127.0.0.1:18891/files/` | where local files are stored (absolute path) and their public URL |
+| `S3_ENABLED`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_REGION`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_PUBLIC_URL` | region `ap-south-1` | any S3-compatible store: AWS (Mumbai), DigitalOcean Spaces (blr1), MinIO, Cloudflare R2 |
+| `GEOIP_CITY_DB` | `./data/GeoLite2-City.mmdb` | [MaxMind GeoLite2 City](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) database (free account) for login locations; without it they show "Unknown" |
+| `TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD` | empty | initial password for the platform admin |
+
+Personal overrides can go in `application-local.yml` (git-ignored); run with `--spring.profiles.active=dev,local`.
 
 ## Credits & license
 

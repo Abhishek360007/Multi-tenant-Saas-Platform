@@ -43,12 +43,10 @@
         <idgenerator.version>1.0.6</idgenerator.version>
         <!-- x-file-storage File upload docs https://x-file-storage.xuyanwu.cn -->
         <storage.version>2.2.1</storage.version>
-        <!-- Offline IP to location lookup -->
-        <ip2region.version>2.6.6</ip2region.version>
-        <!-- Qiniu Cloud file upload -->
-        <qiniu-storage.version>7.15.1</qiniu-storage.version>
-        <!-- Aliyun file upload -->
-        <aliyun-storage.version>3.17.4</aliyun-storage.version>
+        <!-- IP geolocation: MaxMind GeoLite2 -->
+        <geoip2.version>4.4.0</geoip2.version>
+        <!-- S3-compatible file storage (AWS, DigitalOcean Spaces, MinIO, ...) -->
+        <aws-s3.version>1.12.797</aws-s3.version>
         <!-- Server status queries such as CPU, disk and memory -->
         <oshi.version>6.4.13</oshi.version>
         <!-- Excel File handling -->

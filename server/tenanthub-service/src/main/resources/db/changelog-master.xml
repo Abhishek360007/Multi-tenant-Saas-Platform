@@ -5,7 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-
     <include file="db/changelog/sys.xml"/>
 
     <include file="db/changelog/lms.xml"/>
@@ -14,54 +13,45 @@
 
     <include file="db/changelog/cms.xml"/>
 
-
     <!-- Seed tenants and permission templates -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-10">
         <sqlFile path="db/changelog/sql/tenant_init.sql"/>
     </changeSet>
-
 
     <!-- Seed users, roles and departments, -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-20">
         <sqlFile path="db/changelog/sql/pms_init.sql"/>
     </changeSet>
 
-
     <!-- Seed the default projects -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-30">
         <sqlFile path="db/changelog/sql/cms_init.sql"/>
     </changeSet>
-
 
     <!-- India administrative areas (generated from LGD by scripts/india-area/generate.mjs) -->
     <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-4">
         <sqlFile path="db/changelog/sql/india_area.sql"/>
     </changeSet>
 
-
     <!-- Seed global settings-->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-50">
         <sqlFile path="db/changelog/sql/sys_config.sql"/>
     </changeSet>
-
 
     <!-- Seed dictionary types-->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-60">
         <sqlFile path="db/changelog/sql/sys_dict_type.sql"/>
     </changeSet>
 
-
     <!-- Seed dictionary data-->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-70">
         <sqlFile path="db/changelog/sql/sys_dict_data.sql"/>
     </changeSet>
 
-
     <!-- Seed menu permissions -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-80">
         <sqlFile path="db/changelog/sql/sys_menu.sql"/>
     </changeSet>
-
 
     <!-- Seeded users start with well-known passwords: force a change at first login -->
     <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-2">
@@ -70,7 +60,6 @@
             <where>user_id IN (19980817, 6569516164032, 6569516878992)</where>
         </update>
     </changeSet>
-
 
     <!-- PIN code for the seeded tenant and projects (Bengaluru North) -->
     <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-7">
@@ -84,5 +73,26 @@
         </update>
     </changeSet>
 
+    <!-- Indian public holidays (shared by all tenants) -->
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-8">
+        <createTable remarks="Indian public holidays" tableName="sys_holiday">
+            <column name="holiday_date" remarks="Holiday date" type="DATE">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" remarks="Holiday name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category" remarks="gazetted or restricted" type="VARCHAR(20)" defaultValue="gazetted">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" remarks="Source of the date" type="VARCHAR(100)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-9">
+        <sqlFile path="db/changelog/sql/india_holidays.sql"/>
+    </changeSet>
 
 </databaseChangeLog>

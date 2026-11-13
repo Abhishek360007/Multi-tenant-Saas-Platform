@@ -73,7 +73,8 @@ public class MbpConst {
                     "sys_dict_data",                // Dictionary data
                     "sys_dict_type",                // Dictionary types
                     "sys_file_detail",              // Common configuration file
-                    "india_area"                    // India administrative areas
+                    "india_area",                   // India administrative areas
+                    "sys_holiday"                   // Indian public holidays
             )
     );
 

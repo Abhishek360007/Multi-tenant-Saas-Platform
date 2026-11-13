@@ -42,10 +42,11 @@
             <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
 
+        <!-- IP geolocation (MaxMind GeoLite2) -->
         <dependency>
-            <groupId>org.lionsoul</groupId>
-            <artifactId>ip2region</artifactId>
-            <version>${ip2region.version}</version>
+            <groupId>com.maxmind.geoip2</groupId>
+            <artifactId>geoip2</artifactId>
+            <version>${geoip2.version}</version>
         </dependency>
 
         <dependency>

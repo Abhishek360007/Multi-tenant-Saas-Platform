@@ -1,0 +1,6 @@
+# Local development. Connection settings come from application.yml (localhost defaults);
+# put personal overrides in application-local.yml (git-ignored) and run with
+# --spring.profiles.active=dev,local
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

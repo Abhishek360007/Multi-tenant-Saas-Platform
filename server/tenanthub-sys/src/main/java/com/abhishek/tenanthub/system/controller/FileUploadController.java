@@ -5,7 +5,6 @@ import com.abhishek.tenanthub.common.exception.BizException;
 import com.abhishek.tenanthub.common.util.JsonResult;
 import com.abhishek.tenanthub.system.po.ImageSizePO;
 import com.abhishek.tenanthub.system.vo.FileInfoVO;
-import com.abhishek.tenanthub.system.vo.FileUploadTokenVO;
 import com.abhishek.tenanthub.web.repeat.NoRepeatSubmit;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,9 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.x.file.storage.core.FileStorageService;
 import org.dromara.x.file.storage.core.platform.LocalPlusFileStorage;
-import org.dromara.x.file.storage.core.platform.QiniuKodoFileStorage;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,20 +42,23 @@ public class FileUploadController {
     private final FileStorageService storageService;
 
     /**
-     * For local development only
-     * In production use nginx or a cloud object store.
+     * Serves files saved by local disk storage under /files/** (see storage settings in application.yml).
+     * With S3-compatible storage the files are served by the bucket or CDN instead.
      *
      * @link <a href="https://x-file-storage.xuyanwu.cn/#/">Documentation</a>
      */
     @Bean
-    @Profile("dev")
-    public WebMvcConfigurer myFileStorageWebMvcConfigurer() {
+    public WebMvcConfigurer localFileStorageWebMvcConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
-                final var localPlus = (LocalPlusFileStorage) storageService.getFileStorage();
-                registry.addResourceHandler("/files/**")
-                        .addResourceLocations("file:" + localPlus.getStoragePath());
+                storageService.getFileStorageList().stream()
+                        .filter(LocalPlusFileStorage.class::isInstance)
+                        .map(LocalPlusFileStorage.class::cast)
+                        .findFirst()
+                        .ifPresent(local -> registry.addResourceHandler("/files/**")
+                                // toUri() gives a valid file: URL on every OS (e.g. file:///D:/app/uploads/)
+                                .addResourceLocations(java.nio.file.Path.of(local.getStoragePath()).toAbsolutePath().toUri().toString()));
             }
         };
     }
@@ -142,24 +142,6 @@ public class FileUploadController {
         return JsonResult.success(ok);
     }
 
-
-    /**
-     * Get the file upload token
-     */
-    @NoRepeatSubmit
-    @Operation(summary = "Get upload token", description = "Get a file upload Token")
-    @GetMapping("/token")
-    public JsonResult<FileUploadTokenVO> uploadToken() {
-        var fileStorage = (QiniuKodoFileStorage) storageService.getFileStorage();
-        var uploadToken = fileStorage.getClient().getAuth().uploadToken(fileStorage.getBucketName());
-        var result = new FileUploadTokenVO()
-                .setToken(uploadToken)
-                .setPlatform(fileStorage.getPlatform())
-                .setBucketName(fileStorage.getBucketName())
-                .setDomain(fileStorage.getDomain())
-                .setBasePath(fileStorage.getBasePath());
-        return JsonResult.success(result);
-    }
 
 
     private static final String IMAGE_REG = ".+(.JPEG|.jpeg|.JPG|.jpg|.png|.PNG|.bmp|.BMP|.webp|.WEBP)$";

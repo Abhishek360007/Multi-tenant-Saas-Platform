@@ -63,10 +63,5 @@ public class ConfigDataConst {
      */
     public static final KeyValue<String, Long> DEFAULT_DEPT_ID = new DefaultKeyValue<>("default_dept_id", 10001L);
 
-    /**
-     * Public holidays API
-     */
-    public static final KeyValue<String, String> GET_HOLIDAY_URL = new DefaultKeyValue<>("get_holiday_url", "https://timor.tech/api/holiday/year/%s?type=N&week=Y");
-
 
 }

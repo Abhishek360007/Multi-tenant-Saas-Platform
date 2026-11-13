@@ -190,35 +190,6 @@
     </changeSet>
 
 
-    <!-- [ Permissions ] User social login -->
-    <changeSet context="tenant" author="WangChenChen (generated)" id="1699414146178-3">
-        <createTable remarks="[ Permissions ] User social login" tableName="pms_user_social">
-            <column autoIncrement="true" name="social_id" remarks="User social ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="user_id" remarks="Unique user ID" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="" name="open_id" remarks="Social account is unique ID" type="VARCHAR(100)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="social_type" remarks="we_chat. WeChat  tencent_qq. Tencent QQ" type="VARCHAR(20)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="create_time" remarks="Created at" type="datetime">
-                <constraints nullable="false"/>
-            </column>
-            <column name="create_user" remarks="Created by" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="last_update_time" remarks="Last updated at" type="datetime">
-                <constraints nullable="false"/>
-            </column>
-            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
 
 
     <!-- Users whose password was set by someone else must change it at next login -->

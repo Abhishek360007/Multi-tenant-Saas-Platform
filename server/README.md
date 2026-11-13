@@ -23,13 +23,17 @@ services:
     ports:
       - "18891:18891"
     environment:
-      - SPRING_PROFILES_ACTIVE=pro
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_HOST=your-mysql-host
+      - DB_USERNAME=root
+      - DB_PASSWORD=change-me
+      - REDIS_HOST=your-redis-host
+      - REDIS_PASSWORD=change-me
       - JWT_TOKEN_KEYS_DIR=/keys
       - JVM_OPTS=-server -Xms2g -Xmx2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError
     volumes:
       - /opt/tenanthub-server/keys:/keys
       - /opt/tenanthub-server/tenanthub-service-1.0.1.jar:/app.jar
-      - /opt/tenanthub-server/application-pro.yml:/config/application-pro.yml
     command: java ${JVM_OPTS} -Dfile.encoding=UTF-8 -Duser.timezone=UTC -jar /app.jar
     restart: always
 ```
