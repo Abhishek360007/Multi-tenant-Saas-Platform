@@ -2,14 +2,13 @@ package com.abhishek.tenanthub.auth.service.impl;
 
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
+import com.abhishek.tenanthub.auth.jwt.AuthKeyMaterial;
 import com.abhishek.tenanthub.auth.service.JwtTokenService;
 import com.abhishek.tenanthub.auth.service.RsaAsymmetricCryptoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 /**
  * <p>
@@ -28,18 +27,8 @@ public class RsaAsymmetricCryptoServiceImpl implements RsaAsymmetricCryptoServic
 
     private final RSA _rsa;
 
-    public RsaAsymmetricCryptoServiceImpl(ApplicationContext context, JwtTokenService tokenService) throws IOException {
-        var pemPrivateKeyPath = tokenService.getProps().getRsaPrivateKey();
-        var privateKeyContent = context.getResource(pemPrivateKeyPath).getContentAsString(StandardCharsets.UTF_8)
-                .replaceFirst("-----BEGIN PRIVATE KEY-----", "")
-                .replaceFirst("-----END PRIVATE KEY-----", "");
-
-        var pemPublicKeyPath = tokenService.getProps().getRsaPublicKey();
-        var publicKeyContent = context.getResource(pemPublicKeyPath).getContentAsString(StandardCharsets.UTF_8)
-                .replaceFirst("-----BEGIN PUBLIC KEY-----", "")
-                .replaceFirst("-----END PUBLIC KEY-----", "");
-
-        _rsa = new RSA(privateKeyContent, publicKeyContent);
+    public RsaAsymmetricCryptoServiceImpl(ApplicationContext context, JwtTokenService tokenService) {
+        _rsa = AuthKeyMaterial.rsa(context, tokenService.getProps());
     }
 
     @Override

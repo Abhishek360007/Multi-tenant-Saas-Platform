@@ -101,7 +101,10 @@ services:
       - "18891:18891"
     environment:
       - SPRING_PROFILES_ACTIVE=pro
+      # JWT secret + RSA key pair are generated in this directory on first start
+      - JWT_TOKEN_KEYS_DIR=/keys
     volumes:
+      - /data/tenanthub/keys:/keys
       - /data/tenanthub/logs:/logs/tenanthub
       - /data/tenanthub/tenanthub-pro.jar:/app.jar
       - /data/tenanthub/application-pro.yml:/config/application-pro.yml

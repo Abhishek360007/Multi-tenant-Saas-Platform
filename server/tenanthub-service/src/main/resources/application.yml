@@ -44,8 +44,8 @@ multi:
 
 jwt:
   token:
-    rsa-private-key: classpath:pem/rsa_private_key.pem
-    rsa-public-key: classpath:pem/rsa_public_key.pem
+    # The JWT secret and RSA key pair are generated here on first start. Keep this directory private and persistent.
+    keys-dir: ./keys
 
 
 # mybatis-plus 自动配置

@@ -8,6 +8,7 @@ import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import com.abhishek.tenanthub.auth.exception.JwtAuthException;
+import com.abhishek.tenanthub.auth.jwt.AuthKeyMaterial;
 import com.abhishek.tenanthub.auth.jwt.JwtLoginUser;
 import com.abhishek.tenanthub.auth.jwt.JwtSecurityUtils;
 import com.abhishek.tenanthub.auth.jwt.JwtTokenProperties;
@@ -59,7 +60,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         this.props = props;
         this.strRedisTemplate = strRedisTemplate;
         this.redisTemplate = redisTemplate;
-        this.signer = JWTSignerUtil.hs256(props.getSecret().getBytes());
+        this.signer = JWTSignerUtil.hs256(AuthKeyMaterial.jwtSecret(props));
     }
 
 

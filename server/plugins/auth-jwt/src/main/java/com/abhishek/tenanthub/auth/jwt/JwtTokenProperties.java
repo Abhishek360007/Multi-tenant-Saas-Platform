@@ -53,22 +53,27 @@ public class JwtTokenProperties {
     private Integer captchaExpired = 180;
 
     /**
-     * 秘钥
+     * HS256 signing secret. Leave unset to use (or generate) {@code <keys-dir>/jwt_secret}.
+     * Can be supplied through the JWT_TOKEN_SECRET environment variable.
      */
-    private String secret = "2N321lIkh$*!IfNt4&5!YZykD$7@ApaM8r@b@r@&4CZ7eqKe!s";
+    @ToString.Exclude
+    private String secret;
 
     /**
-     * 私钥
-     * openssl genrsa -out rsa_private_key.pem 1024
-     * openssl genrsa -out rsa_private_key.pem 2048
+     * Directory holding the generated JWT secret and RSA key pair. Created on first start.
      */
-    private String rsaPrivateKey = "classpath:pem/rsa_private_key.pem";
+    private String keysDir = "./keys";
 
     /**
-     * 公钥
-     * openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+     * Optional Spring resource location of an existing RSA private key (PKCS#8 PEM),
+     * e.g. file:/etc/tenanthub/rsa_private_key.pem. Leave unset to use {@code keys-dir}.
      */
-    private String rsaPublicKey = "classpath:pem/rsa_public_key.pem";
+    private String rsaPrivateKey;
+
+    /**
+     * Optional Spring resource location of the matching RSA public key (X.509 PEM).
+     */
+    private String rsaPublicKey;
 
     /**
      * 单点登录，是否启用
