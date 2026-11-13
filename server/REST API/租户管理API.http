@@ -1,0 +1,122 @@
+### 创建租户
+POST {{baseUrl}}/sys/tenant
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+{
+  "tenantId": "baidu120",
+  "logo": "https://baidu.com/baidu.png",
+  "name": "百度科技有限公司",
+  "email": "baidu@qq.com",
+  "linkman": "李彦宏",
+  "contactNumber": "15111111333",
+  "areaCode": "440305000000",
+  "address": "中国北京海淀区上地十街10号百度大厦",
+  "templates": [
+    {
+      "id": 10001
+    }
+  ]
+}
+
+
+### 创建租户
+POST {{baseUrl}}/sys/tenant
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+{
+  "tenantId": "google",
+  "logo": "https://google.com/google.png",
+  "name": "google",
+  "email": "google@gmail.com",
+  "linkman": "拉里·佩奇",
+  "contactNumber": "15213324660",
+  "areaCode": "123123221311",
+  "address": "美国加利福尼亚州圣克拉拉县山景市",
+  "templates": [
+    {
+      "id": 10001
+    }
+  ]
+}
+
+
+### 修改租户
+PUT {{baseUrl}}/sys/tenant
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+{
+  "tenantId": "apple",
+  "logo": "https://apple.com/apple.png",
+  "name": "apple",
+  "email": "apple@gmail.com",
+  "linkman": "史蒂夫·乔布斯",
+  "contactNumber": "1521332423",
+  "areaCode": "123123221311",
+  "address": "美国-加利福尼亚州-库比蒂诺"
+}
+
+
+
+### 获取租户列表
+GET {{baseUrl}}/sys/tenant/query?includeCauu=true
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+#x-tenant-id: apple
+Authorization: Bearer {{tokenValue}}
+
+
+### 获取租户列表[简单字段]
+GET {{baseUrl}}/sys/tenant/simple/query?includeCauu=true
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+#x-tenant-id: apple
+Authorization: Bearer {{tokenValue}}
+
+
+
+### 获取租户详情
+GET {{baseUrl}}/sys/tenant/apple
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+
+
+### 租户是否存在
+GET {{baseUrl}}/sys/tenant/exist/apple1
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+
+
+### 删除租户
+DELETE {{baseUrl}}/sys/tenant/apple
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+
+
+### 重置租户数据
+GET {{baseUrl}}/sys/tenant/reset/data?tenantId=d9a4e12ae4ef
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+
+### 搜索租户列表
+GET {{baseUrl}}/sys/tenant/simple/search?keywords=google
+Content-Type: application/json
+
+
+### 搜索租户列表
+GET {{baseUrl}}/sys/tenant/list/export
+Content-Type: application/json
+

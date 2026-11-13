@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <!-- [ 核心 ] 项目表 -->
+    <changeSet context="tenant" author="WangChenChen (generated)" id="1699414175082-1">
+        <createTable remarks="[ 项目 ] 项目表" tableName="cms_project">
+            <column autoIncrement="true" name="project_id" remarks="项目ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="project_name" remarks="项目名称" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="linkman" remarks="联系人名称" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contact_number" remarks="联系电话" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="area_code" remarks="行政区域" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" remarks="联系地址，如：左右云创谷1栋A座" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sort" remarks="排序" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" remarks="项目密码，做一些危险操作时，使用" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="status" remarks="状态 【0.禁用 1.正常 2.锁定 】" type="TINYINT(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dept_id" remarks="部门ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_time" remarks="创建时间" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_user" remarks="创建人" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_update_time" remarks="最后一次修改时间" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_update_user" remarks="最后一次修改人" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addAutoIncrement tableName="cms_project" columnDataType="BIGINT" columnName="project_id" startWith="10001"/>
+    </changeSet>
+
+
+    <!-- [ 项目 ] 设备表 -->
+    <changeSet context="tenant" author="WangChenChen (generated)" id="1699414177577-1">
+        <createTable remarks="[ 项目 ] 设备表" tableName="cms_device">
+            <column name="device_id" remarks="设备ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="device_name" remarks="设备名称" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="status" remarks="状态 【0.禁用 1.正常 2.锁定 】" type="TINYINT(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project_id" remarks="项目ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_time" remarks="创建时间" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_user" remarks="创建人" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_update_time" remarks="最后一次修改时间" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_update_user" remarks="最后一次修改人" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>

@@ -1,0 +1,14 @@
+Multi-tenant SaaS Platform
+Copyright 2026 Abhishek Raj
+
+This product is derived from "molly-multi-tenant"
+(https://github.com/thousmile/molly-multi-tenant), Copyright Wang Chen Chen,
+licensed under the Apache License, Version 2.0.
+
+Changes from the original project include: renaming of the Java packages
+(com.xaaef.molly -> com.abhishek.saas), Maven modules and deployment artifacts;
+upgrades to Spring Boot 3.5, Lombok and springdoc with JDK 23+ build support;
+externalized Docker Compose credentials; English documentation; and CI.
+
+The web front-ends are based on "v3-admin-vite"
+(https://github.com/un-pany/v3-admin-vite), licensed under the MIT License.

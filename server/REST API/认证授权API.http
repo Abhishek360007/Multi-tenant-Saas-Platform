@@ -1,0 +1,76 @@
+## 安全认证
+
+### 获取验证码
+###  http://localhost:18891/auth/captcha/codes?codeKey=5jXzuwcoUzbtnHNh
+GET {{baseUrl}}/auth/captcha/codes?codeKey=5jXzuwcoUzbtnHNh
+x-tenant-id: {{tenantId}}
+
+
+### [master]密码模式登录
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0
+
+{
+  "password": "bbBZpMGRm6Mflw8qaVD7AdRNWoaFbtJ21Tf4Ra4t5dK3eRo2VSPl+Z4QH3d5vy3rWdQTuiP1da5ERTbXoz2ZyAifq4w6GsJC0jZZav3e8KZunezWC8GQJmmTMbgTwV+XvEdafa3Asb9Q9lcRRCoJ1/trzHDMq9MUiEF/0bT32ULp9Lmz/CjilsZuj1tETLXEFxV3W3H7QgGiK8qRqehfqfGAQf/hLOij0954Wa2G9FLhKBdAtvxUzxu4RCRlzTVYoEEUOiWBqgp5/3YSR/XAnI0GW/xzQg2uQj1xs6I9lvB1tk3IfczLPqeqmc3nQaP8dylv1hUAFOaKe7fCtNqurQ==",
+  "username": "pMHtPBxc54hHAiM5WJW2R4hXNQc4wzz9ELuuKPQKGkEpy8ntNTazGq3LyMka9X6rBvAD59imR0CJMWwXs0tATv6TEMzYgjo/cpk8ZjF0vuiROisRYkfnAwteVEkeH0QitmVw6ker1rtlf8QhDxLb/qHhEqO5BdV02x8Mbr2329AHIRx6Hse48HTp3kEXvhc1GvFcE31Wfbh65qwpc2uos8Wp88YuKdNpthYipOShhDwPAx/cwsN2+Y76atIoD03ZaaOlAm/UxfmHYDbCj6sch07ngYAKm0JOfcXECzAkoFkCLUZZGSyhZy3PsP7riCkQ0GHNHgbGdCtMnTc4ajA19A==",
+  "codeKey": "5jXzuwcoUzbtnHNh",
+  "codeText": "hesf"
+}
+
+> {%
+client.global.set("tokenValue", response.body.data.access_token);
+client.global.set("refreshToken", response.body.data.refresh_token);
+%}
+
+
+### 退出登录
+POST {{baseUrl}}/auth/logout
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+
+### 刷新token
+GET {{baseUrl}}/auth/refresh
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+
+### 获取登录的用户信息
+GET {{baseUrl}}/auth/login/user
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+
+### 获取登录的用户菜单权限
+GET {{baseUrl}}/pms/user/rights
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+
+### 获取当前租户所有登录的用户
+GET {{baseUrl}}/pms/user/online/query
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+### 获取当前租户所有登录的用户
+GET {{baseUrl}}/pms/user/query
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+Authorization: Bearer {{tokenValue}}
+
+
+### admin
+### eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmNTBlY2Y4MTdmNTQ0Njc2OWRhOTYyOTg1NzI0MmI5NCJ9.gria4LT2Am27dnxk87itKvhM6M7h-5Se9Az560LIFy8
+
+
+### google
+### eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5ODdmMzdkMDQ0YTM0NThhYmExYWY3MzdlNTY2ZDhmNiJ9.TNCHkxi988nw7fDULA9E4J8NzJKIC11ewNASuBATzkc
+
+

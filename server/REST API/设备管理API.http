@@ -1,0 +1,36 @@
+### 查询指定设备
+GET {{baseUrl}}/cms/device/aa
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+x-project-id: {{projectId}}
+Authorization: Bearer {{tokenValue}}
+
+
+### 分页查询设备
+GET {{baseUrl}}/cms/device/query?includeCauu=false&orderByColumns=createUser,lastUpdateTime,deviceId
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+x-project-id: {{projectId}}
+Authorization: Bearer {{tokenValue}}
+
+
+### 查询设备
+GET {{baseUrl}}/cms/device/list?includeCauu=true
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+x-project-id: {{projectId}}
+Authorization: Bearer {{tokenValue}}
+
+
+### 创建设备
+POST {{baseUrl}}/cms/device
+Content-Type: application/json
+x-tenant-id: {{tenantId}}
+x-project-id: {{projectId}}
+Authorization: Bearer {{tokenValue}}
+
+{
+  "deviceName": "牛逼网关213",
+  "status": "0"
+}
+

@@ -1,0 +1,16 @@
+[Unit]
+Description="Multi-tenant SaaS platform built on Spring Boot and MyBatis-Plus REST API"
+Documentation=https://github.com/Abhishek360007/Multi-tenant-Saas-Platform
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=forking
+WorkingDirectory=/opt/saas-server/
+ExecStart=/opt/saas-server/saas.sh start
+ExecReload=/opt/saas-server/saas.sh restart
+ExecStop=/opt/saas-server/saas.sh stop
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

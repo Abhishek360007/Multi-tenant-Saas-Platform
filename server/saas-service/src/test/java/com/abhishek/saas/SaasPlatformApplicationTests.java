@@ -1,0 +1,151 @@
+package com.abhishek.saas;
+
+import cn.hutool.core.util.RandomUtil;
+import com.abhishek.saas.auth.enums.GrantType;
+import com.abhishek.saas.auth.jwt.JwtLoginUser;
+import com.abhishek.saas.auth.service.RsaAsymmetricCryptoService;
+import com.abhishek.saas.common.consts.ConfigDataConst;
+import com.abhishek.saas.common.enums.AdminFlag;
+import com.abhishek.saas.common.enums.GenderType;
+import com.abhishek.saas.common.enums.StatusEnum;
+import com.abhishek.saas.common.enums.UserType;
+import com.abhishek.saas.common.util.JsonUtils;
+import com.abhishek.saas.common.util.TenantUtils;
+import com.abhishek.saas.corems.service.CmsProjectService;
+import com.abhishek.saas.system.entity.SysTemplate;
+import com.abhishek.saas.system.po.CreateTenantPO;
+import com.abhishek.saas.system.service.SysConfigService;
+import com.abhishek.saas.system.service.SysTenantService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+
+import static com.abhishek.saas.system.cron.TestCronAsync.randomChinese;
+
+
+@SpringBootTest
+public class SaasPlatformApplicationTests {
+
+    @Autowired
+    private SysTenantService tenantService;
+
+    @Autowired
+    private SysConfigService configService;
+
+    @Autowired
+    private CmsProjectService projectService;
+
+    @Autowired
+    private RsaAsymmetricCryptoService rsaAsymmetricCryptoService;
+
+    static {
+        var userDetails = new JwtLoginUser()
+                .setAdminFlag(AdminFlag.YES)
+                .setUserType(UserType.SYSTEM)
+                .setUserId(19980817L)
+                .setTenantId("master")
+                .setGrantType(GrantType.PASSWORD)
+                .setGender(GenderType.MALE.getCode())
+                .setDeptId(10001L)
+                .setStatus(StatusEnum.NORMAL);
+        var authentication = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        // 将用户信息，设置到 SecurityContext 中，可以在任何地方 使用 下面语句获取 获取 当前用户登录信息
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        TenantUtils.setProjectId(10001L);
+        TenantUtils.setTenantId("master");
+    }
+
+
+    /**
+     * 随机生成租户
+     *
+     * @author WangChenChen
+     * @version 2.0
+     * @date 2023/10/26 9:24
+     */
+    @Test
+    public void test1() throws Exception {
+        var areaCodeList = List.of(440301000000L, 440303000000L, 440304000000L, 440305000000L,
+                440306000000L, 440307000000L, 440308000000L, 440309000000L, 440310000000L, 440311000000L);
+        for (int i = 0; i < 3; i++) {
+            var start = System.currentTimeMillis();
+            var email = String.format("%s@qq.com", RandomUtil.randomString(10));
+            var contactNumber = String.format("0755-%s", RandomUtil.randomNumbers(7));
+            var expired = LocalDateTime.now().plusDays(RandomUtil.randomInt(30, 3650));
+            var ac = areaCodeList.get(RandomUtil.randomInt(0, (areaCodeList.size() - 1)));
+            var po = new CreateTenantPO()
+                    .setName(randomChinese(5))
+                    .setEmail(email)
+                    .setLinkman(randomChinese(3))
+                    .setContactNumber(contactNumber)
+                    .setLogo("https://images.xaaef.com/molly_master_logo.png")
+                    .setAreaCode(ac)
+                    .setAddress(randomChinese(10))
+                    .setTemplates(Set.of(new SysTemplate().setId(10001L)))
+                    .setExpired(expired);
+            var success = tenantService.create(po);
+            System.out.println(JsonUtils.toFormatJson(success));
+            var end = System.currentTimeMillis() - start;
+            System.out.printf("耗时: %d ms\n", end);
+            // 异步初始化，需要等创建数据库表结构完成
+            Thread.sleep(Duration.ofSeconds(20));
+        }
+    }
+
+
+    /**
+     * 获取项目
+     *
+     * @author WangChenChen
+     * @version 2.0
+     * @date 2023/10/26 9:24
+     */
+    @Test
+    public void test2() throws Exception {
+        TenantUtils.setTenantId("master");
+        var valueByKey = configService.getValueByKey(ConfigDataConst.DEFAULT_USER_PASSWORD.getKey());
+        System.out.println(valueByKey);
+    }
+
+
+    /**
+     * 获取项目
+     *
+     * @author WangChenChen
+     * @version 2.0
+     * @date 2023/10/26 9:24
+     */
+    @Test
+    public void test3() throws Exception {
+        TenantUtils.setTenantId("master");
+        projectService.list()
+                .forEach(System.out::println);
+        TenantUtils.setTenantId("google");
+        projectService.list()
+                .forEach(System.out::println);
+    }
+
+
+
+    /**
+     * 加密解密
+     */
+    @Test
+    public void test4() throws Exception {
+        final var encrypt = rsaAsymmetricCryptoService.encrypt("cl3~'O91Txtw~++ErxcZ.*t)k?;`W>~$UzcEUIfhw>4/]hNL;S(np/ibj?*D2Hd1");
+        System.out.println(encrypt);
+        System.out.println();
+        final var decrypt = rsaAsymmetricCryptoService.decrypt(encrypt);
+        System.out.println(decrypt);
+    }
+
+
+}

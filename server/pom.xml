@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <groupId>com.abhishek.saas</groupId>
+    <artifactId>multi-tenant-saas-platform</artifactId>
+    <version>1.0.1</version>
+    <name>multi-tenant-saas-platform</name>
+
+    <modules>
+        <module>common</module>
+        <module>internal-api</module>
+
+        <module>saas-monitor</module>
+        <module>saas-pms</module>
+        <module>saas-cms</module>
+        <module>saas-sys</module>
+
+        <module>saas-service</module>
+
+        <module>plugins/mbp-tenant</module>
+        <module>plugins/auth-jwt</module>
+        <module>plugins/redis-config</module>
+        <module>plugins/web-config</module>
+    </modules>
+
+    <description>
+        Multi-tenant SaaS platform built on Spring Boot and MyBatis-Plus
+    </description>
+
+
+    <properties>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven-compiler.version>3.14.0</maven-compiler.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- graalvm native-maven-plugin -->
+        <native-maven.version>0.10.5</native-maven.version>
+        <!-- 优化的雪花算法（雪花漂移），它生成的ID更短、速度更快 -->
+        <idgenerator.version>1.0.6</idgenerator.version>
+        <!-- x-file-storage文件上传 文档地址 https://x-file-storage.xuyanwu.cn -->
+        <storage.version>2.2.1</storage.version>
+        <!-- 离线 ip 转 真实地址 -->
+        <ip2region.version>2.6.6</ip2region.version>
+        <!-- 七牛云文件上传 -->
+        <qiniu-storage.version>7.15.1</qiniu-storage.version>
+        <!-- 阿里云文件上传 -->
+        <aliyun-storage.version>3.17.4</aliyun-storage.version>
+        <!-- 服务器运行状态查询， 如: CPU、磁盘、内存 -->
+        <oshi.version>6.4.13</oshi.version>
+        <!-- Excel文件操作 -->
+        <apache-poi.version>5.4.1</apache-poi.version>
+        <!-- 小而美的工具库 -->
+        <hutool.version>5.8.38</hutool.version>
+        <!-- 简单、方便的OpenAPI接口文档 -->
+        <knife4j.version>4.5.0</knife4j.version>
+        <!-- MyBatis 的增强工具，基友搭配，效率翻倍 -->
+        <mybatis-plus.version>3.5.12</mybatis-plus.version>
+        <!-- Lombok pinned to a release that supports JDK 25 -->
+        <lombok.version>1.18.48</lombok.version>
+        <springdoc.version>2.8.17</springdoc.version>
+        <!-- JavaEE 颠覆者 -->
+        <spring-boot.version>3.5.16</spring-boot.version>
+    </properties>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!--
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-devtools</artifactId>
+                    <scope>runtime</scope>
+                    <optional>true</optional>
+                </dependency>
+        -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- springdoc 2.8.x is required for Spring Boot 3.4+ (Spring Framework 6.2);
+                 declared before knife4j-dependencies so it overrides knife4j's 2.3.0 -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-common</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-dependencies</artifactId>
+                <version>${knife4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-bom</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                    <!-- JDK 23+ no longer discovers annotation processors on the classpath -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>${spring-boot.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
