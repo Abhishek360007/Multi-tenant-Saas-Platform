@@ -2,7 +2,7 @@ package com.abhishek.tenanthub.common.consts;
 
 /**
  * <p>
- * 正则表达式 常量
+ * Regular expression constants
  * </p>
  *
  * @author WangChenChen
@@ -12,10 +12,10 @@ package com.abhishek.tenanthub.common.consts;
 
 public interface RegexConst {
 
-    // 中国手机号
-    String MOBILE = "^1[3-9]\\d{9}$";
+    // Indian mobile number: 10 digits starting 6-9, optional +91 or 0 prefix
+    String MOBILE = "^(?:\\+91[\\-\\s]?|0)?[6-9]\\d{9}$";
 
-    // 电话 + 手机号
-    String TEL_PHONE = "^1[3-9]\\d{9}$|^0\\d{2,3}-?\\d{7,8}$";
+    // Indian mobile number, or landline with STD code (e.g. 080-41234567)
+    String TEL_PHONE = "^(?:\\+91[\\-\\s]?|0)?[6-9]\\d{9}$|^0\\d{2,4}[\\-\\s]?\\d{6,8}$";
 
 }
