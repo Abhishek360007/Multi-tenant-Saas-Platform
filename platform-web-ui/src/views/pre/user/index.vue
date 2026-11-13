@@ -497,7 +497,9 @@ const entityRoles = computed({
         roleId: id,
         roleName: "",
         sort: 0,
-        description: ""
+        description: "",
+        dataScope: 0,
+        deptIds: []
       }
       return role
     })
