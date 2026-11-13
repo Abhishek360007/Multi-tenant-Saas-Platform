@@ -11,6 +11,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 import static com.abhishek.tenanthub.auth.jwt.JwtSecurityUtils.encryptPassword;
 import static com.abhishek.tenanthub.tenant.util.DelegateUtils.delegate;
 
@@ -54,6 +56,9 @@ public class BootstrapAdminPasswordRunner implements ApplicationRunner {
                     .setUserId(SEEDED_ADMIN_ID)
                     .setPassword(encryptPassword(bootstrapPassword))
                     .setPasswordChangeRequired((byte) 0);
+            // No logged-in user at startup, so set the audit fields the auto-fill would normally supply
+            update.setLastUpdateUser(SEEDED_ADMIN_ID);
+            update.setLastUpdateTime(LocalDateTime.now());
             userMapper.updateById(update);
             log.info("Applied TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD to the platform admin account.");
             return true;
