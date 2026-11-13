@@ -48,3 +48,6 @@ jwt_secret
 application-local.yml
 uploads/
 *.mmdb
+
+### Files written by the export tests ###
+server/tenanthub-service/*.xlsx

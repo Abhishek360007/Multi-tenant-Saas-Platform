@@ -22,7 +22,7 @@ describe("NotifyList", () => {
   it("List Length is not 0", () => {
     const wrapper = shallowMount(NotifyList, {
       props: {
-        list: []
+        list: [{ id: 1, title: "Plan renewed", content: "Your Basic plan is active", createTime: "13-11-2026 10:00:00", status: 1 }]
       }
     })
     expect(wrapper.find("el-empty").exists()).toBe(false)

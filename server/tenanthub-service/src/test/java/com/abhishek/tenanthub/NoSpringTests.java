@@ -1,5 +1,6 @@
 package com.abhishek.tenanthub;
 
+import org.junit.jupiter.api.Disabled;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
@@ -124,6 +125,7 @@ public class NoSpringTests {
     }
 
 
+    @Disabled("Upstream experiment against a private LAN database (192.168.0.188)")
     @Test
     public void test10() throws Exception {
         var ds1 = new MysqlDataSource();

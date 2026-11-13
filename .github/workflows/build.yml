@@ -22,5 +22,33 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java }}
           cache: maven
-      - name: Compile and package
-        run: mvn -B -ntp -DskipTests package
+      # Unit tests run here; database integration tests need TENANTHUB_IT=true and MySQL/Redis
+      - name: Build and test
+        run: mvn -B -ntp package
+
+  web:
+    name: ${{ matrix.app }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [platform-web-ui, tenant-web-ui]
+    defaults:
+      run:
+        working-directory: ${{ matrix.app }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: pnpm install --no-frozen-lockfile
+      - name: Type check
+        run: npx vue-tsc --noEmit
+      - name: Unit tests
+        run: npx vitest run
+        env:
+          TZ: Asia/Kolkata
+      - name: Build
+        run: npx vite build

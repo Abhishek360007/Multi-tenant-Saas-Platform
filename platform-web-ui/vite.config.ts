@@ -96,7 +96,8 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
     /** Vitest Unit test settings:https://cn.vitest.dev/config */
     test: {
       include: ["tests/**/*.test.ts"],
-      environment: "jsdom"
+      environment: "jsdom",
+      setupFiles: ["tests/setup.ts"]
     }
   }
 }

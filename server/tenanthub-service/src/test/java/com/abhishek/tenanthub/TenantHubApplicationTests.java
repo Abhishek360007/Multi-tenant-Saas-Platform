@@ -1,5 +1,6 @@
 package com.abhishek.tenanthub;
 
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import cn.hutool.core.util.RandomUtil;
 import com.abhishek.tenanthub.auth.enums.GrantType;
 import com.abhishek.tenanthub.auth.jwt.JwtLoginUser;
@@ -30,6 +31,8 @@ import java.util.Set;
 import static com.abhishek.tenanthub.system.cron.TestCronAsync.randomChinese;
 
 
+// Integration tests: need MySQL and Redis. Run with TENANTHUB_IT=true (plus DB_* / REDIS_* settings).
+@EnabledIfEnvironmentVariable(named = "TENANTHUB_IT", matches = "true")
 @SpringBootTest
 public class TenantHubApplicationTests {
 
