@@ -75,7 +75,8 @@ public class MbpConst {
                     "sys_file_detail",              // Common configuration file
                     "india_area",                   // India administrative areas
                     "sys_holiday",                  // Indian public holidays
-                    "sys_plan"                      // Subscription plans
+                    "sys_plan",                     // Subscription plans
+                    "sys_payment"                   // Subscription payments
             )
     );
 

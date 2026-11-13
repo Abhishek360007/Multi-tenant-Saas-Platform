@@ -168,3 +168,9 @@ tenanthub:
     # GST state code of your business (first two digits of your GSTIN): CGST+SGST for buyers in
     # the same state, IGST otherwise. 29 = Karnataka, 27 = Maharashtra, 07 = Delhi, ...
     seller-state-code: ${GST_SELLER_STATE_CODE:29}
+    invoice-prefix: ${INVOICE_PREFIX:TH}
+  # Razorpay (test keys start with rzp_test_). Webhook URL: https://your-domain/api/razorpay/webhook
+  razorpay:
+    key-id: ${RAZORPAY_KEY_ID:}
+    key-secret: ${RAZORPAY_KEY_SECRET:}
+    webhook-secret: ${RAZORPAY_WEBHOOK_SECRET:}

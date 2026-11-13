@@ -30,6 +30,8 @@ public class JwtConst {
             LOGIN_URL,
             // OTP sign-in (send + verify)
             OTP_URLS,
+            // Razorpay calls this; requests are authenticated by their HMAC signature
+            "/razorpay/webhook",
             PUBLIC_KEY_URL,
             String.format("%s/**", CAPTCHA_CODES_URL),
             String.format("%s/**", STOMP_ENDPOINT),

@@ -86,7 +86,7 @@ public class BillingServiceImpl implements ApiBillingService {
         var plan = planOf(tenant);
         return new Summary(tenant.getTenantId(), tenant.getName(), plan,
                 userService.getObject().countUsers(), projectService.getObject().countProjects(),
-                tenant.getExpired(), buyerStateCode(tenant), sellerStateCode);
+                tenant.getExpired(), tenant.getPlanExpires(), buyerStateCode(tenant), sellerStateCode);
     }
 
     /**
@@ -121,8 +121,15 @@ public class BillingServiceImpl implements ApiBillingService {
         return tenant;
     }
 
-    private SysPlan planOf(SysTenant tenant) {
-        var plan = planMapper.selectById(StringUtils.defaultIfBlank(tenant.getPlanCode(), "free"));
+    /**
+     * The plan in effect: a paid plan whose period has ended counts as Free.
+     */
+    SysPlan planOf(SysTenant tenant) {
+        var code = StringUtils.defaultIfBlank(tenant.getPlanCode(), "free");
+        if (tenant.getPlanExpires() != null && tenant.getPlanExpires().isBefore(LocalDateTime.now())) {
+            code = "free";
+        }
+        var plan = planMapper.selectById(code);
         if (plan == null) {
             throw new BizException("Subscription plan not found");
         }
@@ -145,7 +152,7 @@ public class BillingServiceImpl implements ApiBillingService {
     }
 
     public record Summary(String tenantId, String tenantName, SysPlan plan, long users, long projects,
-                          LocalDateTime expires, int buyerStateCode, int sellerStateCode) {
+                          LocalDateTime expires, LocalDateTime planExpires, int buyerStateCode, int sellerStateCode) {
     }
 
     public record Quote(String planCode, String planName, Cycle cycle, GstCalculator.Quote amounts) {

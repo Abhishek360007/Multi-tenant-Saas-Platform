@@ -86,6 +86,11 @@ public class SysTenantDTO implements java.io.Serializable {
     private String planCode;
 
     /**
+     * End of the paid plan period
+     */
+    private LocalDateTime planExpires;
+
+    /**
      * Status [0 = disabled, 1 = normal]
      */
     private Byte status;

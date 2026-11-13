@@ -143,4 +143,55 @@
     </changeSet>
 
 
+    <!-- Razorpay payments for subscriptions (shared by all tenants) -->
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-12">
+        <createTable remarks="Subscription payments (Razorpay); amounts in paise" tableName="sys_payment">
+            <column name="id" remarks="Payment ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="tenant_id" remarks="Tenant" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="plan_code" remarks="Plan bought" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="billing_cycle" remarks="MONTHLY or YEARLY" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="base_paise" remarks="Price before GST" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="cgst_paise" remarks="CGST" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="sgst_paise" remarks="SGST" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="igst_paise" remarks="IGST" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="total_paise" remarks="Amount charged" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="buyer_gstin" remarks="Tenant GSTIN at the time of purchase" type="VARCHAR(15)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+            <column name="place_of_supply" remarks="GST state code of the buyer" type="INT"><constraints nullable="false"/></column>
+            <column name="razorpay_order_id" remarks="Razorpay order ID" type="VARCHAR(40)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="razorpay_payment_id" remarks="Razorpay payment ID" type="VARCHAR(40)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" remarks="created, paid or failed" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="invoice_no" remarks="Invoice number, e.g. TH/2026-27/000001" type="VARCHAR(30)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_start" remarks="Paid period start" type="datetime"/>
+            <column name="period_end" remarks="Paid period end" type="datetime"/>
+            <column name="created_at" remarks="Order created at" type="datetime"><constraints nullable="false"/></column>
+            <column name="paid_at" remarks="Paid at" type="datetime"/>
+        </createTable>
+        <createIndex tableName="sys_payment" indexName="idx_sys_payment_tenant">
+            <column name="tenant_id"/>
+        </createIndex>
+        <!-- When a paid plan lapses the tenant falls back to Free -->
+        <addColumn tableName="sys_tenant">
+            <column name="plan_expires" remarks="End of the paid plan period (null = no end)" type="datetime"/>
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>

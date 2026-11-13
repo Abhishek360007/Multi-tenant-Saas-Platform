@@ -115,6 +115,9 @@ public class SysTenant extends BaseEntity {
     @Schema(description = "Subscription plan code (free / basic / pro)")
     private String planCode;
 
+    @Schema(description = "End of the paid plan period; afterwards the tenant falls back to Free")
+    private LocalDateTime planExpires;
+
     /**
      * Status [0 = disabled, 1 = normal, 9 = initializing]
      */

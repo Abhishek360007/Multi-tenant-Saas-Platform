@@ -1,15 +1,20 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from "vue"
-import { ElMessage } from "element-plus"
+import { ElMessage, ElMessageBox } from "element-plus"
 import {
   billingQuoteApi,
   billingSummaryApi,
+  checkoutApi,
   listPlansApi,
+  paymentsApi,
+  verifyPaymentApi,
   type BillingCycle,
   type IBillingSummary,
+  type IPayment,
   type IPlan,
   type IQuote
 } from "@/api/billing"
+import { payWithRazorpay } from "@/utils/razorpay"
 import { formatPaise } from "@/utils/utc-time"
 
 defineOptions({ name: "BillingSubscription" })
@@ -17,6 +22,8 @@ defineOptions({ name: "BillingSubscription" })
 const loading = ref(false)
 const summary = ref<IBillingSummary>()
 const plans = ref<IPlan[]>([])
+const payments = ref<IPayment[]>([])
+const paying = ref(false)
 const cycle = ref<BillingCycle>("MONTHLY")
 
 const quoteVisible = ref(false)
@@ -26,9 +33,10 @@ const quote = ref<IQuote>()
 const load = async () => {
   loading.value = true
   try {
-    const [s, p] = await Promise.all([billingSummaryApi(), listPlansApi()])
+    const [s, p, h] = await Promise.all([billingSummaryApi(), listPlansApi(), paymentsApi()])
     summary.value = s.data
     plans.value = p.data
+    payments.value = h.data
   } finally {
     loading.value = false
   }
@@ -64,9 +72,29 @@ const openQuote = async (plan: IPlan) => {
   }
 }
 
-const pay = () => {
-  ElMessage.info("Online payment is not set up yet. Please contact us to upgrade.")
+/** Razorpay Checkout, then server-side signature verification activates the plan */
+const pay = async () => {
+  if (!quote.value) return
+  paying.value = true
+  try {
+    const order = (await checkoutApi(quote.value.planCode, quote.value.cycle)).data
+    quoteVisible.value = false
+    const result = await payWithRazorpay(order)
+    const payment = (await verifyPaymentApi(result)).data
+    await load()
+    ElMessageBox.alert(
+      `Payment received. Your ${summary.value?.plan.name} plan is active until ${payment.periodEnd}. Invoice ${payment.invoiceNo}.`,
+      "Thank you!",
+      { type: "success", confirmButtonText: "OK" }
+    )
+  } catch (e: any) {
+    if (e?.message && e.message !== "Payment cancelled") ElMessage.error(e.message)
+  } finally {
+    paying.value = false
+  }
 }
+
+const statusType = (s: string) => (s === "paid" ? "success" : s === "failed" ? "danger" : "info")
 </script>
 
 <template>
@@ -98,8 +126,8 @@ const pay = () => {
           />
         </el-col>
         <el-col :xs="24" :sm="8">
-          <div class="metric-label">Subscription valid until</div>
-          <div class="metric">{{ summary.expires }}</div>
+          <div class="metric-label">{{ summary.planExpires ? "Plan renews / ends" : "Account valid until" }}</div>
+          <div class="metric">{{ summary.planExpires || summary.expires }}</div>
         </el-col>
       </el-row>
     </el-card>
@@ -137,6 +165,28 @@ const pay = () => {
       </el-col>
     </el-row>
 
+    <el-card v-if="payments.length" shadow="never" class="history">
+      <template #header>Payment history</template>
+      <el-table :data="payments">
+        <el-table-column prop="invoiceNo" label="Invoice" min-width="160">
+          <template #default="{ row }">{{ row.invoiceNo || "-" }}</template>
+        </el-table-column>
+        <el-table-column label="Plan" min-width="120">
+          <template #default="{ row }">{{ row.planCode }} · {{ row.billingCycle === "YEARLY" ? "Yearly" : "Monthly" }}</template>
+        </el-table-column>
+        <el-table-column label="Amount (incl. GST)" min-width="140" align="right">
+          <template #default="{ row }">{{ formatPaise(row.totalPaise) }}</template>
+        </el-table-column>
+        <el-table-column label="Status" width="100" align="center">
+          <template #default="{ row }"><el-tag :type="statusType(row.status)">{{ row.status }}</el-tag></template>
+        </el-table-column>
+        <el-table-column prop="paidAt" label="Paid on" min-width="170" />
+        <el-table-column label="Period" min-width="220">
+          <template #default="{ row }">{{ row.periodStart ? `${row.periodStart.slice(0, 10)} to ${row.periodEnd.slice(0, 10)}` : "-" }}</template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+
     <el-dialog v-model="quoteVisible" title="Order summary" width="420px" append-to-body>
       <div v-loading="quoteLoading">
         <template v-if="quote">
@@ -173,7 +223,7 @@ const pay = () => {
       </div>
       <template #footer>
         <el-button @click="quoteVisible = false">Cancel</el-button>
-        <el-button type="primary" :disabled="!quote" @click="pay">
+        <el-button type="primary" :disabled="!quote" :loading="paying" @click="pay">
           Pay {{ quote ? formatPaise(quote.amounts.totalPaise) : "" }}
         </el-button>
       </template>
@@ -248,6 +298,9 @@ const pay = () => {
   .cta {
     width: 100%;
   }
+}
+.history {
+  margin-top: 4px;
 }
 .quote-plan {
   font-weight: 600;

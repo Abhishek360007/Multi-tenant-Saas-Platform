@@ -22,7 +22,7 @@ database through the `x-tenant-id` header, and each tenant can also hold several
 - **Tenant management**: create tenants, assign permission templates, auto-provision tenant databases
 - **RBAC**: users, roles, menus/permissions, departments with data scopes
 - **Projects**: multiple projects per tenant
-- **Subscriptions**: Free / Basic / Pro plans in ₹ with user and project limits, GST quotes (CGST + SGST or IGST)
+- **Subscriptions**: Free / Basic / Pro plans in ₹ with user and project limits, GST (CGST + SGST or IGST), Razorpay payments (UPI, cards, netbanking, wallets) with signed webhooks and financial-year invoice numbers
 - **India addresses**: state → district → sub-district picker with official LGD codes (7,938 areas)
 - **Auth**: captcha + RSA-encrypted credentials, or one-time codes by email/SMS (MSG91); JWT access tokens, online-user tracking, forced logout
 - **Monitoring**: login logs, operation logs, live server metrics (CPU, memory, disk)
@@ -136,6 +136,9 @@ Environment variables (defaults suit local development; the `prod` profile requi
 | `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM` | empty, `587` | SMTP for email sign-in codes (e.g. Amazon SES Mumbai, Zoho Mail) |
 | `MSG91_AUTH_KEY`, `MSG91_TEMPLATE_ID`, `MSG91_OTP_VARIABLE` | empty, empty, `otp` | SMS sign-in codes via MSG91 (needs a DLT-approved template) |
 | `GST_SELLER_STATE_CODE` | `29` (Karnataka) | GST state code of your business: CGST + SGST for tenants in that state, IGST otherwise |
+| `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | empty | Razorpay API keys (test keys start with `rzp_test_`); without them online payment is disabled |
+| `RAZORPAY_WEBHOOK_SECRET` | empty | secret for the webhook at `https://your-domain/api/razorpay/webhook` (events `payment.captured`, `order.paid`) |
+| `INVOICE_PREFIX` | `TH` | invoice numbers look like `TH/2026-27/000001` (per financial year) |
 
 Personal overrides can go in `application-local.yml` (git-ignored); run with `--spring.profiles.active=dev,local`.
 
