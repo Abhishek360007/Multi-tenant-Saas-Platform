@@ -77,6 +77,35 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item prop="pinCode" label="PIN code">
+            <el-input v-model.trim="entityForm.pinCode" maxlength="6" clearable placeholder="e.g. 560001" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="gstin" label="GSTIN (optional)">
+            <el-input
+              :model-value="entityForm.gstin"
+              @update:model-value="(v: string) => (entityForm.gstin = toUpperTaxId(v))"
+              maxlength="15"
+              clearable
+              placeholder="e.g. 29ABCPE1234F1Z7"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="pan" label="PAN (optional)">
+            <el-input
+              :model-value="entityForm.pan"
+              @update:model-value="(v: string) => (entityForm.pan = toUpperTaxId(v))"
+              maxlength="10"
+              clearable
+              placeholder="e.g. ABCPE1234F"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="templates" label="Tenant template">
             <el-select v-model="entityTemplates" filterable clearable multiple placeholder="Select tenant templates">
@@ -196,6 +225,7 @@ import SearchIndiaArea from "@/components/SearchIndiaArea/index.vue"
 import { v4 as uuidv4 } from "uuid"
 import { isEmail, isTelphone } from "@/utils/validate"
 import { showStringOverflow } from "@/hooks/useIndex"
+import { toUpperTaxId, useIndianBusinessRules } from "@/hooks/useIndianBusinessRules"
 
 // Generate a random tenant ID
 const randomTenantId = () => {
@@ -231,6 +261,9 @@ const entityForm = ref<ICreateTenant>({
   contactNumber: "",
   areaCode: 0,
   address: "",
+  pinCode: "",
+  gstin: "",
+  pan: "",
   templates: [],
   expired: "",
   adminNickname: "",
@@ -275,6 +308,8 @@ const telphoneValidator = (rule: any, value: any, callback: any) => {
   }
 }
 
+const businessRules = useIndianBusinessRules(() => entityForm.value)
+
 /// Form validation rules
 const entityFormRules: FormRules = {
   tenantId: [
@@ -294,6 +329,7 @@ const entityFormRules: FormRules = {
   ],
   areaCode: [{ required: true, message: "Select an area", trigger: "blur" }],
   address: [{ required: true, message: "Enter an address", trigger: "blur" }],
+  ...businessRules,
   status: [{ required: true, message: "Enter a status", trigger: "blur" }],
   templates: [{ required: true, message: "Select a tenant template", trigger: "blur" }]
 }
@@ -329,6 +365,9 @@ const resetEntity = () => {
     contactNumber: "",
     areaCode: 0,
     address: "",
+    pinCode: "",
+    gstin: "",
+    pan: "",
     templates: [],
     expired: "",
     adminNickname: "",

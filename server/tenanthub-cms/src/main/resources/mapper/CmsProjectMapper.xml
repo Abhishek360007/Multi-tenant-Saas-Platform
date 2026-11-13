@@ -12,6 +12,7 @@
         <result property="contactNumber" column="contact_number"/>
         <result property="areaCode" column="area_code"/>
         <result property="address" column="address"/>
+        <result property="pinCode" column="pin_code"/>
         <result property="sort" column="sort"/>
         <result property="deptId" column="dept_id"/>
         <result property="password" column="password"/>

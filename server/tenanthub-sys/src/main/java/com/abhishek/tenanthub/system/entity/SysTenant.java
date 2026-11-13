@@ -101,6 +101,17 @@ public class SysTenant extends BaseEntity {
     @NotEmpty(message = "Address is required", groups = {ValidCreate.class})
     private String address;
 
+    @Schema(description = "6-digit PIN code")
+    @NotEmpty(message = "PIN code is required", groups = {ValidCreate.class})
+    @Pattern(regexp = "^[1-9][0-9]{5}$", message = "PIN code must be 6 digits", groups = {ValidCreate.class, ValidUpdate.class})
+    private String pinCode;
+
+    @Schema(description = "GSTIN (optional), e.g. 29ABCPE1234F1Z7")
+    private String gstin;
+
+    @Schema(description = "PAN (optional), e.g. ABCPE1234F")
+    private String pan;
+
     /**
      * Status [0 = disabled, 1 = normal, 9 = initializing]
      */

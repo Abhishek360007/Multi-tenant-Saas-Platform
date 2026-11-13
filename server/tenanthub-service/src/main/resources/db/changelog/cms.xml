@@ -87,4 +87,14 @@
     </changeSet>
 
 
+    <!-- PIN code on project addresses -->
+    <changeSet context="tenant" author="Abhishek Raj" id="tenanthub-20261113-6">
+        <addColumn tableName="cms_project">
+            <column name="pin_code" remarks="6-digit PIN code" type="VARCHAR(6)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>

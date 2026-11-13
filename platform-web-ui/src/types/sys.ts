@@ -54,6 +54,12 @@ export interface ISysTenant extends IBaseEntity {
    * Address
    */
   address: string
+  /** 6-digit PIN code */
+  pinCode: string
+  /** GSTIN (optional) */
+  gstin?: string
+  /** PAN (optional) */
+  pan?: string
   /**
    * Status [0 = disabled, 1 = normal]
    */
@@ -126,6 +132,12 @@ export interface ICreateTenant extends ICreateTenantAdmin {
    * Address
    */
   address: string
+  /** 6-digit PIN code */
+  pinCode: string
+  /** GSTIN (optional) */
+  gstin?: string
+  /** PAN (optional) */
+  pan?: string
   /**
    * Tenant template
    */

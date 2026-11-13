@@ -45,3 +45,22 @@ describe("Indian money and numbers", () => {
     expect(formatIndianNumber(10000000)).toBe("1,00,00,000")
   })
 })
+
+import { gstStateCodeOfArea, isGstin, isPan, isPinCode } from "@/utils/validate"
+
+describe("Indian tax IDs", () => {
+  it("validates PAN, GSTIN and PIN", () => {
+    expect(isPan("ABCPE1234F")).toBe(true)
+    expect(isPan("ABCDE1234F")).toBe(false)
+    expect(isGstin("27AAPFU0939F1ZV")).toBe(true)
+    expect(isGstin("27AAPFU0939F1ZW")).toBe(false)
+    expect(isGstin("29ABCPE1234F1Z7")).toBe(true)
+    expect(isPinCode("560001")).toBe(true)
+    expect(isPinCode("060001")).toBe(false)
+  })
+
+  it("maps LGD states to GST state codes", () => {
+    expect(gstStateCodeOfArea(29052505542)).toBe(29)
+    expect(gstStateCodeOfArea(28000000000)).toBe(37)
+  })
+})

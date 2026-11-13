@@ -83,6 +83,14 @@ public class CmsProject extends ParamBaseEntity {
     private String address;
 
     /**
+     * 6-digit PIN code
+     */
+    @Schema(description = "6-digit PIN code")
+    @NotEmpty(message = "PIN code is required", groups = {ValidCreate.class})
+    @Pattern(regexp = "^[1-9][0-9]{5}$", message = "PIN code must be 6 digits", groups = {ValidCreate.class, ValidUpdate.class})
+    private String pinCode;
+
+    /**
      * Sort order
      */
     @Schema(description = "Sort order")

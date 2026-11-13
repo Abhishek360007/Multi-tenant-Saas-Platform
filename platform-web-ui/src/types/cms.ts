@@ -15,6 +15,8 @@ export interface ICmsProject extends IBaseEntity {
   areaCode: number
   /*Address, e.g. 12 MG Road, Block A*/
   address: string
+  /*6-digit PIN code*/
+  pinCode: string
   /*Sort order*/
   sort: number
   /*Project password, required for dangerous operations*/

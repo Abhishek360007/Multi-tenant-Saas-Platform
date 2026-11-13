@@ -33,6 +33,8 @@
             </template>
           </el-table-column>
           <el-table-column prop="address" label="Address" />
+          <el-table-column prop="pinCode" label="PIN" width="90" />
+          <el-table-column prop="gstin" label="GSTIN" width="170" />
           <el-table-column prop="templates" label="Permission templates">
             <template #default="scope">
               <el-tooltip
@@ -234,6 +236,35 @@
             </el-col>
           </el-row>
           <el-row :gutter="20">
+            <el-col :span="8">
+              <el-form-item prop="pinCode" label="PIN code">
+                <el-input v-model.trim="entityForm.pinCode" maxlength="6" clearable placeholder="e.g. 560001" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="gstin" label="GSTIN (optional)">
+                <el-input
+                  :model-value="entityForm.gstin"
+                  @update:model-value="(v: string) => (entityForm.gstin = toUpperTaxId(v))"
+                  maxlength="15"
+                  clearable
+                  placeholder="e.g. 29ABCPE1234F1Z7"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="pan" label="PAN (optional)">
+                <el-input
+                  :model-value="entityForm.pan"
+                  @update:model-value="(v: string) => (entityForm.pan = toUpperTaxId(v))"
+                  maxlength="10"
+                  clearable
+                  placeholder="e.g. ABCPE1234F"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item prop="templates" label="Tenant template">
                 <el-select v-model="entityTemplates" filterable clearable multiple placeholder="Select tenant templates">
@@ -287,6 +318,7 @@ import createTenant from "./create.vue"
 import { useDictStoreHook } from "@/store/modules/dict"
 import { cloneDeep } from "lodash-es"
 import { showExpiredDateAgo, showStringOverflow, showIndiaArea, isDefaultTenantId } from "@/hooks/useIndex"
+import { toUpperTaxId, useIndianBusinessRules } from "@/hooks/useIndianBusinessRules"
 import { isEmail, isTelphone } from "@/utils/validate"
 import { futureShortcuts } from "@/utils"
 import { useNoticeStoreHook } from "@/store/modules/notice"
@@ -343,6 +375,9 @@ const entityForm = ref<ISysTenant>({
   contactNumber: "",
   areaCode: 0,
   address: "",
+  pinCode: "",
+  gstin: "",
+  pan: "",
   status: 0,
   expired: "",
   templates: []
@@ -366,6 +401,8 @@ const telphoneValidator = (rule: any, value: any, callback: any) => {
   }
 }
 
+const businessRules = useIndianBusinessRules(() => entityForm.value)
+
 /// Form validation rules
 const entityFormRules: FormRules = {
   tenantId: [{ required: true, message: "Enter a tenant ID", trigger: "blur" }],
@@ -382,6 +419,7 @@ const entityFormRules: FormRules = {
   ],
   areaCode: [{ required: true, message: "Select an area", trigger: "blur" }],
   address: [{ required: true, message: "Enter an address", trigger: "blur" }],
+  ...businessRules,
   status: [{ required: true, message: "Enter a status", trigger: "blur" }],
   templates: [{ required: true, message: "Select a tenant template", trigger: "blur" }]
 }
@@ -428,6 +466,9 @@ const resetEntity = () => {
     contactNumber: "",
     areaCode: 0,
     address: "",
+    pinCode: "",
+    gstin: "",
+    pan: "",
     status: 0,
     expired: "",
     templates: []

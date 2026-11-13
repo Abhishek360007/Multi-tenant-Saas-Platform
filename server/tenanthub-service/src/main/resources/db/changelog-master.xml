@@ -72,4 +72,17 @@
     </changeSet>
 
 
+    <!-- PIN code for the seeded tenant and projects (Bengaluru North) -->
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-7">
+        <update tableName="sys_tenant">
+            <column name="pin_code" value="560001"/>
+            <where>tenant_id = 'master'</where>
+        </update>
+        <update tableName="cms_project">
+            <column name="pin_code" value="560001"/>
+            <where>project_id IN (10001, 10002, 10003)</where>
+        </update>
+    </changeSet>
+
+
 </databaseChangeLog>

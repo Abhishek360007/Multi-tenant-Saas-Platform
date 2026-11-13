@@ -30,6 +30,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="address" label="Address" />
+          <el-table-column prop="pinCode" label="PIN" width="90" />
           <el-table-column prop="dept" label="Department" width="120">
             <template #default="scope">
               <el-popover v-if="scope.row.dept" placement="top-start" :width="230">
@@ -187,6 +188,13 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item prop="pinCode" label="PIN code">
+              <el-input v-model.trim="entityForm.pinCode" maxlength="6" clearable placeholder="e.g. 560001" />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -204,7 +212,7 @@ import { deleteProjectApi, queryProjectApi, saveProjectApi, updateProjectApi, re
 import { treeDeptApi } from "@/api/dept"
 import { IPmsDept } from "@/types/pms"
 import { ICmsProject } from "@/types/cms"
-import { isTelphone } from "@/utils/validate"
+import { isPinCode, isTelphone } from "@/utils/validate"
 import { Plus, Edit, Delete, Search, Link } from "@element-plus/icons-vue"
 import { ElMessage, ElMessageBox, FormInstance, FormRules } from "element-plus"
 import SearchIndiaArea from "@/components/SearchIndiaArea/index.vue"
@@ -247,6 +255,7 @@ const entityForm = ref<ICmsProject>({
   contactNumber: "",
   areaCode: 0,
   address: "",
+  pinCode: "",
   sort: 0,
   status: 1,
   deptId: 0,
@@ -281,6 +290,14 @@ const entityFormRules: FormRules = {
   ],
   areaCode: [{ required: true, message: "Select an area", trigger: "blur" }],
   address: [{ required: true, message: "Enter an address", trigger: "blur" }],
+  pinCode: [
+    { required: true, message: "Enter a PIN code", trigger: "blur" },
+    {
+      validator: (_rule: any, value: string, callback: (e?: Error) => void) =>
+        isPinCode(value) ? callback() : callback(new Error("PIN code must be 6 digits")),
+      trigger: "blur"
+    }
+  ],
   sort: [{ required: true, message: "Enter a sort order", trigger: "blur" }],
   status: [{ required: true, message: "Select a status", trigger: "blur" }],
   password: [
@@ -314,6 +331,7 @@ const resetEntity = () => {
     contactNumber: "",
     areaCode: 0,
     address: "",
+    pinCode: "",
     sort: 0,
     status: 1,
     deptId: 0,

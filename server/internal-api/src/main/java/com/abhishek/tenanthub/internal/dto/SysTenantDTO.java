@@ -66,6 +66,21 @@ public class SysTenantDTO implements java.io.Serializable {
     private String address;
 
     /**
+     * 6-digit PIN code
+     */
+    private String pinCode;
+
+    /**
+     * GSTIN (optional)
+     */
+    private String gstin;
+
+    /**
+     * PAN (optional)
+     */
+    private String pan;
+
+    /**
      * Status [0 = disabled, 1 = normal]
      */
     private Byte status;

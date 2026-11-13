@@ -13,6 +13,7 @@ import com.abhishek.tenanthub.common.domain.SmallTenant;
 import com.abhishek.tenanthub.common.enums.StatusEnum;
 import com.abhishek.tenanthub.common.exception.BizException;
 import com.abhishek.tenanthub.common.po.SearchPO;
+import com.abhishek.tenanthub.common.util.IndianTaxIds;
 import com.abhishek.tenanthub.common.util.PasswordUtils;
 import com.abhishek.tenanthub.common.util.IdUtils;
 import com.abhishek.tenanthub.common.util.JsonUtils;
@@ -250,6 +251,11 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
             po.setAdminPwd(PasswordUtils.random());
         }
 
+        // GSTIN / PAN: optional, but must be valid and match the selected state
+        po.setGstin(normalizeTaxId(po.getGstin()));
+        po.setPan(normalizeTaxId(po.getPan()));
+        checkTaxIds(po.getGstin(), po.getPan(), po.getAreaCode());
+
         var sysTenant = new SysTenant()
                 .setTenantId(po.getTenantId())
                 .setLogo(po.getLogo())
@@ -259,6 +265,9 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
                 .setContactNumber(po.getContactNumber())
                 .setAreaCode(po.getAreaCode())
                 .setAddress(po.getAddress())
+                .setPinCode(po.getPinCode())
+                .setGstin(po.getGstin())
+                .setPan(po.getPan())
                 .setExpired(po.getExpired())
                 // Set the status to initializing...
                 .setStatus((byte) 9);
@@ -420,12 +429,35 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
     }
 
 
+    /**
+     * Uppercase and trim; null stays null, blank becomes empty.
+     */
+    private static String normalizeTaxId(String value) {
+        return value == null ? null : value.trim().toUpperCase(java.util.Locale.ROOT);
+    }
+
+    private static void checkTaxIds(String gstin, String pan, Long areaCode) {
+        var error = IndianTaxIds.validate(gstin, pan, areaCode);
+        if (error != null) {
+            throw new BizException(error);
+        }
+    }
+
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updateById(SysTenant entity) {
         if (!isMasterUser()) {
             throw new BizException("Only platform users can update tenants");
         }
+        entity.setGstin(normalizeTaxId(entity.getGstin()));
+        entity.setPan(normalizeTaxId(entity.getPan()));
+        var areaCode = entity.getAreaCode();
+        if (areaCode == null) {
+            var existing = super.getById(entity.getTenantId());
+            areaCode = existing == null ? null : existing.getAreaCode();
+        }
+        checkTaxIds(entity.getGstin(), entity.getPan(), areaCode);
         var templateIds = entity.getTemplates()
                 .stream()
                 .map(SysTemplate::getId)

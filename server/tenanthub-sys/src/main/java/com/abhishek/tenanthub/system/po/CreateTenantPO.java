@@ -65,6 +65,17 @@ public class CreateTenantPO implements java.io.Serializable {
     @NotBlank(message = "Tenant address is required")
     private String address;
 
+    @Schema(description = "6-digit PIN code", requiredMode = REQUIRED)
+    @NotBlank(message = "PIN code is required")
+    @Pattern(regexp = "^[1-9][0-9]{5}$", message = "PIN code must be 6 digits")
+    private String pinCode;
+
+    @Schema(description = "GSTIN (optional), e.g. 29ABCPE1234F1Z7")
+    private String gstin;
+
+    @Schema(description = "PAN (optional), e.g. ABCPE1234F")
+    private String pan;
+
     @Schema(description = "Tenant permission template ID", requiredMode = REQUIRED)
     @NotNull(message = "Tenant permission template is required")
     @Size(min = 1, message = "Select at least one tenant permission template")

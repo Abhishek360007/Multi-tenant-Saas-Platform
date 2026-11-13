@@ -345,4 +345,20 @@
     </changeSet>
 
 
+    <!-- Indian business details on tenants: PIN code, GSTIN, PAN -->
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-5">
+        <addColumn tableName="sys_tenant">
+            <column name="pin_code" remarks="6-digit PIN code" type="VARCHAR(6)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gstin" remarks="GSTIN (optional)" type="VARCHAR(15)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pan" remarks="PAN (optional)" type="VARCHAR(10)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>

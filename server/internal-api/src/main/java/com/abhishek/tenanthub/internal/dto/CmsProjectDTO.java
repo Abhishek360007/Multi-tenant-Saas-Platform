@@ -61,6 +61,9 @@ public class CmsProjectDTO implements java.io.Serializable {
     @Schema(description = "Address")
     private String address;
 
+    @Schema(description = "6-digit PIN code")
+    private String pinCode;
+
     /**
      * Sort order
      */
