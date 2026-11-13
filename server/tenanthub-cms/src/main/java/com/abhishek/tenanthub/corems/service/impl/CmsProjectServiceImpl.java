@@ -1,0 +1,181 @@
+package com.abhishek.tenanthub.corems.service.impl;
+
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.abhishek.tenanthub.common.enums.StatusEnum;
+import com.abhishek.tenanthub.common.exception.BizException;
+import com.abhishek.tenanthub.common.po.SearchPO;
+import com.abhishek.tenanthub.common.util.TenantUtils;
+import com.abhishek.tenanthub.corems.entity.CmsProject;
+import com.abhishek.tenanthub.corems.mapper.CmsProjectMapper;
+import com.abhishek.tenanthub.corems.po.ProjectQueryPO;
+import com.abhishek.tenanthub.corems.service.CmsProjectService;
+import com.abhishek.tenanthub.corems.vo.ResetPasswordVO;
+import com.abhishek.tenanthub.internal.api.ApiPmsDeptService;
+import com.abhishek.tenanthub.internal.api.ApiSysConfigService;
+import com.abhishek.tenanthub.internal.api.ApiSysTenantService;
+import com.abhishek.tenanthub.tenant.base.service.impl.BaseServiceImpl;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.abhishek.tenanthub.auth.jwt.JwtSecurityUtils.encryptPassword;
+import static com.abhishek.tenanthub.auth.jwt.JwtSecurityUtils.matchesPassword;
+import static com.abhishek.tenanthub.common.consts.ConfigDataConst.DEFAULT_PROJECT_PASSWORD;
+import static com.abhishek.tenanthub.common.consts.MbpConst.PROJECT_ID;
+
+
+/**
+ * <p>
+ * </p>
+ *
+ * @author WangChenChen
+ * @version 1.1
+ * @date 2022/12/9 15:36
+ */
+
+
+@Slf4j
+@Service
+@AllArgsConstructor
+public class CmsProjectServiceImpl extends BaseServiceImpl<CmsProjectMapper, CmsProject> implements CmsProjectService {
+
+    private final ApiPmsDeptService apiPmsDeptService;
+
+    private final ApiSysConfigService configService;
+
+    private final ApiSysTenantService tenantService;
+
+
+    @Override
+    public IPage<CmsProject> pageKeywords(ProjectQueryPO params) {
+        var project = new CmsProject();
+        if (StrUtil.isNotBlank(params.getKeywords())) {
+            project.setProjectName(params.getKeywords());
+        }
+        if (params.getDeptId() != null && params.getDeptId() > 0L) {
+            project.setDeptId(params.getDeptId());
+        }
+        Page<CmsProject> pageRequest = Page.of(params.getPageIndex(), params.getPageSize());
+        var result = baseMapper.selectProjectPage(pageRequest, project);
+        if (params.isIncludeCauu()) {
+            reflectionFill(result.getRecords());
+        }
+        if (params.isIncludeDept()) {
+            setDept(result.getRecords());
+        }
+        result.getRecords().forEach(p -> p.setPassword(null));
+        return result;
+    }
+
+
+    private void setDept(Collection<CmsProject> list) {
+        if (!list.isEmpty()) {
+            var deptIds = list.stream().map(CmsProject::getDeptId).collect(Collectors.toSet());
+            if (deptIds.isEmpty()) {
+                return;
+            }
+            var mapDept = apiPmsDeptService.mapFullNameByDeptIds(deptIds);
+            list.forEach(p -> {
+                var dept = mapDept.getOrDefault(p.getDeptId(), null);
+                p.setDept(dept);
+            });
+        }
+    }
+
+
+    @Override
+    public boolean save(CmsProject entity) {
+        if (entity.getDeptId() == null) {
+            throw new BizException("项目所属部门必须填写！");
+        }
+        if (StrUtil.isEmpty(entity.getPassword())) {
+            var password = Optional.ofNullable(configService.getValueByKey(DEFAULT_PROJECT_PASSWORD.getKey()))
+                    .orElse(DEFAULT_PROJECT_PASSWORD.getValue());
+            entity.setPassword(password);
+        }
+        entity.setPassword(encryptPassword(entity.getPassword()));
+        if (entity.getStatus() == null) {
+            entity.setStatus(StatusEnum.NORMAL.getCode());
+        }
+        if (entity.getSort() == null) {
+            var sort = (super.count() + 1) * 10;
+            entity.setSort(sort);
+        }
+        var flag = super.save(entity);
+        tenantService.tenantAddProjectId(TenantUtils.getTenantId(), entity.getProjectId());
+        return flag;
+    }
+
+
+    @Override
+    public boolean updateById(CmsProject entity) {
+        entity.setPassword(null);
+        return super.updateById(entity);
+    }
+
+
+    @Override
+    public boolean resetPassword(ResetPasswordVO pwd) {
+        var project = baseMapper.selectById(pwd.getProjectId());
+        if (project != null) {
+            // 新密码 加密
+            String newPassword = encryptPassword(pwd.getNewPwd());
+            // 修改
+            var pmsUser = new CmsProject()
+                    .setProjectId(pwd.getProjectId())
+                    .setPassword(newPassword);
+            return super.updateById(pmsUser);
+        }
+        throw new BizException("项目不存在，无法重置密码！");
+    }
+
+
+    @Override
+    public IPage<CmsProject> simplePageKeywords(SearchPO params) {
+        var project = new CmsProject();
+        if (StrUtil.isNotBlank(params.getKeywords())) {
+            project.setProjectName(params.getKeywords());
+        }
+        project.setStatus(StatusEnum.NORMAL.getCode());
+        Page<CmsProject> pageRequest = Page.of(params.getPageIndex(), params.getPageSize());
+        return baseMapper.selectSimpleProjectPage(pageRequest, project);
+    }
+
+
+    @Override
+    public boolean removeById(CmsProject entity) {
+        if (entity.getProjectId() == null) {
+            throw new BizException("请输入项目Id！");
+        }
+        if (StrUtil.isEmpty(entity.getPassword())) {
+            throw new BizException("请输入项目密码！");
+        }
+        var dbProject = super.getById(entity.getProjectId());
+        if (dbProject == null) {
+            throw new BizException(String.format("项目Id %d 不存在！", entity.getProjectId()));
+        }
+        var flag1 = matchesPassword(entity.getPassword(), dbProject.getPassword());
+        if (!flag1) {
+            throw new BizException(String.format("项目 %s 密码输入错误！", dbProject.getProjectName()));
+        }
+        var flag2 = super.removeById(dbProject.getProjectId());
+        // 查询 所有的 包含 project_id 的表
+        Set<String> tableNames = baseMapper.selectListTableNamesByIncludeColumn(PROJECT_ID);
+        // 删除 此项目 在所有表中的数据
+        if (!tableNames.isEmpty()) {
+            baseMapper.deleteByProjectId(tableNames, dbProject.getProjectId());
+        }
+        // 租户 删除 此项目
+        tenantService.tenantDelProjectId(TenantUtils.getTenantId(), dbProject.getProjectId());
+        return flag2;
+    }
+
+
+}

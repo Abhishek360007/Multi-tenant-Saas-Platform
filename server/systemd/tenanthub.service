@@ -1,0 +1,16 @@
+[Unit]
+Description="TenantHub: multi-tenant SaaS platform built on Spring Boot and MyBatis-Plus REST API"
+Documentation=https://github.com/Abhishek360007/Multi-tenant-Saas-Platform
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=forking
+WorkingDirectory=/opt/tenanthub-server/
+ExecStart=/opt/tenanthub-server/tenanthub.sh start
+ExecReload=/opt/tenanthub-server/tenanthub.sh restart
+ExecStop=/opt/tenanthub-server/tenanthub.sh stop
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

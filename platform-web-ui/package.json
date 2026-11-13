@@ -1,7 +1,7 @@
 {
-  "name": "saas-platform-web-ui",
+  "name": "tenanthub-platform-web-ui",
   "version": "4.3.0",
-  "description": "Platform admin console for the Multi-tenant SaaS Platform",
+  "description": "Platform admin console for TenantHub",
   "author": {
     "name": "pany",
     "email": "939630029@qq.com",

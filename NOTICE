@@ -1,4 +1,4 @@
-Multi-tenant SaaS Platform
+TenantHub
 Copyright 2026 Abhishek Raj
 
 This product is derived from "molly-multi-tenant"
@@ -6,7 +6,7 @@ This product is derived from "molly-multi-tenant"
 licensed under the Apache License, Version 2.0.
 
 Changes from the original project include: renaming of the Java packages
-(com.xaaef.molly -> com.abhishek.saas), Maven modules and deployment artifacts;
+(com.xaaef.molly -> com.abhishek.tenanthub), Maven modules and deployment artifacts;
 upgrades to Spring Boot 3.5, Lombok and springdoc with JDK 23+ build support;
 externalized Docker Compose credentials; English documentation; and CI.
 

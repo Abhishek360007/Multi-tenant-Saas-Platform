@@ -19,9 +19,9 @@ services:
       # root 密码
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD in .env}
       # 初始化数据库(后续的初始化sql会在这个库执行)
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-saas_master}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-tenanthub_master}
       # 初始化用户(不能是 root 会报错, 后续需要给新用户赋予权限)
-      - MYSQL_USER=${MYSQL_USER:-saas}
+      - MYSQL_USER=${MYSQL_USER:-tenanthub}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD:?set MYSQL_PASSWORD in .env}
     volumes:
       - /data/mysql8/data/:/var/lib/mysql/
@@ -94,17 +94,17 @@ services:
           memory: 512m
 
 
-  saas:
+  tenanthub:
     image: eclipse-temurin:21-jre-jammy
-    container_name: saas
+    container_name: tenanthub
     ports:
       - "18891:18891"
     environment:
       - SPRING_PROFILES_ACTIVE=pro
     volumes:
-      - /data/saas/logs:/logs/saas
-      - /data/saas/saas-pro.jar:/app.jar
-      - /data/saas/application-pro.yml:/config/application-pro.yml
+      - /data/tenanthub/logs:/logs/tenanthub
+      - /data/tenanthub/tenanthub-pro.jar:/app.jar
+      - /data/tenanthub/application-pro.yml:/config/application-pro.yml
       - /etc/localtime:/etc/localtime:ro
     command: java -server -Xms1g -Xmx1g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Shanghai -Djava.security.egd=file:/dev/./urandom -jar /app.jar
     privileged: true

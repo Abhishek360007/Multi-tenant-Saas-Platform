@@ -15,17 +15,17 @@ networks:
           gateway: 172.19.0.1
 
 services:
-  saas-pro:
+  tenanthub-pro:
     image: eclipse-temurin:21-jre-jammy
-    container_name: saas-pro
+    container_name: tenanthub-pro
     ports:
       - "18891:18891"
     environment:
       - SPRING_PROFILES_ACTIVE=pro
       - JVM_OPTS=-server -Xms2g -Xmx2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError
     volumes:
-      - /opt/saas-server/saas-service-1.0.1.jar:/app.jar
-      - /opt/saas-server/application-pro.yml:/config/application-pro.yml
+      - /opt/tenanthub-server/tenanthub-service-1.0.1.jar:/app.jar
+      - /opt/tenanthub-server/application-pro.yml:/config/application-pro.yml
       - /etc/localtime:/etc/localtime:ro
     command: java ${JVM_OPTS} -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Shanghai -Djava.security.egd=file:/dev/./urandom -jar /app.jar
     privileged: true
@@ -39,45 +39,45 @@ services:
 ```shell
 
 # 启动
-./saas.sh start
+./tenanthub.sh start
 
 # 停止
-./saas.sh stop
+./tenanthub.sh stop
 
 # 重启
-./saas.sh restart
+./tenanthub.sh restart
 
 # 状态
-./saas.sh status
+./tenanthub.sh status
 
 ```
 
 #### Linux 服务
 ```shell
 
-# 拷贝 saas.service
-sudo cp saas.service /usr/lib/systemd/system/
+# 拷贝 tenanthub.service
+sudo cp tenanthub.service /usr/lib/systemd/system/
 
-# 设置 saas 服务开机自启动
-sudo systemctl enable saas
+# 设置 tenanthub 服务开机自启动
+sudo systemctl enable tenanthub
 
-# 停止 saas 服务开机自启动
-sudo systemctl disable saas
+# 停止 tenanthub 服务开机自启动
+sudo systemctl disable tenanthub
 
 # 重启
 sudo systemctl daemon-reload
 
 # 启动
-sudo systemctl start saas
+sudo systemctl start tenanthub
 
 # 停止
-sudo systemctl stop saas
+sudo systemctl stop tenanthub
 
 # 重启
-sudo systemctl restart saas
+sudo systemctl restart tenanthub
 
 # 重启
-sudo systemctl status saas
+sudo systemctl status tenanthub
 
 ```
 

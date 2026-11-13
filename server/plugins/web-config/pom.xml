@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
     <parent>
-        <groupId>com.abhishek.saas</groupId>
-        <artifactId>multi-tenant-saas-platform</artifactId>
+        <groupId>com.abhishek.tenanthub</groupId>
+        <artifactId>tenanthub</artifactId>
         <version>1.0.1</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
@@ -17,25 +17,25 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.abhishek.saas</groupId>
+            <groupId>com.abhishek.tenanthub</groupId>
             <artifactId>common</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.abhishek.saas</groupId>
+            <groupId>com.abhishek.tenanthub</groupId>
             <artifactId>redis-config</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.abhishek.saas</groupId>
+            <groupId>com.abhishek.tenanthub</groupId>
             <artifactId>internal-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.abhishek.saas</groupId>
+            <groupId>com.abhishek.tenanthub</groupId>
             <artifactId>auth-jwt</artifactId>
             <version>${project.version}</version>
         </dependency>

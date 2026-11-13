@@ -135,11 +135,11 @@ const route = useRoute()
 const tenantId = ref()
 
 if (route.query.tenantId) {
-  // 从 URL 参数中获取 租户ID http://saas.example.com/tenant/#/login?tenantId=google
+  // 从 URL 参数中获取 租户ID http://tenanthub.example.com/tenant/#/login?tenantId=google
   tenantId.value = route.query.tenantId as string
 } else {
   // 如果 URL 参数中没有，那么就从 域名前缀截取
-  // 如 http://google.saas.example.com/tenant/#/login 截取 google
+  // 如 http://google.tenanthub.example.com/tenant/#/login 截取 google
   const domain = location.hostname
   const idx1 = domain.indexOf(".")
   tenantId.value = domain.substring(0, idx1)
@@ -170,7 +170,7 @@ if (tenantId.value) {
         </div>
         <div class="title">
           <template v-if="simpleTenant">
-            {{ appTitle.replaceAll("SaaS", `${simpleTenant.name} `) }}
+            {{ appTitle.replaceAll("TenantHub", `${simpleTenant.name} `) }}
           </template>
           <template v-else>
             {{ appTitle }}

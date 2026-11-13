@@ -3,21 +3,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <groupId>com.abhishek.saas</groupId>
-    <artifactId>multi-tenant-saas-platform</artifactId>
+    <groupId>com.abhishek.tenanthub</groupId>
+    <artifactId>tenanthub</artifactId>
     <version>1.0.1</version>
-    <name>multi-tenant-saas-platform</name>
+    <name>tenanthub</name>
 
     <modules>
         <module>common</module>
         <module>internal-api</module>
 
-        <module>saas-monitor</module>
-        <module>saas-pms</module>
-        <module>saas-cms</module>
-        <module>saas-sys</module>
+        <module>tenanthub-monitor</module>
+        <module>tenanthub-pms</module>
+        <module>tenanthub-cms</module>
+        <module>tenanthub-sys</module>
 
-        <module>saas-service</module>
+        <module>tenanthub-service</module>
 
         <module>plugins/mbp-tenant</module>
         <module>plugins/auth-jwt</module>
@@ -26,7 +26,7 @@
     </modules>
 
     <description>
-        Multi-tenant SaaS platform built on Spring Boot and MyBatis-Plus
+        TenantHub: multi-tenant SaaS platform built on Spring Boot and MyBatis-Plus
     </description>
 
 

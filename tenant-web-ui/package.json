@@ -1,7 +1,7 @@
 {
-  "name": "saas-tenant-web-ui",
+  "name": "tenanthub-tenant-web-ui",
   "version": "4.3.0",
-  "description": "Tenant portal for the Multi-tenant SaaS Platform",
+  "description": "Tenant portal for TenantHub",
   "author": {
     "name": "pany",
     "email": "939630029@qq.com",

@@ -1,0 +1,148 @@
+package com.abhishek.tenanthub.corems.api.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.abhishek.tenanthub.common.enums.StatusEnum;
+import com.abhishek.tenanthub.corems.entity.CmsProject;
+import com.abhishek.tenanthub.corems.entity.TenantAndProject;
+import com.abhishek.tenanthub.corems.mapper.CmsProjectMapper;
+import com.abhishek.tenanthub.internal.api.ApiCmsProjectService;
+import com.abhishek.tenanthub.internal.api.ApiPmsDeptService;
+import com.abhishek.tenanthub.internal.api.ApiSysConfigService;
+import com.abhishek.tenanthub.internal.dto.CmsProjectDTO;
+import com.abhishek.tenanthub.internal.dto.SysTenantDTO;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.abhishek.tenanthub.auth.jwt.JwtSecurityUtils.encryptPassword;
+import static com.abhishek.tenanthub.common.consts.ConfigDataConst.*;
+import static com.abhishek.tenanthub.tenant.util.DelegateUtils.delegate;
+
+/**
+ * <p>
+ * </p>
+ *
+ * @author WangChenChen
+ * @version 1.1
+ * @date 2023/2/14 11:48
+ */
+
+
+@Slf4j
+@Service
+public class ApiCmsProjectServiceImpl implements ApiCmsProjectService {
+
+    @Autowired
+    @Lazy
+    private ApiPmsDeptService pmsDeptService;
+
+    private final CmsProjectMapper projectMapper;
+
+    private final ApiSysConfigService configService;
+
+
+    public ApiCmsProjectServiceImpl(CmsProjectMapper projectMapper,
+                                    ApiSysConfigService configService) {
+        this.projectMapper = projectMapper;
+        this.configService = configService;
+    }
+
+
+    @Override
+    public CmsProjectDTO getSimpleById(Long projectId) {
+        var wrapper = new LambdaQueryWrapper<CmsProject>()
+                .select(
+                        List.of(
+                                CmsProject::getProjectId, CmsProject::getProjectName,
+                                CmsProject::getLinkman, CmsProject::getAreaCode, CmsProject::getAddress
+                        )
+                )
+                .eq(CmsProject::getStatus, StatusEnum.NORMAL.getCode())
+                .eq(CmsProject::getProjectId, projectId);
+        var source = projectMapper.selectOne(wrapper);
+        if (source == null) {
+            return null;
+        }
+        var target = new CmsProjectDTO();
+        BeanUtils.copyProperties(source, target);
+        return target;
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void initProject(SysTenantDTO po) {
+        var password = Optional.ofNullable(configService.getValueByKey(DEFAULT_PROJECT_PASSWORD.getKey()))
+                .orElse(DEFAULT_PROJECT_PASSWORD.getValue());
+        // 委托，新的租户id。执行初始化数据
+        delegate(po.getTenantId(), () -> {
+            var project = new CmsProject()
+                    .setProjectId(DEFAULT_PROJECT_ID.getValue())
+                    .setProjectName("默认项目")
+                    .setLinkman(po.getLinkman())
+                    .setContactNumber(po.getContactNumber())
+                    .setAreaCode(po.getAreaCode())
+                    .setAddress(po.getAddress())
+                    .setSort(1L)
+                    .setPassword(encryptPassword(password))
+                    .setStatus(StatusEnum.NORMAL.getCode())
+                    .setDeptId(DEFAULT_DEPT_ID.getValue());
+            projectMapper.insert(project);
+            var result = new CmsProjectDTO();
+            BeanUtils.copyProperties(project, result);
+            return result;
+        });
+    }
+
+
+    @Override
+    public long countProjectByDeptId(Long deptId) {
+        var wrapper = new LambdaQueryWrapper<CmsProject>()
+                .eq(CmsProject::getDeptId, deptId);
+        return projectMapper.selectCount(wrapper);
+    }
+
+
+    @Override
+    public Set<Long> listProjectByDeptId(Long deptId) {
+        var deptIds = pmsDeptService.listChildIdByDeptId(deptId);
+        var wrapper = new LambdaQueryWrapper<CmsProject>()
+                .select(CmsProject::getProjectId)
+                .in(CmsProject::getDeptId, deptIds);
+        return projectMapper.selectList(wrapper)
+                .stream()
+                .map(CmsProject::getProjectId)
+                .collect(Collectors.toSet());
+    }
+
+
+    @Override
+    public Map<String, Set<Long>> mapByTenantDbName(String dbNamePrefix, Collection<String> tenantIds) {
+        if (tenantIds.isEmpty()) {
+            return new HashMap<>();
+        }
+        var tenantDbNameList = tenantIds.stream()
+                .map(tenantId -> dbNamePrefix + tenantId)
+                .collect(Collectors.toSet());
+        return projectMapper.selectListByTenantDbName(new HashSet<>(tenantDbNameList))
+                .stream()
+                .peek(t -> {
+                    var newTenantId = t.getTenantId().replaceFirst(dbNamePrefix, "");
+                    t.setTenantId(newTenantId);
+                })
+                .collect(
+                        Collectors.groupingBy(
+                                TenantAndProject::getTenantId,
+                                Collectors.mapping(TenantAndProject::getProjectId, Collectors.toSet())
+                        )
+                );
+    }
+
+
+}

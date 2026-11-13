@@ -1,4 +1,4 @@
-const SYSTEM_NAME = "saas-platform"
+const SYSTEM_NAME = "tenanthub-platform"
 
 /** 缓存数据时用到的 Key */
 class CacheKey {

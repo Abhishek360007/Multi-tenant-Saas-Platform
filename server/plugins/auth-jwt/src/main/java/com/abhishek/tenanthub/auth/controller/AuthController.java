@@ -1,0 +1,203 @@
+package com.abhishek.tenanthub.auth.controller;
+
+import cn.hutool.crypto.CryptoException;
+import com.abhishek.tenanthub.auth.jwt.JwtLoginUser;
+import com.abhishek.tenanthub.auth.jwt.JwtSecurityUtils;
+import com.abhishek.tenanthub.auth.jwt.JwtTokenValue;
+import com.abhishek.tenanthub.auth.po.LoginFormPO;
+import com.abhishek.tenanthub.auth.service.JwtTokenService;
+import com.abhishek.tenanthub.auth.service.LineCaptchaService;
+import com.abhishek.tenanthub.auth.service.RsaAsymmetricCryptoService;
+import com.abhishek.tenanthub.auth.service.UserLoginService;
+import com.abhishek.tenanthub.common.util.JsonResult;
+import com.abhishek.tenanthub.common.util.ServletUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.util.Objects;
+
+import static com.abhishek.tenanthub.common.consts.JwtConst.*;
+import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+
+/**
+ * <p>
+ * 用户认证 控制器
+ * </p>
+ *
+ * @author Wang Chen Chen <932560435@qq.com>
+ * @version 3.0
+ */
+
+
+@Slf4j
+@Tag(name = "[ 认证 ] 用户认证")
+@RestController
+@AllArgsConstructor
+public class AuthController {
+
+    private final JwtTokenService jwtTokenService;
+
+    private final UserLoginService loginService;
+
+    private final LineCaptchaService captchaService;
+
+    private final RsaAsymmetricCryptoService cryptoService;
+
+    /**
+     * TODO [json] 用户登录
+     *
+     * @author WangChenChen
+     * @date 2022/12/11 8:58
+     */
+    @Operation(summary = "[json]用户登录", description = "RequestBody Json 方式登录")
+    @PostMapping(value = LOGIN_URL, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public JsonResult<JwtTokenValue> login(@RequestBody @Validated LoginFormPO user,
+                                           HttpServletRequest request, BindingResult br) {
+        if (br.hasErrors()) {
+            String err = Objects.requireNonNull(br.getFieldError()).getDefaultMessage();
+            return JsonResult.fail(err, JwtTokenValue.class);
+        }
+        return login(user, request);
+    }
+
+
+    /**
+     * TODO [Form Data] 用户登录
+     *
+     * @author WangChenChen
+     * @date 2022/12/11 8:58
+     */
+    @Operation(summary = "[FormData]用户登录", description = "Form Data 用户登录")
+    @PostMapping(value = LOGIN_URL, consumes = APPLICATION_FORM_URLENCODED_VALUE, produces = APPLICATION_FORM_URLENCODED_VALUE)
+    public JsonResult<JwtTokenValue> login2(@Validated LoginFormPO user,
+                                            HttpServletRequest request, BindingResult br) {
+        if (br.hasErrors()) {
+            String err = Objects.requireNonNull(br.getFieldError()).getDefaultMessage();
+            return JsonResult.fail(err, JwtTokenValue.class);
+        }
+        return login(user, request);
+    }
+
+
+    public JsonResult<JwtTokenValue> login(LoginFormPO user, HttpServletRequest request) {
+        try {
+            var tokenValue = loginService.login(user, request);
+            return JsonResult.success("登录成功", tokenValue);
+        } catch (RuntimeException failed) {
+            String msg = switch (failed) {
+                case UsernameNotFoundException ignored1 -> String.format("用户名 %s 不存在", user.getUsername());
+                case BadCredentialsException ignored2 -> String.format("用户名 %s 密码输入错误", user.getUsername());
+                case DisabledException ignored3 -> String.format("用户名 %s 已被禁用", user.getUsername());
+                case LockedException ignored4 -> String.format("用户名 %s 已被锁定", user.getUsername());
+                case AccountExpiredException ignored5 -> String.format("用户名 %s 已过期", user.getUsername());
+                case CryptoException ignored6 -> "用户名和密码必须使用公钥加密";
+                default -> String.format(failed.getMessage());
+            };
+            return JsonResult.fail(msg, JwtTokenValue.class);
+        }
+    }
+
+
+    /**
+     * TODO 退出登录
+     *
+     * @author WangChenChen
+     * @date 2022/12/11 8:58
+     */
+    @Operation(summary = "退出登录", description = "退出登录")
+    @PostMapping(LOGOUT_URL)
+    public JsonResult<String> logout() {
+        jwtTokenService.logout();
+        return JsonResult.success();
+    }
+
+
+    /**
+     * TODO 获取登录的用户信息
+     *
+     * @author WangChenChen
+     * @date 2022/12/11 8:58
+     */
+    @Operation(summary = "登录的用户信息", description = "获取登录的用户信息")
+    @GetMapping(LOGIN_USER_URL)
+    public JsonResult<JwtLoginUser> loginUser() {
+        var loginUser = JwtSecurityUtils.getLoginUser();
+        loginUser.setAuthorities(null);
+        return JsonResult.success(loginUser);
+    }
+
+
+    /**
+     * TODO 刷新 token
+     *
+     * @author WangChenChen
+     * @date 2022/12/11 8:58
+     */
+    @Operation(summary = "刷新 token", description = "刷新 token")
+    @GetMapping(REFRESH_URL)
+    public JsonResult<JwtTokenValue> refresh() {
+        var refresh = jwtTokenService.refresh();
+        return JsonResult.success(refresh);
+    }
+
+
+    /**
+     * TODO 获取验证码
+     *
+     * @author WangChenChen
+     * @date 2022/12/11 8:58
+     */
+    @Operation(summary = "获取验证码", description = "获取验证码")
+    @GetMapping(CAPTCHA_CODES_URL)
+    public void imageVerifyCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        var codeKey = request.getParameter("codeKey");
+        if (StringUtils.isBlank(codeKey) || StringUtils.length(codeKey) < 16) {
+            ServletUtils.renderError(response, JsonResult.fail("参数codeKey 必须填写！并且长度要大于16位字符"));
+            return;
+        }
+        // 设置响应的类型格式为图片格式
+        response.setContentType("image/png");
+        // 禁止图像缓存。
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+        var image = captchaService.random(codeKey);
+        // 获取 图片 验证码
+        ImageIO.write(image, "PNG", response.getOutputStream());
+    }
+
+
+    /**
+     * TODO 获取公钥
+     *
+     * @author WangChenChen
+     * @date 2024/06/18 15:39
+     */
+    @Operation(summary = "获取公钥", description = "获取公钥")
+    @GetMapping(PUBLIC_KEY_URL)
+    public JsonResult<String> publicKey() {
+        return JsonResult.success("ok", cryptoService.getRSA().getPublicKeyBase64());
+    }
+
+
+}

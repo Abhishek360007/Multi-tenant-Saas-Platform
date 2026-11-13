@@ -1,0 +1,74 @@
+server:
+  port: 18891
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: tenanthub
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+    locale: zh_CN
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  threads:
+    virtual:
+      enabled: true
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog-master.xml
+    contexts: platform,tenant
+
+ip2region:
+  external: false
+  location: classpath*:ip2region.xdb
+
+# 多租户配置
+multi:
+  tenant:
+    prefix: tenanthub_
+    default-tenant-id: master
+    default-project-id: 10001
+    db-name: ${multi.tenant.prefix}${multi.tenant.default-tenant-id}
+    enable: true
+    enable-project: true
+    create-table: true
+    contexts: tenant
+    change-log: ${spring.liquibase.change-log}
+
+
+jwt:
+  token:
+    rsa-private-key: classpath:pem/rsa_private_key.pem
+    rsa-public-key: classpath:pem/rsa_public_key.pem
+
+
+# mybatis-plus 自动配置
+mybatis-plus:
+  type-aliases-package: com.abhishek.tenanthub.*.entity
+  configuration:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: Spring Boot 3.X + Mybatis-Plus + Liquibase SaaS
+    version: 1.0.1
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+    shutdown:
+      enabled: true

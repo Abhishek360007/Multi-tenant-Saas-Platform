@@ -1,12 +1,12 @@
 HELP.md
 target/
 
-server/saas-service/src/main/resources/application-dev.yml
-/server/saas-service/src/main/resources/application-dev.yml
-./server/saas-service/src/main/resources/application-dev.yml
-server/saas-service/src/main/resources/application-*.yml
-/server/saas-service/src/main/resources/application-*.yml
-./server/saas-service/src/main/resources/application-*.yml
+server/tenanthub-service/src/main/resources/application-dev.yml
+/server/tenanthub-service/src/main/resources/application-dev.yml
+./server/tenanthub-service/src/main/resources/application-dev.yml
+server/tenanthub-service/src/main/resources/application-*.yml
+/server/tenanthub-service/src/main/resources/application-*.yml
+./server/tenanthub-service/src/main/resources/application-*.yml
 
 /platform-web-ui/pnpm-lock.yaml
 /tenant-web-ui/pnpm-lock.yaml

@@ -1,11 +1,11 @@
 <div align="center">
-  <h1>Multi-tenant SaaS Platform</h1>
-  <p>A database-per-tenant SaaS foundation with a platform admin console and a tenant portal.</p>
+  <h1>TenantHub</h1>
+  <p>A multi-tenant, database-per-tenant SaaS foundation with a platform admin console and a tenant portal.</p>
 </div>
 
 ## Overview
 
-Every tenant gets its own MySQL database (`saas_<tenantId>`). It is created and migrated
+Every tenant gets its own MySQL database (`tenanthub_<tenantId>`). It is created and migrated
 automatically by Liquibase when the tenant is registered. Requests are routed to the right
 database through the `x-tenant-id` header, and each tenant can also hold several projects.
 
@@ -32,11 +32,11 @@ database through the `x-tenant-id` header, and each tenant can also hold several
 server/                     Spring Boot multi-module backend
   common/                   shared constants, utils, domain types
   internal-api/             interfaces between modules
-  saas-sys/                 tenants, menus, config, dictionaries
-  saas-pms/                 users, roles, departments (permission management)
-  saas-cms/                 projects and devices
-  saas-monitor/             login/operation logs, server metrics
-  saas-service/             runnable application (SaasPlatformApplication)
+  tenanthub-sys/            tenants, menus, config, dictionaries
+  tenanthub-pms/            users, roles, departments (permission management)
+  tenanthub-cms/            projects and devices
+  tenanthub-monitor/        login/operation logs, server metrics
+  tenanthub-service/        runnable application (TenantHubApplication)
   plugins/                  auth-jwt, mbp-tenant (tenant routing), redis-config, web-config
 platform-web-ui/            admin console for platform operators
 tenant-web-ui/              portal for tenant users
@@ -56,9 +56,9 @@ nginx.conf                  reverse proxy for both UIs and the API
 ### 1. Start MySQL and Redis
 
 ```bash
-docker run -d --name saas-mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=saas_master \
+docker run -d --name tenanthub-mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=tenanthub_master \
   -p 3306:3306 mysql:8.4 --lower_case_table_names=1 --character-set-server=utf8mb4
-docker run -d --name saas-redis -p 6379:6379 redis:7.4
+docker run -d --name tenanthub-redis -p 6379:6379 redis:7.4
 ```
 
 The server needs a MySQL user that can create databases, because each new tenant gets its own schema.
@@ -68,11 +68,11 @@ The server needs a MySQL user that can create databases, because each new tenant
 ```bash
 cd server
 mvn -DskipTests package
-java -jar saas-service/target/saas-service-1.0.1.jar --spring.profiles.active=test
+java -jar tenanthub-service/target/tenanthub-service-1.0.1.jar --spring.profiles.active=test
 ```
 
 The `test` profile points at `127.0.0.1:3306` (root/123456) and `127.0.0.1:6379`. Liquibase creates
-and seeds `saas_master` on first start. Open the API docs at http://localhost:18891/doc.html.
+and seeds `tenanthub_master` on first start. Open the API docs at http://localhost:18891/doc.html.
 
 ### 3. Run the frontends
 
@@ -93,19 +93,19 @@ When a new tenant is created, the API response includes its generated admin acco
 ## Deployment
 
 1. Copy `.env.example` to `.env` and set real passwords.
-2. Build the jar and copy it, along with an `application-pro.yml`, to `/data/saas/` on the host.
+2. Build the jar and copy it, along with an `application-pro.yml`, to `/data/tenanthub/` on the host.
 3. `docker compose up -d`
 
-See [server/README.md](server/README.md) for the shell script (`server/shell/saas.sh`) and
-systemd unit (`server/systemd/saas.service`).
+See [server/README.md](server/README.md) for the shell script (`server/shell/tenanthub.sh`) and
+systemd unit (`server/systemd/tenanthub.service`).
 
 ## Configuration
 
-Key settings in `server/saas-service/src/main/resources/application.yml`:
+Key settings in `server/tenanthub-service/src/main/resources/application.yml`:
 
 | Property | Default | Meaning |
 | --- | --- | --- |
-| `multi.tenant.prefix` | `saas_` | prefix for tenant database names |
+| `multi.tenant.prefix` | `tenanthub_` | prefix for tenant database names |
 | `multi.tenant.default-tenant-id` | `master` | the platform's own tenant |
 | `multi.tenant.enable-project` | `true` | enable per-tenant projects |
 | `jwt.token.rsa-*-key` | `classpath:pem/...` | RSA key pair for login encryption. **Regenerate these for production.** |
