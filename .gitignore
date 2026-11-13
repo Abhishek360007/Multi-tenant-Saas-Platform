@@ -51,3 +51,6 @@ uploads/
 
 ### Files written by the export tests ###
 server/tenanthub-service/*.xlsx
+
+### Local run logs ###
+*.log

@@ -194,4 +194,11 @@
     </changeSet>
 
 
+    <!-- Remove the template's demo "External link" menus (GitHub / Documentation) -->
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261114-2">
+        <sql>DELETE FROM sys_template_menu WHERE menu_id IN (10052, 10053, 10054)</sql>
+        <sql>DELETE FROM sys_menu WHERE menu_id IN (10052, 10053, 10054)</sql>
+    </changeSet>
+
+
 </databaseChangeLog>
