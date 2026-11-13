@@ -10,9 +10,9 @@ ENV VERSION=1.1
 VOLUME ["/tmp","/logs","/config"]
 # 复制打包 完成后的jar文件，名字修改成 app.jar
 COPY target/tenanthub-service-1.0.1.jar app.jar
-# 设置时区为上海
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN echo 'Asia/Shanghai' >/etc/timezone
+# Run in UTC; the web UIs convert times to the viewer's time zone
+RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+RUN echo "UTC" >/etc/timezone
 # 设置编码
 ENV LANG=C.UTF-8
 # JVM参数
@@ -22,4 +22,4 @@ ENV SERVER_PORT=18891
 # 服务暴露端口PORT
 EXPOSE ${SERVER_PORT}
 # 启动 Spring Boot App 命令
-ENTRYPOINT ["sh", "-c", "exec java ${JVM_OPTS} -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Shanghai -Djava.security.egd=file:/dev/./urandom -jar /app.jar"]
+ENTRYPOINT ["sh", "-c", "exec java ${JVM_OPTS} -Dfile.encoding=UTF-8 -Duser.timezone=UTC -Djava.security.egd=file:/dev/./urandom -jar /app.jar"]

@@ -27,7 +27,7 @@ services:
       - /opt/tenanthub-server/tenanthub-service-1.0.1.jar:/app.jar
       - /opt/tenanthub-server/application-pro.yml:/config/application-pro.yml
       - /etc/localtime:/etc/localtime:ro
-    command: java ${JVM_OPTS} -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Shanghai -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+    command: java ${JVM_OPTS} -Dfile.encoding=UTF-8 -Duser.timezone=UTC -Djava.security.egd=file:/dev/./urandom -jar /app.jar
     privileged: true
     restart: always
     networks:

@@ -1,4 +1,5 @@
 import axios, {type AxiosInstance, type AxiosRequestConfig, AxiosResponse} from "axios"
+import { requestTimesToUtc, responseTimesToLocal } from "./utc-time"
 import {useUserStoreHook} from "@/store/modules/user"
 import {ElMessage, ElMessageBox} from "element-plus"
 import {get, merge} from "lodash-es"
@@ -14,7 +15,12 @@ function createService() {
   const service = axios.create()
   // 请求拦截
   service.interceptors.request.use(
-    (config) => config,
+    (config) => {
+      // The API works in UTC; send local date-times as UTC
+      if (config.data) config.data = requestTimesToUtc(config.data)
+      if (config.params) config.params = requestTimesToUtc(config.params)
+      return config
+    },
     // 发送失败
     (error) => Promise.reject(error)
   )
@@ -26,6 +32,8 @@ function createService() {
       // 二进制数据则直接返回
       const responseType = response.request?.responseType
       if (responseType === "blob" || responseType === "arraybuffer") return apiData
+      // The API returns UTC date-times; show them in the browser's time zone
+      if (apiData && typeof apiData === "object") apiData.data = responseTimesToLocal(apiData.data)
       // 这个 code 是和后端约定的业务 code
       const code = apiData.status
       // 如果没有 code, 代表这不是项目后端开发的 api

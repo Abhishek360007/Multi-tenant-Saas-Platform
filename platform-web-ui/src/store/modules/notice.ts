@@ -1,4 +1,5 @@
 import store from "@/store"
+import { responseTimesToLocal } from "@/utils/utc-time"
 import { defineStore } from "pinia"
 import { computed, ref } from "vue"
 import { Client } from "@stomp/stompjs"
@@ -55,19 +56,19 @@ export const useNoticeStore = defineStore("notice", () => {
 
         // 订阅广播主题
         stompClientAgent.subscribe("/topic/broadcast/notice", (resp) => {
-          const result = JSON.parse(resp.body) as IPushMessage
+          const result = responseTimesToLocal(JSON.parse(resp.body)) as IPushMessage
           broadcast.value?.push(result)
         })
 
         // 订阅推送主题
         stompClientAgent.subscribe("/user/queue/single/push", (resp) => {
-          const result = JSON.parse(resp.body) as IPushMessage
+          const result = responseTimesToLocal(JSON.parse(resp.body)) as IPushMessage
           pushNotices.value?.push(result)
         })
 
         // 订阅 租户创建结果的 主题
         stompClientAgent.subscribe("/user/queue/single/create/tenant", (resp) => {
-          const result = JSON.parse(resp.body) as IPushMessage
+          const result = responseTimesToLocal(JSON.parse(resp.body)) as IPushMessage
           createTenantNotice.value = result
           pushNotices.value?.push(result)
         })

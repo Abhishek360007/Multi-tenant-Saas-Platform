@@ -26,7 +26,7 @@ SPRING_ENV=pro            # 本地生产环境
 #SPRING_ENV=test          # 测试环境
 
 # JVM参数
-JVM_OPTS="-Dname=$APP_NAME -server -Xms4g -Xmx4g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Shanghai -Djava.security.egd=file:/dev/./urandom"
+JVM_OPTS="-Dname=$APP_NAME -server -Xms4g -Xmx4g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Duser.timezone=UTC -Djava.security.egd=file:/dev/./urandom"
 
 # JDK路径
 JAVA_HOME=/opt/jdk-17
