@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 中国行政区域
+ * India administrative areas
  * </p>
  *
  * @author Wang Chen Chen
@@ -18,81 +18,38 @@ import lombok.experimental.Accessors;
  */
 
 
-@Schema(description = "中国行政区域")
-@TableName("china_area")
+@Schema(description = "India administrative area (state, district or sub-district) from the Local Government Directory")
+@TableName("india_area")
 @Getter
 @Setter
 @Builder
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChinaArea implements java.io.Serializable {
+public class IndiaArea implements java.io.Serializable {
 
     /**
-     * 行政代码 [ 唯一 ]
+     * Unique code: state * 1e9 + district * 1e5 + subdistrict (LGD codes)
      */
     @TableId
-    @Schema(description = "行政代码")
+    @Schema(description = "Area code (state*1e9 + district*1e5 + subdistrict)")
     private Long areaCode;
 
-    /**
-     * 级别
-     */
-    @Schema(description = "级别")
+    @Schema(description = "Level: 1 = state/UT, 2 = district, 3 = sub-district")
     private Integer level;
 
-    /**
-     * 父级行政代码
-     */
-    @Schema(description = "父级行政代码")
+    @Schema(description = "Area code of the parent (0 for states/UTs)")
     private Long parentCode;
 
-    /**
-     * 邮政编码
-     */
-    @Schema(description = "邮政编码")
-    private Integer zipCode;
+    @Schema(description = "Local Government Directory (LGD) code at this level")
+    private Integer lgdCode;
 
-    /**
-     * 区号
-     */
-    @Schema(description = "区号")
-    private String cityCode;
-
-    /**
-     * 名称
-     */
-    @Schema(description = "名称")
+    @Schema(description = "Name")
     private String name;
 
-    /**
-     * 简称
-     */
-    @Schema(description = "简称")
-    private String shortName;
-
-    /**
-     * 组合名
-     */
-    @Schema(description = "组合名")
+    @Schema(description = "Full path, e.g. Karnataka-Bengaluru Urban-Bengaluru North")
     private String mergerName;
 
-    /**
-     * 拼音
-     */
-    @Schema(description = "拼音")
-    private String pinyin;
-
-    /**
-     * 经度
-     */
-    @Schema(description = "经度")
-    private Double lng;
-
-    /**
-     * 纬度
-     */
-    @Schema(description = "纬度")
-    private Double lat;
-
+    @Schema(description = "State or UT (level 1 only)")
+    private String type;
 }

@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
 import { removeConfigLayout } from "@/utils/cache/local-storage"
-import chinaAreaJson from "@/assets/ChinaArea.json"
+import indiaAreaJson from "@/assets/IndiaArea.json"
 import { ISimpleProject } from "@/types/base"
 import { CascaderOption } from "element-plus"
 
@@ -152,7 +152,7 @@ export const getEnvBaseURL = () => {
 }
 
 /** 获取 区域名称 */
-export const chinaAreaDeepQuery = (areaCode: number) => {
+export const indiaAreaDeepQuery = (areaCode: number) => {
   let isGet = false
   let node = { areaCode: 0, mergerName: "" }
   const deepSearch = (tree: any, id: any) => {
@@ -168,7 +168,7 @@ export const chinaAreaDeepQuery = (areaCode: number) => {
       }
     }
   }
-  deepSearch(chinaAreaJson, areaCode)
+  deepSearch(indiaAreaJson, areaCode)
   return node
 }
 
@@ -254,6 +254,6 @@ export const defaultProject: ISimpleProject = {
   projectId: 10001,
   projectName: "默认项目",
   linkman: "默认项目",
-  areaCode: 110000000000,
+  areaCode: 29052505542,
   address: "默认项目"
 }

@@ -3,12 +3,12 @@ package com.abhishek.tenanthub.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.abhishek.tenanthub.common.po.SearchPO;
-import com.abhishek.tenanthub.system.entity.ChinaArea;
+import com.abhishek.tenanthub.system.entity.IndiaArea;
 
-public interface ChinaAreaService extends IService<ChinaArea> {
+public interface IndiaAreaService extends IService<IndiaArea> {
 
 
-    IPage<ChinaArea> pageKeywords(SearchPO params);
+    IPage<IndiaArea> pageKeywords(SearchPO params);
 
 
 }

@@ -29,7 +29,7 @@
           <el-table-column prop="contactNumber" label="联系方式" />
           <el-table-column prop="areaCode" label="行政区域">
             <template #default="scope">
-              {{ showChinaArea(scope.row.areaCode) }}
+              {{ showIndiaArea(scope.row.areaCode) }}
             </template>
           </el-table-column>
           <el-table-column prop="address" label="联系地址" />
@@ -218,7 +218,7 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item prop="areaCode" label="行政地址">
-                <search-china-area v-model="entityForm.areaCode" />
+                <search-india-area v-model="entityForm.areaCode" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -282,11 +282,11 @@ import { queryTenantApi, updateTenantApi, deleteTenantApi, resetDataTenantApi } 
 import { listTemplateApi } from "@/api/template"
 import { ISysTenant, ISysTemplate } from "@/types/sys"
 import ImageUpload from "@/components/ImageUpload/index.vue"
-import SearchChinaArea from "@/components/SearchChinaArea/index.vue"
+import SearchIndiaArea from "@/components/SearchIndiaArea/index.vue"
 import createTenant from "./create.vue"
 import { useDictStoreHook } from "@/store/modules/dict"
 import { cloneDeep } from "lodash-es"
-import { showExpiredDateAgo, showStringOverflow, showChinaArea, isDefaultTenantId } from "@/hooks/useIndex"
+import { showExpiredDateAgo, showStringOverflow, showIndiaArea, isDefaultTenantId } from "@/hooks/useIndex"
 import { isEmail, isTelphone } from "@/utils/validate"
 import { futureShortcuts } from "@/utils"
 import { useNoticeStoreHook } from "@/store/modules/notice"

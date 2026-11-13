@@ -24,7 +24,7 @@
         <el-table-column prop="linkman" label="联系人" />
         <el-table-column prop="areaCode" label="行政区域">
           <template #default="scope">
-            {{ showChinaArea(scope.row.areaCode) }}
+            {{ showIndiaArea(scope.row.areaCode) }}
           </template>
         </el-table-column>
         <el-table-column prop="address" label="联系地址" />
@@ -62,7 +62,7 @@ import { Search } from "@element-plus/icons-vue"
 import { ISearchQuery, ISimpleProject } from "@/types/base"
 import { simpleQueryProjectApi } from "@/api/project"
 import { useProjectStoreHook } from "@/store/modules/project"
-import { showChinaArea } from "@/hooks/useIndex"
+import { showIndiaArea } from "@/hooks/useIndex"
 
 const projectStore = useProjectStoreHook()
 

@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
 
-import options from "@/assets/ChinaArea.json"
+import options from "@/assets/IndiaArea.json"
 
 const props = defineProps({
   value: {

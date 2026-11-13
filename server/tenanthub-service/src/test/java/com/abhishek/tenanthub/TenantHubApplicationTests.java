@@ -73,8 +73,7 @@ public class TenantHubApplicationTests {
      */
     @Test
     public void test1() throws Exception {
-        var areaCodeList = List.of(440301000000L, 440303000000L, 440304000000L, 440305000000L,
-                440306000000L, 440307000000L, 440308000000L, 440309000000L, 440310000000L, 440311000000L);
+        var areaCodeList = List.of(29052505545L, 29052505544L, 29052505542L, 29052505543L, 29052507103L);
         for (int i = 0; i < 3; i++) {
             var start = System.currentTimeMillis();
             var email = String.format("%s@qq.com", RandomUtil.randomString(10));

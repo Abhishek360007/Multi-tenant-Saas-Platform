@@ -33,9 +33,9 @@
     </changeSet>
 
 
-    <!-- 初始化 中国行政区域 -->
-    <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-40">
-        <sqlFile path="db/changelog/sql/china_area.sql"/>
+    <!-- India administrative areas (generated from LGD by scripts/india-area/generate.mjs) -->
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-4">
+        <sqlFile path="db/changelog/sql/india_area.sql"/>
     </changeSet>
 
 

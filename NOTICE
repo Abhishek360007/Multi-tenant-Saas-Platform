@@ -12,3 +12,8 @@ externalized Docker Compose credentials; English documentation; and CI.
 
 The web front-ends are based on "v3-admin-vite"
 (https://github.com/un-pany/v3-admin-vite), licensed under the MIT License.
+
+India administrative area data (server/.../sql/india_area.sql, */src/assets/IndiaArea.json)
+is derived from the Local Government Directory (LGD), Ministry of Panchayati Raj,
+Government of India, via https://ramseraph.github.io/opendata/lgd/ .
+Regenerate it with scripts/india-area/generate.mjs.

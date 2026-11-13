@@ -123,43 +123,34 @@
     </changeSet>
 
 
-    <!-- 中国行政区域 -->
-    <changeSet context="platform" author="WangChenChen (generated)" id="1699414053280-1">
-        <createTable remarks="[ 通用 ] 中国行政地区表" tableName="china_area">
-            <column name="area_code" remarks="行政代码 [ 唯一 ]" type="BIGINT UNSIGNED">
+    <!-- India administrative areas: state -> district -> sub-district (LGD codes) -->
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-3">
+        <createTable remarks="India administrative areas (LGD)" tableName="india_area">
+            <column name="area_code" remarks="Unique code: state*1e9 + district*1e5 + subdistrict (LGD codes)" type="BIGINT UNSIGNED">
                 <constraints nullable="false" primaryKey="true" unique="true"/>
             </column>
-            <column name="level" remarks="层级 1.省级  2.城市  3.区域" type="TINYINT(3) UNSIGNED">
+            <column name="level" remarks="1 = state/UT, 2 = district, 3 = sub-district" type="TINYINT(3) UNSIGNED">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="parent_code" remarks="父级行政代码" type="BIGINT UNSIGNED">
+            <column defaultValueNumeric="0" name="parent_code" remarks="area_code of the parent (0 for states/UTs)" type="BIGINT UNSIGNED">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="zip_code" remarks="邮政编码" type="MEDIUMINT UNSIGNED">
+            <column name="lgd_code" remarks="Local Government Directory code at this level" type="INT UNSIGNED">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="" name="city_code" remarks="区号" type="CHAR(6)">
+            <column defaultValue="" name="name" remarks="Name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="" name="name" remarks="名称" type="VARCHAR(50)">
+            <column defaultValue="" name="merger_name" remarks="Full path, e.g. Karnataka-Bengaluru Urban-Bengaluru North" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="" name="short_name" remarks="简称" type="VARCHAR(50)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="" name="merger_name" remarks="组合名" type="VARCHAR(50)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="" name="pinyin" remarks="拼音" type="VARCHAR(30)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0.000000" name="lng" remarks="经度" type="DECIMAL(10, 6)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0.000000" name="lat" remarks="纬度" type="DECIMAL(10, 6)">
+            <column defaultValue="" name="type" remarks="State or UT (level 1 only)" type="VARCHAR(10)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <createIndex tableName="india_area" indexName="idx_india_area_parent">
+            <column name="parent_code"/>
+        </createIndex>
     </changeSet>
 
 

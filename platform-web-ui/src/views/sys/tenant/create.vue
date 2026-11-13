@@ -67,7 +67,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="areaCode" label="行政地址">
-            <search-china-area v-model="entityForm.areaCode" />
+            <search-india-area v-model="entityForm.areaCode" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -192,7 +192,7 @@ import { futureShortcuts } from "@/utils"
 import { saveTenantApi } from "@/api/tenant"
 import { Refresh, ArrowLeft, ArrowRight, Check, Close } from "@element-plus/icons-vue"
 import ImageUpload from "@/components/ImageUpload/index.vue"
-import SearchChinaArea from "@/components/SearchChinaArea/index.vue"
+import SearchIndiaArea from "@/components/SearchIndiaArea/index.vue"
 import { v4 as uuidv4 } from "uuid"
 import { isEmail, isTelphone } from "@/utils/validate"
 import { showStringOverflow } from "@/hooks/useIndex"

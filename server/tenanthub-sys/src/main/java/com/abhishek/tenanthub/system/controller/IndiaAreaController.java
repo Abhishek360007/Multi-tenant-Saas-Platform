@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.abhishek.tenanthub.common.domain.Pagination;
 import com.abhishek.tenanthub.common.po.SearchPO;
 import com.abhishek.tenanthub.common.util.JsonResult;
-import com.abhishek.tenanthub.system.entity.ChinaArea;
-import com.abhishek.tenanthub.system.service.ChinaAreaService;
+import com.abhishek.tenanthub.system.entity.IndiaArea;
+import com.abhishek.tenanthub.system.service.IndiaAreaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -32,34 +32,34 @@ import java.util.List;
 @Tag(name = "[ 通用 ] 中国行政地区")
 @RestController
 @AllArgsConstructor
-@RequestMapping("/china/area")
-public class ChinaAreaController {
+@RequestMapping("/india/area")
+public class IndiaAreaController {
 
-    private ChinaAreaService baseService;
+    private IndiaAreaService baseService;
 
     @Operation(summary = "单个查询", description = "根据Id查询")
     @GetMapping("/{id}")
-    public JsonResult<ChinaArea> getById(@PathVariable("id") Long id) {
+    public JsonResult<IndiaArea> getById(@PathVariable("id") Long id) {
         return JsonResult.success(baseService.getById(id));
     }
 
 
     @Operation(summary = "查询子节点", description = "查询所有，0.查询所有一级节点。")
     @GetMapping("/child/{parentCode}")
-    public JsonResult<List<ChinaArea>> childList(@PathVariable Long parentCode) {
+    public JsonResult<List<IndiaArea>> childList(@PathVariable Long parentCode) {
         if (parentCode == null || parentCode < 1) {
             parentCode = 0L;
         }
-        var queryWrapper = new LambdaQueryWrapper<ChinaArea>();
-        queryWrapper.eq(ChinaArea::getParentCode, parentCode);
+        var queryWrapper = new LambdaQueryWrapper<IndiaArea>();
+        queryWrapper.eq(IndiaArea::getParentCode, parentCode);
         return JsonResult.success(baseService.list(queryWrapper));
     }
 
 
     @Operation(summary = "分页", description = "分页 查询所有")
     @GetMapping("/query")
-    public JsonResult<Pagination<ChinaArea>> pageQuery(SearchPO params) {
-        IPage<ChinaArea> page = baseService.pageKeywords(params);
+    public JsonResult<Pagination<IndiaArea>> pageQuery(SearchPO params) {
+        IPage<IndiaArea> page = baseService.pageKeywords(params);
         return JsonResult.success(page.getTotal(), page.getRecords());
     }
 

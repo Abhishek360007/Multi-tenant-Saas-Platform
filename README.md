@@ -22,6 +22,7 @@ database through the `x-tenant-id` header, and each tenant can also hold several
 - **Tenant management**: create tenants, assign permission templates, auto-provision tenant databases
 - **RBAC**: users, roles, menus/permissions, departments with data scopes
 - **Projects**: multiple projects per tenant
+- **India addresses**: state → district → sub-district picker with official LGD codes (7,938 areas)
 - **Auth**: captcha + RSA-encrypted credentials, JWT access tokens, online-user tracking, forced logout
 - **Monitoring**: login logs, operation logs, live server metrics (CPU, memory, disk)
 - **System**: dictionaries, global config, file upload via x-file-storage (Qiniu and Aliyun OSS SDKs included)
@@ -116,7 +117,7 @@ Key settings in `server/tenanthub-service/src/main/resources/application.yml`:
 | `multi.tenant.prefix` | `tenanthub_` | prefix for tenant database names |
 | `multi.tenant.default-tenant-id` | `master` | the platform's own tenant |
 | `multi.tenant.enable-project` | `true` | enable per-tenant projects |
-| `jwt.token.rsa-*-key` | `classpath:pem/...` | RSA key pair for login encryption. **Regenerate these for production.** |
+| `jwt.token.keys-dir` | `./keys` | where the JWT secret and RSA key pair are generated on first start. **Keep private and persistent.** |
 
 ## Credits & license
 

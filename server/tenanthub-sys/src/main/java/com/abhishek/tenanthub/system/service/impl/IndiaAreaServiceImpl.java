@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.abhishek.tenanthub.common.po.SearchPO;
-import com.abhishek.tenanthub.system.entity.ChinaArea;
-import com.abhishek.tenanthub.system.mapper.ChinaAreaMapper;
-import com.abhishek.tenanthub.system.service.ChinaAreaService;
+import com.abhishek.tenanthub.system.entity.IndiaArea;
+import com.abhishek.tenanthub.system.mapper.IndiaAreaMapper;
+import com.abhishek.tenanthub.system.service.IndiaAreaService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -25,20 +25,18 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class ChinaAreaServiceImpl extends ServiceImpl<ChinaAreaMapper, ChinaArea>
-        implements ChinaAreaService {
+public class IndiaAreaServiceImpl extends ServiceImpl<IndiaAreaMapper, IndiaArea>
+        implements IndiaAreaService {
 
 
     @Override
-    public IPage<ChinaArea> pageKeywords(SearchPO params) {
-        var wrapper = new LambdaQueryWrapper<ChinaArea>();
-        Page<ChinaArea> page = Page.of(params.getPageIndex(), params.getPageSize());
+    public IPage<IndiaArea> pageKeywords(SearchPO params) {
+        var wrapper = new LambdaQueryWrapper<IndiaArea>();
+        Page<IndiaArea> page = Page.of(params.getPageIndex(), params.getPageSize());
         if (StringUtils.isNotBlank(params.getKeywords())) {
-            wrapper.like(ChinaArea::getName, params.getKeywords())
+            wrapper.like(IndiaArea::getName, params.getKeywords())
                     .or()
-                    .like(ChinaArea::getMergerName, params.getKeywords())
-                    .or()
-                    .like(ChinaArea::getPinyin, params.getKeywords());
+                    .like(IndiaArea::getMergerName, params.getKeywords());
         }
         return baseMapper.selectPage(page, wrapper);
     }

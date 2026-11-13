@@ -26,7 +26,7 @@
           <el-table-column prop="contactNumber" label="联系电话" />
           <el-table-column prop="areaCode" label="行政区域">
             <template #default="scope">
-              {{ showChinaArea(scope.row.areaCode) }}
+              {{ showIndiaArea(scope.row.areaCode) }}
             </template>
           </el-table-column>
           <el-table-column prop="address" label="联系地址" />
@@ -171,7 +171,7 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item prop="areaCode" label="行政地址">
-              <search-china-area v-model="entityForm.areaCode" />
+              <search-india-area v-model="entityForm.areaCode" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -207,11 +207,11 @@ import { ICmsProject } from "@/types/cms"
 import { isTelphone } from "@/utils/validate"
 import { Plus, Edit, Delete, Search, Link } from "@element-plus/icons-vue"
 import { ElMessage, ElMessageBox, FormInstance, FormRules } from "element-plus"
-import SearchChinaArea from "@/components/SearchChinaArea/index.vue"
+import SearchIndiaArea from "@/components/SearchIndiaArea/index.vue"
 import CascaderDept from "@/components/CascaderDept/index.vue"
 import { useDictStoreHook } from "@/store/modules/dict"
 import { cloneDeep } from "lodash-es"
-import { showChinaArea } from "@/hooks/useIndex"
+import { showIndiaArea } from "@/hooks/useIndex"
 
 const dictStore = useDictStoreHook()
 

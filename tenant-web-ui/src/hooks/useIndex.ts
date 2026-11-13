@@ -1,5 +1,5 @@
 import {computed} from "vue"
-import {chinaAreaDeepQuery, expiredDateAgo, timeAgo} from "@/utils"
+import {indiaAreaDeepQuery, expiredDateAgo, timeAgo} from "@/utils"
 
 // 以前的时间
 const showTimeAgo = computed(() => {
@@ -19,9 +19,9 @@ const showStringOverflow = computed(() => {
 })
 
 // 显示中国行政区域名称
-const showChinaArea = computed(() => {
+const showIndiaArea = computed(() => {
   return (value: number) => {
-    const area = chinaAreaDeepQuery(value)
+    const area = indiaAreaDeepQuery(value)
     if (area) {
       return area.mergerName
     }
@@ -29,4 +29,4 @@ const showChinaArea = computed(() => {
   }
 })
 
-export { showTimeAgo, showExpiredDateAgo, showStringOverflow, showChinaArea }
+export { showTimeAgo, showExpiredDateAgo, showStringOverflow, showIndiaArea }

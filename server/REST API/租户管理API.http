@@ -11,7 +11,7 @@ Authorization: Bearer {{tokenValue}}
   "email": "baidu@qq.com",
   "linkman": "李彦宏",
   "contactNumber": "15111111333",
-  "areaCode": "440305000000",
+  "areaCode": "29052505542",
   "address": "中国北京海淀区上地十街10号百度大厦",
   "templates": [
     {
@@ -34,7 +34,7 @@ Authorization: Bearer {{tokenValue}}
   "email": "google@gmail.com",
   "linkman": "拉里·佩奇",
   "contactNumber": "15213324660",
-  "areaCode": "123123221311",
+  "areaCode": "27048307179",
   "address": "美国加利福尼亚州圣克拉拉县山景市",
   "templates": [
     {
@@ -57,7 +57,7 @@ Authorization: Bearer {{tokenValue}}
   "email": "apple@gmail.com",
   "linkman": "史蒂夫·乔布斯",
   "contactNumber": "1521332423",
-  "areaCode": "123123221311",
+  "areaCode": "27048307179",
   "address": "美国-加利福尼亚州-库比蒂诺"
 }
 

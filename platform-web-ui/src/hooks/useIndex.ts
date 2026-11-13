@@ -1,6 +1,6 @@
 import { computed } from "vue"
 import { useTenantStoreHook } from "@/store/modules/tenant"
-import { chinaAreaDeepQuery, expiredDateAgo, timeAgo } from "@/utils"
+import { indiaAreaDeepQuery, expiredDateAgo, timeAgo } from "@/utils"
 
 const tenantStore = useTenantStoreHook()
 
@@ -22,9 +22,9 @@ const showStringOverflow = computed(() => {
 })
 
 // 显示中国行政区域名称
-const showChinaArea = computed(() => {
+const showIndiaArea = computed(() => {
   return (value: number) => {
-    const area = chinaAreaDeepQuery(value)
+    const area = indiaAreaDeepQuery(value)
     if (area) {
       return area.mergerName
     }
@@ -39,4 +39,4 @@ const isDefaultTenantId = computed(() => {
   }
 })
 
-export { showTimeAgo, showExpiredDateAgo, showStringOverflow, showChinaArea, isDefaultTenantId }
+export { showTimeAgo, showExpiredDateAgo, showStringOverflow, showIndiaArea, isDefaultTenantId }
