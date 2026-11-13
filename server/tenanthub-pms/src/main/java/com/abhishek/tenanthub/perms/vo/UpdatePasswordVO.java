@@ -27,10 +27,9 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 public class UpdatePasswordVO {
 
     /**
-     * User ID
+     * Ignored: the server always uses the signed-in user (kept for API compatibility)
      */
-    @Schema(description = "User ID is required", requiredMode = REQUIRED)
-    @NotNull(message = "User ID is required!")
+    @Schema(description = "Ignored; the signed-in user is always used", accessMode = Schema.AccessMode.READ_ONLY)
     private Long userId;
 
     /**
