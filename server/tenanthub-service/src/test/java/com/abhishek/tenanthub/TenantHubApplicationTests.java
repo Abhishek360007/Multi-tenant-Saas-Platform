@@ -86,7 +86,7 @@ public class TenantHubApplicationTests {
                     .setEmail(email)
                     .setLinkman(randomChinese(3))
                     .setContactNumber(contactNumber)
-                    .setLogo("https://images.xaaef.com/molly_master_logo.png")
+                    .setLogo("https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png")
                     .setAreaCode(ac)
                     .setAddress(randomChinese(10))
                     .setTemplates(Set.of(new SysTemplate().setId(10001L)))

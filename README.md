@@ -1,5 +1,6 @@
 <div align="center">
-  <h1>TenantHub</h1>
+  <img src="docs/brand/tenanthub-wordmark.png" alt="TenantHub" width="360">
+
   <p>A multi-tenant, database-per-tenant SaaS foundation with a platform admin console and a tenant portal.</p>
 </div>
 

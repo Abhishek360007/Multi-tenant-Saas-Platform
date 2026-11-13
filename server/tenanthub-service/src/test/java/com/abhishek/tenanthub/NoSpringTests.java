@@ -67,7 +67,7 @@ public class NoSpringTests {
 
     @Test
     public void test3() {
-        System.out.println(FileUtil.extName("https://images.xaaef.com/base/63b7df8b9e8581f5bff107e2.jpg"));
+        System.out.println(FileUtil.extName("https://example.com/base/63b7df8b9e8581f5bff107e2.jpg"));
     }
 
 

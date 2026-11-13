@@ -252,7 +252,7 @@ export const pastShortcuts = [
 // 设置 默认的租户
 export const defaultTenant: ISimpleTenant = {
   tenantId: "master",
-  logo: "http://images.xaaef.com/molly_master_logo.png",
+  logo: "https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png",
   name: "默认租户",
   linkman: "master"
 }

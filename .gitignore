@@ -43,3 +43,4 @@ build/
 ### Local secrets ###
 .env
 node_modules/
+dist/

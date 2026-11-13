@@ -43,7 +43,7 @@ public class ConfigDataConst {
     /**
      * 租户默认logo
      */
-    public static final KeyValue<String, String> DEFAULT_TENANT_LOGO = new DefaultKeyValue<>("default_tenant_logo", "https://images.xaaef.com/molly_master_logo.png");
+    public static final KeyValue<String, String> DEFAULT_TENANT_LOGO = new DefaultKeyValue<>("default_tenant_logo", "https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png");
 
 
     /**
