@@ -202,15 +202,14 @@ public class NoSpringTests {
                             (long) (i + 1),
                             RandomUtil.randomString(20),
                             RandomUtil.randomEleList(source, 3),
-                            Map.of(String.valueOf(new char[]{RandomUtil.randomChinese(), RandomUtil.randomChinese(), RandomUtil.randomChinese()}), RandomUtil.randomLong(40, 88)),
+                            Map.of(RandomUtil.randomString(3), RandomUtil.randomLong(40, 88)),
                             LocalDate.now(),
                             LocalTime.now(),
                             LocalDateTime.now(),
                             new OperateUserDTO(
                                     RandomUtil.randomLong(),
                                     "a",
-                                    String.valueOf(new char[]{RandomUtil.randomChinese(), RandomUtil.randomChinese(), RandomUtil.randomChinese()}
-                                    )
+                                    RandomUtil.randomString(3)
                             )
                     )
             );

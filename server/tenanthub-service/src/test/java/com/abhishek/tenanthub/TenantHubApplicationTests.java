@@ -28,7 +28,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-import static com.abhishek.tenanthub.system.cron.TestCronAsync.randomChinese;
 
 
 // Integration tests: need MySQL and Redis. Run with TENANTHUB_IT=true (plus DB_* / REDIS_* settings).
@@ -80,17 +79,18 @@ public class TenantHubApplicationTests {
         for (int i = 0; i < 3; i++) {
             var start = System.currentTimeMillis();
             var email = String.format("%s@example.com", RandomUtil.randomString(10));
-            var contactNumber = String.format("0755-%s", RandomUtil.randomNumbers(7));
+            var contactNumber = "98765" + RandomUtil.randomNumbers(5);
             var expired = LocalDateTime.now().plusDays(RandomUtil.randomInt(30, 3650));
             var ac = areaCodeList.get(RandomUtil.randomInt(0, (areaCodeList.size() - 1)));
             var po = new CreateTenantPO()
-                    .setName(randomChinese(5))
+                    .setName("Test Company " + RandomUtil.randomString(4).toUpperCase())
                     .setEmail(email)
-                    .setLinkman(randomChinese(3))
+                    .setLinkman(RandomUtil.randomEle(List.of("Ravi Kumar", "Priya Sharma", "Arjun Mehta")))
                     .setContactNumber(contactNumber)
                     .setLogo("https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png")
                     .setAreaCode(ac)
-                    .setAddress(randomChinese(10))
+                    .setAddress(RandomUtil.randomInt(1, 200) + " MG Road")
+                    .setPinCode("560001")
                     .setTemplates(Set.of(new SysTemplate().setId(10001L)))
                     .setExpired(expired);
             var success = tenantService.create(po);
