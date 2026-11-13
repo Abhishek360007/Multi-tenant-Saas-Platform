@@ -38,6 +38,11 @@ import static com.abhishek.tenanthub.tenant.util.DelegateUtils.delegate;
 @Service
 public class ApiCmsProjectServiceImpl implements ApiCmsProjectService {
 
+    @Override
+    public long countProjects() {
+        return projectMapper.selectCount(null);
+    }
+
     @Autowired
     @Lazy
     private ApiPmsDeptService pmsDeptService;

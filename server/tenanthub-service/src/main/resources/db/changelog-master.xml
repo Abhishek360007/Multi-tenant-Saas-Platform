@@ -95,4 +95,52 @@
         <sqlFile path="db/changelog/sql/india_holidays.sql"/>
     </changeSet>
 
+    <!-- Subscription plans (shared by all tenants) -->
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-10">
+        <createTable remarks="Subscription plans, prices in paise before GST" tableName="sys_plan">
+            <column name="plan_code" remarks="Plan code, e.g. free / basic / pro" type="VARCHAR(20)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" remarks="Plan name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" remarks="Short description" type="VARCHAR(255)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+            <column name="monthly_price_paise" remarks="Monthly price in paise, before GST" type="BIGINT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="yearly_price_paise" remarks="Yearly price in paise, before GST" type="BIGINT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_users" remarks="Maximum users per tenant, -1 = unlimited" type="INT" defaultValueNumeric="-1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_projects" remarks="Maximum projects per tenant, -1 = unlimited" type="INT" defaultValueNumeric="-1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sort" remarks="Sort order" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" remarks="1 = offered, 0 = hidden" type="TINYINT" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addColumn tableName="sys_tenant">
+            <column name="plan_code" remarks="Subscription plan" type="VARCHAR(20)" defaultValue="free">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-11">
+        <sqlFile path="db/changelog/sql/billing_init.sql"/>
+        <!-- The platform's own tenant is not billed -->
+        <update tableName="sys_tenant">
+            <column name="plan_code" value="pro"/>
+            <where>tenant_id = 'master'</where>
+        </update>
+    </changeSet>
+
+
 </databaseChangeLog>

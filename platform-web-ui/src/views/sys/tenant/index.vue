@@ -35,6 +35,11 @@
           <el-table-column prop="address" label="Address" />
           <el-table-column prop="pinCode" label="PIN" width="90" />
           <el-table-column prop="gstin" label="GSTIN" width="170" />
+          <el-table-column prop="planCode" label="Plan" width="90">
+            <template #default="scope">
+              <el-tag>{{ planName(scope.row.planCode) }}</el-tag>
+            </template>
+          </el-table-column>
           <el-table-column prop="templates" label="Permission templates">
             <template #default="scope">
               <el-tooltip
@@ -237,6 +242,15 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :span="8">
+              <el-form-item prop="planCode" label="Plan">
+                <el-select v-model="entityForm.planCode" placeholder="Plan">
+                  <el-option v-for="p in plans" :key="p.planCode" :label="p.name" :value="p.planCode" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="8">
               <el-form-item prop="pinCode" label="PIN code">
                 <el-input v-model.trim="entityForm.pinCode" maxlength="6" clearable placeholder="e.g. 560001" />
               </el-form-item>
@@ -319,6 +333,12 @@ import { useDictStoreHook } from "@/store/modules/dict"
 import { cloneDeep } from "lodash-es"
 import { showExpiredDateAgo, showStringOverflow, showIndiaArea, isDefaultTenantId } from "@/hooks/useIndex"
 import { toUpperTaxId, useIndianBusinessRules } from "@/hooks/useIndianBusinessRules"
+import { listPlansApi, type IPlan } from "@/api/plan"
+
+/** Subscription plans, for the Plan column and selector */
+const plans = ref<IPlan[]>([])
+listPlansApi().then((r) => (plans.value = r.data))
+const planName = (code: string) => plans.value.find((p) => p.planCode === code)?.name ?? code
 import { isEmail, isTelphone } from "@/utils/validate"
 import { futureShortcuts } from "@/utils"
 import { useNoticeStoreHook } from "@/store/modules/notice"

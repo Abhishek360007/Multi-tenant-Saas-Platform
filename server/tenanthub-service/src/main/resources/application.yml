@@ -162,3 +162,9 @@ tenanthub:
       auth-key: ${MSG91_AUTH_KEY:}
       template-id: ${MSG91_TEMPLATE_ID:}
       otp-variable: ${MSG91_OTP_VARIABLE:otp}
+  # Subscription billing
+  billing:
+    gst-rate: 18
+    # GST state code of your business (first two digits of your GSTIN): CGST+SGST for buyers in
+    # the same state, IGST otherwise. 29 = Karnataka, 27 = Maharashtra, 07 = Delhi, ...
+    seller-state-code: ${GST_SELLER_STATE_CODE:29}

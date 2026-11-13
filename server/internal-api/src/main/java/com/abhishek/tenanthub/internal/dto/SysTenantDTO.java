@@ -81,6 +81,11 @@ public class SysTenantDTO implements java.io.Serializable {
     private String pan;
 
     /**
+     * Subscription plan code
+     */
+    private String planCode;
+
+    /**
      * Status [0 = disabled, 1 = normal]
      */
     private Byte status;

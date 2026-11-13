@@ -21,6 +21,11 @@ import java.util.Set;
 public interface ApiCmsProjectService {
 
     /**
+     * Number of projects in the current tenant
+     */
+    long countProjects();
+
+    /**
      * Get basic project details by project ID, e.g. id, name,
      *
      * @author WangChenChen

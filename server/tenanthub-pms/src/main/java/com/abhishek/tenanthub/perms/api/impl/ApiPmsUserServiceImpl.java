@@ -46,6 +46,11 @@ import static com.abhishek.tenanthub.tenant.util.DelegateUtils.delegate;
 @AllArgsConstructor
 public class ApiPmsUserServiceImpl implements ApiPmsUserService {
 
+    @Override
+    public long countUsers() {
+        return userMapper.selectCount(null);
+    }
+
     private final ApiSysConfigService configService;
 
     private final ApiSysTenantService tenantService;

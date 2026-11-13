@@ -112,6 +112,9 @@ public class SysTenant extends BaseEntity {
     @Schema(description = "PAN (optional), e.g. ABCPE1234F")
     private String pan;
 
+    @Schema(description = "Subscription plan code (free / basic / pro)")
+    private String planCode;
+
     /**
      * Status [0 = disabled, 1 = normal, 9 = initializing]
      */

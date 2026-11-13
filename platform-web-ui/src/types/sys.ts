@@ -60,6 +60,8 @@ export interface ISysTenant extends IBaseEntity {
   gstin?: string
   /** PAN (optional) */
   pan?: string
+  /** Subscription plan code */
+  planCode?: string
   /**
    * Status [0 = disabled, 1 = normal]
    */

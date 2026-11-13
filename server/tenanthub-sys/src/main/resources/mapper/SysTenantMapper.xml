@@ -15,6 +15,7 @@
         <result property="pinCode" column="pin_code"/>
         <result property="gstin" column="gstin"/>
         <result property="pan" column="pan"/>
+        <result property="planCode" column="plan_code"/>
         <result property="status" column="status"/>
         <result property="expired" column="expired"/>
         <result property="createUser" column="create_user"/>

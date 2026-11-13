@@ -22,6 +22,7 @@ database through the `x-tenant-id` header, and each tenant can also hold several
 - **Tenant management**: create tenants, assign permission templates, auto-provision tenant databases
 - **RBAC**: users, roles, menus/permissions, departments with data scopes
 - **Projects**: multiple projects per tenant
+- **Subscriptions**: Free / Basic / Pro plans in ₹ with user and project limits, GST quotes (CGST + SGST or IGST)
 - **India addresses**: state → district → sub-district picker with official LGD codes (7,938 areas)
 - **Auth**: captcha + RSA-encrypted credentials, or one-time codes by email/SMS (MSG91); JWT access tokens, online-user tracking, forced logout
 - **Monitoring**: login logs, operation logs, live server metrics (CPU, memory, disk)
@@ -134,6 +135,7 @@ Environment variables (defaults suit local development; the `prod` profile requi
 | `TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD` | empty | initial password for the platform admin |
 | `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM` | empty, `587` | SMTP for email sign-in codes (e.g. Amazon SES Mumbai, Zoho Mail) |
 | `MSG91_AUTH_KEY`, `MSG91_TEMPLATE_ID`, `MSG91_OTP_VARIABLE` | empty, empty, `otp` | SMS sign-in codes via MSG91 (needs a DLT-approved template) |
+| `GST_SELLER_STATE_CODE` | `29` (Karnataka) | GST state code of your business: CGST + SGST for tenants in that state, IGST otherwise |
 
 Personal overrides can go in `application-local.yml` (git-ignored); run with `--spring.profiles.active=dev,local`.
 

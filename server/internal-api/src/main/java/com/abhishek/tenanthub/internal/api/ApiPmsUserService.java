@@ -16,6 +16,11 @@ import java.util.Set;
 
 public interface ApiPmsUserService {
 
+    /**
+     * Number of users in the current tenant
+     */
+    long countUsers();
+
 
     /**
      * Get the user by username

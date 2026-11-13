@@ -1,5 +1,7 @@
 package com.abhishek.tenanthub.corems.service.impl;
 
+import com.abhishek.tenanthub.internal.api.ApiBillingService;
+import org.springframework.beans.factory.ObjectProvider;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -50,6 +52,8 @@ public class CmsProjectServiceImpl extends BaseServiceImpl<CmsProjectMapper, Cms
 
     private final ApiSysConfigService configService;
 
+    private final ObjectProvider<ApiBillingService> billingService;
+
     private final ApiSysTenantService tenantService;
 
 
@@ -92,6 +96,8 @@ public class CmsProjectServiceImpl extends BaseServiceImpl<CmsProjectMapper, Cms
 
     @Override
     public boolean save(CmsProject entity) {
+        // Subscription plan project limit
+        billingService.getObject().checkCanAddProject();
         if (entity.getDeptId() == null) {
             throw new BizException("Project department is required");
         }

@@ -1,5 +1,7 @@
 package com.abhishek.tenanthub.perms.service.impl;
 
+import com.abhishek.tenanthub.internal.api.ApiBillingService;
+import org.springframework.beans.factory.ObjectProvider;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.lang.tree.TreeNode;
@@ -86,6 +88,8 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
 
     private final JwtTokenService jwtTokenService;
 
+    private final ObjectProvider<ApiBillingService> billingService;
+
 
     @Override
     public IPage<PmsUser> pageKeywords(UserQueryPO params) {
@@ -136,6 +140,8 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean save(PmsUser entity) {
+        // Subscription plan user limit
+        billingService.getObject().checkCanAddUser();
         if (exist(PmsUser::getUsername, entity.getUsername())) {
             throw new BizException(String.format("Username %s already exists", entity.getUsername()));
         }
