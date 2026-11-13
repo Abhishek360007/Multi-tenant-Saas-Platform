@@ -18,7 +18,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,34 +28,34 @@ import java.util.Collection;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys/tenant")
-@Tag(name = "[ 系统 ] 租户管理")
+@Tag(name = "[ System ] Tenants")
 public class SysTenantController {
 
     public final SysTenantService baseService;
 
 
-    @Operation(summary = "Id查询", description = "根据Id查询")
+    @Operation(summary = "Id Query", description = "Query by ID")
     @GetMapping("/{id}")
     public JsonResult<SysTenant> getById(@PathVariable("id") String id) {
         return JsonResult.success(baseService.getById(id));
     }
 
 
-    @Operation(summary = "简单Id查询", description = "根据Id查询 最基础的字段")
+    @Operation(summary = "Simple get", description = "Get the basic fields by ID")
     @GetMapping("/simple")
     public JsonResult<SysTenant> getSimpleById(@RequestParam("id") String id) {
         return JsonResult.success(baseService.getSimpleById(id));
     }
 
 
-    @Operation(summary = "租户ID是否存在", description = "判断租户ID是否存在")
+    @Operation(summary = "Tenant ID exists", description = "Check whether a tenant ID exists")
     @GetMapping("/exist/{id}")
     public JsonResult<Boolean> existById(@PathVariable("id") String id) {
         return JsonResult.success(baseService.exist(SysTenant::getTenantId, id));
     }
 
 
-    @Operation(summary = "分页查询", description = "分页 搜索查询所有")
+    @Operation(summary = "Paged query", description = "Paged search of all")
     @GetMapping("/query")
     public JsonResult<Pagination<SysTenant>> pageQuery(SearchPO po) {
         var pageResult = baseService.pageKeywords(po);
@@ -67,7 +66,7 @@ public class SysTenantController {
     }
 
 
-    @Operation(summary = "简单分页查询", description = "简单分页 搜索查询所有")
+    @Operation(summary = "Simple paged query", description = "Simple paged search of all")
     @GetMapping("/simple/query")
     public JsonResult<Pagination<SysTenant>> simplePageQuery(SearchPO po) {
         var pageResult = baseService.simplePageKeywords(po);
@@ -78,7 +77,7 @@ public class SysTenantController {
     }
 
 
-    @Operation(summary = "简单搜索", description = "简单搜索 搜索查询所有")
+    @Operation(summary = "Simple search", description = "Simple search of all")
     @GetMapping("/simple/search")
     public JsonResult<Collection<TenantSimpleDataVO>> simpleSearchQuery(SearchPO po) {
         var pageResult = baseService.simpleSearchQuery(po);
@@ -86,18 +85,18 @@ public class SysTenantController {
     }
 
 
-    @Operation(summary = "导出", description = "租户数据导出为Excel")
+    @Operation(summary = "Export", description = "Export tenant data to Excel")
     @GetMapping("/list/export")
     public ResponseEntity<ByteArrayResource> listExport() {
         var result = baseService.list();
-        return WrapExcelUtils.genPageWrite("租户数据", result);
+        return WrapExcelUtils.genPageWrite("Tenant data", result);
     }
 
 
     @NoRepeatSubmit
-    @Operation(summary = "新增租户", description = "新增租户")
+    @Operation(summary = "Add tenant", description = "Add a tenant")
     @PostMapping
-    public JsonResult<TenantCreatedSuccessVO> save(@RequestBody @Validated CreateTenantPO po, BindingResult br) {
+    public JsonResult<TenantCreatedSuccessVO> save(@RequestBody @Validated CreateTenantPO po) {
         try {
             return JsonResult.success(baseService.create(po));
         } catch (Exception e) {
@@ -107,7 +106,7 @@ public class SysTenantController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "重置租户数据", description = "重置租户数据")
+    @Operation(summary = "Reset tenant data", description = "Reset tenant data")
     @PostMapping("/reset/data/{id}")
     public JsonResult<TenantCreatedSuccessVO> resetData(@PathVariable("id") String id) {
         return JsonResult.success(baseService.resetData(id));
@@ -115,7 +114,7 @@ public class SysTenantController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改", description = "修改必须要id")
+    @Operation(summary = "Update", description = "Update requires id")
     @PutMapping
     public JsonResult<Boolean> updateById(@RequestBody @Validated(ValidUpdate.class) SysTenant tenant) {
         var flag = baseService.updateById(tenant);
@@ -124,7 +123,7 @@ public class SysTenantController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "删除", description = "只需要id即可")
+    @Operation(summary = "Delete", description = "Only the ID is required")
     @DeleteMapping("/{id}")
     public JsonResult<Boolean> removeById(@PathVariable("id") String id) {
         var flag = baseService.removeById(id);
@@ -133,7 +132,7 @@ public class SysTenantController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改权限模板", description = "修改租户权限")
+    @Operation(summary = "Update templates", description = "Update tenant permissions")
     @PostMapping("/update/templates")
     public JsonResult<Boolean> updateTemplate(@RequestBody @Validated UpdateTenantTemplateIdVO params) {
         var flag = baseService.updateTemplate(params.getTenantId(), params.getTemplateIds());

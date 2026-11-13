@@ -15,7 +15,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ import java.util.List;
 
 /**
  * <p>
- * 租户权限模板 控制器
+ * Tenant permission template controller
  * </p>
  *
  * @author Wang Chen Chen
@@ -33,7 +32,7 @@ import java.util.List;
 
 
 @Slf4j
-@Tag(name = "[ 系统 ] 租户权限模板")
+@Tag(name = "[ System ] Tenant permission templates")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys/template")
@@ -42,14 +41,14 @@ public class SysTemplateController {
     private final SysTemplateService baseService;
 
 
-    @Operation(summary = "单个查询", description = "根据Id查询")
+    @Operation(summary = "Get one", description = "Query by ID")
     @GetMapping("/{id}")
     public JsonResult<SysTemplate> getById(@PathVariable("id") Long id) {
         return JsonResult.success(baseService.getById(id));
     }
 
 
-    @Operation(summary = "查询所有", description = " 查询所有")
+    @Operation(summary = "Query all", description = " Query all")
     @GetMapping("/list")
     public JsonResult<List<SysTemplate>> list() {
         var list = baseService.list();
@@ -57,7 +56,7 @@ public class SysTemplateController {
     }
 
 
-    @Operation(summary = "分页", description = "分页 查询所有")
+    @Operation(summary = "Paged query", description = "Paged query of all")
     @GetMapping("/query")
     public JsonResult<Pagination<SysTemplate>> pageQuery(SearchPO params) {
         IPage<SysTemplate> page = baseService.pageKeywords(params,
@@ -67,7 +66,7 @@ public class SysTemplateController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "新增", description = "不需要添加id")
+    @Operation(summary = "Add", description = "Do not include id")
     @PostMapping()
     public JsonResult<Boolean> save(@RequestBody @Validated(ValidCreate.class) SysTemplate entity) {
         var save = baseService.save(entity);
@@ -76,7 +75,7 @@ public class SysTemplateController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改", description = "修改必须要id")
+    @Operation(summary = "Update", description = "Update requires id")
     @PutMapping()
     public JsonResult<Boolean> updateById(@RequestBody @Validated(ValidUpdate.class) SysTemplate entity) {
         var flag = baseService.updateById(entity);
@@ -85,7 +84,7 @@ public class SysTemplateController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "删除", description = "只需要id即可")
+    @Operation(summary = "Delete", description = "Only the ID is required")
     @DeleteMapping("/{id}")
     public JsonResult<Boolean> removeById(@PathVariable Long id) {
         var flag = baseService.removeById(id);
@@ -93,7 +92,7 @@ public class SysTemplateController {
     }
 
 
-    @Operation(summary = "查询拥有的权限", description = "查询模板拥有的权限！")
+    @Operation(summary = "Template permissions", description = "Query the permissions of a template")
     @GetMapping("/menus/{id}")
     public JsonResult<UpdateMenusVO> listHaveMenus(@PathVariable Long id) {
         return JsonResult.success(baseService.listHaveMenus(id));
@@ -101,9 +100,9 @@ public class SysTemplateController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改菜单列表", description = "修改权限模板的菜单列表")
+    @Operation(summary = "Update menus", description = "Update the menus of a permission template")
     @PostMapping("/menus")
-    public JsonResult<Boolean> updateMenus(@RequestBody @Validated BindingMenusVO params, BindingResult br) {
+    public JsonResult<Boolean> updateMenus(@RequestBody @Validated BindingMenusVO params) {
         var flag = baseService.updateMenus(params.getId(), params.getMenus());
         return JsonResult.success(flag);
     }
