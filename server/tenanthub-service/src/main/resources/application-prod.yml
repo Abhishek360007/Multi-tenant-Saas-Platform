@@ -1,15 +1,17 @@
 # Production. Credentials have no defaults: startup fails unless they are provided.
-# Required: DB_HOST, DB_USERNAME, DB_PASSWORD, REDIS_HOST, REDIS_PASSWORD
+# Required: DB_HOST, DB_USERNAME, DB_PASSWORD, REDIS_HOST, REDIS_PASSWORD (may be empty)
+# Managed MySQL over TLS (e.g. TiDB Cloud): DB_PORT=4000, DB_SSL_MODE=VERIFY_IDENTITY
 # Storage:  STORAGE_PLATFORM=s3-1 with S3_* variables, or STORAGE_LOCAL_DOMAIN for local disk
 spring:
   datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT:3306}/${multi.tenant.db-name}?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC&allowMultiQueries=true
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT:3306}/${multi.tenant.db-name}?sslMode=${DB_SSL_MODE:DISABLED}&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC&allowMultiQueries=true
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   data:
     redis:
       host: ${REDIS_HOST}
-      password: ${REDIS_PASSWORD}
+      # Managed Redis on a private network (e.g. Render Key Value) may have no password
+      password: ${REDIS_PASSWORD:}
       database: ${REDIS_DATABASE:0}
   cache:
     redis:

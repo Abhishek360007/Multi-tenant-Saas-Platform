@@ -594,9 +594,15 @@ const qrCodeDialog = ref({
   logo: ""
 })
 
-// Build the tenant subdomain link
+// Link to a tenant's portal login. VITE_TENANT_LINK is either a full URL of the portal
+// (e.g. https://tenanthub-portal.onrender.com/), which gets ?tenantId=..., or a domain for
+// tenant subdomains (e.g. example.com/tenant/ -> http://acme.example.com/tenant/)
 const genTenantLink = (tenantId: string) => {
-  return `http://${tenantId}.${import.meta.env.VITE_TENANT_LINK}`
+  const link: string = import.meta.env.VITE_TENANT_LINK
+  if (/^https?:\/\//.test(link)) {
+    return `${link.replace(/\/?$/, "/")}#/login?tenantId=${encodeURIComponent(tenantId)}`
+  }
+  return `http://${tenantId}.${link}`
 }
 
 // Delete

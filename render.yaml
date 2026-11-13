@@ -1,0 +1,95 @@
+# Render Blueprint: Render dashboard > New > Blueprint > pick this repository.
+# Free plan: the API sleeps after 15 minutes without traffic (the first request then takes about a minute)
+# and its disk is wiped on restart (uploaded avatars are lost; use STORAGE_PLATFORM=s3-1 to keep them).
+# Database: TiDB Cloud Serverless (MySQL-compatible, free). Values marked "sync: false" are asked for
+# when you create the Blueprint; they are never stored in this file.
+
+services:
+  # ---------------- API server ----------------
+  - type: web
+    name: tenanthub-api
+    runtime: docker
+    plan: free
+    region: singapore
+    rootDir: server
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health
+    envVars:
+      # TiDB Cloud: Connect > "General" connection parameters
+      - key: DB_HOST
+        sync: false            # e.g. gateway01.ap-south-1.prod.aws.tidbcloud.com
+      - key: DB_PORT
+        value: "4000"
+      - key: DB_USERNAME
+        sync: false            # e.g. 2xYz...root
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_SSL_MODE
+        value: VERIFY_IDENTITY
+      - key: DB_POOL_SIZE
+        value: "5"
+      - key: REDIS_HOST
+        fromService:
+          type: keyvalue
+          name: tenanthub-redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: keyvalue
+          name: tenanthub-redis
+          property: port
+      # Keeps sign-ins valid across restarts (the disk-based key would be lost)
+      - key: JWT_TOKEN_SECRET
+        generateValue: true
+      # Your platform admin password (user "admin", tenant "master")
+      - key: TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD
+        sync: false
+      # GST state code of your business (first two digits of your GSTIN)
+      - key: GST_SELLER_STATE_CODE
+        value: "29"
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false
+      # Public URL of uploaded files (change if Render gives the service a different address)
+      - key: STORAGE_LOCAL_DOMAIN
+        value: https://tenanthub-api.onrender.com/files/
+
+  # ---------------- Redis ----------------
+  - type: keyvalue
+    name: tenanthub-redis
+    plan: free
+    region: singapore
+    maxmemoryPolicy: noeviction
+    ipAllowList: []            # reachable only from your Render services
+
+  # ---------------- Platform admin website ----------------
+  - type: web
+    name: tenanthub-admin
+    runtime: static
+    rootDir: platform-web-ui
+    buildCommand: npm install -g pnpm@9 && pnpm install --no-frozen-lockfile && npx vite build
+    staticPublishPath: ./dist
+    envVars:
+      # Change these if Render gives the services different addresses
+      - key: VITE_BASE_API
+        value: https://tenanthub-api.onrender.com
+      - key: VITE_TENANT_LINK
+        value: https://tenanthub-portal.onrender.com/
+      - key: VITE_PUBLIC_PATH
+        value: /
+
+  # ---------------- Tenant portal website ----------------
+  - type: web
+    name: tenanthub-portal
+    runtime: static
+    rootDir: tenant-web-ui
+    buildCommand: npm install -g pnpm@9 && pnpm install --no-frozen-lockfile && npx vite build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_BASE_API
+        value: https://tenanthub-api.onrender.com
+      - key: VITE_PUBLIC_PATH
+        value: /

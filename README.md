@@ -103,6 +103,10 @@ whose password is set or reset by an administrator.
 
 ## Deployment
 
+**Free hosting:** see [docs/deploy-render.md](docs/deploy-render.md) to run TenantHub on Render + TiDB Cloud using [`render.yaml`](render.yaml).
+
+**Your own server (Docker Compose):**
+
 1. Copy `.env.example` to `.env` and set real passwords.
 2. Build the jar and copy it to `/data/tenanthub/tenanthub.jar` on the host.
    Optionally put `GeoLite2-City.mmdb` in `/data/tenanthub/geoip/` for login locations.

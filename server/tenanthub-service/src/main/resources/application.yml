@@ -1,5 +1,6 @@
 server:
-  port: 18891
+  # Render and similar hosts pass the port in PORT
+  port: ${PORT:18891}
 
 spring:
   profiles:
@@ -27,7 +28,7 @@ spring:
   # Database and Redis. Defaults suit local development; set the environment variables in production.
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${multi.tenant.db-name}?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC&allowMultiQueries=true
+    url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${multi.tenant.db-name}?sslMode=${DB_SSL_MODE:DISABLED}&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC&allowMultiQueries=true
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:123456}
     type: com.zaxxer.hikari.HikariDataSource

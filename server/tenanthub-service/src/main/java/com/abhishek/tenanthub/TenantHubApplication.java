@@ -29,6 +29,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class TenantHubApplication {
 
     public static void main(String[] args) {
+        // The API stores and returns times in UTC (the web UIs convert to the viewer's time zone),
+        // so don't depend on the host's time zone or a -Duser.timezone flag
+        java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("UTC"));
         SpringApplication.run(TenantHubApplication.class, args);
     }
 
