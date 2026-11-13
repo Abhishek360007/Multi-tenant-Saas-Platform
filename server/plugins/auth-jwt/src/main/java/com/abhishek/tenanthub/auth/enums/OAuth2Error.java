@@ -39,6 +39,12 @@ public enum OAuth2Error {
 
 
     /**
+     * The user must change their password before calling anything else
+     */
+    PASSWORD_CHANGE_REQUIRED(400020, "Password change required. Please set a new password to continue."),
+
+
+    /**
      * refresh_token 不存在
      */
     REFRESH_TOKEN_INVALID(400014, "refresh_token 不存在"),

@@ -101,6 +101,7 @@ services:
       - SPRING_PROFILES_ACTIVE=pro
       # JWT secret + RSA key pair are generated in this directory on first start
       - JWT_TOKEN_KEYS_DIR=/keys
+      - TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD=${TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD:-}
     volumes:
       - /data/tenanthub/keys:/keys
       - /data/tenanthub/logs:/logs/tenanthub

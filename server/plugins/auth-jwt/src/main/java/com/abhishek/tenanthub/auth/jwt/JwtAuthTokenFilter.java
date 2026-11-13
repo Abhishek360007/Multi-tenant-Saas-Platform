@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 import java.io.IOException;
 
 import static com.abhishek.tenanthub.auth.enums.OAuth2Error.ACCESS_TOKEN_INVALID;
+import static com.abhishek.tenanthub.auth.enums.OAuth2Error.PASSWORD_CHANGE_REQUIRED;
 import static com.abhishek.tenanthub.common.consts.JwtConst.WHITE_LIST;
 
 
@@ -72,6 +73,12 @@ public class JwtAuthTokenFilter extends BasicAuthenticationFilter {
             try {
                 // 根据 token 去 redis 中查询 user 数据，足够信任token的情况下，可以省略这一步
                 var userDetails = tokenService.validate(bearerToken);
+                // Accounts with an administrator-set password may only change it (or log out)
+                if (isPasswordChangePending(userDetails, request.getRequestURI())) {
+                    ServletUtils.renderError(response, JsonResult.error(PASSWORD_CHANGE_REQUIRED.getStatus(),
+                            PASSWORD_CHANGE_REQUIRED.getError()));
+                    return;
+                }
                 var authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -91,6 +98,23 @@ public class JwtAuthTokenFilter extends BasicAuthenticationFilter {
 
     // spring 路径匹配工具
     private static final PathMatcher PATH_MATCHER = new AntPathMatcher();
+
+    /**
+     * Endpoints still reachable while a password change is pending.
+     */
+    private static final String[] PASSWORD_CHANGE_ALLOWED = {"/auth/**", "/pms/user/update/password"};
+
+    private static boolean isPasswordChangePending(JwtLoginUser user, String url) {
+        if (user.getPasswordChangeRequired() == null || user.getPasswordChangeRequired() != 1) {
+            return false;
+        }
+        for (String pattern : PASSWORD_CHANGE_ALLOWED) {
+            if (PATH_MATCHER.match(pattern, url)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * @param url 需要验证的 url 地址

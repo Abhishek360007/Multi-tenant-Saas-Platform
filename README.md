@@ -88,8 +88,15 @@ cd tenant-web-ui   && pnpm install && pnpm dev
 | --- | --- | --- |
 | `master` | `admin` | `123456` |
 
-When a new tenant is created, the API response includes its generated admin account.
-**Change all default passwords before deploying anywhere public.**
+You must choose a new password the first time you sign in. Until you do, the API only allows
+changing the password or signing out.
+
+To avoid the default entirely, set `TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD` before the first start. The admin
+then uses that password and is not asked to change it.
+
+New tenants get a random 12-character admin password. It is shown once, in the response to the
+create (or reset) request, and must be changed at first sign-in. The same applies to any user
+whose password is set or reset by an administrator.
 
 ## Deployment
 

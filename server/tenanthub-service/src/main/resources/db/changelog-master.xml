@@ -63,4 +63,13 @@
     </changeSet>
 
 
+    <!-- Seeded users start with well-known passwords: force a change at first login -->
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261113-2">
+        <update tableName="pms_user">
+            <column name="password_change_required" valueNumeric="1"/>
+            <where>user_id IN (19980817, 6569516164032, 6569516878992)</where>
+        </update>
+    </changeSet>
+
+
 </databaseChangeLog>

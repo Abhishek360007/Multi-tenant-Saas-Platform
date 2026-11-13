@@ -66,7 +66,7 @@ public interface SysTenantService extends BaseService<SysTenant> {
      * @author Wang Chen Chen
      * @date 2021/7/16 17:31
      */
-    boolean resetData(String tenantId);
+    TenantCreatedSuccessVO resetData(String tenantId);
 
 
     /**

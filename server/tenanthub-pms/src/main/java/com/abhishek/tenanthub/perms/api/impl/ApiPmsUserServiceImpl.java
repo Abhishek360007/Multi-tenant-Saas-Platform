@@ -148,6 +148,8 @@ public class ApiPmsUserServiceImpl implements ApiPmsUserService {
                     .setEmail(po.getAdminEmail())
                     .setNickname(po.getAdminNickname())
                     .setPassword(password)
+                    // Initial password was chosen by the platform: must be changed at first login
+                    .setPasswordChangeRequired((byte) 1)
                     .setGender(MALE.getCode())
                     .setAdminFlag(YES.getCode())
                     .setStatus(StatusEnum.NORMAL.getCode())

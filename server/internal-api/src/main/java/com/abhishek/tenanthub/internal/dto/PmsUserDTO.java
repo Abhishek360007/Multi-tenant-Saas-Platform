@@ -80,6 +80,11 @@ public class PmsUserDTO implements java.io.Serializable {
     private Long deptId;
 
     /**
+     * 1 = the user must change their password at next login
+     */
+    private Byte passwordChangeRequired;
+
+    /**
      * 过期时间  为空就是永久
      */
     private LocalDateTime expired;

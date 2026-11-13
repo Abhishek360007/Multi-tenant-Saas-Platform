@@ -109,9 +109,8 @@ public class SysTenantController {
     @NoRepeatSubmit
     @Operation(summary = "重置租户数据", description = "重置租户数据")
     @PostMapping("/reset/data/{id}")
-    public JsonResult<Boolean> resetData(@PathVariable("id") String id) {
-        baseService.resetData(id);
-        return JsonResult.success(Boolean.TRUE);
+    public JsonResult<TenantCreatedSuccessVO> resetData(@PathVariable("id") String id) {
+        return JsonResult.success(baseService.resetData(id));
     }
 
 

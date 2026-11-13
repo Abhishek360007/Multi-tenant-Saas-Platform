@@ -1,5 +1,6 @@
 package com.abhishek.tenanthub.perms.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -118,6 +119,13 @@ public class PmsUser extends ParamBaseEntity {
     @Schema(description = "所属部门Id")
     @NotNull(message = "所属部门Id,必须填写", groups = {ValidCreate.class})
     private Long deptId;
+
+    /**
+     * 1 = the user must change their password at next login. Server-managed: ignored in request bodies.
+     */
+    @Schema(description = "Must change password at next login (1 = yes)", accessMode = Schema.AccessMode.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Byte passwordChangeRequired;
 
     /**
      * 过期时间  为空就是永久

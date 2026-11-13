@@ -17,6 +17,8 @@ import {useTenantStoreHook} from "@/store/modules/tenant"
 const { setTitle } = useTitle()
 NProgress.configure({ showSpinner: false })
 
+const CHANGE_PASSWORD_URL = "/change-password"
+
 const userStore = useUserStoreHook()
 const dictStore = useDictStoreHook()
 const noticeStore = useNoticeStoreHook()
@@ -43,6 +45,24 @@ router.beforeEach(async (to, _from, next) => {
 
   // 如果已经登录，并准备进入 Login 页面，则重定向到主页
   if (to.path === loginUrl) {
+    NProgress.done()
+    return next({ path: "/" })
+  }
+
+  // Accounts whose password was set by an administrator must change it before anything else
+  try {
+    if (!userStore.userInfo) await userStore.getUserInfo()
+  } catch (err: any) {
+    userStore.fedLogout()
+    NProgress.done()
+    return next(loginUrl)
+  }
+  if (userStore.userInfo?.passwordChangeRequired === 1) {
+    if (to.path === CHANGE_PASSWORD_URL) return next()
+    NProgress.done()
+    return next(CHANGE_PASSWORD_URL)
+  }
+  if (to.path === CHANGE_PASSWORD_URL) {
     NProgress.done()
     return next({ path: "/" })
   }

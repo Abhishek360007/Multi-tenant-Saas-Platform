@@ -154,6 +154,8 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
 
         // 密码加密
         entity.setPassword(encryptPassword(entity.getPassword()));
+        // Password chosen by an administrator: the user must change it at first login
+        entity.setPasswordChangeRequired((byte) 1);
 
         if (entity.getAdminFlag() == null || !isAdminUser()) {
             entity.setAdminFlag(NO.getCode());
@@ -337,6 +339,8 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
     public boolean updatePassword(UpdatePasswordVO pwd) {
         // 修改密码。要切换到当前登录用户所在的租户
         // 否则，当平台用户在操作其他租户时，选择修改自己的用户名密码。就查不到自己的用户信息
+        // Users can only change their own password (ignore any userId in the request)
+        pwd.setUserId(getUserId());
         return delegate(getTenantId(), () -> {
             var sysUser = baseMapper.selectById(pwd.getUserId());
             if (!StringUtils.equals(pwd.getNewPwd(), pwd.getConfirmPwd())) {
@@ -351,7 +355,8 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
                     // 新密码 加密
                     var newPassword = encryptPassword(pwd.getNewPwd());
                     // 修改
-                    var pmsUser = PmsUser.builder().userId(pwd.getUserId()).password(newPassword).build();
+                    var pmsUser = PmsUser.builder().userId(pwd.getUserId()).password(newPassword)
+                            .passwordChangeRequired((byte) 0).build();
                     return super.updateById(pmsUser);
                 }
             } else {
@@ -369,7 +374,9 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
             // 新密码 加密
             String newPassword = encryptPassword(pwd.getNewPwd());
             // 修改
-            var pmsUser = new PmsUser().setUserId(pwd.getUserId()).setPassword(newPassword);
+            // Reset by an administrator: the user must choose their own password at next login
+            var pmsUser = new PmsUser().setUserId(pwd.getUserId()).setPassword(newPassword)
+                    .setPasswordChangeRequired((byte) 1);
             return super.updateById(pmsUser);
         }
         throw new BizException("用户不存在，无法重置密码！");

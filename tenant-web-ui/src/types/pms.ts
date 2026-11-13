@@ -33,6 +33,8 @@ export interface ILoginUserInfo {
   userType: number
   loginTime: string
   roles: IUserRole[]
+  /** 1 = must change password before using the app */
+  passwordChangeRequired?: number
 }
 
 /** 用户登录的角色 */

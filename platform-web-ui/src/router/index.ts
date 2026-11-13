@@ -46,6 +46,14 @@ export const constantRoutes: RouteRecordRaw[] = [
     }
   },
   {
+    path: "/change-password",
+    component: () => import("@/views/change-password/index.vue"),
+    meta: {
+      hidden: true,
+      title: "Change password"
+    }
+  },
+  {
     path: "/",
     component: Layouts,
     redirect: "/dashboard",

@@ -128,6 +128,12 @@ public class JwtLoginUser implements UserDetails, Principal {
     private Long deptId;
 
     /**
+     * 1 = the user must change their password before using anything else
+     */
+    @Schema(description = "Must change password before continuing (1 = yes)")
+    private Byte passwordChangeRequired;
+
+    /**
      * 过期时间  为空就是永久
      */
     @Schema(description = "过期时间,为空就是永久")

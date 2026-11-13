@@ -590,10 +590,13 @@ const handleResetData = (data: ISysTenant) => {
         resetDataTenantApi(data.tenantId)
           .then((resp) => {
             if (resp.data) {
-              ElMessage({
-                message: `重置租户 ${data.name} 数据成功！`,
-                type: "success"
-              })
+              // The reset recreates the tenant admin with a one-time password: show it once
+              ElMessageBox.alert(
+                `Username: ${resp.data.adminUsername}<br/>Password: ${resp.data.adminPwd}<br/><br/>` +
+                  "Copy these now. They are not shown again, and the admin must change the password at first sign-in.",
+                `Tenant ${data.name} has been reset`,
+                { dangerouslyUseHTMLString: true, confirmButtonText: "Done", type: "success" }
+              )
             }
           })
           .catch((err) => {

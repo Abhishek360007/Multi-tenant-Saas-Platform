@@ -29,7 +29,7 @@ const codeUrl = ref("")
 
 const target: ILoginData = {
   username: "admin",
-  password: "123456",
+  password: "",
   codeKey: uuidv4().replace(/-/g, ""),
   codeText: "",
   rememberMe: false

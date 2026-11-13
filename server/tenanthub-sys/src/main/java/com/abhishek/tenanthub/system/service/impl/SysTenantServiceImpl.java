@@ -13,6 +13,7 @@ import com.abhishek.tenanthub.common.domain.SmallTenant;
 import com.abhishek.tenanthub.common.enums.StatusEnum;
 import com.abhishek.tenanthub.common.exception.BizException;
 import com.abhishek.tenanthub.common.po.SearchPO;
+import com.abhishek.tenanthub.common.util.PasswordUtils;
 import com.abhishek.tenanthub.common.util.IdUtils;
 import com.abhishek.tenanthub.common.util.JsonUtils;
 import com.abhishek.tenanthub.internal.api.ApiCmsProjectService;
@@ -243,11 +244,10 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
             po.setAdminMobile(po.getContactNumber());
         }
 
-        // 默认密码
+        // No password given: generate a one-time random one (returned once below).
+        // The admin is forced to change it at first login.
         if (StringUtils.isBlank(po.getAdminPwd())) {
-            var password = Optional.ofNullable(configService.getValueByKey(DEFAULT_USER_PASSWORD.getKey()))
-                    .orElse(DEFAULT_USER_PASSWORD.getValue());
-            po.setAdminPwd(password);
+            po.setAdminPwd(PasswordUtils.random());
         }
 
         var sysTenant = new SysTenant()
@@ -306,7 +306,7 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean resetData(String tenantId) {
+    public TenantCreatedSuccessVO resetData(String tenantId) {
         if (!isMasterUser() && !isAdminUser()) {
             throw new BizException("非系统管理员，无法重置租户数据！");
         }
@@ -317,8 +317,8 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
         var initTenantDTO = new SysTenantDTO();
         BeanUtils.copyProperties(source, initTenantDTO);
 
-        var password = Optional.ofNullable(configService.getValueByKey(DEFAULT_USER_PASSWORD.getKey()))
-                .orElse(DEFAULT_USER_PASSWORD.getValue());
+        // The reset recreates the tenant admin with a new username and a one-time random password
+        var password = PasswordUtils.random();
         var initUser = new InitUserDTO()
                 .setTenantId(source.getTenantId())
                 .setName(source.getName())
@@ -363,7 +363,13 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
                 log.error("truncateTableData error: {} ", ex.getMessage());
             }
         });
-        return true;
+        return TenantCreatedSuccessVO.builder()
+                .adminNickname(initUser.getAdminNickname())
+                .adminUsername(initUser.getAdminUsername())
+                .adminMobile(initUser.getAdminMobile())
+                .adminEmail(initUser.getAdminEmail())
+                .adminPwd(password)
+                .build();
     }
 
 

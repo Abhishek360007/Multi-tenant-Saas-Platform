@@ -39,5 +39,5 @@ export const deleteTenantApi = (id: string) => {
 
 /** 重置租户数据 */
 export const resetDataTenantApi = (id: string) => {
-  return httpPost<string, IJsonResult<boolean>>(`/sys/tenant/reset/data/${id}`)
+  return httpPost<string, IJsonResult<ICreateTenantAdmin>>(`/sys/tenant/reset/data/${id}`)
 }

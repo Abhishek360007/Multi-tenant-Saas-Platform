@@ -50,6 +50,9 @@ function createService() {
         case 200:
           // code === 200 代表没有错误
           return apiData
+        case 400020:
+          // Password change pending: the router guard sends the user to /change-password
+          return Promise.reject(new Error(apiData.message))
         case 400004:
         case 400010:
         case 400011:
