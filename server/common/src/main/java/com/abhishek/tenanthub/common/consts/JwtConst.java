@@ -8,6 +8,9 @@ public class JwtConst {
     // Sign-in URL
     public static final String LOGIN_URL = "/auth/login";
 
+    // OTP sign-in endpoints (send + verify); like LOGIN_URL they need no token but do need the tenant
+    public static final String OTP_URLS = "/auth/otp/**";
+
     // Sign-out URL
     public static final String LOGOUT_URL = "/auth/logout";
 
@@ -25,6 +28,8 @@ public class JwtConst {
     // Paths that skip authentication
     public static final String[] WHITE_LIST = {
             LOGIN_URL,
+            // OTP sign-in (send + verify)
+            OTP_URLS,
             PUBLIC_KEY_URL,
             String.format("%s/**", CAPTCHA_CODES_URL),
             String.format("%s/**", STOMP_ENDPOINT),

@@ -121,6 +121,14 @@ services:
       # JWT secret + RSA key pair are generated in this directory on first start
       - JWT_TOKEN_KEYS_DIR=/keys
       - TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD=${TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD:-}
+      # Sign-in codes: SMTP for email, MSG91 for SMS
+      - MAIL_HOST=${MAIL_HOST:-}
+      - MAIL_PORT=${MAIL_PORT:-587}
+      - MAIL_USERNAME=${MAIL_USERNAME:-}
+      - MAIL_PASSWORD=${MAIL_PASSWORD:-}
+      - MAIL_FROM=${MAIL_FROM:-}
+      - MSG91_AUTH_KEY=${MSG91_AUTH_KEY:-}
+      - MSG91_TEMPLATE_ID=${MSG91_TEMPLATE_ID:-}
     volumes:
       - /data/tenanthub/keys:/keys
       - /data/tenanthub/uploads:/uploads

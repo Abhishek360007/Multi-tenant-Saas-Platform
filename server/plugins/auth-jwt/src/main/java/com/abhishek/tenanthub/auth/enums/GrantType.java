@@ -36,7 +36,8 @@ public enum GrantType {
 
     SEND_SMS("send_sms", "Send SMS"),
 
-    SMS("sms", "SMS grant");
+    SMS("sms", "SMS OTP sign-in"),
+    EMAIL_OTP("email_otp", "Email OTP sign-in");
 
     GrantType(String code, String description) {
         this.code = code;

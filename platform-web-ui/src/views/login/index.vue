@@ -5,6 +5,7 @@ import { useUserStoreHook } from "@/store/modules/user"
 import { type FormInstance, type FormRules } from "element-plus"
 import { User, Lock, Key, Picture, Loading } from "@element-plus/icons-vue"
 import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
+import OtpLogin from "@/components/OtpLogin/index.vue"
 import { v4 as uuidv4 } from "uuid"
 import { getEnvBaseURL } from "@/utils"
 import { getUserAndPassword, setUserAndPassword, removeUserAndPassword } from "@/utils/cache/local-storage"
@@ -14,6 +15,9 @@ import { merge, clone } from "lodash-es"
 const useUserStore = useUserStoreHook()
 
 const router = useRouter()
+
+/** Sign-in method: password or one-time code */
+const loginMode = ref<"password" | "otp">("password")
 
 /** Sign-in form ref */
 const loginFormRef = ref<FormInstance | null>(null)
@@ -114,6 +118,8 @@ onMounted(() => {
         <strong>{{ appTitle }}</strong>
       </div>
       <div class="content">
+        <el-tabs v-model="loginMode" stretch class="login-tabs">
+          <el-tab-pane label="Password" name="password">
         <el-form ref="loginFormRef" :model="loginFormData" :rules="loginFormRules" @keyup.enter="handleLogin">
           <el-form-item prop="username">
             <el-input v-model.trim="loginFormData.username" placeholder="Username" type="text" tabindex="1"
@@ -127,7 +133,7 @@ onMounted(() => {
             <el-input v-model.trim="loginFormData.codeText" placeholder="Captcha" type="text" tabindex="3"
               :prefix-icon="Key" maxlength="4" size="large" clearable>
               <template #append>
-                <el-image :src="codeUrl" @click="createCode" class="code-url" draggable="false">
+                <el-image :src="codeUrl" fit="fill" @click="createCode" class="code-url" draggable="false">
                   <template #placeholder>
                     <el-icon>
                       <Picture />
@@ -147,6 +153,11 @@ onMounted(() => {
           </el-form-item>
           <el-button :loading="loading" type="primary" size="large" @click.prevent="handleLogin">Sign in</el-button>
         </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="One-time code" name="otp" lazy>
+            <OtpLogin @success="router.push({ path: '/' })" />
+          </el-tab-pane>
+        </el-tabs>
       </div>
     </div>
   </div>

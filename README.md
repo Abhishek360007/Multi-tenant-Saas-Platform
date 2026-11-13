@@ -23,7 +23,7 @@ database through the `x-tenant-id` header, and each tenant can also hold several
 - **RBAC**: users, roles, menus/permissions, departments with data scopes
 - **Projects**: multiple projects per tenant
 - **India addresses**: state → district → sub-district picker with official LGD codes (7,938 areas)
-- **Auth**: captcha + RSA-encrypted credentials, JWT access tokens, online-user tracking, forced logout
+- **Auth**: captcha + RSA-encrypted credentials, or one-time codes by email/SMS (MSG91); JWT access tokens, online-user tracking, forced logout
 - **Monitoring**: login logs, operation logs, live server metrics (CPU, memory, disk)
 - **System**: dictionaries, global config, file upload via x-file-storage (Qiniu and Aliyun OSS SDKs included)
 - **Real-time**: WebSocket/STOMP notifications
@@ -132,6 +132,8 @@ Environment variables (defaults suit local development; the `prod` profile requi
 | `S3_ENABLED`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_REGION`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_PUBLIC_URL` | region `ap-south-1` | any S3-compatible store: AWS (Mumbai), DigitalOcean Spaces (blr1), MinIO, Cloudflare R2 |
 | `GEOIP_CITY_DB` | `./data/GeoLite2-City.mmdb` | [MaxMind GeoLite2 City](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) database (free account) for login locations; without it they show "Unknown" |
 | `TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD` | empty | initial password for the platform admin |
+| `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM` | empty, `587` | SMTP for email sign-in codes (e.g. Amazon SES Mumbai, Zoho Mail) |
+| `MSG91_AUTH_KEY`, `MSG91_TEMPLATE_ID`, `MSG91_OTP_VARIABLE` | empty, empty, `otp` | SMS sign-in codes via MSG91 (needs a DLT-approved template) |
 
 Personal overrides can go in `application-local.yml` (git-ignored); run with `--spring.profiles.active=dev,local`.
 

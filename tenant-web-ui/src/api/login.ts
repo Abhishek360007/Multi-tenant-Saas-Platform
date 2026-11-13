@@ -25,3 +25,30 @@ export const getUserInfoApi = () => {
 export const getUserPermsApi = () => {
   return httpGet<string, IJsonResult<IUserPerms>>("/pms/user/rights")
 }
+
+export type OtpChannel = "EMAIL" | "SMS"
+
+export interface IOtpSend {
+  channel: OtpChannel
+  target: string
+  codeKey: string
+  codeText: string
+  tenantId?: string
+}
+
+export interface IOtpLogin {
+  channel: OtpChannel
+  target: string
+  otp: string
+  tenantId?: string
+}
+
+/** Send a sign-in code by email or SMS */
+export const sendOtpApi = (data: IOtpSend) => {
+  return httpPost<IOtpSend, IJsonResult<string>>("/auth/otp/send", data)
+}
+
+/** Sign in with a one-time code */
+export const otpLoginApi = (data: IOtpLogin) => {
+  return httpPost<IOtpLogin, IJsonResult<IOAuth2Token>>("/auth/otp/login", data)
+}

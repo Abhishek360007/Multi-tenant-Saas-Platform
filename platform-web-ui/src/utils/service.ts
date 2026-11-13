@@ -171,7 +171,9 @@ function createRequest(service: AxiosInstance) {
     const tokenValue = getToken()
     const projectId = useProjectStoreHook().getCurrentProjectId()
     // The login endpoint uses the default tenant ID
-    const tenantId = config.url === "/auth/login" ? defaultTenant.tenantId : useTenantStoreHook().getCurrentTenantId()
+    // Sign-in requests (password and OTP) always target the platform tenant
+    const isSignIn = config.url === "/auth/login" || (config.url ?? "").startsWith("/auth/otp/")
+    const tenantId = isSignIn ? defaultTenant.tenantId : useTenantStoreHook().getCurrentTenantId()
     const defaultConfig: AxiosRequestConfig = {
       headers: {
         // Include Token

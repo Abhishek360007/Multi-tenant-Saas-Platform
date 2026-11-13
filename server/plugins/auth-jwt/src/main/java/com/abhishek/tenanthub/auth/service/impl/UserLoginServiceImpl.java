@@ -7,7 +7,14 @@ import com.abhishek.tenanthub.auth.jwt.JwtLoginUser;
 import com.abhishek.tenanthub.auth.jwt.JwtSecurityUtils;
 import com.abhishek.tenanthub.auth.jwt.JwtTokenValue;
 import com.abhishek.tenanthub.auth.jwt.StringGrantedAuthority;
+import com.abhishek.tenanthub.auth.otp.OtpSender;
+import com.abhishek.tenanthub.auth.otp.OtpService;
 import com.abhishek.tenanthub.auth.po.LoginFormPO;
+import com.abhishek.tenanthub.auth.po.OtpLoginPO;
+import com.abhishek.tenanthub.auth.po.OtpSendPO;
+import com.abhishek.tenanthub.internal.api.ApiPmsUserService;
+import com.abhishek.tenanthub.internal.dto.PmsUserDTO;
+import com.abhishek.tenanthub.internal.dto.SysTenantDTO;
 import com.abhishek.tenanthub.auth.service.JwtTokenService;
 import com.abhishek.tenanthub.auth.service.LineCaptchaService;
 import com.abhishek.tenanthub.auth.service.RsaAsymmetricCryptoService;
@@ -76,6 +83,10 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     private final RsaAsymmetricCryptoService cryptoService;
 
+    private final ApiPmsUserService userService;
+
+    private final OtpService otpService;
+
     /**
      * From the sign-in form Token
      *
@@ -89,6 +100,81 @@ public class UserLoginServiceImpl implements UserLoginService {
         if (!captchaService.check(po.getCodeKey(), po.getCodeText())) {
             throw new JwtAuthException("Authentication failed: incorrect captcha.");
         }
+        var currentTenant = checkCurrentTenant();
+        // Decrypt
+        final var username = cryptoService.decrypt(po.getUsername()).trim();
+        po.setUsername(username);
+        final var password = cryptoService.decrypt(po.getPassword()).trim();
+        // Wrap the submitted username and password in a UsernamePasswordAuthenticationToken
+        var authResult = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password)
+        );
+        var token = completeLogin(authResult.getPrincipal(), GrantType.PASSWORD, currentTenant, request);
+        // Delete the captcha from Redis
+        captchaService.delete(po.getCodeKey());
+        return token;
+    }
+
+
+    @Override
+    public void sendOtp(OtpSendPO po, HttpServletRequest request) throws JwtAuthException {
+        // The captcha stops scripted OTP flooding (SMS costs money)
+        if (!captchaService.check(po.getCodeKey(), po.getCodeText())) {
+            throw new JwtAuthException("Authentication failed: incorrect captcha.");
+        }
+        captchaService.delete(po.getCodeKey());
+        checkCurrentTenant();
+        var channel = po.getChannel();
+        var target = OtpService.normalizeTarget(channel, po.getTarget());
+        if (!otpService.isAvailable(channel)) {
+            otpService.send(channel, target); // throws a clear "not set up" error
+        }
+        // Same response whether or not the account exists, so the endpoint cannot be used
+        // to discover which emails or mobile numbers are registered
+        if (findUserForOtp(channel, target) != null) {
+            otpService.send(channel, target);
+        }
+    }
+
+
+    @Override
+    public JwtTokenValue loginWithOtp(OtpLoginPO po, HttpServletRequest request) throws JwtAuthException {
+        var currentTenant = checkCurrentTenant();
+        var channel = po.getChannel();
+        var target = OtpService.normalizeTarget(channel, po.getTarget());
+        otpService.verify(channel, target, po.getOtp());
+        var dbUser = findUserForOtp(channel, target);
+        if (dbUser == null) {
+            throw new JwtAuthException("Incorrect code");
+        }
+        var principal = new JwtLoginUser();
+        BeanUtils.copyProperties(dbUser, principal);
+        principal.setStatus(StatusEnum.get(dbUser.getStatus()));
+        principal.setAdminFlag(AdminFlag.get(dbUser.getAdminFlag()));
+        if (!principal.isAccountNonLocked()) {
+            throw new JwtAuthException(String.format("Username %s is locked", principal.getUsername()));
+        }
+        if (!principal.isAccountNonExpired()) {
+            throw new JwtAuthException(String.format("Username %s has expired", principal.getUsername()));
+        }
+        var grantType = channel == OtpSender.Channel.EMAIL ? GrantType.EMAIL_OTP : GrantType.SMS;
+        return completeLogin(principal, grantType, currentTenant, request);
+    }
+
+
+    private PmsUserDTO findUserForOtp(OtpSender.Channel channel, String target) {
+        if (channel == OtpSender.Channel.EMAIL) {
+            return userService.getByEmail(target);
+        }
+        var user = userService.getByMobile(target);
+        return user != null ? user : userService.getByMobile("+91" + target);
+    }
+
+
+    /**
+     * The tenant from the request must exist, be active and not expired.
+     */
+    private SysTenantDTO checkCurrentTenant() throws JwtAuthException {
         // Check whether a tenant exists
         var currentTenant = tenantService.getByCurrentTenant();
         if (currentTenant == null) {
@@ -103,18 +189,18 @@ public class UserLoginServiceImpl implements UserLoginService {
             var format = LocalDateTimeUtil.formatNormal(currentTenant.getExpired().toLocalDate());
             throw new JwtAuthException(String.format("Tenant %s expired on %s", currentTenant.getName(), format));
         }
-        // Decrypt
-        final var username = cryptoService.decrypt(po.getUsername()).trim();
-        po.setUsername(username);
-        final var password = cryptoService.decrypt(po.getPassword()).trim();
-        // Wrap the submitted username and password in a UsernamePasswordAuthenticationToken
-        var authResult = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
-        );
+        return currentTenant;
+    }
 
+
+    /**
+     * Builds the session for an authenticated user (any sign-in method) and issues the access token.
+     */
+    private JwtTokenValue completeLogin(Object principal, GrantType grantType, SysTenantDTO currentTenant,
+                                        HttpServletRequest request) {
         var target = new JwtLoginUser();
-        BeanUtils.copyProperties(authResult.getPrincipal(), target);
-        target.setGrantType(GrantType.PASSWORD);
+        BeanUtils.copyProperties(principal, target);
+        target.setGrantType(grantType);
         target.setLoginTime(LocalDateTime.now());
         target.setTenantId(currentTenant.getTenantId());
         // Generate a random ID linked to the current user
@@ -149,9 +235,6 @@ public class UserLoginServiceImpl implements UserLoginService {
 
         // Save the login log to the database
         asyncLoginLogSave(target, ServletUtils.getRequestInfo(request));
-
-        // Delete the captcha from Redis
-        captchaService.delete(po.getCodeKey());
 
         var props = tokenService.getProps();
 

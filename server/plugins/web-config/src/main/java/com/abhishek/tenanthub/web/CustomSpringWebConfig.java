@@ -78,7 +78,7 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
         // The login endpoint also needs the tenant ID
         var whiteList = Stream.of(JwtConst.WHITE_LIST, JwtConst.TENANT_WHITE_LIST)
                 .flatMap(Stream::of)
-                .filter(s -> !JwtConst.LOGIN_URL.equals(s))
+                .filter(s -> !JwtConst.LOGIN_URL.equals(s) && !JwtConst.OTP_URLS.equals(s))
                 .distinct()
                 .collect(Collectors.toList());
 

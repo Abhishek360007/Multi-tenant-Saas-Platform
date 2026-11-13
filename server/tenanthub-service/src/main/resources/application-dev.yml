@@ -4,3 +4,8 @@
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# Without SMTP/MSG91 settings, sign-in codes are printed to the server log so OTP login can be tried locally
+tenanthub:
+  otp:
+    log-codes: true

@@ -5,6 +5,8 @@ import com.abhishek.tenanthub.auth.jwt.JwtLoginUser;
 import com.abhishek.tenanthub.auth.jwt.JwtSecurityUtils;
 import com.abhishek.tenanthub.auth.jwt.JwtTokenValue;
 import com.abhishek.tenanthub.auth.po.LoginFormPO;
+import com.abhishek.tenanthub.auth.po.OtpLoginPO;
+import com.abhishek.tenanthub.auth.po.OtpSendPO;
 import com.abhishek.tenanthub.auth.service.JwtTokenService;
 import com.abhishek.tenanthub.auth.service.LineCaptchaService;
 import com.abhishek.tenanthub.auth.service.RsaAsymmetricCryptoService;
@@ -114,6 +116,29 @@ public class AuthController {
                 default -> String.format(failed.getMessage());
             };
             return JsonResult.fail(msg, JwtTokenValue.class);
+        }
+    }
+
+
+    @Operation(summary = "Send sign-in OTP", description = "Send a one-time code by email or SMS (captcha required)")
+    @PostMapping(value = "/auth/otp/send", consumes = APPLICATION_JSON_VALUE)
+    public JsonResult<String> sendOtp(@RequestBody @Validated OtpSendPO po, HttpServletRequest request) {
+        try {
+            loginService.sendOtp(po, request);
+            return JsonResult.success("If an account matches, a code has been sent", null);
+        } catch (RuntimeException e) {
+            return JsonResult.fail(e.getMessage(), String.class);
+        }
+    }
+
+
+    @Operation(summary = "Sign in with OTP", description = "Sign in with a one-time code sent by email or SMS")
+    @PostMapping(value = "/auth/otp/login", consumes = APPLICATION_JSON_VALUE)
+    public JsonResult<JwtTokenValue> loginWithOtp(@RequestBody @Validated OtpLoginPO po, HttpServletRequest request) {
+        try {
+            return JsonResult.success("Signed in", loginService.loginWithOtp(po, request));
+        } catch (RuntimeException e) {
+            return JsonResult.fail(e.getMessage(), JwtTokenValue.class);
         }
     }
 

@@ -5,6 +5,7 @@ import { useUserStoreHook } from "@/store/modules/user"
 import { type FormInstance, type FormRules } from "element-plus"
 import { User, Lock, Key, Picture, Loading } from "@element-plus/icons-vue"
 import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
+import OtpLogin from "@/components/OtpLogin/index.vue"
 import { v4 as uuidv4 } from "uuid"
 import { getEnvBaseURL } from "@/utils"
 import {
@@ -25,6 +26,9 @@ import { onMounted } from "vue"
 const useUserStore = useUserStoreHook()
 
 const router = useRouter()
+
+/** Sign-in method: password or one-time code */
+const loginMode = ref<"password" | "otp">("password")
 
 /** Sign-in form ref */
 const loginFormRef = ref<FormInstance | null>(null)
@@ -109,6 +113,15 @@ const handleLogin = () => {
   })
 }
 
+/** After an OTP sign-in: same bookkeeping as the password sign-in */
+const onOtpSuccess = () => {
+  if (getLastTenantId() !== loginFormData.tenantId) {
+    useProjectStoreHook().resetCurrentProject()
+  }
+  setLastTenantId(loginFormData.tenantId)
+  router.push({ path: "/" })
+}
+
 /** Create a captcha */
 const createCode = () => {
   // Clear the captcha input first
@@ -178,6 +191,8 @@ if (tenantId.value) {
         </div>
       </div>
       <div class="content">
+        <el-tabs v-model="loginMode" stretch class="login-tabs">
+          <el-tab-pane label="Password" name="password">
         <el-form ref="loginFormRef" :model="loginFormData" :rules="loginFormRules" @keyup.enter="handleLogin">
           <el-form-item prop="tenantId" v-if="!tenantId">
             <el-input
@@ -228,7 +243,7 @@ if (tenantId.value) {
               clearable
             >
               <template #append>
-                <el-image :src="codeUrl" @click="createCode" class="code-url" draggable="false">
+                <el-image :src="codeUrl" fit="fill" @click="createCode" class="code-url" draggable="false">
                   <template #placeholder>
                     <el-icon>
                       <Picture />
@@ -248,12 +263,35 @@ if (tenantId.value) {
           </el-form-item>
           <el-button :loading="loading" type="primary" size="large" @click.prevent="handleLogin">Sign in</el-button>
         </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="One-time code" name="otp" lazy>
+            <el-input
+              v-if="!tenantId"
+              v-model.trim="loginFormData.tenantId"
+              placeholder="Tenant Id"
+              size="large"
+              clearable
+              class="otp-tenant"
+            >
+              <template #prefix>
+                <SvgIcon name="peoples" />
+              </template>
+            </el-input>
+            <OtpLogin :tenant-id="loginFormData.tenantId" @success="onOtpSuccess" />
+          </el-tab-pane>
+        </el-tabs>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.otp-tenant {
+  margin-bottom: 18px;
+}
+.otp-tenant {
+  margin-bottom: 18px;
+}
 .login-container {
   display: flex;
   justify-content: center;

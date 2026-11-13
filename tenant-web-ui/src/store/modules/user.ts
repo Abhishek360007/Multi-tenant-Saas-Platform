@@ -7,6 +7,7 @@ import {useSettingsStore} from "./settings"
 import {useTagsViewStore} from "./tags-view"
 import {getToken, removeToken, setToken} from "@/utils/cache/local-storage"
 import {getPublicKeyApi, getUserInfoApi, getUserPermsApi, loginApi, logoutApi} from "@/api/login"
+import { type IOtpLogin, otpLoginApi } from "@/api/login"
 import {ILoginData, ILoginUserInfo, type IPermsButton, IPermsMenus} from "@/types/pms"
 import {resetRouter} from "@/router"
 import JSEncrypt from "jsencrypt"
@@ -56,6 +57,15 @@ export const useUserStore = defineStore("user", () => {
           reject(error)
         })
     })
+  }
+
+  /** Sign in with a one-time code (email or SMS) */
+  const userOtpLogin = async (data: IOtpLogin) => {
+    const resp = await otpLoginApi(data)
+    const token = resp.data.token_type + resp.data.access_token
+    setToken(token)
+    accessToken.value = token
+    return resp
   }
 
   /** Get user details */
@@ -167,6 +177,7 @@ export const useUserStore = defineStore("user", () => {
     buttons,
     menus,
     userLogin,
+    userOtpLogin,
     getUserPerms,
     getUserInfo,
     userLogout,
