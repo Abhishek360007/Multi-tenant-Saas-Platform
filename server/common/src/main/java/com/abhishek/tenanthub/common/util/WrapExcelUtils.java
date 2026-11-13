@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * Excel 工具类
+ * Excel Utility class
  * </p>
  *
  * @author WangChenChen
@@ -38,20 +38,20 @@ import java.util.stream.Collectors;
 public class WrapExcelUtils {
 
     /**
-     * 默认分页数据
+     * Default page size
      */
     private static final int PAGE_SIZE = 10000;
 
     /**
-     * 最大分页数据
+     * Maximum page size
      */
     private static final int MAX_PAGE_SIZE = 60000;
 
     /**
-     * 泛型 分页导出 为 Excel 。每页默认 1w 条数据
+     * Generic paged export to Excel, 10k rows per page by default
      *
-     * @param fileName 文件名称
-     * @param dataList 数据列表
+     * @param fileName File name
+     * @param dataList Data list
      * @return ByteArrayOutputStream
      */
     public static <T> ByteArrayOutputStream genPageWrite(List<T> dataList) {
@@ -60,10 +60,10 @@ public class WrapExcelUtils {
 
 
     /**
-     * 泛型 分页导出 为 Excel 。每页默认 1w 条数据
+     * Generic paged export to Excel, 10k rows per page by default
      *
-     * @param fileName 文件名称
-     * @param dataList 数据列表
+     * @param fileName File name
+     * @param dataList Data list
      * @return ResponseEntity<ByteArrayResource>
      */
     public static <T> ResponseEntity<ByteArrayResource> genPageWrite(String fileName, List<T> dataList) {
@@ -72,11 +72,11 @@ public class WrapExcelUtils {
 
 
     /**
-     * 泛型 分页导出 为 Excel
+     * Generic paged export to Excel
      *
-     * @param fileName 文件名称
-     * @param pageSize 每页多少条数据，Excel每个Sheet最大极限6w条数据
-     * @param dataList 数据列表
+     * @param fileName File name
+     * @param pageSize Rows per page; each Excel sheet holds at most 60k rows
+     * @param dataList Data list
      * @return ResponseEntity<ByteArrayResource>
      */
     public static <T> ResponseEntity<ByteArrayResource> genPageWrite(String fileName, Integer pageSize, List<T> dataList) {
@@ -97,11 +97,11 @@ public class WrapExcelUtils {
 
 
     /**
-     * 泛型 分页导出 为 Excel
+     * Generic paged export to Excel
      *
-     * @param fileName 文件名称
-     * @param pageSize 每页多少条数据，Excel每个Sheet最大极限6w条数据
-     * @param dataList 数据列表
+     * @param fileName File name
+     * @param pageSize Rows per page; each Excel sheet holds at most 60k rows
+     * @param dataList Data list
      * @return ByteArrayOutputStream
      */
     public static <T> ByteArrayOutputStream genPageWrite(Integer pageSize, List<T> dataList) {
@@ -113,19 +113,19 @@ public class WrapExcelUtils {
         }
         var bigWriter = ExcelUtil.getBigWriter();
         if (!dataList.isEmpty()) {
-            // 获取对象字段的别名
+            // Get the field alias
             Map<String, String> fieldSchemaDescription = getFieldSchemaDescription(dataList.getFirst());
             bigWriter.setOnlyAlias(true).setHeaderAlias(fieldSchemaDescription);
-            // 获取设备的总数量
+            // Get the total number of devices
             int total = dataList.size();
             if (total > pageSize) {
-                // 删除 第一个 Sheet
+                // Remove the first Sheet
                 bigWriter.getWorkbook().removeSheetAt(0);
                 var pageNum = new AtomicInteger(1);
-                // 分页写入
+                // Paged write
                 toPageIndexRange(total, pageSize, (fromIndex, toIndex) -> {
                     var rangeData = dataList.subList(fromIndex, toIndex);
-                    var sheetName = String.format("第 %d 页", pageNum.get());
+                    var sheetName = String.format("Page %d", pageNum.get());
                     bigWriter.setSheet(sheetName).write(rangeData);
                     pageNum.getAndIncrement();
                 });
@@ -140,15 +140,15 @@ public class WrapExcelUtils {
 
 
     /**
-     * 计算分页范围
-     * 根据总数和分页数量，计算每个分页的 开始索引 和 结束索引
-     * 假设：总共300条数据。每页100条。
-     * 列如：第一页：0~99 、第二页：100~199 、第三页：200~299 以此类推
+     * Compute page ranges
+     * Compute the start and end index of each page from the total and the page size
+     * Example: 300 rows in total, 100 per page.
+     * Page 1: 0 to 99, page 2: 100 to 199, page 3: 200 to 299, and so on
      */
     private static void toPageIndexRange(int total, int pageSize, BiConsumer<Integer, Integer> consumer) {
-        // 总页数
+        // Total pages
         int totalPage = PageUtil.totalPage(total, pageSize);
-        // 起始索引
+        // Start index
         var startIndex = new AtomicInteger(0);
         for (int i = 0; i < totalPage; i++) {
             int fromIndex = startIndex.get();
@@ -163,11 +163,11 @@ public class WrapExcelUtils {
 
 
     /**
-     * 反射获取 对象属性 @Schema注解上的description
+     * Read by reflection from the @Schema annotation on the field description
      * <p>
-     * key : 属性名称
+     * key : Property name
      * value :  cn.hutool.core.annotation.Alias.value
-     * 或者 io.swagger.v3.oas.annotations.media.Schema.description
+     * or io.swagger.v3.oas.annotations.media.Schema.description
      *
      * @return Map<String, String>
      */
@@ -188,7 +188,7 @@ public class WrapExcelUtils {
 
 
     /**
-     * 文件名编码
+     * File name encoding
      */
     private static String fileNameEncode(String fileName) {
         return URLEncoder.encode(fileName, StandardCharsets.UTF_8).replaceAll("\\+", "%20");

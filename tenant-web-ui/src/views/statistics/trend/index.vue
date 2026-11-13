@@ -1,5 +1,5 @@
 <template>
-  <div><h1>趋势分析</h1></div>
+  <div><h1>Trend analysis</h1></div>
 </template>
 
 <script setup lang="ts">

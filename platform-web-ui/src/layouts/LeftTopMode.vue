@@ -11,7 +11,7 @@ const settingsStore = useSettingsStore()
 
 const { showTagsView, showLogo } = storeToRefs(settingsStore)
 
-/** 定义计算属性 layoutClasses，用于控制布局的类名 */
+/** Computed layoutClasses controls the layout class names */
 const layoutClasses = computed(() => {
   return {
     hideSidebar: !appStore.sidebar.opened
@@ -23,7 +23,7 @@ const { currentOnlyId } = useTenantAndProject()
 
 <template>
   <div :class="layoutClasses" class="app-wrapper">
-    <!-- 头部导航栏和标签栏 -->
+    <!-- Header navigation bar and tab bar -->
     <div class="fixed-header layout-header">
       <Logo v-if="showLogo" :collapse="false" class="logo" />
       <div class="content">
@@ -31,11 +31,11 @@ const { currentOnlyId } = useTenantAndProject()
         <TagsView v-show="showTagsView" />
       </div>
     </div>
-    <!-- 主容器 -->
+    <!-- Main container -->
     <div :class="{ hasTagsView: showTagsView }" class="main-container">
-      <!-- 左侧边栏 -->
+      <!-- Left sidebar -->
       <Sidebar class="sidebar-container" />
-      <!-- 页面主体内容 -->
+      <!-- Page content -->
       <AppMain class="app-main" :key="currentOnlyId" />
     </div>
   </div>

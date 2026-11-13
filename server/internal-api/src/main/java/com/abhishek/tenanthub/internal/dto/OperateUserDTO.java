@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 操作用户
+ * Operator
  * </p>
  *
  * @author WangChenChen
@@ -26,26 +26,26 @@ import lombok.experimental.Accessors;
 public class OperateUserDTO implements java.io.Serializable {
 
     /**
-     * 用户唯一id
+     * Unique user id
      */
-    @Schema(description = "用户Id")
+    @Schema(description = "User Id")
     private Long userId;
 
     /**
-     * 头像
+     * Avatar
      */
-    @Schema(description = "头像")
+    @Schema(description = "Avatar")
     private String avatar;
 
     /**
-     * 昵称
+     * Nickname
      */
-    @Schema(description = "昵称")
+    @Schema(description = "Nickname")
     private String nickname;
 
     @Override
     public String toString() {
-        return String.format("用户Id : %s\n头像 : %s\n昵称 : %s", this.userId, this.avatar, this.nickname);
+        return String.format("User Id : %s\n Avatar : %s\n Nickname : %s", this.userId, this.avatar, this.nickname);
     }
 
 }

@@ -126,25 +126,25 @@ public class PmsRoleServiceImpl extends BaseServiceImpl<PmsRoleMapper, PmsRole> 
                 .setAll(new ArrayList<>())
                 .setHave(new HashSet<>());
         if (roleId > 0) {
-            // 当前角色，已经拥有的菜单ID
+            // Menus already assigned to the current role ID
             var haveHashSet = baseMapper.selectMenuIdByRoleId(roleId);
             result.setHave(haveHashSet);
         }
         Set<SysMenuDTO> menus = null;
 
-        // 判断当前是否为，默认租户
+        // Whether this is the default tenant
         boolean defaultTenantId = tenantManager.isDefaultTenantId(TenantUtils.getTenantId());
 
         if (!defaultTenantId) {
-            // 如果是租户用户，那么就获取，当前角色所在租户的，所有菜单
+            // Tenant users get all menus of the tenant the role belongs to
             menus = menuService.listMenuByTenantId(TenantUtils.getTenantId());
         } else {
-            // 如果是系统用户，那么就获取，非租户的所有菜单
+            // Platform users get all non-tenant menus
             menus = menuService.listMenuByNonTenant();
         }
 
         if (!menus.isEmpty()) {
-            // 获取全部的菜单
+            // Get all menus
             var all = menus.stream()
                     .map(r -> new TreeNode<>(
                             r.getMenuId(), r.getParentId(),
@@ -163,7 +163,7 @@ public class PmsRoleServiceImpl extends BaseServiceImpl<PmsRoleMapper, PmsRole> 
     public boolean updateMenus(Long roleId, Set<Long> menus) {
         var dbRole = getById(roleId);
         if (dbRole == null) {
-            throw new BizException("角色不存在！");
+            throw new BizException("Role does not exist");
         }
         baseMapper.deleteHaveMenus(roleId);
         if (menus != null && !menus.isEmpty()) {
@@ -193,11 +193,11 @@ public class PmsRoleServiceImpl extends BaseServiceImpl<PmsRoleMapper, PmsRole> 
     public boolean removeById(Serializable id) {
         Long roleId = Long.valueOf(id.toString());
         if (baseMapper.userReference(roleId) > 0) {
-            throw new BizException(String.format("角色Id [ %d ] 还有其他用户关联！无法删除！", roleId));
+            throw new BizException(String.format("Role ID [ %d ] is still assigned to users and cannot be deleted", roleId));
         }
-        // 删除当前角色，关联的权限
+        // Delete the permissions linked to the role
         baseMapper.deleteHaveMenus(roleId);
-        // 删除当前角色，关联的部门权限
+        // Delete the department permissions linked to the role
         baseMapper.deleteHaveDepts(roleId);
         return super.removeById(id);
     }
@@ -208,7 +208,7 @@ public class PmsRoleServiceImpl extends BaseServiceImpl<PmsRoleMapper, PmsRole> 
     public boolean save(PmsRole entity) {
         if (Objects.equals(entity.getDataScope(), DATA_SCOPE_CUSTOM)) {
             if (CollectionUtil.isEmpty(entity.getDeptIds())) {
-                throw new RuntimeException("自定义数据权限，最少需要选择一个部门");
+                throw new RuntimeException("Custom data permissions need at least one department");
             }
             var b1 = super.save(entity);
             var b2 = baseMapper.insertByDepts(entity.getRoleId(), entity.getDeptIds()) > 0;
@@ -223,7 +223,7 @@ public class PmsRoleServiceImpl extends BaseServiceImpl<PmsRoleMapper, PmsRole> 
     public boolean updateById(PmsRole entity) {
         if (Objects.equals(entity.getDataScope(), DATA_SCOPE_CUSTOM)) {
             if (CollectionUtil.isEmpty(entity.getDeptIds())) {
-                throw new RuntimeException("自定义数据权限，最少需要选择一个部门");
+                throw new RuntimeException("Custom data permissions need at least one department");
             }
             baseMapper.deleteHaveDepts(entity.getRoleId());
             var b1 = super.updateById(entity);

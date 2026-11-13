@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * <p>
- * 菜单 控制器
+ * Menu controller
  * </p>
  *
  * @author Wang Chen Chen
@@ -30,7 +30,7 @@ import java.util.List;
  */
 
 @Slf4j
-@Tag(name = "[ 权限 ] 菜单管理")
+@Tag(name = "[ Permissions ] Menus")
 @RestController
 @RequestMapping("/sys/menu")
 @AllArgsConstructor
@@ -38,7 +38,7 @@ public class SysMenuController {
 
     private SysMenuService baseService;
 
-    @Operation(summary = "单个查询", description = "根据Id查询")
+    @Operation(summary = "Get one", description = "Query by ID")
     @GetMapping("/{id}")
     public JsonResult<SysMenu> getById(@PathVariable("id") Long id) {
         log.debug("get ID : {}", id);
@@ -46,7 +46,7 @@ public class SysMenuController {
     }
 
 
-    @Operation(summary = "分页", description = "分页 查询所有")
+    @Operation(summary = "Paged query", description = "Paged query of all")
     @GetMapping("/query")
     public JsonResult<Pagination<SysMenu>> pageQuery(SearchPO params) {
         var page = baseService.pageKeywords(
@@ -56,7 +56,7 @@ public class SysMenuController {
     }
 
 
-    @Operation(summary = "查询所有", description = "查询所有")
+    @Operation(summary = "Query all", description = "Query all")
     @GetMapping("/list")
     public JsonResult<List<SysMenu>> list() {
         List<SysMenu> list = baseService.list();
@@ -65,7 +65,7 @@ public class SysMenuController {
     }
 
 
-    @Operation(summary = "查询树节点", description = "查询所有[以树节点形式展示]")
+    @Operation(summary = "Query tree nodes", description = "Query all [as a tree]")
     @GetMapping("/tree")
     public JsonResult<List<Tree<Long>>> tree() {
         return JsonResult.success(baseService.tree());
@@ -73,13 +73,13 @@ public class SysMenuController {
 
 
     /**
-     * 根据当前用户所属的类型
-     * 租户用户：租户菜单和公共菜单
-     * 系统用户: 系统菜单和公共菜单
+     * Depending on the current user type
+     * Tenant users: tenant menus and common menus
+     * Platform users: platform menus and common menus
      * <p>
-     * 具体根据 菜单中的 target 属性
+     * Based on the menu target property
      */
-    @Operation(summary = "可用的菜单", description = "根据当前用户查询此租户的全部可用菜单[以树节点形式展示]")
+    @Operation(summary = "Available menus", description = "All menus available to the current user in this tenant [as a tree]")
     @GetMapping("/available")
     public JsonResult<List<Tree<Long>>> available() {
         return JsonResult.success(
@@ -88,7 +88,7 @@ public class SysMenuController {
     }
 
 
-    @Operation(summary = "租户可用的菜单", description = "租户可用的全部菜单[以树节点形式展示]")
+    @Operation(summary = "Tenant menus", description = "All menus available to the tenant [as a tree]")
     @GetMapping("/tenant/available")
     public JsonResult<List<Tree<Long>>> tenantAvailable() {
         return JsonResult.success(
@@ -98,7 +98,7 @@ public class SysMenuController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "新增", description = "不需要添加id")
+    @Operation(summary = "Add", description = "Do not include id")
     @PostMapping()
     public JsonResult<SysMenu> save(@RequestBody @Validated(ValidCreate.class) SysMenu entity) {
         baseService.save(entity);
@@ -107,7 +107,7 @@ public class SysMenuController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改", description = "修改必须要id")
+    @Operation(summary = "Update", description = "Update requires id")
     @PutMapping()
     public JsonResult<Boolean> updateById(@RequestBody @Validated(ValidUpdate.class) SysMenu entity) {
         boolean byId = baseService.updateById(entity);
@@ -116,7 +116,7 @@ public class SysMenuController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "删除", description = "只需要id即可")
+    @Operation(summary = "Delete", description = "Only the ID is required")
     @DeleteMapping("/{id}")
     public JsonResult<Boolean> removeById(@PathVariable("id") Long id) {
         boolean byId = baseService.removeById(id);

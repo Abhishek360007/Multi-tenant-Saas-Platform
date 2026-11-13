@@ -15,7 +15,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 /**
  * <p>
- * 角色，部门，租户模板 等... 关联菜单
+ * Menus linked to roles, departments, tenant templates, etc.
  * </p>
  *
  * @author Wang Chen Chen
@@ -28,16 +28,16 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "关联菜单")
+@Schema(description = "Linked menus")
 public class BindingMenusVO implements java.io.Serializable {
 
-    @Schema(description = "ID不能为空！", requiredMode = REQUIRED)
-    @NotNull(message = "ID不能为空!")
+    @Schema(description = "ID is required", requiredMode = REQUIRED)
+    @NotNull(message = "ID is required!")
     private Long id;
 
-    @Schema(description = "菜单最少是一个", requiredMode = REQUIRED)
-    @NotNull(message = "菜单不能为空!")
-    @Size(min = 1, message = "菜单最少是一个!")
+    @Schema(description = "Select at least one menu", requiredMode = REQUIRED)
+    @NotNull(message = "Menus are required!")
+    @Size(min = 1, message = "Select at least one menu!")
     private Set<Long> menus;
 
 }

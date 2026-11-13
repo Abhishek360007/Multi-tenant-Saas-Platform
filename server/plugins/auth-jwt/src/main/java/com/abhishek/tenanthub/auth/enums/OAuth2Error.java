@@ -4,7 +4,7 @@ import lombok.Getter;
 
 /**
  * <p>
- * 认证状态
+ * Authentication status
  * </p>
  *
  * @author Wang Chen Chen
@@ -16,26 +16,26 @@ import lombok.Getter;
 public enum OAuth2Error {
 
     /**
-     * 认证错误，不知道啥原因
+     * Authentication error, unknown cause
      */
-    OAUTH2_EXCEPTION(400004, "认证错误!"),
+    OAUTH2_EXCEPTION(400004, "Authentication error!"),
 
     /**
-     * access_token 不存在
+     * access_token does not exist
      */
-    ACCESS_TOKEN_INVALID(400010, "access_token 不存在"),
-
-
-    /**
-     * access_token 过期
-     */
-    ACCESS_TOKEN_EXPIRED(400011, "access_token 已过期"),
+    ACCESS_TOKEN_INVALID(400010, "access_token does not exist"),
 
 
     /**
-     * token 格式错误
+     * access_token Expired
      */
-    TOKEN_FORMAT_ERROR(400012, "access_token 格式错误"),
+    ACCESS_TOKEN_EXPIRED(400011, "access_token Expired"),
+
+
+    /**
+     * token Invalid format
+     */
+    TOKEN_FORMAT_ERROR(400012, "access_token Invalid format"),
 
 
     /**
@@ -45,125 +45,125 @@ public enum OAuth2Error {
 
 
     /**
-     * refresh_token 不存在
+     * refresh_token does not exist
      */
-    REFRESH_TOKEN_INVALID(400014, "refresh_token 不存在"),
+    REFRESH_TOKEN_INVALID(400014, "refresh_token does not exist"),
 
 
     /**
-     * refresh_token 过期
+     * refresh_token Expired
      */
-    REFRESH_TOKEN_EXPIRED(400015, "refresh_token 已经过期"),
+    REFRESH_TOKEN_EXPIRED(400015, "refresh_token has expired"),
 
 
     /**
-     * 此服务，必须是非客户端模式，授权才可以调用
+     * This service requires a non-client-credentials grant
      */
-    TOKEN_USER_INVALID(400016, "此服务，必须是非客户端模式，授权才可以调用"),
+    TOKEN_USER_INVALID(400016, "This service requires a non-client-credentials grant"),
 
     /**
-     * 用户不存在
+     * User does not exist
      */
-    USER_INVALID(400020, "用户不存在"),
+    USER_INVALID(400020, "User does not exist"),
 
     /**
-     * 用户密码错误
+     * Incorrect password
      */
-    USER_PASSWORD_ERROR(400021, "用户密码错误"),
+    USER_PASSWORD_ERROR(400021, "Incorrect password"),
 
     /**
-     * 当前用户被禁用
+     * This user is disabled
      */
-    USER_DISABLE(400022, "当前用户被禁用"),
+    USER_DISABLE(400022, "This user is disabled"),
 
     /**
-     * 当前用户被锁定
+     * This user is locked
      */
-    USER_LOCKING(400023, "当前用户被锁定"),
+    USER_LOCKING(400023, "This user is locked"),
 
     /**
-     * 用户手机号不存在
+     * Mobile number not found
      */
-    USER_MOBILE_INVALID(400024, "用户手机号不存在"),
+    USER_MOBILE_INVALID(400024, "Mobile number not found"),
 
     /**
-     * 用户类型错误
+     * Invalid user type
      */
-    USER_TYPES_ERROR(400025, "用户类型错误！"),
+    USER_TYPES_ERROR(400025, "Invalid user type"),
 
     /**
-     * 客户端不存在
+     * Client does not exist
      */
-    CLIENT_INVALID(400030, "客户端不存在"),
+    CLIENT_INVALID(400030, "Client does not exist"),
 
     /**
-     * 客户端被禁用
+     * Client is disabled
      */
-    CLIENT_DISABLE(400031, "客户端被禁用"),
+    CLIENT_DISABLE(400031, "Client is disabled"),
 
     /**
-     * 客户端秘钥错误
+     * Incorrect client secret
      */
-    CLIENT_SECRET_ERROR(400032, "客户端秘钥错误"),
+    CLIENT_SECRET_ERROR(400032, "Incorrect client secret"),
 
     /**
-     * 授权类型错误
+     * Invalid grant type
      */
-    AUTHORIZATION_GRANT_TYPE(400033, "授权类型错误"),
+    AUTHORIZATION_GRANT_TYPE(400033, "Invalid grant type"),
 
     /**
-     * 授权码模式中，使用code来换取 access_token，这个code不存在。
+     * In the authorization code flow, the code exchanged for an access_token does not exist.
      */
-    CODE_INVALID(400034, "code不存在"),
+    CODE_INVALID(400034, "code does not exist"),
 
     /**
-     * 授权码模式中，回调的域名和数据库的域名不一致
+     * In the authorization code flow, the callback domain does not match the stored domain
      */
-    DOMAIN_NAME_ILLEGAL(400035, "回调的域名与设置的域名不一致"),
+    DOMAIN_NAME_ILLEGAL(400035, "Callback domain does not match the configured domain"),
 
     /**
-     * 客户端不相同
+     * Client mismatch
      */
-    CLIENT_IS_DIFFERENT(400036, "客户端不一致"),
+    CLIENT_IS_DIFFERENT(400036, "Client mismatch"),
 
     /**
-     * 请求参数解析错误
+     * Could not parse request parameters
      */
-    REQUEST_PARAM_VALIDATE(400044, "请求参数解析错误"),
+    REQUEST_PARAM_VALIDATE(400044, "Could not parse request parameters"),
 
     /**
-     * 验证码错误
+     * Incorrect captcha
      */
-    VERIFICATION_CODE_ERROR(400045, "验证码错误"),
+    VERIFICATION_CODE_ERROR(400045, "Incorrect captcha"),
 
     /**
-     * 权限不足
+     * Access denied
      */
-    ACCESS_DENIED(400061, "请求访问，权限不足"),
-
-
-    /**
-     * 租户ID不存在
-     */
-    TENANT_ID_DOES_NOT_EXIST(400444, "租户ID不存在"),
+    ACCESS_DENIED(400061, "Request denied: insufficient permissions"),
 
 
     /**
-     * 请求必须添加租户ID
+     * Tenant ID does not exist
      */
-    REQUEST_MUST_ADD_TENANT_ID(400445, "租户ID不存在"),
+    TENANT_ID_DOES_NOT_EXIST(400444, "Tenant ID does not exist"),
 
 
     /**
-     * 此系统用户不包含此租户ID
+     * A tenant is required ID
      */
-    NO_HAVE_TENANT_PERMISSIONS(400446, "此用户不包含此租户ID"),
+    REQUEST_MUST_ADD_TENANT_ID(400445, "Tenant ID does not exist"),
 
 
     /**
-     * 此系统用户不包含 此项目ID
+     * This platform user has no access to this tenant ID
      */
-    NO_HAVE_PROJECT_PERMISSIONS(400447, "用户没有操作此项目的权限");
+    NO_HAVE_TENANT_PERMISSIONS(400446, "This user has no access to this tenant ID"),
+
+
+    /**
+     * This platform user has no access to this project ID
+     */
+    NO_HAVE_PROJECT_PERMISSIONS(400447, "This user has no permission for this project");
 
 
     OAuth2Error(Integer status, String error) {
@@ -172,12 +172,12 @@ public enum OAuth2Error {
     }
 
     /**
-     * 状态信息
+     * Status message
      */
     private final Integer status;
 
     /**
-     * 错误消息
+     * Error message
      */
     private final String error;
 

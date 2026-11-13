@@ -5,10 +5,10 @@ import { mapKeysApi } from "@/api/dict"
 import { IMapDictData } from "@/types/dict"
 
 export const useDictStore = defineStore("dict", () => {
-  // 字典 map
+  // Dictionary map
   const dictMapKeys = ref<any>()
 
-  /** 字典 map key */
+  /** Dictionary map key */
   const getDictMapKeys = () => {
     return new Promise((resolve, reject) => {
       mapKeysApi()
@@ -22,14 +22,14 @@ export const useDictStore = defineStore("dict", () => {
     })
   }
 
-  // 获取字典数据
+  // Fetch dictionary data
   const getDictMapList = (dictKey: string): IMapDictData[] => {
     return dictMapKeys.value[dictKey]! as IMapDictData[]
   }
 
-  // 获取字典数据
+  // Fetch dictionary data
   const getDictMapValue = (dictKey: string, dictData: Object) => {
-    let val = "未知"
+    let val = "Unknown"
     getDictMapList(dictKey).forEach((value) => {
       if (value && value.dictValue === dictData) {
         val = value.dictLabel
@@ -137,7 +137,7 @@ export const useDictStore = defineStore("dict", () => {
   }
 })
 
-/** 在 setup 外使用 */
+/** Use outside setup */
 export function useDictStoreHook() {
   return useDictStore(store)
 }

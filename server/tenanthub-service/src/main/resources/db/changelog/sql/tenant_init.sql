@@ -23,10 +23,10 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 INSERT INTO `sys_template` (`id`, `name`, `description`, `create_time`, `create_user`, `last_update_time`,
                             `last_update_user`)
-VALUES (10001, '全部模块', '全部模块', '2022-12-10 22:58:39', 19980817, '2022-12-10 22:58:39', 19980817),
-       (10002, '权限模块', '权限模块', '2023-01-06 14:40:16', 19980817, '2023-01-06 14:40:19', 19980817),
-       (10003, '设备模块', '设备模块', '2023-01-06 14:40:38', 19980817, '2023-01-06 14:40:41', 19980817),
-       (10004, '统计模块', '统计模块', '2023-01-06 14:40:57', 19980817, '2023-01-06 14:41:00', 19980817);
+VALUES (10001, 'All modules', 'All modules', '2022-12-10 22:58:39', 19980817, '2022-12-10 22:58:39', 19980817),
+       (10002, 'Access control module', 'Access control module', '2023-01-06 14:40:16', 19980817, '2023-01-06 14:40:19', 19980817),
+       (10003, 'Device module', 'Device module', '2023-01-06 14:40:38', 19980817, '2023-01-06 14:40:41', 19980817),
+       (10004, 'Statistics module', 'Statistics module', '2023-01-06 14:40:57', 19980817, '2023-01-06 14:41:00', 19980817);
 
 
 
@@ -38,8 +38,8 @@ INSERT INTO `sys_tenant` (`tenant_id`, `create_time`, `create_user`, `last_updat
                           `last_update_user`, `logo`, `name`, `email`, `linkman`,
                           `contact_number`, `area_code`, `address`, `status`, `expired`)
 VALUES ('master', '2022-12-12 10:07:26', 19980817, '2022-12-12 10:07:32', 19980817,
-        'https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png', '默认租户', 'master@qq.com', 'master',
-        '0755-1234567', 29052505542, '南湾街道 左右云创谷A栋1座', 1, '6666-12-12 00:00:00');
+        'https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png', 'Default tenant', 'master@example.com', 'master',
+        '080-41234567', 29052505542, '12 MG Road, Bengaluru', 1, '6666-12-12 00:00:00');
 
 
 -- ----------------------------

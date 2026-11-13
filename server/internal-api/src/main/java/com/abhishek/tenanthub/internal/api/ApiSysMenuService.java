@@ -16,8 +16,8 @@ import java.util.Set;
 public interface ApiSysMenuService {
 
     /**
-     * 获取 非租户的 菜单
-     * 包含 平台菜单 和 公共菜单
+     * Get non-tenant menus
+     * Includes platform menus and common menus
      *
      * @author WangChenChen
      * @date 2023/2/14 10:39
@@ -26,8 +26,8 @@ public interface ApiSysMenuService {
 
 
     /**
-     * 获取 非租户的 菜单
-     * 包含 平台菜单 和 公共菜单
+     * Get non-tenant menus
+     * Includes platform menus and common menus
      *
      * @author WangChenChen
      * @date 2023/2/14 10:39
@@ -36,7 +36,7 @@ public interface ApiSysMenuService {
 
 
     /**
-     * 获取租户关联的菜单
+     * Get the menus linked to a tenant
      *
      * @author WangChenChen
      * @date 2023/2/14 10:39
@@ -45,7 +45,7 @@ public interface ApiSysMenuService {
 
 
     /**
-     * 获取租户关联的菜单
+     * Get the menus linked to a tenant
      *
      * @author WangChenChen
      * @date 2023/2/14 10:39
@@ -54,7 +54,7 @@ public interface ApiSysMenuService {
 
 
     /**
-     * 根据菜单ID 获取菜单标识
+     * Get menu keys by menu ID
      *
      * @author WangChenChen
      * @date 2023/2/14 10:39
@@ -63,7 +63,7 @@ public interface ApiSysMenuService {
 
 
     /**
-     * 根据菜单ID 获取菜单标识
+     * Get menu keys by menu ID
      *
      * @author WangChenChen
      * @date 2023/2/14 10:39

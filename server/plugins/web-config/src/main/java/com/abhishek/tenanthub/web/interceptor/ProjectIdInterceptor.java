@@ -44,17 +44,17 @@ public class ProjectIdInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         /*
-         * 从请求头中获取 如:
+         * From the request header, e.g.:
          * GET https://www.baidu.com/hello
          * x-project-id=10001
          * */
         var projectIdStr = request.getHeader(X_PROJECT_ID);
         /*
-         * 从URL地址中获取   如:
+         * From the URL, e.g.:
          * GET https://www.baidu.com/hello?x-project-id=10001
          * */
         var paramProjectIdStr = request.getParameter(X_PROJECT_ID);
-        // URL中的 项目id。会覆盖掉请求头中的 项目id
+        // URL project ID in. Overrides the project in the request header id
         if (StrUtil.isEmpty(projectIdStr) || StrUtil.isNotEmpty(paramProjectIdStr)) {
             projectIdStr = paramProjectIdStr;
         }
@@ -62,21 +62,21 @@ public class ProjectIdInterceptor implements HandlerInterceptor {
             var projectId = NumberUtil.parseLong(projectIdStr);
             TenantUtils.setProjectId(projectId);
         } else {
-            // 使用 默认项目ID
+            // Use the default project ID
             var defaultProjectId = tenantService.getByMultiTenantProperties().getDefaultProjectId();
             TenantUtils.setProjectId(defaultProjectId);
         }
-        // 判断当前租户，是否包含此项目ID
+        // Check whether the current tenant has this project ID
         var flag = tenantService.existTenantIncludeProjectId(TenantUtils.getTenantId(), TenantUtils.getProjectId());
         if (!flag) {
             var st = tenantService.getSmallByTenantId(TenantUtils.getTenantId());
             var err = JsonResult.error(NO_HAVE_PROJECT_PERMISSIONS.getStatus(),
-                    String.format("租户 %s 暂无，ID为 %d 的项目！", st.getName(), TenantUtils.getProjectId())
+                    String.format("Tenant %s has no project with ID %d", st.getName(), TenantUtils.getProjectId())
             );
             ServletUtils.renderError(response, err);
             return false;
         }
-        // 校验 当前用户是否 有操作此项目的权限
+        // Check whether the current user may access this project
         if (!haveProjectPermissions(response, TenantUtils.getProjectId())) {
             return false;
         }
@@ -85,14 +85,14 @@ public class ProjectIdInterceptor implements HandlerInterceptor {
 
 
     /**
-     * 判断 当前用户是否拥有 此项目的 操作权限
+     * Check whether the current user has permission for this project
      */
     private boolean haveProjectPermissions(HttpServletResponse response, Long projectId) {
-        // 如果当前用户是 租户的非管理员用户。
+        // If the current user is a non-admin tenant user.
         if (JwtSecurityUtils.isAuthenticated() && (!JwtSecurityUtils.isMasterUser() && !JwtSecurityUtils.isAdminUser())) {
             var haveProjectIds = JwtSecurityUtils.getLoginUser().getHaveProjectIds();
             if (!haveProjectIds.isEmpty() && !haveProjectIds.contains(projectId)) {
-                var err = String.format("您没有 项目ID %d 的操作权限！", projectId);
+                var err = String.format("You do not have permission for project ID %d", projectId);
                 var first = haveProjectIds.stream().findFirst();
                 var result = JsonResult.error(NO_HAVE_PROJECT_PERMISSIONS.getStatus(), err, CmsProjectDTO.class);
                 var firstProject = projectService.getSimpleById(first.get());

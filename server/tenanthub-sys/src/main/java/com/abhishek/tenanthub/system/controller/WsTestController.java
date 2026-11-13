@@ -29,18 +29,18 @@ public class WsTestController {
 
 
     /**
-     * 发送广播消息
-     * -- 说明：
-     *       1）、@MessageMapping注解对应客户端的stomp.send('url')；
-     *       2）、用法一：要么配合@SendTo("转发的订阅路径")，去掉 messagingTemplate，同时 return msg 来使用，return msg会去找@SendTo注解的路径；
-     *       3）、用法二：要么设置成void，使用messagingTemplate来控制转发的订阅路径，且不能return msg，个人推荐这种。
+     * Send a broadcast message
+     * -- Notes:
+     *       1) @MessageMapping matches the client stomp.send('url');
+     *       2) Option 1: use @SendTo("target path") without messagingTemplate and return msg; the return value goes to the @SendTo path;
+     *       3) Option 2: return void and use messagingTemplate to choose the destination, without returning msg. Recommended.
      *
-     * @param msg 消息
+     * @param msg Message
      */
     @MessageMapping("/send")
     public void sendAll(@RequestParam String msg) {
-        log.info("[发送消息]>>>> msg: {}", msg);
-        // 发送消息给客户端
+        log.info("[Send a message]>>>> msg: {}", msg);
+        // Send a message to the client
         messagingTemplate.convertAndSend(WebSocketConst.TOPIC, msg);
     }
 

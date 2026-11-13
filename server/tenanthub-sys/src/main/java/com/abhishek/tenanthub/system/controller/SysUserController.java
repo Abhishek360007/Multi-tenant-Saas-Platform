@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys/user")
-@Tag(name = "[ 系统 ] 用户管理")
+@Tag(name = "[ System ] Users")
 public class SysUserController {
 
     public final SysUserService baseService;
 
 
-    @Operation(summary = "查询关联租户", description = "查询系统用户关联的租户")
+    @Operation(summary = "Linked tenants", description = "Query the tenants linked to a platform user")
     @GetMapping("/list/tenant")
     public JsonResult<UserListTenantVO> listHaveTenants(@RequestParam Long userId) {
         return JsonResult.success(
@@ -33,7 +33,7 @@ public class SysUserController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改关联租户", description = "修改系统用户关联的租户")
+    @Operation(summary = "Update linked tenants", description = "Update the tenants linked to a platform user")
     @PostMapping("/update/tenant")
     public JsonResult<Boolean> updateTenant(@RequestBody @Validated UpdateUserTenantVO params) {
         return JsonResult.success(

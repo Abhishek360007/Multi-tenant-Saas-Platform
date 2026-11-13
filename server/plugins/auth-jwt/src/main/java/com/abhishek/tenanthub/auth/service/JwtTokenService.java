@@ -11,7 +11,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 服务端 token 认证
+ * Server-side token authentication
  * </p>
  *
  * @author Wang Chen Chen
@@ -23,7 +23,7 @@ import java.util.Set;
 public interface JwtTokenService {
 
     /**
-     * 设置登录的用户 到redis中
+     * Store the signed-in user in Redis
      *
      * @param loginUser
      */
@@ -31,7 +31,7 @@ public interface JwtTokenService {
 
 
     /**
-     * 修改登录的用户 到redis中
+     * Update the signed-in user in Redis
      *
      * @param loginUser
      */
@@ -39,9 +39,9 @@ public interface JwtTokenService {
 
 
     /**
-     * 根据 loginId 获取 用户信息
+     * Get the user by loginId
      * <p>
-     * 例: login_tokens:c6ea9a4cbb0e4fd093764c87fcfb372f
+     * e.g.: login_tokens:c6ea9a4cbb0e4fd093764c87fcfb372f
      *
      * @param loginId
      */
@@ -49,9 +49,9 @@ public interface JwtTokenService {
 
 
     /**
-     * 根据 用户名 获取 用户信息
+     * Get the user by username
      *
-     * @return String 用户名称
+     * @return String User name
      * @author Wang Chen Chen
      * @date 2021/7/12 16:29
      */
@@ -59,9 +59,9 @@ public interface JwtTokenService {
 
 
     /**
-     * 校验 token 值是否正确
+     * Validate the token
      * <p>
-     * 例: Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdG6IjE2NDPuFA
+     * e.g.: Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdG6IjE2NDPuFA
      *
      * @param bearerToken
      * @author Wang Chen Chen
@@ -71,27 +71,27 @@ public interface JwtTokenService {
 
 
     /**
-     * 刷新 token
+     * Refresh token
      */
     JwtTokenValue refresh();
 
 
     /**
-     * 退出登录
+     * Sign out
      */
     void logout();
 
 
     /**
-     * 创建 jwt 字符串
+     * Create a JWT string
      */
     String createJwtStr(String id);
 
 
     /**
-     * 获取 当前租户，在线的用户信息
+     * Get the online users of the current tenant
      *
-     * @return String 用户名称
+     * @return String User name
      * @author Wang Chen Chen
      * @date 2021/7/12 16:29
      */
@@ -99,9 +99,9 @@ public interface JwtTokenService {
 
 
     /**
-     * 获取 所有的在线的用户名
+     * Get all online usernames
      *
-     * @return String 用户名称
+     * @return String User name
      * @author Wang Chen Chen
      * @date 2021/7/12 16:29
      */
@@ -109,11 +109,11 @@ public interface JwtTokenService {
 
 
     /**
-     * 获取 当前租户，在线的 用户信息
-     * key: 用户ID
-     * value: 用户信息
+     * Get the online users of the current tenant
+     * key: User ID
+     * value: User details
      *
-     * @return String 用户名称
+     * @return String User name
      * @author Wang Chen Chen
      * @date 2021/7/12 16:29
      */
@@ -121,11 +121,11 @@ public interface JwtTokenService {
 
 
     /**
-     * 获取 所有租户 在线的 用户信息
-     * key: 用户ID
-     * value: 用户信息
+     * Get the online users of all tenants
+     * key: User ID
+     * value: User details
      *
-     * @return String 用户名称
+     * @return String User name
      * @author Wang Chen Chen
      * @date 2021/7/12 16:29
      */
@@ -133,7 +133,7 @@ public interface JwtTokenService {
 
 
     /**
-     * 获取 jwt 配置
+     * Get the JWT settings
      *
      * @author Wang Chen Chen
      * @date 2021/7/12 16:29

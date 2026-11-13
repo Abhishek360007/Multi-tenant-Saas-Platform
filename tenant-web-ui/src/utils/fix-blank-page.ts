@@ -1,13 +1,13 @@
 import {useTagsViewStoreHook} from "@/store/modules/tags-view"
 
 /**
- * 功能：修复 <transition> 和 <keep-alive> 组合使用导致的页面空白
- * 原因：似乎是 Vue 本身的 BUG：https://github.com/vuejs/core/issues/7121
- * 复现：在不使用该函数的情况下，可以通过如下步骤复现：
- * 1. 进入一个页面
- * 2. 修改该页面的 TS 代码并保存
- * 3. 回到浏览器切换一下页面
- * 4. 结果：内容区没有加载出来呈现空白状态
+ * Purpose: fix a blank page caused by combining <transition> and <keep-alive>
+ * Cause: appears to be a Vue bug:https://github.com/vuejs/core/issues/7121
+ * Reproduce without this function:
+ * 1. Open a page
+ * 2. Edit and save that page TS code
+ * 3. Switch pages in the browser
+ * 4. Result: the content area stays blank
  */
 export const fixBlankPage = () => {
   const tagsViewStore = useTagsViewStoreHook()

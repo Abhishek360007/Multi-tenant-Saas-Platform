@@ -2,32 +2,32 @@ import {ISearchQuery} from "@/types/base"
 import {ICmsDevice} from "@/types/cms"
 import {httpDelete, httpGet, httpPost, httpPut} from "@/utils/service"
 
-/** 根据Id查询 */
+/** Query by ID */
 export const getDeviceApi = (id: number) => {
   return httpGet<number, IJsonResult<ICmsDevice>>(`/cms/device/${id}`)
 }
 
-/** 分页查询所有 */
+/** Paged query of all */
 export const queryDeviceApi = (data: ISearchQuery) => {
   return httpGet<ISearchQuery, IPageResult<ICmsDevice>>("/cms/device/query", data)
 }
 
-/** 查询所有 */
+/** Query all */
 export const listDeviceApi = () => {
   return httpGet<any, IJsonResult<ICmsDevice[]>>("/cms/device/list")
 }
 
-/** 新增 */
+/** Add */
 export const saveDeviceApi = (data: ICmsDevice) => {
   return httpPost<ICmsDevice, IJsonResult<ICmsDevice>>("/cms/device", data)
 }
 
-/** 修改 */
+/** Edit */
 export const updateDeviceApi = (data: ICmsDevice) => {
   return httpPut<any, IJsonResult<boolean>>("/cms/device", data)
 }
 
-/** 删除 */
+/** Delete */
 export const deleteDeviceApi = (id: number) => {
   return httpDelete<number, IJsonResult<boolean>>(`/cms/device/${id}`)
 }

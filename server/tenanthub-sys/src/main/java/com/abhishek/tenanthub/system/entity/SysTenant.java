@@ -23,7 +23,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 租户
+ * Tenant
  * </p>
  *
  * @author Wang Chen Chen
@@ -32,7 +32,7 @@ import java.util.Set;
  */
 
 
-@Schema(description = "租户")
+@Schema(description = "Tenant")
 @TableName("sys_tenant")
 @Getter
 @Setter
@@ -43,83 +43,83 @@ import java.util.Set;
 public class SysTenant extends BaseEntity {
 
     /**
-     * 租户 ID
+     * Tenant ID
      */
-    @Schema(description = "租户ID")
+    @Schema(description = "Tenant ID")
     @TableId(type = IdType.INPUT)
-    @NotEmpty(message = "租户ID,必须填写", groups = {ValidUpdate.class})
+    @NotEmpty(message = "Tenant ID is required", groups = {ValidUpdate.class})
     private String tenantId;
 
     /**
-     * 租户 logo
+     * Tenant logo
      */
-    @Schema(description = "租户logo")
-    @NotEmpty(message = "租户logo,必须填写", groups = {ValidCreate.class})
-    @URL(message = "租户logo,格式错误", groups = {ValidCreate.class, ValidUpdate.class})
+    @Schema(description = "Tenant logo")
+    @NotEmpty(message = "Tenant logo is required", groups = {ValidCreate.class})
+    @URL(message = "Tenant logo is invalid", groups = {ValidCreate.class, ValidUpdate.class})
     private String logo;
 
     /**
-     * 租户名称
+     * Tenant name
      */
-    @Schema(description = "租户名称")
-    @NotEmpty(message = "租户名称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Tenant name")
+    @NotEmpty(message = "Tenant name is required", groups = {ValidCreate.class})
     private String name;
 
     /**
-     * 租户邮箱
+     * Tenant email
      */
-    @Schema(description = "租户邮箱")
-    @NotEmpty(message = "租户邮箱,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Tenant email")
+    @NotEmpty(message = "Tenant email is required", groups = {ValidCreate.class})
     private String email;
 
     /**
-     * 联系人名称
+     * Contact name
      */
-    @Schema(description = "联系人名称")
-    @NotEmpty(message = "联系人名称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Contact name")
+    @NotEmpty(message = "Contact name is required", groups = {ValidCreate.class})
     private String linkman;
 
     /**
-     * 联系电话
+     * Contact number
      */
-    @Schema(description = "联系电话")
-    @NotEmpty(message = "联系电话,必须填写", groups = {ValidCreate.class})
-    @Pattern(regexp = RegexConst.TEL_PHONE, message = "联系电话,格式错误", groups = {ValidCreate.class, ValidUpdate.class})
+    @Schema(description = "Contact number")
+    @NotEmpty(message = "Contact number is required", groups = {ValidCreate.class})
+    @Pattern(regexp = RegexConst.TEL_PHONE, message = "Contact number is invalid", groups = {ValidCreate.class, ValidUpdate.class})
     private String contactNumber;
 
     /**
-     * 行政地址
+     * Address area
      */
-    @Schema(description = "行政地址")
-    @NotNull(message = "行政地址,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Address area")
+    @NotNull(message = "Area is required", groups = {ValidCreate.class})
     private Long areaCode;
 
     /**
-     * 联系地址
+     * Address
      */
-    @Schema(description = "联系地址")
-    @NotEmpty(message = "联系地址,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Address")
+    @NotEmpty(message = "Address is required", groups = {ValidCreate.class})
     private String address;
 
     /**
-     * 状态 【 0.禁用  1.正常  9.初始化中】
+     * Status [0 = disabled, 1 = normal, 9 = initializing]
      */
-    @Schema(description = "状态 【0.禁用 1.正常 9.初始化中】")
+    @Schema(description = "Status [0 = disabled, 1 = normal, 9 = initializing]")
     private Byte status;
 
     /**
-     * 过期时间  默认是 100 年
+     * Expiry time (default 100 years)
      */
-    @Schema(description = "过期时间 默认是 10 年")
+    @Schema(description = "Expiry time (default 10 years)")
     private LocalDateTime expired;
 
     /**
-     * 租户 模板
+     * Tenant template
      */
-    @Schema(description = "租户模板")
+    @Schema(description = "Tenant template")
     @TableField(exist = false)
-    @NotNull(message = "租户模板,必须填写", groups = {ValidCreate.class})
-    @Size(min = 1, message = "租户模板,最少选择1个", groups = {ValidCreate.class, ValidUpdate.class})
+    @NotNull(message = "Tenant template is required", groups = {ValidCreate.class})
+    @Size(min = 1, message = "Select at least 1 tenant template", groups = {ValidCreate.class, ValidUpdate.class})
     private Set<SysTemplate> templates;
 
 }

@@ -32,28 +32,28 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/pms/role")
-@Tag(name = "[ 权限 ] 角色")
+@Tag(name = "[ Permissions ] Roles")
 @AllArgsConstructor
 public class PmsRoleController {
 
     private final PmsRoleService baseService;
 
 
-    @Operation(summary = "单个查询", description = "根据Id查询")
+    @Operation(summary = "Get one", description = "Query by ID")
     @GetMapping("/{id}")
     public JsonResult<PmsRole> getById(@PathVariable("id") Long id) {
         return JsonResult.success(baseService.getById(id));
     }
 
 
-    @Operation(summary = "查询所有", description = "查询所有")
+    @Operation(summary = "Query all", description = "Query all")
     @GetMapping("/list")
     public JsonResult<List<PmsRole>> list() {
         return JsonResult.success(baseService.list());
     }
 
 
-    @Operation(summary = "分页", description = "分页 查询所有")
+    @Operation(summary = "Paged query", description = "Paged query of all")
     @GetMapping("/query")
     public JsonResult<Pagination<PmsRole>> pageQuery(SearchPO params) {
         var page = baseService.pageKeywords(params);
@@ -62,7 +62,7 @@ public class PmsRoleController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "新增", description = "不需要添加id")
+    @Operation(summary = "Add", description = "Do not include id")
     @PostMapping()
     public JsonResult<Boolean> save(@RequestBody @Validated({ValidCreate.class}) PmsRole entity) {
         var flag = baseService.save(entity);
@@ -71,7 +71,7 @@ public class PmsRoleController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改", description = "修改必须要id")
+    @Operation(summary = "Update", description = "Update requires id")
     @PutMapping()
     public JsonResult<Boolean> updateById(@RequestBody @Validated({ValidUpdate.class}) PmsRole entity) {
         var flag = baseService.updateById(entity);
@@ -80,7 +80,7 @@ public class PmsRoleController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "删除", description = "只需要id即可")
+    @Operation(summary = "Delete", description = "Only the ID is required")
     @DeleteMapping("/{id}")
     public JsonResult<Boolean> removeById(@PathVariable("id") Long id) {
         var flag = baseService.removeById(id);
@@ -88,7 +88,7 @@ public class PmsRoleController {
     }
 
 
-    @Operation(summary = "拥有的菜单", description = "查询角色拥有的菜单！")
+    @Operation(summary = "Assigned menus", description = "Query the menus assigned to a role")
     @GetMapping("/menus/{roleId}")
     public JsonResult<UpdateMenusVO> listHaveMenus(@PathVariable Long roleId) {
         var data = baseService.listHaveMenus(roleId);
@@ -96,7 +96,7 @@ public class PmsRoleController {
     }
 
 
-    @Operation(summary = "拥有的部门", description = "查询角色拥有的部门！")
+    @Operation(summary = "Assigned departments", description = "Query the departments assigned to a role")
     @GetMapping("/depts/{roleId}")
     public JsonResult<UpdateMenusVO> listHaveDepts(@PathVariable Long roleId) {
         var data = baseService.listHaveDepts(roleId);
@@ -105,7 +105,7 @@ public class PmsRoleController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "关联菜单", description = "会删除原有的菜单！")
+    @Operation(summary = "Link menus", description = "Replaces the existing menus")
     @PostMapping("/menus")
     public JsonResult<Boolean> bindingMenus(@RequestBody @Validated BindingMenusVO entity) {
         var flag = baseService.updateMenus(entity.getId(), entity.getMenus());

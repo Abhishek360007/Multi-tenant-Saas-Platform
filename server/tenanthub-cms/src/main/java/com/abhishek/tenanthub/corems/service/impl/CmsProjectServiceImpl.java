@@ -93,7 +93,7 @@ public class CmsProjectServiceImpl extends BaseServiceImpl<CmsProjectMapper, Cms
     @Override
     public boolean save(CmsProject entity) {
         if (entity.getDeptId() == null) {
-            throw new BizException("项目所属部门必须填写！");
+            throw new BizException("Project department is required");
         }
         if (StrUtil.isEmpty(entity.getPassword())) {
             var password = Optional.ofNullable(configService.getValueByKey(DEFAULT_PROJECT_PASSWORD.getKey()))
@@ -125,15 +125,15 @@ public class CmsProjectServiceImpl extends BaseServiceImpl<CmsProjectMapper, Cms
     public boolean resetPassword(ResetPasswordVO pwd) {
         var project = baseMapper.selectById(pwd.getProjectId());
         if (project != null) {
-            // 新密码 加密
+            // Encrypt the new password
             String newPassword = encryptPassword(pwd.getNewPwd());
-            // 修改
+            // Edit
             var pmsUser = new CmsProject()
                     .setProjectId(pwd.getProjectId())
                     .setPassword(newPassword);
             return super.updateById(pmsUser);
         }
-        throw new BizException("项目不存在，无法重置密码！");
+        throw new BizException("Project does not exist; cannot reset its password");
     }
 
 
@@ -152,27 +152,27 @@ public class CmsProjectServiceImpl extends BaseServiceImpl<CmsProjectMapper, Cms
     @Override
     public boolean removeById(CmsProject entity) {
         if (entity.getProjectId() == null) {
-            throw new BizException("请输入项目Id！");
+            throw new BizException("Enter a project ID");
         }
         if (StrUtil.isEmpty(entity.getPassword())) {
-            throw new BizException("请输入项目密码！");
+            throw new BizException("Enter the project password");
         }
         var dbProject = super.getById(entity.getProjectId());
         if (dbProject == null) {
-            throw new BizException(String.format("项目Id %d 不存在！", entity.getProjectId()));
+            throw new BizException(String.format("Project ID %d does not exist", entity.getProjectId()));
         }
         var flag1 = matchesPassword(entity.getPassword(), dbProject.getPassword());
         if (!flag1) {
-            throw new BizException(String.format("项目 %s 密码输入错误！", dbProject.getProjectName()));
+            throw new BizException(String.format("Incorrect password for project %s", dbProject.getProjectName()));
         }
         var flag2 = super.removeById(dbProject.getProjectId());
-        // 查询 所有的 包含 project_id 的表
+        // Query all tables with project_id
         Set<String> tableNames = baseMapper.selectListTableNamesByIncludeColumn(PROJECT_ID);
-        // 删除 此项目 在所有表中的数据
+        // Delete this project from all tables
         if (!tableNames.isEmpty()) {
             baseMapper.deleteByProjectId(tableNames, dbProject.getProjectId());
         }
-        // 租户 删除 此项目
+        // Remove this project from the tenant
         tenantService.tenantDelProjectId(TenantUtils.getTenantId(), dbProject.getProjectId());
         return flag2;
     }

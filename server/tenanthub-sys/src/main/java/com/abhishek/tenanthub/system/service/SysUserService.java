@@ -17,7 +17,7 @@ public interface SysUserService {
 
 
     /**
-     * 获取 系统用户关联 租户ID
+     * Get tenants linked to a platform user ID
      *
      * @param userId
      * @param tenantIds
@@ -29,7 +29,7 @@ public interface SysUserService {
 
 
     /**
-     * 获取 系统用户关联 租户ID
+     * Get tenants linked to a platform user ID
      *
      * @param userId
      * @return
@@ -40,7 +40,7 @@ public interface SysUserService {
 
 
     /**
-     * 修改 系统用户关联 租户
+     * Update the tenants linked to a platform user
      *
      * @param userId
      * @param tenantIds
@@ -52,7 +52,7 @@ public interface SysUserService {
 
 
     /**
-     * 租户 删除关联的 系统用户
+     * Remove platform users linked to the tenant
      *
      * @param tenantId
      * @author Wang Chen Chen

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 操作日志
+ * Operation log
  * </p>
  *
  * @author WangChenChen
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  */
 
 @TableName("lms_oper_log")
-@Schema(description = "用户操作日志")
+@Schema(description = "User operation log")
 @Getter
 @Setter
 @Builder
@@ -35,114 +35,114 @@ public class LmsOperLog implements java.io.Serializable {
     private String id;
 
     /**
-     * 标题
+     * Title
      */
-    @Schema(description = "标题")
+    @Schema(description = "Title")
     private String title;
 
     /**
-     * 描述
+     * Description
      */
-    @Schema(description = "描述")
+    @Schema(description = "Description")
     private String description;
 
     /**
-     * 服务名称
+     * Service name
      */
-    @Schema(description = "服务名称")
+    @Schema(description = "Service name")
     private String serviceName;
 
     /**
-     * 用户ID
+     * User ID
      */
-    @Schema(description = "用户ID")
+    @Schema(description = "User ID")
     private Long userId;
 
     /**
-     * 用户昵称
+     * User nickname
      */
-    @Schema(description = "用户昵称")
+    @Schema(description = "User nickname")
     @TableField(exist = false)
     private String nickname;
 
     /**
-     * 用户名
+     * Username
      */
-    @Schema(description = "用户昵称")
+    @Schema(description = "User nickname")
     @TableField(exist = false)
     private String username;
 
     /**
-     * 头像
+     * Avatar
      */
-    @Schema(description = "用户昵称")
+    @Schema(description = "User nickname")
     @TableField(exist = false)
     private String avatar;
 
     /**
-     * 方法
+     * Method
      */
-    @Schema(description = "方法名")
+    @Schema(description = "Method name")
     private String method;
 
     /**
-     * 方法参数
+     * Method arguments
      */
-    @Schema(description = "方法参数")
+    @Schema(description = "Method arguments")
     private String methodArgs;
 
     /**
-     * 请求类型
+     * Request method
      */
-    @Schema(description = "http请求类型")
+    @Schema(description = "http Request method")
     private String requestMethod;
 
     /**
-     * 请求url
+     * Request url
      */
-    @Schema(description = "请求url")
+    @Schema(description = "Request url")
     private String requestUrl;
 
     /**
-     * 请求IP
+     * Request IP
      */
-    @Schema(description = "请求IP")
+    @Schema(description = "Request IP")
     private String requestIp;
 
     /**
-     * 请求地址
+     * Request URL
      */
-    @Schema(description = "请求地址")
+    @Schema(description = "Request URL")
     private String address;
 
     /**
-     * 请求响应
+     * Response
      */
-    @Schema(description = "用户昵称")
+    @Schema(description = "User nickname")
     private String responseResult;
 
     /**
-     * 状态
+     * Status
      */
-    @Schema(description = "结果状态")
+    @Schema(description = "Result status")
     private Integer status;
 
     /**
-     * 错误日志
+     * Error log
      */
-    @Schema(description = "错误日志")
+    @Schema(description = "Error log")
     private String errorLog;
 
     /**
-     * 耗时(毫秒)
+     * Duration (ms)
      */
-    @Schema(description = "耗时(毫秒)")
+    @Schema(description = "Duration (ms)")
     private Long timeCost;
 
     /**
-     * 创建时间
+     * Created at
      */
-    @Schema(description = "创建时间")
+    @Schema(description = "Created at")
     @TableField(fill = FieldFill.INSERT)
     protected LocalDateTime createTime;
 

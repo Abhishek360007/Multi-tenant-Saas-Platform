@@ -6,7 +6,7 @@ import java.util.Set;
 
 /**
  * <p>
- * redis key 常量配置
+ * redis key Constants
  * </p>
  *
  * @author Wang Chen Chen
@@ -17,8 +17,8 @@ import java.util.Set;
 public class RedisKeyConst {
 
     /**
-     * 不隔离的多租户的key。 equals
-     * 描述请查看下面 TenantStringRedisSerializer.ignoreEqualsKeys
+     * Keys that are not isolated per tenant. equals
+     * See the description below TenantStringRedisSerializer.ignoreEqualsKeys
      *
      * @see com.abhishek.tenanthub.redis.TenantStringRedisSerializer.ignoreEqualsKeys
      */
@@ -29,8 +29,8 @@ public class RedisKeyConst {
 
 
     /**
-     * 不隔离的多租户的key。 startsWith
-     * 描述请查看下面 TenantStringRedisSerializer.ignoreStartsWithKeys
+     * Keys that are not isolated per tenant. startsWith
+     * See the description below TenantStringRedisSerializer.ignoreStartsWithKeys
      *
      * @see com.abhishek.tenanthub.redis.TenantStringRedisSerializer.ignoreStartsWithKeys
      * <p>

@@ -7,14 +7,14 @@ import lombok.ToString;
 
 /**
  * <p>
- * code : 授权码模式: 第一步
- * authorization_code : 授权码模式
- * password : 密码模式
- * client_credentials : 客户端模式
- * refresh_token : 刷新token
- * we_chat : 微信登陆模式
- * tencent_qq : 腾讯 QQ 登陆模式
- * sms : 手机短信模式
+ * code : Authorization code flow: step 1
+ * authorization_code : Authorization code flow
+ * password : Password grant
+ * client_credentials : Client credentials grant
+ * refresh_token : Refresh token
+ * we_chat : WeChat sign-in
+ * tencent_qq : Tencent QQ sign-in
+ * sms : SMS grant
  * </p>
  *
  * @author Wang Chen Chen
@@ -26,17 +26,17 @@ import lombok.ToString;
 @ToString
 public enum GrantType {
 
-    CODE("code", "授权码模式，1.获取code"),
+    CODE("code", "Authorization code flow, 1. get code"),
 
-    AUTHORIZATION_CODE("authorization_code", "授权码模式，2.通过code获取access_token"),
+    AUTHORIZATION_CODE("authorization_code", "Authorization code flow, 2. exchange the code for access_token"),
 
-    PASSWORD("password", "密码模式"),
+    PASSWORD("password", "Password grant"),
 
-    CLIENT_CREDENTIALS("client_credentials", "客户端模式"),
+    CLIENT_CREDENTIALS("client_credentials", "Client credentials grant"),
 
-    SEND_SMS("send_sms", "发送短信"),
+    SEND_SMS("send_sms", "Send SMS"),
 
-    SMS("sms", "手机短信模式");
+    SMS("sms", "SMS grant");
 
     GrantType(String code, String description) {
         this.code = code;

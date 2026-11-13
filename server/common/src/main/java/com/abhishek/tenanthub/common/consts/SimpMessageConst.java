@@ -2,7 +2,7 @@ package com.abhishek.tenanthub.common.consts;
 
 /**
  * <p>
- * 全局推送消息
+ * Global push messages
  * </p>
  *
  * @author Wang Chen Chen
@@ -13,13 +13,13 @@ package com.abhishek.tenanthub.common.consts;
 
 public class SimpMessageConst {
 
-    // 广播 通知
+    // Broadcast notification
     public static final String BROADCAST_NOTICE = "/topic/broadcast/notice";
 
-    // 指定 推送
+    // Targeted push
     public static final String QUEUE_SINGLE_PUSH = "/queue/single/push";
 
-    // 租户创建成功或者失败推送
+    // Push on tenant creation success or failure
     public static final String QUEUE_SINGLE_CREATE_TENANT = "/queue/single/create/tenant";
 
 }

@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 反射 填充 操作用户信息
+ * Fill operator details by reflection
  * </p>
  *
  * @author WangChenChen
@@ -18,7 +18,7 @@ import java.util.Set;
 public interface ApiOperateUserService {
 
     /**
-     * 根据 用户ID 获取 操作用户
+     * Get the operator by user ID
      */
     Map<Long, OperateUserDTO> mapOperateUser(Set<Long> userIds);
 

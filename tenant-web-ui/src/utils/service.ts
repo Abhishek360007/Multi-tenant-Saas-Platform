@@ -9,11 +9,11 @@ import {getEnvBaseURLPrefix} from "."
 import {ISimpleProject} from "@/types/base"
 import qs from "qs"
 
-/** 创建请求实例 */
+/** Create the request instance */
 function createService() {
-  // 创建一个 axios 实例命名为 service
+  // Create an axios instance named service
   const service = axios.create()
-  // 请求拦截
+  // Request interceptor
   service.interceptors.request.use(
     (config) => {
       // The API works in UTC; send local date-times as UTC
@@ -21,30 +21,30 @@ function createService() {
       if (config.params) config.params = requestTimesToUtc(config.params)
       return config
     },
-    // 发送失败
+    // Request failed
     (error) => Promise.reject(error)
   )
-  // 响应拦截（可根据具体业务作出相应的调整）
+  // Response interceptor (adjust to your business needs)
   service.interceptors.response.use(
     (response) => {
-      // apiData 是 api 返回的数据
+      // apiData is the data returned by the API
       const apiData = response.data
-      // 二进制数据则直接返回
+      // Return binary data directly
       const responseType = response.request?.responseType
       if (responseType === "blob" || responseType === "arraybuffer") return apiData
       // The API returns UTC date-times; show them in the browser's time zone
       if (apiData && typeof apiData === "object") apiData.data = responseTimesToLocal(apiData.data)
-      // 这个 code 是和后端约定的业务 code
+      // This code is the business code agreed with the backend code
       const code = apiData.status
-      // 如果没有 code, 代表这不是项目后端开发的 api
+      // No code means the response did not come from this backend api
       if (code === undefined) {
-        ElMessage.error("非本系统的接口")
-        return Promise.reject(new Error("非本系统的接口"))
+        ElMessage.error("Not an endpoint of this system")
+        return Promise.reject(new Error("Not an endpoint of this system"))
       }
       const projectStore = useProjectStoreHook()
       switch (code) {
         case 200:
-          // code === 200 代表没有错误
+          // code === 200 means no error
           return apiData
         case 400020:
           // Password change pending: the router guard sends the user to /change-password
@@ -53,64 +53,64 @@ function createService() {
         case 400010:
         case 400011:
         case 400012:
-          logout("登录过期", apiData.message)
+          logout("Session expired", apiData.message)
           return Promise.reject(new Error(apiData.message))
         case 400444:
           ElMessage.error(apiData.message)
           return Promise.reject(new Error(apiData.message))
         case 400447:
-          // 此用户 没有操作 项目 的权限
+          // This user has no permission for the project
           if (apiData.data) {
-            ElMessage.error(`您没有操作 ${projectStore.getCurrentProject().projectName} 项目的权限`)
+            ElMessage.error(`You do not have permission for project ${projectStore.getCurrentProject().projectName}`)
             projectStore.setCurrentProject(apiData.data as ISimpleProject)
             return resendRequest(service, response)
           } else {
-            logout("暂无任何项目的操作权限", "权限不足")
-            return Promise.reject(new Error("暂无任何项目的操作权限"))
+            logout("You do not have permission for any project", "Access denied")
+            return Promise.reject(new Error("You do not have permission for any project"))
           }
         default:
-          // 不是正确的 Code
+          // is not a valid Code
           ElMessage.error(apiData.message || "Error")
           return Promise.reject(new Error(apiData.message || "Error"))
       }
     },
     (error) => {
-      // status 是 HTTP 状态码
+      // status is the HTTP status code
       const status = get(error, "response.status")
       switch (status) {
         case 400:
-          error.message = "请求错误"
+          error.message = "Bad request"
           break
         case 401:
-          // Token 过期时
-          logout("认证已经过期，请从新登录！", "认证过期")
+          // Token when expired
+          logout("Your session has expired. Please sign in again.", "Session expired")
           break
         case 403:
-          error.message = "拒绝访问"
+          error.message = "Access denied"
           break
         case 404:
-          error.message = "请求地址出错"
+          error.message = "Request URL error"
           break
         case 408:
-          error.message = "请求超时"
+          error.message = "Request timed out"
           break
         case 500:
-          error.message = "服务器内部错误"
+          error.message = "Internal server error"
           break
         case 501:
-          error.message = "服务未实现"
+          error.message = "Not implemented"
           break
         case 502:
-          error.message = "网关错误"
+          error.message = "Bad gateway"
           break
         case 503:
-          error.message = "服务不可用"
+          error.message = "Service unavailable"
           break
         case 504:
-          error.message = "网关超时"
+          error.message = "Gateway timeout"
           break
         case 505:
-          error.message = "HTTP 版本不受支持"
+          error.message = "HTTP version not supported"
           break
         default:
           break
@@ -122,7 +122,7 @@ function createService() {
   return service
 }
 
-// 重新发送请求
+// Resend the request
 function resendRequest(service: AxiosInstance, response: AxiosResponse) {
   const config = response.config
   const projectId = useProjectStoreHook().getCurrentProjectId()
@@ -130,31 +130,31 @@ function resendRequest(service: AxiosInstance, response: AxiosResponse) {
   return service(config)
 }
 
-// 退出登录
+// Sign out
 function logout(title: string, message: string) {
-  ElMessageBox.confirm(message || "登录已经过期，需要重新登录", title, {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(message || "Your session has expired. Please sign in again.", title, {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
       useUserStoreHook().fedLogout()
-      // 强制刷新浏览器也行，只是交互体验不是很好
+      // A hard browser refresh also works, but feels worse
       location.reload()
     })
-    .catch(() => console.log("取消退出..."))
+    .catch(() => console.log("Sign-out cancelled..."))
 }
 
-/** 创建请求方法 */
+/** Create the request method */
 function createRequest(service: AxiosInstance) {
   return function <T>(config: AxiosRequestConfig): Promise<T> {
     const tokenValue = getToken()
     const projectId = useProjectStoreHook().getCurrentProjectId()
-    // 如果是登录接口，就使用默认的 租户ID 进行登录
+    // The login endpoint uses the default tenant ID
     const tenantId = config.url === "/auth/login" ? config.data.tenantId : useUserStoreHook().userInfo?.tenantId
     const defaultConfig = {
       headers: {
-        // 携带 Token
+        // Include Token
         Authorization: tokenValue ? tokenValue : "",
         "x-tenant-id": tenantId,
         "x-project-id": projectId,
@@ -163,21 +163,21 @@ function createRequest(service: AxiosInstance) {
       timeout: 10000,
       baseURL: getEnvBaseURLPrefix()
     }
-    // 将默认配置 defaultConfig 和传入的自定义配置 config 进行合并成为 mergeConfig
+    // Merge the default config defaultConfig with the custom config into mergeConfig
     const mergeConfig = merge(defaultConfig, config)
     return service(mergeConfig)
   }
 }
 
-/** 用于网络请求的实例 */
+/** Instance used for network requests */
 const axiosService = createService()
 
-/** 用于网络请求的方法 */
+/** Method used for network requests */
 const axiosRequest = createRequest(axiosService)
 
-/** 通用请求工具函数 */
+/** Generic request helper */
 function httpRequest<T>(config: AxiosRequestConfig): Promise<T> {
-  // 单独处理自定义请求/响应回掉
+  // Custom request/response callbacks handled separately
   return new Promise((resolve, reject) =>
     axiosRequest(config)
       .then((response) => {
@@ -190,22 +190,22 @@ function httpRequest<T>(config: AxiosRequestConfig): Promise<T> {
   )
 }
 
-/** 单独抽离的get工具函数 */
+/** Standalone GET helper */
 function httpGet<T, P>(url: string, params?: T): Promise<P> {
   return httpRequest<P>({ method: "get", url, params, paramsSerializer: p => qs.stringify(p, { indices: false }) })
 }
 
-/** 单独抽离的post工具函数 */
+/** Standalone POST helper */
 function httpPost<T, P>(url: string, data?: T): Promise<P> {
   return httpRequest<P>({ method: "post", url, data })
 }
 
-/** 单独抽离的put工具函数 */
+/** Standalone PUT helper */
 function httpPut<T, P>(url: string, data?: T): Promise<P> {
   return httpRequest<P>({ method: "put", url, data })
 }
 
-/** 单独抽离的delete工具函数 */
+/** Standalone DELETE helper */
 function httpDelete<T, P>(url: string, params?: T): Promise<P> {
   return httpRequest<P>({ method: "delete", url, params, paramsSerializer: p => qs.stringify(p, { indices: false }) })
 }

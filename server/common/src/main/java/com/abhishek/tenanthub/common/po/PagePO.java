@@ -12,7 +12,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 /**
  * <p>
- * 基础参数传递
+ * Basic parameter passing
  * </p>
  *
  * @author Wang Chen Chen<932560435@qq.com>
@@ -22,7 +22,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 @Getter
 @Setter
 @ToString
-@Schema(description = "分页查询")
+@Schema(description = "Paged query")
 public class PagePO implements java.io.Serializable {
 
     public PagePO() {
@@ -31,39 +31,39 @@ public class PagePO implements java.io.Serializable {
     }
 
     /**
-     * 当前第几页
+     * Current page
      */
-    @Schema(description = "当前第几页", requiredMode = REQUIRED)
+    @Schema(description = "Current page", requiredMode = REQUIRED)
     private Integer pageIndex;
 
     /**
-     * 每页多少条数据
+     * Rows per page
      */
-    @Schema(description = "每页多少条", requiredMode = REQUIRED)
+    @Schema(description = "Items per page", requiredMode = REQUIRED)
     private Integer pageSize;
 
     /**
-     * 开始日期
+     * Start date
      */
-    @Schema(description = "开始日期")
+    @Schema(description = "Start date")
     private LocalDate startDate;
 
     /**
-     * 结束日期
+     * End date
      */
-    @Schema(description = "结束日期")
+    @Schema(description = "End date")
     private LocalDate endDate;
 
     /**
-     * 排序的方向 "desc" 或者 "asc".
+     * Sort direction "desc" or "asc".
      */
-    @Schema(description = "排序的方向, true: 顺序、false: 倒序")
+    @Schema(description = "Sort direction, true: ascending, false: descending")
     private boolean asc;
 
     /**
-     * 排序的字段,如: createUser,lastUpdateTime
+     * Field to sort by, e.g.: createUser,lastUpdateTime
      */
-    @Schema(description = "排序的字段,如: createUser,lastUpdateTime")
+    @Schema(description = "Field to sort by, e.g.: createUser,lastUpdateTime")
     private Set<String> orderByColumns;
 
 }

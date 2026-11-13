@@ -9,8 +9,8 @@ import java.util.Objects;
 
 /**
  * <p>
- * 0.禁用
- * 1.正常
+ * 0.Disabled
+ * 1.Normal
  * </p>
  *
  * @author Wang Chen Chen
@@ -23,9 +23,9 @@ import java.util.Objects;
 @ToString
 public enum StatusEnum {
 
-    DISABLE((byte) 0, "禁用"),
+    DISABLE((byte) 0, "Disabled"),
 
-    NORMAL((byte) 1, "正常");
+    NORMAL((byte) 1, "Normal");
 
     StatusEnum(Byte code, String description) {
         this.code = code;
@@ -39,7 +39,7 @@ public enum StatusEnum {
 
 
     /**
-     * 用于 spring mvc 实体参数绑定
+     * For Spring MVC entity parameter binding
      */
     @JsonCreator
     public static StatusEnum get(Byte value) {

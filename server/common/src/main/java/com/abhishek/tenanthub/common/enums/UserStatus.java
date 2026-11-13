@@ -7,7 +7,7 @@ import lombok.ToString;
 
 /**
  * <p>
- * 状态 【0.禁用 1.正常 2.锁定 】
+ * Status [0 = disabled, 1 = normal, 2 = locked]
  * </p>
  *
  * @author Wang Chen Chen
@@ -19,11 +19,11 @@ import lombok.ToString;
 @ToString
 public enum UserStatus {
 
-    DISABLE(0, "禁用"),
+    DISABLE(0, "Disabled"),
 
-    LOCKING(2, "锁定"),
+    LOCKING(2, "Locked"),
 
-    NORMAL(1, "正常");
+    NORMAL(1, "Normal");
 
     UserStatus(int code, String description) {
         this.code = code;

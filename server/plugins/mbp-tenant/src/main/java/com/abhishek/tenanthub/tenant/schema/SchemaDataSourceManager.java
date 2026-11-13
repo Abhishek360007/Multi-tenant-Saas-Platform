@@ -16,9 +16,9 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
- * 多租户 基于 模式（Schema）
- * 此方式，是 默认连接池，切换 租户的 schema，
- * 因为 mysql 数据库不支持 schema 所以只能使用 数据库 代替
+ * Multi-tenancy by schema
+ * Uses the default connection pool and switches the tenant schema,
+ * MySQL has no schemas, so databases are used instead
  *
  * @author WangChenChen
  * @date 2022/12/11 11:29
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SchemaDataSourceManager implements DatabaseManager {
 
-    // 默认租户的数据源
+    // Default tenant data source
     private final DataSource dataSource;
 
     private final JdbcTemplate jdbcTemplate;
@@ -71,7 +71,7 @@ public class SchemaDataSourceManager implements DatabaseManager {
 
 
     /**
-     * 创建表
+     * Create tables
      */
     @Override
     public synchronized void updateTable(String tenantId) throws Exception {
@@ -80,7 +80,7 @@ public class SchemaDataSourceManager implements DatabaseManager {
 
 
     /**
-     * 创建表
+     * Create tables
      */
     @Override
     public synchronized void updateTable(Set<String> tenantIds) throws Exception {
@@ -88,11 +88,11 @@ public class SchemaDataSourceManager implements DatabaseManager {
             return;
         }
         log.info("update table tenantId: \n{}", JsonUtils.toJson(tenantIds));
-        // 拼接数据库前缀。如: tenanthub_google
+        // Build the database name with the prefix, e.g.: tenanthub_google
         var dbNames = tenantIds.stream()
                 .map(tenantId -> multiTenantProperties.getPrefix() + tenantId)
                 .collect(Collectors.toList());
-        // 判断数据库是否存在！不存在就创建
+        // Create the database if it does not exist
         dbNames.forEach(dbName -> {
             var sql = String.format("CREATE DATABASE IF NOT EXISTS %s CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;", dbName);
             jdbcTemplate.execute(sql);

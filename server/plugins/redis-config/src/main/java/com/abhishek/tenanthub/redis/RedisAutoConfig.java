@@ -26,7 +26,7 @@ import java.time.Duration;
 
 /**
  * <p>
- * redis 和 spring cache 配置
+ * redis and Spring Cache settings
  * </p>
  *
  * @author Wang Chen Chen<932560435@qq.com>

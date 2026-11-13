@@ -51,7 +51,7 @@
             <if test="p.deptId != null and p.deptId != 0">
                 AND (u.dept_id = #{p.deptId} OR u.dept_id IN ( SELECT t.dept_id FROM pms_dept t WHERE find_in_set(#{p.deptId}, ancestors) ))
             </if>
-            <!-- 数据范围过滤 -->
+            <!-- Data scope filter -->
             ${p.params.dataScope}
         </where>
     </sql>

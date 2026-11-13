@@ -7,7 +7,7 @@ import lombok.ToString;
 
 /**
  * <p>
- * 基础参数传递
+ * Basic parameter passing
  * </p>
  *
  * @author Wang Chen Chen<932560435@qq.com>
@@ -17,10 +17,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Schema(description = "上级ID, 搜索分页查询")
+@Schema(description = "Parent ID for paged search")
 public class SearchParentPO extends SearchPO implements java.io.Serializable {
 
-    @Schema(description = "树节点 上级ID")
+    @Schema(description = "Tree node parent ID")
     private Long parentId;
 
 }

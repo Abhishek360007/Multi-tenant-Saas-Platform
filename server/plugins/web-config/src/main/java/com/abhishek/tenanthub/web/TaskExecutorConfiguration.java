@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * <p>
- * 线程池
+ * Thread pool
  * </p>
  *
  * @author WangChenChen
@@ -31,7 +31,7 @@ public class TaskExecutorConfiguration {
         executor.setKeepAliveSeconds(60);
         executor.setQueueCapacity(10000);
         executor.setThreadNamePrefix("task-");
-        // 线程不够用时由调用的线程处理该任务
+        // When no threads are free, the calling thread runs the task
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
         return executor;

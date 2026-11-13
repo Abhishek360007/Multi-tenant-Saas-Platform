@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 部门
+ * Department
  * </p>
  *
  * @author WangChenChen
@@ -19,38 +19,38 @@ import java.util.Set;
 public interface ApiPmsDeptService {
 
     /**
-     * 根据 部门ID 获取 部门信息
+     * Get department details by department ID
      */
     Map<Long, PmsDeptDTO> mapByDeptIds(Set<Long> deptIds);
 
 
     /**
-     * 根据 部门ID 查询 部门的全名称
-     * 如: Google中国/研发部/web前端组
+     * Get the full department name by department ID
+     * e.g. Google India/R&D/Web frontend team
      */
     Map<Long, PmsDeptDTO> mapFullNameByDeptIds(Set<Long> deptIds);
 
 
     /**
-     * 获取 子部门
+     * Get child departments
      */
     Set<Long> listChildIdByDeptId(Long deptId);
 
 
     /**
-     * 获取 子部门
+     * Get child departments
      */
     Set<PmsDeptDTO> listChildByDeptId(Long deptId);
 
 
     /**
-     * 获取 全部部门ID
+     * Get all departments ID
      */
     Set<Long> listDeptIdByAll();
 
 
     /**
-     * 获取 角色关联的部门id
+     * Get the departments linked to a role id
      */
     Set<Long> listDeptIdByRuleId(Set<Long> ruleIds);
 

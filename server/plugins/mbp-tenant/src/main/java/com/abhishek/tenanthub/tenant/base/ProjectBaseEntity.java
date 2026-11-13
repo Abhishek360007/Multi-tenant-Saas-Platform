@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 项目基础类
+ * Project base class
  * </p>
  *
  * @author WangChenChen
@@ -24,12 +24,12 @@ import lombok.experimental.Accessors;
 public class ProjectBaseEntity extends BaseEntity implements java.io.Serializable {
 
     /**
-     * 项目 id
+     * Project id
      *
      * @date 2023/10/10 21:12
      */
     @JsonIgnore
-    @Schema(description = "项目ID")
+    @Schema(description = "Project ID")
     @TableField(fill = FieldFill.INSERT)
     private Long projectId;
 

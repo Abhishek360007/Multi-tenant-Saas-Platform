@@ -46,16 +46,16 @@ public class SchemaInterceptor implements InnerInterceptor {
     @Override
     public void beforePrepare(StatementHandler sh, Connection conn, Integer transactionTimeout) {
         var mpBoundSql = PluginUtils.mpBoundSql(sh.getBoundSql());
-        // 获取当前 sql 语句中的。表名称
+        // Get the table names from the current SQL statement
         var tableName = getTableListName(mpBoundSql.sql());
-        // 判断 表名称 是否需要过滤，即: 使用 公共库，而不是 租户 库。
+        // Check whether the table should use the shared database instead of the tenant database.
         if (ignoreTable(tableName)) {
-            // 切换数据库
+            // Switch database
             switchSchema(conn, multiTenantProperties.getDefaultTenantId());
         } else {
             var tenantId = getCurrentTenantId();
             log.debug("beforePrepare.tenantId: {}", tenantId);
-            // 切换数据库
+            // Switch database
             switchSchema(conn, tenantId);
         }
         InnerInterceptor.super.beforePrepare(sh, conn, transactionTimeout);
@@ -63,13 +63,13 @@ public class SchemaInterceptor implements InnerInterceptor {
 
 
     private String getCurrentTenantId() {
-        // 默认租户
+        // Default tenant
         var defaultTenantId = multiTenantProperties.getDefaultTenantId();
-        // 1.判断当前此请求，是否已经登录。 2.判断 是否使用自定义 租户Id
+        // 1.Check whether the request is signed in. 2. Check whether a custom tenant is used Id
         if (JwtSecurityUtils.isAuthenticated() && !TenantUtils.getUseCustomTenantId()) {
-            // 判断登录的用户类型。
-            // 系统用户:  可以操作任何一个 租户 的数据库。
-            // 租户用户:  只能操作 所在租户 的数据库
+            // Determine the signed-in user type.
+            // Platform users: can access any tenant database.
+            // Tenant users: can only access their own tenant database
             if (JwtSecurityUtils.isMasterUser()) {
                 return TenantUtils.getTenantId();
             } else {
@@ -82,7 +82,7 @@ public class SchemaInterceptor implements InnerInterceptor {
 
 
     private void switchSchema(Connection conn, String schema) {
-        // 切换数据库
+        // Switch database
         var sql = String.format("use %s%s", multiTenantProperties.getPrefix(), schema);
         try {
             conn.createStatement().execute(sql);
@@ -97,7 +97,7 @@ public class SchemaInterceptor implements InnerInterceptor {
 
 
     /**
-     * 解析 sql 获取全部的 表名称
+     * Parse the SQL to get all table names
      */
     private static Set<String> getTableListName(String sql) {
         Statements statements = null;
@@ -115,7 +115,7 @@ public class SchemaInterceptor implements InnerInterceptor {
 
 
     /**
-     * 过滤 公共的表。
+     * Skip shared tables.
      */
     private static boolean ignoreTable(Set<String> tableName) {
         return CollectionUtil.containsAny(TENANT_IGNORE_TABLES, tableName);

@@ -1,7 +1,7 @@
 <template>
   <el-dropdown trigger="click" @command="handleCommand" size="large">
     <div>
-      <el-tooltip effect="dark" content="控件尺寸" placement="bottom">
+      <el-tooltip effect="dark" content="Component size" placement="bottom">
         <svg-icon name="size" :size="16" />
       </el-tooltip>
     </div>
@@ -25,15 +25,15 @@ const settingsStore = useSettingsStoreHook()
 const options = [
   {
     value: "large",
-    label: "大号"
+    label: "Large"
   },
   {
     value: "default",
-    label: "默认"
+    label: "Default"
   },
   {
     value: "small",
-    label: "小号"
+    label: "Small"
   }
 ]
 const handleCommand = (command: string) => {

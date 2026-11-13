@@ -48,33 +48,33 @@ public class IpUtils {
     }
 
     /**
-     * 获取 IP真实地址
+     * Get the real location of an IP
      */
     public static String getRealAddressByIP(String ip) {
         if (NetUtil.isInnerIP(ip)) {
-            return "内网IP";
+            return "Private network IP";
         }
         try {
             return SEARCHER.search(ip);
         } catch (Exception e) {
-            return "未知";
+            return "Unknown";
         }
     }
 
     /**
-     * 获取IP地址
+     * Get the IP address
      * <p>
-     * 使用Nginx等反向代理软件， 则不能通过request.getRemoteAddr()获取IP地址
-     * 如果使用了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP地址，X-Forwarded-For中第一个非unknown的有效IP字符串，则为真实IP地址
+     * Behind Nginx or another reverse proxy, request.getRemoteAddr() does not return the client IP
+     * With several proxies, X-Forwarded-For holds a list of IPs; the first valid non-unknown one is the client IP
      */
     public static String getIpAddr(HttpServletRequest request) {
         String ip = null;
-        //以下两个获取在k8s中，将真实的客户端IP，放到了x-Original-Forwarded-For。而将WAF的回源地址放到了 x-Forwarded-For了。
+        //In Kubernetes the client IP is in x-Original-Forwarded-For and the WAF origin address is in x-Forwarded-For.
         ip = request.getHeader("X-Original-Forwarded-For");
         if (StringUtils.isEmpty(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("X-Forwarded-For");
         }
-        //获取nginx等代理的ip
+        //Get from nginx or other proxies ip
         if (StringUtils.isEmpty(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("x-forwarded-for");
         }
@@ -90,15 +90,15 @@ public class IpUtils {
         if (StringUtils.isEmpty(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("HTTP_X_FORWARDED_FOR");
         }
-        //兼容k8s集群获取ip
+        //Kubernetes-compatible lookup ip
         if (StringUtils.isEmpty(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
             if (LOCAL_IP.equalsIgnoreCase(ip) || LOCALHOST_IP.equalsIgnoreCase(ip)) {
-                //根据网卡取本机配置的IP
+                //Get the configured address from the network interface IP
                 ip = NetUtil.getLocalhostStr();
             }
         }
-        //使用代理，则获取第一个IP地址
+        //Behind a proxy, use the first IP address
         if (!StringUtils.isEmpty(ip) && ip.indexOf(IP_UTILS_FLAG) > 0) {
             ip = ip.substring(0, ip.indexOf(IP_UTILS_FLAG));
         }
@@ -107,9 +107,9 @@ public class IpUtils {
 
 
     /**
-     * 获取 本地IP地址
+     * Get the local IP address
      *
-     * @return 本地IP地址
+     * @return Local IP address
      */
     public static String getHostIp() {
         try {
@@ -121,21 +121,21 @@ public class IpUtils {
 
 
     /**
-     * 获取 主机名
+     * Get the host name
      *
-     * @return 本地主机名
+     * @return Local host name
      */
     public static String getHostName() {
         try {
             return InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException ignored) {
         }
-        return "未知";
+        return "Unknown";
     }
 
 
     /**
-     * 此方法描述的是：获得服务器的IP地址(多网卡)
+     * Gets the server IP address (multiple NICs)
      */
     public static Set<String> getLocalIPS() {
         var ipList = new HashSet<String>();

@@ -3,13 +3,13 @@
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="params">
         <el-form-item>
-          <el-input v-model="params.keywords" clearable placeholder="根据 参数名称、参数键名 搜索" />
+          <el-input v-model="params.keywords" clearable placeholder="Search by parameter name or key" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :icon="Search" @click="searchTableData">搜索</el-button>
+          <el-button type="primary" :icon="Search" @click="searchTableData">Search</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="success" :icon="Plus" @click="handleAdd()">新增</el-button>
+          <el-button type="success" :icon="Plus" @click="handleAdd()">Add</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -17,10 +17,10 @@
     <el-card shadow="never">
       <div class="toolbar-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="configId" label="配置ID" />
-          <el-table-column prop="configName" label="参数名称" />
-          <el-table-column prop="configKey" label="参数键名" />
-          <el-table-column prop="configValue" label="参数键值">
+          <el-table-column prop="configId" label="Settings ID" />
+          <el-table-column prop="configName" label="Parameter name" />
+          <el-table-column prop="configKey" label="Parameter key" />
+          <el-table-column prop="configValue" label="Parameter value">
             <template #default="scope">
               <el-popover
                 placement="top-start"
@@ -35,28 +35,28 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="configType" label="系统内置">
+          <el-table-column prop="configType" label="Built in">
             <template #default="scope">
               {{ dictStore.getYesNo(scope.row.configType) }}
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间">
+          <el-table-column prop="createTime" label="Created at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.createTime" :entity="scope.row.createUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdateTime" label="修改时间">
+          <el-table-column prop="lastUpdateTime" label="Updated at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.lastUpdateTime" :entity="scope.row.lastUpdateUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="130">
+          <el-table-column label="Actions" width="130">
             <template #default="scope">
               <div v-admin>
-                <el-link :icon="Edit" type="warning" @click="handleEdit(scope.row)">编辑</el-link>
+                <el-link :icon="Edit" type="warning" @click="handleEdit(scope.row)">Edit</el-link>
                 &nbsp;
                 <el-link v-if="scope.row.configType !== 1" :icon="Delete" type="danger" @click="handleDelete(scope.row)"
-                  >删除</el-link
+                  >Delete</el-link
                 >
               </div>
             </template>
@@ -77,7 +77,7 @@
       </div>
     </el-card>
 
-    <!-- 新增和修改的弹窗 -->
+    <!-- Add/edit dialog -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="30%" :close-on-click-modal="false">
       <el-form
         ref="entityFormRef"
@@ -88,24 +88,24 @@
       >
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="configName" label="参数名称">
-              <el-input v-model.trim="entityForm.configName" placeholder="参数名称" type="text" tabindex="1" />
+            <el-form-item prop="configName" label="Parameter name">
+              <el-input v-model.trim="entityForm.configName" placeholder="Parameter name" type="text" tabindex="1" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="configType" label="系统内置">
+            <el-form-item prop="configType" label="Built in">
               <select-dict-data v-model:value="entityForm.configType" dictTypeKey="sys_yes_no" />
             </el-form-item>
           </el-col>
         </el-row>
 
-        <el-form-item prop="configKey" label="参数键名">
-          <el-input v-model.trim="entityForm.configKey" placeholder="参数键名" type="text" tabindex="2" />
+        <el-form-item prop="configKey" label="Parameter key">
+          <el-input v-model.trim="entityForm.configKey" placeholder="Parameter key" type="text" tabindex="2" />
         </el-form-item>
-        <el-form-item prop="configValue" label="参数键值">
+        <el-form-item prop="configValue" label="Parameter value">
           <el-input
             v-model="entityForm.configValue"
-            placeholder="参数键值"
+            placeholder="Parameter value"
             show-word-limit
             type="textarea"
             :rows="5"
@@ -115,8 +115,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">确定</el-button>
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">OK</el-button>
         </span>
       </template>
     </el-dialog>
@@ -135,10 +135,10 @@ import { showStringOverflow } from "@/hooks/useIndex"
 
 const dictStore = useDictStoreHook()
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
-// true : 新增，false : 修改
+// true : add, false: edit
 const saveFlag = ref(false)
 
 const dialogVisible = ref(false)
@@ -155,7 +155,7 @@ const params = reactive({
   includeCauu: true
 })
 
-/// 表单数据
+/// Form data
 const entityForm = ref<ISysConfig>({
   configId: 0,
   configName: "",
@@ -166,15 +166,15 @@ const entityForm = ref<ISysConfig>({
 
 const entityFormRef = ref<FormInstance | null>(null)
 
-/// 表单校验规则
+/// Form validation rules
 const entityFormRules: FormRules = {
-  configName: [{ required: true, message: "请输入参数名称", trigger: "blur" }],
-  configKey: [{ required: true, message: "请输入参数键名", trigger: "blur" }],
-  configValue: [{ required: true, message: "请输入参数键值", trigger: "blur" }],
-  configType: [{ required: true, message: "请输入系统内置", trigger: "blur" }]
+  configName: [{ required: true, message: "Enter a parameter name", trigger: "blur" }],
+  configKey: [{ required: true, message: "Enter a parameter key", trigger: "blur" }],
+  configValue: [{ required: true, message: "Enter a parameter value", trigger: "blur" }],
+  configType: [{ required: true, message: "Choose built-in", trigger: "blur" }]
 }
 
-// 获取数据
+// Fetch data
 const getTableData = () => {
   loading.value = true
   queryConfigApi(params)
@@ -190,7 +190,7 @@ const getTableData = () => {
     })
 }
 
-// 重置 Entity 属性
+// Reset entity fields
 const resetEntity = () => {
   entityForm.value = {
     configId: 0,
@@ -216,28 +216,28 @@ const handleCurrentChange = (val: number) => {
   getTableData()
 }
 
-// 编辑
+// Edit
 const handleEdit = (data: ISysConfig) => {
   resetEntity()
   entityForm.value = cloneDeep(data)
-  dialogTitle.value = "修改"
+  dialogTitle.value = "Edit"
   saveFlag.value = false
   dialogVisible.value = true
 }
 
-// 新增
+// Add
 const handleAdd = () => {
   resetEntity()
-  dialogTitle.value = "新增"
+  dialogTitle.value = "Add"
   saveFlag.value = true
   dialogVisible.value = true
 }
 
-// 删除
+// Delete
 const handleDelete = (data: ISysConfig) => {
-  ElMessageBox.confirm(`确要删除 ${data.configName} 吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(`Delete ${data.configName}?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
@@ -245,7 +245,7 @@ const handleDelete = (data: ISysConfig) => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `删除 ${data.configName} 成功！`,
+              message: `Deleted ${data.configName}`,
               type: "success"
             })
           }
@@ -262,7 +262,7 @@ const handleDelete = (data: ISysConfig) => {
     })
 }
 
-// 新增和修改
+// Add and edit
 const handleSaveAndFlush = () => {
   entityFormRef.value?.validate((valid: boolean) => {
     if (valid) {
@@ -272,7 +272,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "新增全局配置成功！",
+                message: "Setting added",
                 type: "success"
               })
             }
@@ -290,7 +290,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "修改全局配置成功！",
+                message: "Setting updated",
                 type: "success"
               })
             }

@@ -23,27 +23,27 @@ import lombok.experimental.Accessors;
 public class MenuMetaVO implements java.io.Serializable {
 
     /**
-     * 菜单图标
+     * Menu icon
      */
-    @Schema(description = "菜单图标！")
+    @Schema(description = "Menu icon")
     private String icon;
 
     /**
-     * 菜单标题
+     * Menu title
      */
-    @Schema(description = "菜单标题！")
+    @Schema(description = "Menu title")
     private String title;
 
     /**
-     * 是否隐藏
+     * Hidden
      */
-    @Schema(description = "是否隐藏！")
+    @Schema(description = "Hidden")
     private Boolean hidden;
 
     /**
-     * 是否隐藏
+     * Hidden
      */
-    @Schema(description = "保持状态（1.保持 0.不保持）！")
+    @Schema(description = "Keep alive (1 = yes, 0 = no)")
     private Boolean keepAlive;
 
 }

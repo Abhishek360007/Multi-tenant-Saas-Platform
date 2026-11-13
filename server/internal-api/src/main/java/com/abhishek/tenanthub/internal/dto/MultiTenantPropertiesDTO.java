@@ -5,7 +5,7 @@ import lombok.Setter;
 
 /**
  * <p>
- * 多租户全局配置
+ * Multi-tenant global settings
  * </p>
  *
  * @author WangChenChen
@@ -18,32 +18,32 @@ import lombok.Setter;
 public class MultiTenantPropertiesDTO {
 
     /**
-     * 是否开启租户模式
+     * Enable multi-tenant mode
      */
     private Boolean enable;
 
     /**
-     * 是否开启租户模式
+     * Enable multi-tenant mode
      */
     private Boolean enableProject;
 
     /**
-     * 数据库名称前缀
+     * Database name prefix
      */
     private String prefix;
 
     /**
-     * 默认租户ID
+     * Default tenant ID
      */
     private String defaultTenantId;
 
     /**
-     * 默认 项目ID
+     * Default project ID
      */
     private Long defaultProjectId;
 
     /**
-     * 默认 数据库名称
+     * Default database name
      */
     private String dbName;
 

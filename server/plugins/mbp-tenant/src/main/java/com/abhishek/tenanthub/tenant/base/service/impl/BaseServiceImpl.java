@@ -35,7 +35,7 @@ import static com.abhishek.tenanthub.common.consts.MbpConst.CREATE_TIME;
 
 /**
  * <p>
- * 基础
+ * Base
  * </p>
  *
  * @author Wang Chen Chen<932560435@qq.com>
@@ -144,16 +144,16 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> exte
 
     protected QueryWrapper<T> getKeywordsQueryWrapper(SearchPO params, Collection<SFunction<T, ?>> columns) {
         var wrapper = new QueryWrapper<T>();
-        // 开始时间是否为空
+        // Whether the start time is empty
         if (ObjectUtils.isNotEmpty(params.getStartDate())) {
-            // 如果结束时间是否为空
+            // Whether the end time is empty
             if (ObjectUtils.isNotEmpty(params.getEndDate())) {
                 wrapper.between(String.format("DATE(%s)", CREATE_TIME), params.getStartDate(), params.getEndDate());
             } else {
                 wrapper.between(String.format("DATE(%s)", CREATE_TIME), params.getStartDate(), LocalDate.now());
             }
         }
-        // 排序
+        // Sort order
         if (CollectionUtil.isNotEmpty(params.getOrderByColumns())) {
             var orderByColumns = params.getOrderByColumns()
                     .stream()
@@ -168,7 +168,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> exte
         if (!params.isIncludeCauu()) {
             wrapper.select(this.getEntityClass(), i -> !ATTR_BASE_FIELDS.contains(i.getProperty()));
         }
-        // 搜索
+        // Search
         if (StringUtils.isNotBlank(params.getKeywords()) && columns != null && !columns.isEmpty()) {
             wrapper.and(childWrapper -> {
                 var index = 0;

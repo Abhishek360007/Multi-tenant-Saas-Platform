@@ -11,21 +11,21 @@ import java.util.Set;
 
 public interface SysTenantMapper extends BaseMapper<SysTenant> {
 
-    // 查询 数据库 所有的 表名称
+    // Query all table names in the database
     @Select("SELECT DISTINCT TABLE_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = (SELECT DATABASE ())")
     Set<String> selectListTableNames();
 
 
-    // 清空指定表格的数据
+    // Clear the data of the given tables
     int truncateTableData(@Param("dbName") String dbName, @Param("tableNames") Set<String> tableNames);
 
 
-    // 删除 租户 的所有权限模板
+    // Delete all permission templates of the tenant
     @Delete("delete from sys_tenant_template WHERE tenant_id = #{tenantId}")
     int deleteHaveTemplates(String tenantId);
 
 
-    // 租户新增模板权限
+    // Add template permissions to the tenant
     int insertByTemplates(@Param("tenantId") String tenantId,
                           @Param("templates") Set<Long> templates);
 

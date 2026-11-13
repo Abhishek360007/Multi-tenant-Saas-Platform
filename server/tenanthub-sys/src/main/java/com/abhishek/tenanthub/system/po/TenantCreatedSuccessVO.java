@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <p>
- * 创建租户
+ * Create tenant
  * </p>
  *
  * @author Wang Chen Chen
@@ -20,22 +20,22 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "租户创建结果")
+@Schema(description = "Tenant creation result")
 public class TenantCreatedSuccessVO implements java.io.Serializable {
 
-    @Schema(description = "管理员名称！如果不填写，默认是商户名称！")
+    @Schema(description = "Admin name. Defaults to the tenant name if empty.")
     private String adminNickname;
 
-    @Schema(description = "管理员登录用户名,如果不填写，随机生成！")
+    @Schema(description = "Admin login username. Randomly generated if empty.")
     private String adminUsername;
 
-    @Schema(description = "管理员手机号,如果不填写，默认使用商户联系人手机号！")
+    @Schema(description = "Admin mobile number. Defaults to the tenant contact number if empty.")
     private String adminMobile;
 
-    @Schema(description = "管理员邮箱,如果不填写，默认使用商户邮箱！")
+    @Schema(description = "Admin email. Defaults to the tenant email if empty.")
     private String adminEmail;
 
-    @Schema(description = "管理员密码,如果不填写，默认使用默认密码！")
+    @Schema(description = "Admin password. A random one-time password is generated if empty.")
     private String adminPwd;
 
 }

@@ -27,7 +27,7 @@ public interface PmsUserService extends BaseService<PmsUser> {
 
 
     /**
-     * 修改密码
+     * Change password
      *
      * @param pwd
      * @return int
@@ -37,7 +37,7 @@ public interface PmsUserService extends BaseService<PmsUser> {
 
 
     /**
-     * 重置密码
+     * Reset password
      *
      * @param pwd
      * @return int
@@ -47,7 +47,7 @@ public interface PmsUserService extends BaseService<PmsUser> {
 
 
     /**
-     * 修改用户的角色
+     * Update the user roles
      *
      * @param userId
      * @param roleIds
@@ -58,7 +58,7 @@ public interface PmsUserService extends BaseService<PmsUser> {
 
 
     /**
-     * 获取用户权限
+     * Get user permissions
      */
     UserRightsVO getUserRights();
 

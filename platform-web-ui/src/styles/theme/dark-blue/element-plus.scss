@@ -1,6 +1,6 @@
 /**
- * dark-blue 主题下的 Element Plus SCSS 变量
- * 在此查阅所有可自定义的变量：https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss
+ * dark-blue Element Plus SCSS variables for this theme
+ * All customizable variables are listed here:https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss
  */
 
 @use "sass:map";
@@ -10,7 +10,7 @@
 @use "element-plus/theme-chalk/src/mixins/mixins.scss" as *;
 @use "./variables.scss" as *;
 
-// 生成指定颜色的明亮/黑暗颜色
+// Generate light/dark variants of a color
 @mixin set-color-mix-level($type, $number, $mode: "light", $mix-color: $color-white) {
   $colors: map.deep-merge(
     (
@@ -55,7 +55,7 @@ $text-color: map.merge(
   $text-color
 );
 
-// 生成 --el-color-${type}-light-i
+// Generate --el-color-${type}-light-i
 @each $type in (primary) {
   @for $i from 1 through 9 {
     @include set-color-mix-level($type, $i, "light", #021633);

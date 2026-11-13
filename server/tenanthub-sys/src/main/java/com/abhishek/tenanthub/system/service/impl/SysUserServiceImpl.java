@@ -68,38 +68,38 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updateTenant(Long userId, Set<String> tenantIds) {
-        // 只有 系统用户，并且是管理员，才可以给其他用户分配租户
+        // Only platform admins can assign tenants to other users
         if (isMasterUser() && isAdminUser()) {
-            // 系统管理员 无需分配租户。关联全部租户
+            // Platform admins need no assignment; they see every tenant
             if (Objects.equals(getUserId(), userId)) {
                 return true;
             }
-            // 获取存在的 租户ID
+            // Get the existing tenants ID
             var collect = tenantIds.stream().filter(tenantManager::existById).collect(Collectors.toSet());
             return delegate(tenantManager.getDefaultTenantId(), () -> {
                 var sysUser = pmsUserService.getByUserId(userId);
-                // 判断 系统用户 是否存在
+                // Check that the platform user exists
                 if (sysUser == null) {
-                    throw new BizException(String.format("系统用户 %s 不存在！", userId));
+                    throw new BizException(String.format("Platform user %s does not exist", userId));
                 }
-                // 删除 系统用户 之前关联的租户
+                // Delete the tenants previously linked to the platform user
                 baseMapper.deleteHaveTenants(userId);
-                // 根据 用户名，获取登录的用户信息
+                // Get the signed-in user by username
                 var loginUser = jwtTokenService.getLoginUserByUsername(sysUser.getUsername());
                 if (loginUser != null) {
-                    // 更新 系统用户 关联的租户ID
+                    // Update the tenants linked to the platform user ID
                     loginUser.setHaveTenantIds(collect);
                     jwtTokenService.updateLoginUser(loginUser);
                 }
                 if (!collect.isEmpty()) {
-                    // 系统用户 关联 新的租户
+                    // Link the platform user to the new tenants
                     var r2 = baseMapper.insertByTenants(userId, collect);
                     return r2 > 0;
                 }
                 return true;
             });
         }
-        throw new BizException("只有系统管理员，才能给系统用户分配租户！");
+        throw new BizException("Only platform admins can assign tenants to platform users");
     }
 
 

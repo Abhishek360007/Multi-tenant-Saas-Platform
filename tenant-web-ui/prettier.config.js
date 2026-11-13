@@ -1,24 +1,24 @@
 /**
- * 配置项文档：https://prettier.io/docs/en/configuration.html
+ * Configuration docs:https://prettier.io/docs/en/configuration.html
  * @type {import("prettier").Config}
  */
 export default {
-  /** 每一行的宽度 */
+  /** Line width */
   printWidth: 120,
-  /** Tab 键的空格数 */
+  /** Tab Indent width */
   tabWidth: 2,
-  /** 在对象中的括号之间是否用空格来间隔 */
+  /** Spaces inside object braces */
   bracketSpacing: true,
-  /** 箭头函数的参数无论有几个，都要括号包裹 */
+  /** Always wrap arrow function parameters in parentheses */
   arrowParens: "always",
-  /** 换行符的使用 */
+  /** Line endings */
   endOfLine: "auto",
-  /** 是否采用单引号 */
+  /** Use single quotes */
   singleQuote: false,
-  /** 对象或者数组的最后一个元素后面不要加逗号 */
+  /** No trailing comma after the last element */
   trailingComma: "none",
-  /** 是否加分号 */
+  /** Use semicolons */
   semi: false,
-  /** 是否使用 Tab 格式化 */
+  /** Indent with tabs */
   useTabs: false
 }

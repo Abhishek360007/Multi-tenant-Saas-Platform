@@ -11,7 +11,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 /**
  * <p>
- * 字典查询，参数
+ * Dictionary query parameters
  * </p>
  *
  * @author Wang Chen Chen <932560435@qq.com>
@@ -21,14 +21,14 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 @Data
 @ToString
-@Schema(description = "字典查询")
+@Schema(description = "Dictionary query")
 @EqualsAndHashCode(callSuper = false)
 public class DictQueryPO extends SearchPO {
 
     /**
-     * 字典类型
+     * Dictionary type
      */
-    @Schema(description = "字典类型", requiredMode = REQUIRED)
+    @Schema(description = "Dictionary type", requiredMode = REQUIRED)
     private String dictTypeKey;
 
 }

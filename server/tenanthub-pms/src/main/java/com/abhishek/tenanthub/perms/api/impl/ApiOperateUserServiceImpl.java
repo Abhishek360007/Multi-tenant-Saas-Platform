@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 反射 填充 操作用户信息
+ * Fill operator details by reflection
  * </p>
  *
  * @author WangChenChen

@@ -1,47 +1,47 @@
 import { IBaseEntity, ISearchQuery } from "./base"
 
-// 字典搜索分页查询
+// Paged dictionary search
 export interface IDictSearchQuery extends ISearchQuery {
-  // 字典类型
+  // Dictionary type
   dictTypeKey: string
 }
 
-/** 字典类型表 */
+/** Dictionary type table */
 export interface IDictType extends IBaseEntity {
-  /** 字典类型 ID */
+  /** Dictionary type ID */
   typeId: number
-  /** 字典类型名 */
+  /** Dictionary type name */
   typeName: string
-  /** 字典类型关键字 */
+  /** Dictionary type key */
   typeKey: string
-  /** 字典描述 */
+  /** Dictionary description */
   description: string
 }
 
-/** 字典数据表 */
+/** Dictionary data table */
 export interface IDictData extends IBaseEntity {
-  /** 字典类型 ID */
+  /** Dictionary type ID */
   dictCode: number
-  /** 字典排序 */
+  /** Dictionary sort order */
   dictSort: number
-  /** 字典标签 */
+  /** Dictionary label */
   dictLabel: string
-  /** 字典键值 */
+  /** Dictionary value */
   dictValue: string
-  /** 字典类型关键字 */
+  /** Dictionary type key */
   typeKey: string
-  /** 是否默认（1.是 0.否） */
+  /** Is default (1 = yes, 0 = no) */
   isDefault: number
 }
 
-/** 字典数据表 */
+/** Dictionary data table */
 export interface IMapDictData extends IBaseEntity {
-  /** 字典排序 */
+  /** Dictionary sort order */
   dictSort: number
-  /** 字典标签 */
+  /** Dictionary label */
   dictLabel: string
-  /** 字典键值 */
+  /** Dictionary value */
   dictValue: Object
-  /** 是否默认 */
+  /** Default */
   isDefault: boolean
 }

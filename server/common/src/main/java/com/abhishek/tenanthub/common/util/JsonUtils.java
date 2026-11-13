@@ -26,7 +26,7 @@ import java.util.Map;
 
 /**
  * <p>
- * jackson Json 工具类
+ * jackson Json Utility class
  * </p>
  *
  * @author Wang Chen Chen
@@ -73,7 +73,7 @@ public class JsonUtils {
     }
 
     /**
-     * 将对象转换成json字符串。
+     * Convert an object to a JSON string.
      *
      * @param data
      * @return java.util.List<T>
@@ -91,7 +91,7 @@ public class JsonUtils {
 
 
     /**
-     * 将对象转换成 json字符串。并且格式化
+     * Convert an object to a formatted JSON string.
      *
      * @param data
      * @return java.util.List<T>
@@ -111,7 +111,7 @@ public class JsonUtils {
 
 
     /**
-     * 判断 string 是否为json
+     * Check whether the string is json
      *
      * @param jsonStr
      * @return boolean
@@ -125,7 +125,7 @@ public class JsonUtils {
 
 
     /**
-     * 判断 string 是否为json
+     * Check whether the string is json
      *
      * @param jsonBytes
      * @return boolean
@@ -139,7 +139,7 @@ public class JsonUtils {
 
 
     /**
-     * 将对象转换成 二进制
+     * Convert an object to bytes
      *
      * @param data
      * @return java.util.List<T>
@@ -157,7 +157,7 @@ public class JsonUtils {
 
 
     /**
-     * 将json结果集转化为对象
+     * Convert a JSON result into an object
      *
      * @param jsonData
      * @param beanType
@@ -176,7 +176,7 @@ public class JsonUtils {
 
 
     /**
-     * 将json结果集转化为对象
+     * Convert a JSON result into an object
      *
      * @param src
      * @param beanType
@@ -195,7 +195,7 @@ public class JsonUtils {
 
 
     /**
-     * 将json数据转换成pojo对象list
+     * Convert JSON into a POJO list
      *
      * @param jsonStr
      * @param beanType
@@ -214,7 +214,7 @@ public class JsonUtils {
 
 
     /**
-     * 将json数据转换成 Map
+     * Convert JSON into Map
      *
      * @param jsonBytes
      * @param keyType
@@ -234,7 +234,7 @@ public class JsonUtils {
 
 
     /**
-     * 将json数据转换成 Map
+     * Convert JSON into Map
      *
      * @param jsonStr
      * @param keyType
@@ -254,7 +254,7 @@ public class JsonUtils {
 
 
     /**
-     * 将json数据转换成pojo对象list
+     * Convert JSON into a POJO list
      *
      * @param jsonStr
      * @param keyType

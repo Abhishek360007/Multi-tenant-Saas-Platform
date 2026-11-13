@@ -5,7 +5,7 @@ import com.abhishek.tenanthub.monitor.entity.LmsOperLog;
 
 /**
  * <p>
- * 操作日志
+ * Operation log
  * </p>
  *
  * @author WangChenChen

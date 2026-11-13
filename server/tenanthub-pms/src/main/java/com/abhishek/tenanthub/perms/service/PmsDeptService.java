@@ -22,57 +22,57 @@ import java.util.Set;
 public interface PmsDeptService extends BaseService<PmsDept> {
 
     /**
-     * 分页查询
+     * Paged query
      */
     IPage<PmsDept> pageKeywords(SearchParentPO params);
 
 
     /**
-     * 获取所有部门，树节点展示
+     * Get all departments as a tree
      */
     List<Tree<Long>> treeNode();
 
 
     /**
-     * 获取用户，所在部门的数据权限
+     * Get the data permissions of the user department
      */
     Set<Long> listHaveDeptIds(Long userId);
 
 
     /**
-     * 获取 子部门ID
+     * Get child departments ID
      */
     Set<Long> listChildIdByDeptId(Long deptId);
 
 
     /**
-     * 获取 子部门信息
+     * Get child department details
      */
     Set<PmsDept> listChildByDeptId(Long deptId);
 
 
     /**
-     * 根据 部门ID 查询 部门的全名称
-     * 如: Google中国/研发部/web前端组
+     * Get the full department name by department ID
+     * e.g. Google India/R&D/Web frontend team
      */
     Map<Long, String> mapDeptFullName(Set<Long> deptIds);
 
 
     /**
-     * 根据 部门ID 查询 部门的全名称
-     * 如: Google中国/研发部/web前端组
+     * Get the full department name by department ID
+     * e.g. Google India/R&D/Web frontend team
      */
     List<PmsDept> listDeptFullName(Set<Long> deptIds);
 
 
     /**
-     * 根据 用户id 查询 部门列表
+     * Query departments by user ID
      */
     List<PmsDept> listChildDeptByUserId(Long userId);
 
 
     /**
-     * 根据 用户id 查询 部门id列表
+     * Query department IDs by user ID
      */
     Set<Long> listChildDeptIdByUserId(Long userId);
 

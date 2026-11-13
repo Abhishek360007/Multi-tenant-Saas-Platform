@@ -1,24 +1,24 @@
 import {computed} from "vue"
 import {indiaAreaDeepQuery, expiredDateAgo, timeAgo} from "@/utils"
 
-// 以前的时间
+// Earlier time
 const showTimeAgo = computed(() => {
   return (value: string) => timeAgo(value)
 })
 
-// 未来的时间
+// Future time
 const showExpiredDateAgo = computed(() => {
   return (value: string) => expiredDateAgo(value)
 })
 
-// 截取字符串
+// Truncate a string
 const showStringOverflow = computed(() => {
   return (value: string, len = 20) => {
     return value.length <= len ? value : value.substring(0, len)
   }
 })
 
-// 显示中国行政区域名称
+// Show the India area name
 const showIndiaArea = computed(() => {
   return (value: number) => {
     const area = indiaAreaDeepQuery(value)

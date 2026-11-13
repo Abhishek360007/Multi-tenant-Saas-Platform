@@ -3,23 +3,23 @@ LABEL org.opencontainers.image.title="tenanthub" \
       org.opencontainers.image.source="https://github.com/Abhishek360007/Multi-tenant-Saas-Platform" \
       org.opencontainers.image.licenses="Apache-2.0"
 ENV VERSION=1.1
-# 挂载容器目录
-# tmp: 临时文件目录，内嵌tomcat启动时，用到
-# logs: spring-boot 日志输出的目录
-# config: spring-boot 外部化配置文件目录
+# Mounted container directories
+# tmp: Temp directory used by embedded Tomcat
+# logs: spring-boot Log output directory
+# config: spring-boot External configuration directory
 VOLUME ["/tmp","/logs","/config"]
-# 复制打包 完成后的jar文件，名字修改成 app.jar
+# Copy the built jar and rename it to app.jar
 COPY target/tenanthub-service-1.0.1.jar app.jar
 # Run in UTC; the web UIs convert times to the viewer's time zone
 RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 RUN echo "UTC" >/etc/timezone
-# 设置编码
+# Encoding
 ENV LANG=C.UTF-8
-# JVM参数
+# JVM Parameters
 ENV JVM_OPTS="-server -Xms2g -Xmx2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"
-# 服务端口
+# Server port
 ENV SERVER_PORT=18891
-# 服务暴露端口PORT
+# Exposed port
 EXPOSE ${SERVER_PORT}
-# 启动 Spring Boot App 命令
+# Spring Boot start command
 ENTRYPOINT ["sh", "-c", "exec java ${JVM_OPTS} -Dfile.encoding=UTF-8 -Duser.timezone=UTC -Djava.security.egd=file:/dev/./urandom -jar /app.jar"]

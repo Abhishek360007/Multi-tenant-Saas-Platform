@@ -10,10 +10,10 @@
       append-to-body
     >
       <el-tabs v-model="activeName" type="card" @tab-click="tabsHandleClick">
-        <el-tab-pane label="切换租户" name="tenant">
+        <el-tab-pane label="Switch tenant" name="tenant">
           <SearchTenant @handle-switch="childHandleSwitch" ref="childTenant" />
         </el-tab-pane>
-        <el-tab-pane label="切换项目" name="project">
+        <el-tab-pane label="Switch project" name="project">
           <SearchProject @handle-switch="childHandleSwitch" ref="childProject" />
         </el-tab-pane>
       </el-tabs>
@@ -37,21 +37,21 @@ const projectStore = useProjectStoreHook()
 
 const appStore = useAppStore()
 
-/** 控制搜索对话框宽度 */
+/** Search dialog width */
 const modalWidth = computed(() => (appStore.device === DeviceEnum.Mobile ? "80vw" : "40vw"))
 
 const dialogVisible = ref(false)
 
 const activeName = ref("tenant")
 
-// 租户切换组件
+// Tenant switcher
 const childTenant = ref()
-// 项目切换组件
+// Project switcher
 const childProject = ref()
 
 const value = computed(() => `${tenantStore.getCurrentTenant().name} / ${projectStore.getCurrentProject().projectName}`)
 
-// 获取 input 焦点
+// Focus the input
 const inputFocus = () => {
   dialogVisible.value = true
 }

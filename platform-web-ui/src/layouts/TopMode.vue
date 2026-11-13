@@ -11,7 +11,7 @@ const { currentOnlyId } = useTenantAndProject()
 
 <template>
   <div class="app-wrapper">
-    <!-- 头部导航栏和标签栏 -->
+    <!-- Header navigation bar and tab bar -->
     <div class="fixed-header layout-header">
       <div class="content">
         <Logo v-if="showLogo" :collapse="false" class="logo" />
@@ -19,9 +19,9 @@ const { currentOnlyId } = useTenantAndProject()
       </div>
       <TagsView v-show="showTagsView" />
     </div>
-    <!-- 主容器 -->
+    <!-- Main container -->
     <div :class="{ hasTagsView: showTagsView }" class="main-container">
-      <!-- 页面主体内容 -->
+      <!-- Page content -->
       <AppMain class="app-main" :key="currentOnlyId" />
     </div>
   </div>

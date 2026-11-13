@@ -6,8 +6,8 @@ import {loginUrl} from "@/config/white-list"
 const Layouts = () => import("@/layouts/index.vue")
 
 /**
- * 常驻路由
- * 除了 redirect/403/404/login 等隐藏页面，其他页面建议设置 Name 属性
+ * Constant routes
+ * Except hidden pages such as redirect/403/404/login, pages should have a Name
  */
 export const constantRoutes: RouteRecordRaw[] = [
   {
@@ -63,7 +63,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/dashboard/index.vue"),
         name: "Dashboard",
         meta: {
-          title: "首页",
+          title: "Home",
           svgIcon: "dashboard",
           affix: true
         }
@@ -73,7 +73,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/personal/index.vue"),
         name: "Personal",
         meta: {
-          title: "个人信息",
+          title: "Profile",
           affix: true,
           hidden: true
         }
@@ -103,9 +103,9 @@ const router = createRouter({
   routes: routeSettings.thirdLevelRouteCache ? flatMultiLevelRoutes(constantRoutes) : constantRoutes
 })
 
-/** 重置路由 */
+/** Reset routes */
 export function resetRouter() {
-  // 注意：所有动态路由路由必须带有 Name 属性，否则可能会不能完全重置干净
+  // Note: every dynamic route must have a Name or it may not be fully reset
   try {
     router.getRoutes().forEach((route) => {
       const { name, meta } = route
@@ -114,16 +114,16 @@ export function resetRouter() {
       }
     })
   } catch {
-    // 强制刷新浏览器也行，只是交互体验不是很好
+    // A hard browser refresh also works, but feels worse
     window.location.reload()
   }
 }
 
-/** 跳转到 登录页面 */
+/** Go to the sign-in page */
 export function jumpToLogin() {
-  // 获取当前页面的路由
+  // Get the current page route
   const path = router.currentRoute.value.path
-  // 获取当前页面的参数
+  // Get the current page parameters
   const query = router.currentRoute.value.query
   query.redirect = path
   router.push({ path: loginUrl, query: query })

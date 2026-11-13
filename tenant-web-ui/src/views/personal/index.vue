@@ -5,7 +5,7 @@
         <el-card class="box-card">
           <template #header>
             <div class="card-header">
-              <span>个人信息</span>
+              <span>Profile</span>
             </div>
           </template>
           <div class="basic-info">
@@ -15,32 +15,32 @@
             <ul class="list-group list-group-striped">
               <li class="list-group-item">
                 <el-icon><Connection /></el-icon>
-                用户ID
+                User ID
                 <div class="pull-right">{{ userInfoForm.userId }}</div>
               </li>
               <li class="list-group-item">
                 <el-icon><Filter /></el-icon>
-                昵称
+                Nickname
                 <div class="pull-right">{{ userInfoForm.nickname }}</div>
               </li>
               <li class="list-group-item">
                 <el-icon><User /></el-icon>
-                用户名
+                Username
                 <div class="pull-right">{{ userInfoForm.username }}</div>
               </li>
               <li class="list-group-item">
                 <el-icon><Calendar /></el-icon>
-                邮箱
+                Email
                 <div class="pull-right">{{ userInfoForm.email }}</div>
               </li>
               <li class="list-group-item">
                 <el-icon><Phone /></el-icon>
-                电话
+                Phone
                 <div class="pull-right">{{ userInfoForm.mobile }}</div>
               </li>
               <li class="list-group-item">
                 <el-icon><Brush /></el-icon>
-                角色
+                Role
                 <div class="pull-right">
                   <el-tag v-for="(role, index) in userInfoForm.roles" :key="index" type="success"
                     >{{ role.description }}
@@ -55,12 +55,12 @@
         <el-card class="box-card">
           <template #header>
             <div class="card-header">
-              <span>基本资料</span>
+              <span>Basic information</span>
             </div>
           </template>
           <div class="basic-info">
             <el-tabs v-model="activeName" class="demo-tabs">
-              <el-tab-pane label="基本资料" name="first">
+              <el-tab-pane label="Basic information" name="first">
                 <el-form
                   ref="userInfoFormRef"
                   :model="userInfoForm"
@@ -69,31 +69,31 @@
                   v-loading="loading"
                   class="user-form"
                 >
-                  <el-form-item label="昵称" prop="nickname">
-                    <el-input v-model.trim="userInfoForm.nickname" placeholder="昵称" tabindex="1" />
+                  <el-form-item label="Nickname" prop="nickname">
+                    <el-input v-model.trim="userInfoForm.nickname" placeholder="Nickname" tabindex="1" />
                   </el-form-item>
-                  <el-form-item label="邮箱" prop="email">
-                    <el-input v-model.trim="userInfoForm.email" placeholder="邮箱" tabindex="2" />
+                  <el-form-item label="Email" prop="email">
+                    <el-input v-model.trim="userInfoForm.email" placeholder="Email" tabindex="2" />
                   </el-form-item>
-                  <el-form-item label="手机号" prop="mobile">
+                  <el-form-item label="Mobile number" prop="mobile">
                     <el-input
                       v-model.trim="userInfoForm.mobile"
-                      placeholder="手机号"
+                      placeholder="Mobile number"
                       type="text"
                       maxlength="11"
                       show-word-limit
                       tabindex="3"
                     />
                   </el-form-item>
-                  <el-form-item label="性别" prop="gender">
+                  <el-form-item label="Gender" prop="gender">
                     <select-dict-data v-model:value="userInfoForm.gender" dictTypeKey="sys_user_sex" />
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="primary" v-preventReClick @click="onUpdateUserInfo">立即修改</el-button>
+                    <el-button type="primary" v-preventReClick @click="onUpdateUserInfo">Save changes</el-button>
                   </el-form-item>
                 </el-form>
               </el-tab-pane>
-              <el-tab-pane label="修改密码" name="second">
+              <el-tab-pane label="Change password" name="second">
                 <el-form
                   ref="updatePwdFormRef"
                   :model="updatePwdForm"
@@ -102,17 +102,17 @@
                   v-loading="loading"
                   class="user-form"
                 >
-                  <el-form-item label="旧密码" prop="oldPwd">
+                  <el-form-item label="Current password" prop="oldPwd">
                     <el-input v-model="updatePwdForm.oldPwd" show-password />
                   </el-form-item>
-                  <el-form-item label="新密码" prop="newPwd">
+                  <el-form-item label="New password" prop="newPwd">
                     <el-input v-model="updatePwdForm.newPwd" show-password />
                   </el-form-item>
-                  <el-form-item label="确认密码" prop="confirmPwd">
+                  <el-form-item label="Confirm password" prop="confirmPwd">
                     <el-input v-model="updatePwdForm.confirmPwd" show-password />
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="primary" v-preventReClick @click="onUpdatePassword">立即修改</el-button>
+                    <el-button type="primary" v-preventReClick @click="onUpdatePassword">Save changes</el-button>
                   </el-form-item>
                 </el-form>
               </el-tab-pane>
@@ -147,7 +147,7 @@ const userInfoForm = reactive<ILoginUserInfo>(userStore.userInfo!)
 
 const emailValidator = (rule: any, value: any, callback: any) => {
   if (!isEmail(value)) {
-    callback(new Error("邮箱格式不正确!"))
+    callback(new Error("Invalid email address!"))
   } else {
     callback()
   }
@@ -155,27 +155,27 @@ const emailValidator = (rule: any, value: any, callback: any) => {
 
 const phoneValidator = (rule: any, value: any, callback: any) => {
   if (!isPhone(value)) {
-    callback(new Error("手机号码格式不正确!"))
+    callback(new Error("Invalid mobile number!"))
   } else {
     callback()
   }
 }
 
-/** 登录表单校验规则 */
+/** Login form validation rules */
 const userInfoFormRules: FormRules = {
   nickname: [
-    { required: true, message: "请输入用户昵称", trigger: "blur" },
-    { min: 5, max: 32, message: "长度大于 5 个字符", trigger: "blur" }
+    { required: true, message: "Enter a nickname", trigger: "blur" },
+    { min: 5, max: 32, message: "Must be longer than 5 characters", trigger: "blur" }
   ],
   email: [
-    { required: true, message: "请输入邮箱", trigger: "blur" },
+    { required: true, message: "Enter an email", trigger: "blur" },
     { validator: emailValidator, trigger: "blur" }
   ],
   mobile: [
-    { required: true, message: "请输入手机号码", trigger: "blur" },
+    { required: true, message: "Enter a mobile number", trigger: "blur" },
     { validator: phoneValidator, trigger: "blur" }
   ],
-  gender: [{ required: true, message: "请选择性别", trigger: "blur" }]
+  gender: [{ required: true, message: "Select a gender", trigger: "blur" }]
 }
 
 const getAvatar = (data: string) => {
@@ -185,9 +185,9 @@ const getAvatar = (data: string) => {
 const onUpdateUserInfo = () => {
   userInfoFormRef.value?.validate((valid: boolean) => {
     if (valid) {
-      ElMessageBox.confirm("确定要修改信息吗?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      ElMessageBox.confirm("Save these changes?", "Warning", {
+        confirmButtonText: "OK",
+        cancelButtonText: "Cancel",
         type: "warning"
       })
         .then(() => {
@@ -220,7 +220,7 @@ const onUpdateUserInfo = () => {
   })
 }
 
-//-------------- 修改密码 ---------------
+//-------------- Change password ---------------
 
 const updatePwdFormRef = ref<FormInstance | null>(null)
 
@@ -232,7 +232,7 @@ const updatePwdForm = reactive({
 
 const newPwdValidator = (rule: any, value: string, callback: any) => {
   if (!isPassword(value)) {
-    callback(new Error("密码必须包含字母和数字!"))
+    callback(new Error("Password must contain letters and numbers!"))
   } else {
     callback()
   }
@@ -240,39 +240,39 @@ const newPwdValidator = (rule: any, value: string, callback: any) => {
 
 const confirmPwdValidator = (rule: any, value: string, callback: any) => {
   if (!isPassword(value)) {
-    callback(new Error("密码必须包含字母和数字!"))
+    callback(new Error("Password must contain letters and numbers!"))
   } else {
     if (value === updatePwdForm.newPwd) {
       callback()
     } else {
-      callback(new Error("两次密码不相同!"))
+      callback(new Error("Passwords do not match!"))
     }
   }
 }
 
 const updatePwdFormRules: FormRules = {
   oldPwd: [
-    { required: true, message: "请输入旧的密码", trigger: "blur" },
-    { min: 5, max: 32, message: "长度在 5 个字符", trigger: "blur" }
+    { required: true, message: "Enter your current password", trigger: "blur" },
+    { min: 5, max: 32, message: "Must be at least 5 characters", trigger: "blur" }
   ],
   newPwd: [
-    { required: true, message: "请输入新的密码", trigger: "blur" },
+    { required: true, message: "Enter a new password", trigger: "blur" },
     { validator: newPwdValidator, trigger: "blur" }
   ],
   confirmPwd: [
-    { required: true, message: "请输入确认密码", trigger: "blur" },
+    { required: true, message: "Confirm the new password", trigger: "blur" },
     { validator: confirmPwdValidator, trigger: "blur" }
   ],
-  gender: [{ required: true, message: "请选择性别", trigger: "blur" }]
+  gender: [{ required: true, message: "Select a gender", trigger: "blur" }]
 }
 
 const onUpdatePassword = () => {
   updatePwdFormRef.value?.validate((valid: boolean) => {
     if (valid) {
       loading.value = true
-      ElMessageBox.confirm("确定要修改密码吗? 修改密码会导致重新登录！", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+      ElMessageBox.confirm("Change your password? You will need to sign in again.", "Warning", {
+        confirmButtonText: "OK",
+        cancelButtonText: "Cancel",
         type: "warning"
       })
         .then(() => {

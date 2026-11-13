@@ -9,7 +9,7 @@ import lombok.ToString;
 
 /**
  * <p>
- * 用户登录成功后，返回的按钮权限
+ * Button permissions returned after sign-in
  * </p>
  *
  * @author Wang Chen Chen <932560435@qq.com>
@@ -21,20 +21,20 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Schema(description = "关联菜单")
+@Schema(description = "Linked menus")
 public class UserQueryPO extends SearchParentPO {
 
     /**
-     * 部门 ID
+     * Department ID
      */
-    @Schema(description = "部门ID")
+    @Schema(description = "Department ID")
     private Long deptId;
 
     /**
-     * 包含关联的角色和部门信息
+     * Includes linked roles and departments
      * include roles and departments
      */
-    @Schema(description = "包含关联的角色和部门信息")
+    @Schema(description = "Includes linked roles and departments")
     private Boolean includeRad;
 
     public boolean isIncludeRad() {

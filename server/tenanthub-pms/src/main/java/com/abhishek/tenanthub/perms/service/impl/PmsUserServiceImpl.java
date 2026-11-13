@@ -102,15 +102,15 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
         if (params.isIncludeCauu()) {
             reflectionFill(result.getRecords());
         }
-        // 包含 角色和用户信息
+        // Includes roles and user details
         if (params.isIncludeRad()) {
             setRoleAndDept(result.getRecords());
         }
-        // 包含 用户在线状态
+        // Includes online status
         var loginUserMap = jwtTokenService.mapLoginUser();
         result.getRecords().forEach(r -> {
             r.setPassword(null);
-            // 如果 LoginId 为空。表示未在线！
+            // An empty LoginId means offline
             var loginUser = loginUserMap.getOrDefault(r.getUserId(), new JwtLoginUser().setLoginId(StrUtil.EMPTY));
             r.setLoginId(loginUser.getLoginId());
         });
@@ -137,22 +137,22 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
     @Override
     public boolean save(PmsUser entity) {
         if (exist(PmsUser::getUsername, entity.getUsername())) {
-            throw new BizException(String.format("用户名 %s 已经存在了！", entity.getUsername()));
+            throw new BizException(String.format("Username %s already exists", entity.getUsername()));
         }
         if (exist(PmsUser::getMobile, entity.getMobile())) {
-            throw new BizException(String.format("手机号码 %s 已经存在了！", entity.getMobile()));
+            throw new BizException(String.format("Mobile number %s already exists", entity.getMobile()));
         }
         if (exist(PmsUser::getEmail, entity.getEmail())) {
-            throw new BizException(String.format("邮箱账号 %s 已经存在了！", entity.getEmail()));
+            throw new BizException(String.format("Email %s already exists", entity.getEmail()));
         }
-        // 如果用户密码为空
+        // If the password is empty
         if (StringUtils.isBlank(entity.getPassword())) {
             var userDefaultPassword = Optional.ofNullable(configService.getValueByKey(DEFAULT_USER_PASSWORD.getKey()))
                     .orElse(DEFAULT_USER_PASSWORD.getValue());
             entity.setPassword(userDefaultPassword);
         }
 
-        // 密码加密
+        // Hash the password
         entity.setPassword(encryptPassword(entity.getPassword()));
         // Password chosen by an administrator: the user must change it at first login
         entity.setPasswordChangeRequired((byte) 1);
@@ -168,9 +168,9 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
         var ok = super.save(entity);
 
         if (entity.getRoles() != null) {
-            // 角色列表
+            // Roles
             var roleIds = entity.getRoles().stream().map(PmsRole::getRoleId).collect(Collectors.toSet());
-            // 修改 角色
+            // Update roles
             updateUserRoles(entity.getUserId(), roleIds);
         }
 
@@ -183,13 +183,13 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
     public boolean removeById(Serializable id) {
         var user = this.getById(id);
         if (user == null) {
-            throw new BizException(String.format("用户id: %s 的用户不存在！", id));
+            throw new BizException(String.format("User with ID %s does not exist", id));
         }
-        // 管理员用户，是无法删除的！
+        // Admin users cannot be deleted
         if (Objects.equals(user.getAdminFlag(), AdminFlag.YES.getCode())) {
-            throw new BizException(String.format("用户: %s 是管理员，无法删除！", user.getNickname()));
+            throw new BizException(String.format("User %s is an admin and cannot be deleted", user.getNickname()));
         }
-        // 删除用户的角色
+        // Delete the user roles
         baseMapper.deleteHaveRoles(user.getUserId());
         return super.removeById(id);
     }
@@ -202,37 +202,37 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
                 .eq(PmsUser::getUsername, entity.getUsername())
                 .ne(PmsUser::getUserId, entity.getUserId());
         if (this.count(wrapper1) > 0) {
-            throw new BizException(String.format("用户名: %s 已经存在了！", entity.getUsername()));
+            throw new BizException(String.format("Username %s already exists", entity.getUsername()));
         }
         var wrapper2 = new LambdaQueryWrapper<PmsUser>()
                 .eq(PmsUser::getMobile, entity.getMobile())
                 .ne(PmsUser::getUserId, entity.getUserId());
         if (this.count(wrapper2) > 0) {
-            throw new BizException(String.format("手机号码: %s 已经存在了！", entity.getMobile()));
+            throw new BizException(String.format("Mobile number %s already exists", entity.getMobile()));
         }
         var wrapper3 = new LambdaQueryWrapper<PmsUser>()
                 .eq(PmsUser::getEmail, entity.getEmail())
                 .ne(PmsUser::getUserId, entity.getUserId());
         if (this.count(wrapper3) > 0) {
-            throw new BizException(String.format("邮箱账号: %s 已经存在了！", entity.getEmail()));
+            throw new BizException(String.format("Email %s already exists", entity.getEmail()));
         }
         if (entity.getRoles() != null) {
-            // 角色列表
+            // Roles
             var roleIds = entity.getRoles().stream().map(PmsRole::getRoleId).collect(Collectors.toSet());
-            // 修改 原有角色
+            // Update the existing roles
             updateUserRoles(entity.getUserId(), roleIds);
         }
         entity.setPassword(null);
-        // 根据用户名，获取 登录的用户信息
+        // Get the signed-in user by username
         var loginUser = jwtTokenService.getLoginUserByUsername(entity.getUsername());
         if (loginUser != null) {
             var copyOptions = CopyOptions.create();
             copyOptions.setIgnoreNullValue(true);
             BeanUtil.copyProperties(entity, loginUser, copyOptions);
-            // 非管理员 用户。根据部门Id获取关联的项目Id
+            // Non-admin user: get the linked projects by department ID
             if (loginUser.getUserType() == UserType.TENANT
                     && Objects.equals(entity.getAdminFlag(), AdminFlag.NO.getCode())) {
-                // 获取当前登录的用户 项目ID 列表
+                // Get the project IDs of the signed-in user
                 var haveProjectIds = cmsProjectService.listProjectByDeptId(entity.getDeptId());
                 loginUser.setHaveProjectIds(haveProjectIds);
             }
@@ -247,35 +247,35 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
     public Boolean updateUserRoles(Long userId, Set<Long> roleIds) {
         var dbUser = this.getById(userId);
         if (dbUser == null) {
-            throw new BizException(String.format("用户: %d 不存在！", userId));
+            throw new BizException(String.format("User %d does not exist", userId));
         }
-        // 先删除当前用户拥有的所有角色
+        // Delete all roles of the user first
         baseMapper.deleteHaveRoles(userId);
         if (roleIds == null || roleIds.isEmpty()) {
             return false;
         }
-        // 再赋值新的角色
+        // then assign the new roles
         return baseMapper.insertByRoles(userId, roleIds) > 0;
     }
 
 
     @Override
     public UserRightsVO getUserRights() {
-        // 获取 当前登录的用户 所属的租户
+        // Get the tenant of the signed-in user
         String tenantId = JwtSecurityUtils.getTenantId();
         return delegate(tenantId, () -> {
-            // 用户菜单权限
+            // User menu permissions
             var userMenus = new HashMap<Long, SysMenuDTO>();
-            // 如果是管理员，就获取全部的权限
+            // Admins get all permissions
             if (isAdminUser()) {
                 if (isMasterUser()) {
-                    // 系统管理员就获取 非租户的全部菜单
+                    // Platform admins get all non-tenant menus
                     var menuMap = menuService.listMenuByNonTenant()
                             .stream()
                             .collect(Collectors.toMap(SysMenuDTO::getMenuId, Function.identity(), (oldValue, newValue) -> newValue));
                     userMenus.putAll(menuMap);
                 } else {
-                    // 租户管理员，就获取租户全部的菜单
+                    // Tenant admins get all tenant menus
                     var menuMap = menuService.listMenuByTenantId(tenantId)
                             .stream()
                             .collect(Collectors.toMap(SysMenuDTO::getMenuId, Function.identity(), (oldValue, newValue) -> newValue));
@@ -286,9 +286,9 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
                 if (loginUser.getRoles() == null || loginUser.getRoles().isEmpty()) {
                     return new UserRightsVO().setButtons(new HashSet<>()).setMenus(new ArrayList<>());
                 }
-                // 获取当前用户，拥有的 角色ID
+                // Get the roles of the current user ID
                 var roleIds = loginUser.getRoles().stream().map(PmsRoleDTO::getRoleId).collect(Collectors.toSet());
-                // 根据 角色ID , 获取全部菜单
+                // Get all menus by role ID
                 var menuIds = roleMapper.selectMenuIdByRoleIds(roleIds);
                 if (menuIds.isEmpty()) {
                     return new UserRightsVO().setButtons(new HashSet<>()).setMenus(new ArrayList<>());
@@ -299,7 +299,7 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
                 userMenus.putAll(menuMap);
             }
 
-            // 获取菜单
+            // Get menus
             var nodeList = userMenus.values()
                     .stream()
                     .filter(r -> r.getMenuType() == MENU.getCode()).map(r -> {
@@ -319,10 +319,10 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
                         return node;
                     }).collect(Collectors.toList());
 
-            // 将 菜单列表，递归成 树节点的形式
+            // Turn the menu list into a tree
             var treeMenus = TreeUtil.build(nodeList, 0L);
 
-            // 获取所有的按钮
+            // Get all buttons
             var buttons = userMenus.values()
                     .stream()
                     .filter(r -> r.getMenuType() == BUTTON.getCode())
@@ -337,30 +337,30 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updatePassword(UpdatePasswordVO pwd) {
-        // 修改密码。要切换到当前登录用户所在的租户
-        // 否则，当平台用户在操作其他租户时，选择修改自己的用户名密码。就查不到自己的用户信息
+        // Changing a password switches to the tenant of the signed-in user
+        // otherwise a platform user managing another tenant could not find their own account
         // Users can only change their own password (ignore any userId in the request)
         pwd.setUserId(getUserId());
         return delegate(getTenantId(), () -> {
             var sysUser = baseMapper.selectById(pwd.getUserId());
             if (!StringUtils.equals(pwd.getNewPwd(), pwd.getConfirmPwd())) {
-                throw new BizException("新密码与确认密码不一致，请重新输入！");
+                throw new BizException("New password and confirmation do not match");
             }
-            // 判断 旧的密码是否正确。
+            // Check that the current password is correct.
             if (matchesPassword(pwd.getOldPwd(), sysUser.getPassword())) {
-                // 判断 新密码 和 老密码是否相同
+                // Check whether the new and current passwords are the same
                 if (matchesPassword(pwd.getNewPwd(), sysUser.getPassword())) {
-                    throw new BizException("新密码与旧密码相同，请重新输入！");
+                    throw new BizException("New password must differ from the current one");
                 } else {
-                    // 新密码 加密
+                    // Encrypt the new password
                     var newPassword = encryptPassword(pwd.getNewPwd());
-                    // 修改
+                    // Edit
                     var pmsUser = PmsUser.builder().userId(pwd.getUserId()).password(newPassword)
                             .passwordChangeRequired((byte) 0).build();
                     return super.updateById(pmsUser);
                 }
             } else {
-                throw new BizException("旧密码错误，请重新输入！");
+                throw new BizException("Current password is incorrect");
             }
         });
     }
@@ -371,15 +371,15 @@ public class PmsUserServiceImpl extends BaseServiceImpl<PmsUserMapper, PmsUser> 
     public boolean resetPassword(ResetPasswordVO pwd) {
         var sysUser = baseMapper.selectById(pwd.getUserId());
         if (sysUser != null) {
-            // 新密码 加密
+            // Encrypt the new password
             String newPassword = encryptPassword(pwd.getNewPwd());
-            // 修改
+            // Edit
             // Reset by an administrator: the user must choose their own password at next login
             var pmsUser = new PmsUser().setUserId(pwd.getUserId()).setPassword(newPassword)
                     .setPasswordChangeRequired((byte) 1);
             return super.updateById(pmsUser);
         }
-        throw new BizException("用户不存在，无法重置密码！");
+        throw new BizException("User does not exist; cannot reset the password");
     }
 
 

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 登录日志
+ * Login log
  * </p>
  *
  * @author Wang Chen Chen
@@ -25,70 +25,70 @@ import java.time.LocalDateTime;
 public class LoginLogDTO implements java.io.Serializable {
 
     /**
-     * 消息ID
+     * Message ID
      */
     private String id;
 
     /**
-     * 认证授权方式
+     * Authentication method
      */
     private String grantType;
 
     /**
-     * 租户ID
+     * Tenant ID
      */
     private String tenantId;
 
     /**
-     * 操作人员
+     * Operator
      */
     private Long userId;
 
     /**
-     * 用户昵称
+     * User nickname
      */
     private String nickname;
 
     /**
-     * 用户名
+     * Username
      */
     private String username;
 
     /**
-     * 头像
+     * Avatar
      */
     private String avatar;
 
     /**
-     * 请求 url
+     * Request url
      */
     private String requestUrl;
 
     /**
-     * 请求的ip地址
+     * Client IP address
      */
     private String requestIp;
 
     /**
-     * 操作地点
+     * Location
      */
     private String address;
 
 
     /**
-     * 操作系统类型
+     * Operating system type
      */
     private String osName;
 
 
     /**
-     * 浏览器
+     * Browser
      */
     private String browser;
 
 
     /**
-     * 操作时间
+     * Operated at
      */
     private LocalDateTime createTime;
 

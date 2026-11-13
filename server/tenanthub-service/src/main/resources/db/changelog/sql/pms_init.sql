@@ -23,13 +23,13 @@ FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 INSERT INTO `pms_dept` (`dept_id`, `parent_id`, `dept_name`, `leader`, `leader_mobile`, `sort`, `description`,
                         `ancestors`, `create_time`, `create_user`, `last_update_time`, `last_update_user`)
-VALUES (10001, 0, '集团', '张集团', '15055555555', 1, '集团', '0', '2022-06-10 23:07:51', 19980817,
+VALUES (10001, 0, 'Head Office', 'Rajesh Iyer', '9876500001', 1, 'Head Office', '0', '2022-06-10 23:07:51', 19980817,
         '2022-06-10 23:07:51', 19980817),
-       (10002, 10001, '研发部', '李研发', '15666666666', 5, '研发部', '0,10001', '2023-11-10 11:45:22', 19980817,
+       (10002, 10001, 'R&D', 'Meera Pillai', '9876500002', 5, 'R&D', '0,10001', '2023-11-10 11:45:22', 19980817,
         '2023-11-10 11:45:22', 19980817),
-       (10003, 10001, '运营部', '陈运营', '15777777777', 20, '运营部', '0,10001', '2023-11-10 11:45:43', 19980817,
+       (10003, 10001, 'Operations', 'Karan Shah', '9876500003', 20, 'Operations', '0,10001', '2023-11-10 11:45:43', 19980817,
         '2023-11-10 11:45:43', 19980817),
-       (10004, 10001, '生产部', '王生产', '17888888888', 30, '生产部', '0,10001', '2023-11-10 11:46:18', 19980817,
+       (10004, 10001, 'Production', 'Deepa Reddy', '9876500004', 30, 'Production', '0,10001', '2023-11-10 11:46:18', 19980817,
         '2023-11-10 11:46:18', 19980817);
 
 
@@ -38,9 +38,9 @@ VALUES (10001, 0, '集团', '张集团', '15055555555', 1, '集团', '0', '2022-
 -- ----------------------------
 INSERT INTO `pms_role` (`role_id`, `role_name`, `sort`, `data_scope`, `description`, `create_time`, `create_user`,
                         `last_update_time`, `last_update_user`)
-VALUES (10001, '管理员', 10, 1, '管理员', '2022-06-10 23:11:09', 19980817, '2022-06-10 23:11:09', 19980817),
-       (10002, '测试员', 20, 4, '测试员', '2023-11-09 10:11:49', 19980817, '2023-11-09 10:11:49', 19980817),
-       (10003, '运营员', 30, 4, '运营员', '2023-11-09 10:12:01', 19980817, '2023-11-09 10:12:01', 19980817);
+VALUES (10001, 'Admin', 10, 1, 'Admin', '2022-06-10 23:11:09', 19980817, '2022-06-10 23:11:09', 19980817),
+       (10002, 'Tester', 20, 4, 'Tester', '2023-11-09 10:11:49', 19980817, '2023-11-09 10:11:49', 19980817),
+       (10003, 'Operator', 30, 4, 'Operator', '2023-11-09 10:12:01', 19980817, '2023-11-09 10:12:01', 19980817);
 
 
 -- ----------------------------
@@ -49,14 +49,14 @@ VALUES (10001, '管理员', 10, 1, '管理员', '2022-06-10 23:11:09', 19980817,
 INSERT INTO `pms_user` (`user_id`, `avatar`, `username`, `mobile`, `email`, `nickname`, `password`,
                         `gender`, `dept_id`, `status`, `admin_flag`, `expired`, `create_time`,
                         `create_user`, `last_update_time`, `last_update_user`)
-VALUES (19980817, 'https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png', 'admin', '15666666666', 'admin@qq.com', '超级管理员',
+VALUES (19980817, 'https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png', 'admin', '9876543210', 'admin@example.com', 'Super admin',
         '$2a$10$jU7Bg8YLLeF.eoGOzSuZE./ns.lctGOQBX0RTXvhy3HXv8RikUaka', 1, 10001, 1, 1, NULL, '2021-05-14 11:17:33',
         19980817, '2021-12-17 10:12:24', 19980817),
-       (6569516164032, 'https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png', 'test456', '15984798797',
-        'test456@qq.com', '测试用户456', '$2a$10$9DLAUHW.SlgTYnbnNtZ5g.x6qLHuuDISDfCdD8gieaKQsuRvfiknW', 1, 10002, 1, 0,
+       (6569516164032, 'https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png', 'test456', '9876543211',
+        'test456@example.com', 'Test user 456', '$2a$10$9DLAUHW.SlgTYnbnNtZ5g.x6qLHuuDISDfCdD8gieaKQsuRvfiknW', 1, 10002, 1, 0,
         NULL, '2023-11-08 15:48:55', 19980817, '2023-11-09 11:47:15', 19980817),
-       (6569516878992, 'https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png', 'test123', '15649849498',
-        'test123@qq.com', '测试用户123', '$2a$10$EPhFJOZzm7Nth50sBfFHhOTod3M7JGJybAkELequvyIYBmZWDLcAG', 0, 10003, 1, 0,
+       (6569516878992, 'https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png', 'test123', '9876543212',
+        'test123@example.com', 'Test user 123', '$2a$10$EPhFJOZzm7Nth50sBfFHhOTod3M7JGJybAkELequvyIYBmZWDLcAG', 0, 10003, 1, 0,
         '2024-11-08 15:33:19', '2023-11-08 15:49:40', 19980817, '2023-11-09 10:13:33', 6569516878992);
 
 

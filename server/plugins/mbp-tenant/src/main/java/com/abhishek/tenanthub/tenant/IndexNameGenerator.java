@@ -9,7 +9,7 @@ import java.util.Optional;
 
 /**
  * <p>
- * 获取当前租户ID， 如果为空，那么就是默认租户
+ * Get the current tenant ID; empty means the default tenant
  * </p>
  *
  * @author WangChenChen

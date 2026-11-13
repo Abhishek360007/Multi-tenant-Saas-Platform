@@ -16,10 +16,10 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class ValueRange<T> implements java.io.Serializable {
 
-    @Schema(description = "开始")
+    @Schema(description = "Start")
     private T begin;
 
-    @Schema(description = "结束")
+    @Schema(description = "End")
     private T end;
 
 }

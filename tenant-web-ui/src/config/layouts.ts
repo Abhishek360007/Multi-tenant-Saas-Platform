@@ -1,42 +1,42 @@
 import {getConfigLayout} from "@/utils/cache/local-storage"
 
-/** 项目配置类型 */
+/** Project settings type */
 export interface LayoutSettings {
-  /** 是否显示 Settings Panel */
+  /** Visible Settings Panel */
   showSettings: boolean
-  /** 布局模式 */
+  /** Layout */
   layoutMode: "left" | "top" | "left-top"
-  /** 是否显示标签栏 */
+  /** Show tab bar */
   showTagsView: boolean
-  /** 是否显示 Logo */
+  /** Visible Logo */
   showLogo: boolean
-  /** 是否固定 Header */
+  /** Fixed Header */
   fixedHeader: boolean
-  /** 是否显示页脚 Footer */
+  /** Show footer */
   showFooter: boolean
-  /** 是否显示消息通知 */
+  /** Show notifications */
   showNotify: boolean
-  /** 是否显示切换主题按钮 */
+  /** Show theme switch */
   showThemeSwitch: boolean
-  /** 是否显示全屏按钮 */
+  /** Show full-screen button */
   showScreenfull: boolean
-  /** 是否显示搜索按钮 */
+  /** Show search button */
   showSearchMenu: boolean
-  /** 是否缓存标签栏 */
+  /** Cache tab bar */
   cacheTagsView: boolean
-  /** 开启系统水印 */
+  /** Enable watermark */
   showWatermark: boolean
-  /** 是否显示灰色模式 */
+  /** Grayscale mode */
   showGreyMode: boolean
-  /** 是否显示色弱模式 */
+  /** Color-blind mode */
   showColorWeakness: boolean
-  /** 是否显示搜索租户 */
+  /** Show tenant search */
   showSearchTenant: boolean
-  /** 是否显示控件尺寸 */
+  /** Show component size */
   showControlSize: boolean
 }
 
-/** 默认配置 */
+/** Default settings */
 const defaultSettings: LayoutSettings = {
   layoutMode: "left",
   showSettings: true,
@@ -56,5 +56,5 @@ const defaultSettings: LayoutSettings = {
   showControlSize: true
 }
 
-/** 项目配置 */
+/** Project settings */
 export const layoutSettings: LayoutSettings = { ...defaultSettings, ...getConfigLayout() }

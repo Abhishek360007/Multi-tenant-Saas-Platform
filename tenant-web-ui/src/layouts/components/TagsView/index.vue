@@ -15,31 +15,31 @@ const tagsViewStore = useTagsViewStore()
 const permissionStore = usePermissionStore()
 const { listenerRouteChange } = useRouteListener()
 
-/** 标签页组件元素的引用数组 */
+/** Refs to the tab components */
 const tagRefs = ref<InstanceType<typeof RouterLink>[]>([])
 
-/** 右键菜单的状态 */
+/** Context menu visibility */
 const visible = ref(false)
-/** 右键菜单的 top 位置 */
+/** Context menu top position */
 const top = ref(0)
-/** 右键菜单的 left 位置 */
+/** Context menu left position */
 const left = ref(0)
-/** 当前正在右键操作的标签页 */
+/** Tab currently right-clicked */
 const selectedTag = ref<TagView>({})
-/** 固定的标签页 */
+/** Pinned tabs */
 let affixTags: TagView[] = []
 
-/** 判断标签页是否激活 */
+/** Whether the tab is active */
 const isActive = (tag: TagView) => {
   return tag.path === route.path
 }
 
-/** 判断标签页是否固定 */
+/** Whether the tab is pinned */
 const isAffix = (tag: TagView) => {
   return tag.meta?.affix
 }
 
-/** 筛选出固定标签页 */
+/** Filter the pinned tabs */
 const filterAffixTags = (routes: RouteRecordRaw[], basePath = "/") => {
   const tags: TagView[] = []
   routes.forEach((route) => {
@@ -60,16 +60,16 @@ const filterAffixTags = (routes: RouteRecordRaw[], basePath = "/") => {
   return tags
 }
 
-/** 初始化标签页 */
+/** Initialize tabs */
 const initTags = () => {
   affixTags = filterAffixTags(permissionStore.routes)
   for (const tag of affixTags) {
-    // 必须含有 name 属性
+    // Must have a name
     tag.name && tagsViewStore.addVisitedView(tag)
   }
 }
 
-/** 添加标签页 */
+/** Add a tab */
 const addTags = (route: RouteLocationNormalizedLoaded) => {
   if (route.name) {
     tagsViewStore.addVisitedView(route)
@@ -77,20 +77,20 @@ const addTags = (route: RouteLocationNormalizedLoaded) => {
   }
 }
 
-/** 刷新当前正在右键操作的标签页 */
+/** Refresh the right-clicked tab */
 const refreshSelectedTag = (view: TagView) => {
   tagsViewStore.delCachedView(view)
   router.replace({ path: "/redirect" + view.path, query: view.query })
 }
 
-/** 关闭当前正在右键操作的标签页 */
+/** Close the right-clicked tab */
 const closeSelectedTag = (view: TagView) => {
   tagsViewStore.delVisitedView(view)
   tagsViewStore.delCachedView(view)
   isActive(view) && toLastView(tagsViewStore.visitedViews, view)
 }
 
-/** 关闭其他标签页 */
+/** Close other tabs */
 const closeOthersTags = () => {
   const fullPath = selectedTag.value.fullPath
   if (fullPath !== route.path && fullPath !== undefined) {
@@ -100,7 +100,7 @@ const closeOthersTags = () => {
   tagsViewStore.delOthersCachedViews(selectedTag.value)
 }
 
-/** 关闭所有标签页 */
+/** Close all tabs */
 const closeAllTags = (view: TagView) => {
   tagsViewStore.delAllVisitedViews()
   tagsViewStore.delAllCachedViews()
@@ -108,16 +108,16 @@ const closeAllTags = (view: TagView) => {
   toLastView(tagsViewStore.visitedViews, view)
 }
 
-/** 跳转到最后一个标签页 */
+/** Go to the last tab */
 const toLastView = (visitedViews: TagView[], view: TagView) => {
   const latestView = visitedViews.slice(-1)[0]
   const fullPath = latestView?.fullPath
   if (fullPath !== undefined) {
     router.push(fullPath)
   } else {
-    // 如果 TagsView 全部被关闭了，则默认重定向到主页
+    // If all tabs are closed, redirect to the home page
     if (view.name === "Dashboard") {
-      // 重新加载主页
+      // Reload the home page
       router.push({ path: "/redirect" + view.path, query: view.query })
     } else {
       router.push("/")
@@ -125,26 +125,26 @@ const toLastView = (visitedViews: TagView[], view: TagView) => {
   }
 }
 
-/** 打开右键菜单面板 */
+/** Open the context menu */
 const openMenu = (tag: TagView, e: MouseEvent) => {
   const menuMinWidth = 105
-  // 当前组件距离浏览器左端的距离
+  // Distance from the component to the left edge of the browser
   const offsetLeft = instance!.proxy!.$el.getBoundingClientRect().left
-  // 当前组件宽度
+  // Component width
   const offsetWidth = instance!.proxy!.$el.offsetWidth
-  // 面板的最大左边距
+  // Maximum left offset of the panel
   const maxLeft = offsetWidth - menuMinWidth
-  // 面板距离鼠标指针的距离
+  // Panel offset from the mouse pointer
   const left15 = e.clientX - offsetLeft + 15
   left.value = left15 > maxLeft ? maxLeft : left15
   top.value = e.clientY
-  // 显示面板
+  // Show the panel
   visible.value = true
-  // 更新当前正在右键操作的标签页
+  // Update the right-clicked tab
   selectedTag.value = tag
 }
 
-/** 关闭右键菜单面板 */
+/** Close the context menu */
 const closeMenu = () => {
   visible.value = false
 }
@@ -155,7 +155,7 @@ watch(visible, (value) => {
 
 onMounted(() => {
   initTags()
-  /** 监听路由变化 */
+  /** Watch route changes */
   listenerRouteChange(async (route) => {
     addTags(route)
   }, true)
@@ -182,10 +182,10 @@ onMounted(() => {
       </router-link>
     </ScrollPane>
     <ul v-show="visible" class="contextmenu" :style="{ left: left + 'px', top: top + 'px' }">
-      <li @click="refreshSelectedTag(selectedTag)">刷新</li>
-      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">关闭</li>
-      <li @click="closeOthersTags">关闭其它</li>
-      <li @click="closeAllTags(selectedTag)">关闭所有</li>
+      <li @click="refreshSelectedTag(selectedTag)">Refresh</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">Close</li>
+      <li @click="closeOthersTags">Close others</li>
+      <li @click="closeAllTags(selectedTag)">Close all</li>
     </ul>
   </div>
 </template>

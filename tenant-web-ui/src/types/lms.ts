@@ -1,69 +1,69 @@
-/** 登录日志 */
+/** Login log */
 export interface ILoginLog {
   /* ID */
   id: string
-  /*授权类型*/
+  /*Grant type*/
   grantType: string
-  /*用户ID*/
+  /*User ID*/
   userId: number
-  /*用户昵称*/
+  /*User nickname*/
   nickname: string
-  /*用户名*/
+  /*Username*/
   username: string
-  /*头像*/
+  /*Avatar*/
   avatar: string
-  /*请求地址*/
+  /*Request URL*/
   requestUrl: string
-  /*请求IP*/
+  /*Request IP*/
   requestIp: string
-  /*请求地址*/
+  /*Request URL*/
   address: string
-  /*操作系统*/
+  /*Operating system*/
   osName: string
-  /*浏览器*/
+  /*Browser*/
   browser: string
-  /*创建时间*/
+  /*Created at*/
   createTime: string
 }
 
-/** 操作日志 */
+/** Operation log */
 export interface IOperLog {
   /*ID*/
   id: string
-  /*标题*/
+  /*Title*/
   title: string
-  /*描述*/
+  /*Description*/
   description: string
-  /*服务名称*/
+  /*Service name*/
   serviceName: string
-  /*用户ID*/
+  /*User ID*/
   userId: number
-  /*用户昵称*/
+  /*User nickname*/
   nickname: string
-  /*用户名*/
+  /*Username*/
   username: string
-  /*头像*/
+  /*Avatar*/
   avatar: string
-  /*方法*/
+  /*Method*/
   method: string
-  /*方法参数*/
+  /*Method arguments*/
   methodArgs: string
-  /*请求类型*/
+  /*Request method*/
   requestMethod: string
-  /*请求地址*/
+  /*Request URL*/
   requestUrl: string
-  /*请求IP*/
+  /*Request IP*/
   requestIp: string
-  /*请求地址*/
+  /*Request URL*/
   address: string
-  /*请求响应*/
+  /*Response*/
   responseResult: string
-  /*状态*/
+  /*Status*/
   status: number
-  /*错误日志*/
+  /*Error log*/
   errorLog: string
-  /*耗时(毫秒)*/
+  /*Duration (ms)*/
   timeCost: number
-  /*创建时间*/
+  /*Created at*/
   createTime: string
 }

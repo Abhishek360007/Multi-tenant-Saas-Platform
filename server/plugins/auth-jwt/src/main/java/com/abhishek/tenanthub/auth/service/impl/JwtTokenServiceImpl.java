@@ -34,7 +34,7 @@ import static com.abhishek.tenanthub.common.consts.LoginConst.*;
 
 /**
  * <p>
- * 服务端 jwt token 认证
+ * Server-side JWT authentication
  * </p>
  *
  * @author WangChenChen
@@ -94,33 +94,33 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     public void setLoginUser(JwtLoginUser loginUser) {
         var loginKey = LOGIN_TOKEN_KEY + loginUser.getLoginId();
 
-        // 将随机id 跟 当前登录的用户关联，在一起！
+        // Link the random ID to the signed-in user
         redisTemplate.opsForValue().set(loginKey, loginUser, Duration.ofSeconds(props.getTokenExpired()));
 
-        // 判断是否开启 单点登录
+        // Check whether single sign-on is enabled
         if (props.getSso()) {
-            // 拼接，当前在线用户 online_user:admin
+            // Build the current online user online_user:admin
             var onlineUserKey = ONLINE_USER_KEY + loginUser.getUsername();
             var oldLoginKey = strRedisTemplate.opsForValue().get(onlineUserKey);
-            // 判断用户名。是否已经登录了！
+            // Check whether this username is already signed in
             if (StringUtils.isNotBlank(oldLoginKey)) {
-                // 移除之前登录的用户
+                // Remove the previous sign-in
                 removeLoginUser(LOGIN_TOKEN_KEY + oldLoginKey);
 
-                // 移除在线用户
+                // Remove the online user
                 removeLoginUser(onlineUserKey);
 
-                // 获取当前时间
+                // Get the current time
                 var milli = LocalDateTimeUtil.formatNormal(LocalDateTime.now());
 
-                // 将 被强制挤下线的用户，以及时间，保存到 redis中，提示给前端用户！
+                // Store the forced-out user and time in Redis so the front end can notify them
                 strRedisTemplate.opsForValue().set(
                         FORCED_OFFLINE_KEY + oldLoginKey,
                         milli,
                         Duration.ofSeconds(props.getPromptExpired())
                 );
             }
-            // 保存 在线用户
+            // Save the online user
             strRedisTemplate.opsForValue().set(onlineUserKey, loginUser.getLoginId(), Duration.ofSeconds(props.getTokenExpired()));
         }
     }
@@ -146,33 +146,33 @@ public class JwtTokenServiceImpl implements JwtTokenService {
             log.error(e.getMessage());
             throw new JwtAuthException(TOKEN_FORMAT_ERROR);
         }
-        // 获取到 用户的唯一登录ID
+        // Get the unique login of the user ID
         var loginId = jwt.getPayloads().getStr(JWT.SUBJECT);
 
-        // 根据登录 唯一登录ID 从redis中获取登录的用户信息
+        // Get the signed-in user from Redis by unique login ID
         var jwtUser = getLoginUser(loginId);
 
-        // 如果此用户为空。判断是否开启了单点登录
+        // If the user is empty, check whether single sign-on is enabled
         if (jwtUser == null || StringUtils.isEmpty(jwtUser.getUsername())) {
-            // 判断是否启用单点登录
+            // Check whether single sign-on is enabled
             if (props.getSso()) {
                 var forcedOfflineKey = FORCED_OFFLINE_KEY + loginId;
-                // 判断此用户，是不是被挤下线
+                // Check whether this user was forced out
                 var offlineTime = strRedisTemplate.opsForValue().get(forcedOfflineKey);
                 if (StringUtils.isNotBlank(offlineTime)) {
-                    // 删除 被挤下线 的消息提示
+                    // Delete the forced sign-out notice
                     removeLoginUser(forcedOfflineKey);
-                    var errMsg = String.format("您的账号在[ %s ]被其他用户拥下线了！", offlineTime);
+                    var errMsg = String.format("Your account was signed out at [ %s ] because it signed in elsewhere", offlineTime);
                     log.warn("errMsg {}", errMsg);
                     throw new JwtAuthException(errMsg);
                 }
             }
-            throw new JwtAuthException("当前登录用户不存在");
+            throw new JwtAuthException("The signed-in user does not exist");
         }
         var loginKey = LOGIN_TOKEN_KEY + loginId;
-        // 过期 token 过期时间
+        // Token expiry
         var expire = strRedisTemplate.getExpire(loginKey);
-        // 如果过期时间，小于10分钟。就给 token 增加到 60 分钟的有效时间
+        // If less than 10 minutes remain, extend the token to 60 minutes
         if (expire != null && expire < props.getPromptExpired()) {
             strRedisTemplate.expire(loginKey, Duration.ofHours(1));
         }
@@ -186,10 +186,10 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
         var loginKey = LOGIN_TOKEN_KEY + oldLoginUser.getLoginId();
 
-        // 移除登录的用户。根据tokenId
+        // Remove the signed-in user by tokenId
         removeLoginUser(loginKey);
 
-        // 生成一个随机ID 跟当前用户关联
+        // Generate a random ID linked to the current user
         var loginId = IdUtil.simpleUUID();
         var token = createJwtStr(loginId);
         oldLoginUser.setLoginId(loginId);
@@ -209,9 +209,9 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     public void logout() {
         var loginUser = JwtSecurityUtils.getLoginUser();
         var loginKey = LOGIN_TOKEN_KEY + loginUser.getLoginId();
-        // 移除登录的用户。根据tokenId
+        // Remove the signed-in user by tokenId
         removeLoginUser(loginKey);
-        // 拼接，当前在线用户 online_user:admin
+        // Build the current online user online_user:admin
         var onlineUserKey = ONLINE_USER_KEY + loginUser.getUsername();
         removeLoginUser(onlineUserKey);
         SecurityContextHolder.clearContext();

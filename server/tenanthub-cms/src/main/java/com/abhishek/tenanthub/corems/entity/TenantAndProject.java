@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 项目表
+ * Project table
  * </p>
  *
  * @author Wang Chen Chen
@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
  */
 
 
-@Schema(description = "项目")
+@Schema(description = "Project")
 @Getter
 @Setter
 @Accessors(chain = true)
@@ -28,15 +28,15 @@ import lombok.experimental.Accessors;
 public class TenantAndProject implements java.io.Serializable {
 
     /**
-     * 项目ID
+     * Project ID
      */
-    @Schema(description = "项目ID")
+    @Schema(description = "Project ID")
     private Long projectId;
 
     /**
-     * 租户ID
+     * Tenant ID
      */
-    @Schema(description = "租户ID")
+    @Schema(description = "Tenant ID")
     private String tenantId;
 
 }

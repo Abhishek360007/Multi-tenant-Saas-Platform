@@ -25,13 +25,13 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@Schema(description = "用户权限！")
+@Schema(description = "User permissions")
 public class UserRightsVO implements java.io.Serializable {
 
-    @Schema(description = "按钮权限！")
+    @Schema(description = "Button permissions")
     private Set<ButtonVO> buttons;
 
-    @Schema(description = "菜单权限！")
+    @Schema(description = "Menu permissions")
     private List<Tree<Long>> menus;
 
 }

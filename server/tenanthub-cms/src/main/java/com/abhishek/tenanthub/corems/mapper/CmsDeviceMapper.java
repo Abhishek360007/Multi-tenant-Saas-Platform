@@ -6,7 +6,7 @@ import com.abhishek.tenanthub.corems.entity.CmsDevice;
 
 /**
  * <p>
- * 设备
+ * Device
  * </p>
  *
  * @author WangChenChen

@@ -57,7 +57,7 @@ public class TenantHubApplicationTests {
                 .setStatus(StatusEnum.NORMAL);
         var authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
-        // 将用户信息，设置到 SecurityContext 中，可以在任何地方 使用 下面语句获取 获取 当前用户登录信息
+        // Put the user into the SecurityContext so the current user can be read anywhere with the statement below
         SecurityContextHolder.getContext().setAuthentication(authentication);
         TenantUtils.setProjectId(10001L);
         TenantUtils.setTenantId("master");
@@ -65,7 +65,7 @@ public class TenantHubApplicationTests {
 
 
     /**
-     * 随机生成租户
+     * Generate a random tenant
      *
      * @author WangChenChen
      * @version 2.0
@@ -76,7 +76,7 @@ public class TenantHubApplicationTests {
         var areaCodeList = List.of(29052505545L, 29052505544L, 29052505542L, 29052505543L, 29052507103L);
         for (int i = 0; i < 3; i++) {
             var start = System.currentTimeMillis();
-            var email = String.format("%s@qq.com", RandomUtil.randomString(10));
+            var email = String.format("%s@example.com", RandomUtil.randomString(10));
             var contactNumber = String.format("0755-%s", RandomUtil.randomNumbers(7));
             var expired = LocalDateTime.now().plusDays(RandomUtil.randomInt(30, 3650));
             var ac = areaCodeList.get(RandomUtil.randomInt(0, (areaCodeList.size() - 1)));
@@ -93,15 +93,15 @@ public class TenantHubApplicationTests {
             var success = tenantService.create(po);
             System.out.println(JsonUtils.toFormatJson(success));
             var end = System.currentTimeMillis() - start;
-            System.out.printf("耗时: %d ms\n", end);
-            // 异步初始化，需要等创建数据库表结构完成
+            System.out.printf("Duration: %d ms\n", end);
+            // Initialize asynchronously after the tables are created
             Thread.sleep(Duration.ofSeconds(20));
         }
     }
 
 
     /**
-     * 获取项目
+     * Get project
      *
      * @author WangChenChen
      * @version 2.0
@@ -116,7 +116,7 @@ public class TenantHubApplicationTests {
 
 
     /**
-     * 获取项目
+     * Get project
      *
      * @author WangChenChen
      * @version 2.0
@@ -135,7 +135,7 @@ public class TenantHubApplicationTests {
 
 
     /**
-     * 加密解密
+     * Encryption
      */
     @Test
     public void test4() throws Exception {

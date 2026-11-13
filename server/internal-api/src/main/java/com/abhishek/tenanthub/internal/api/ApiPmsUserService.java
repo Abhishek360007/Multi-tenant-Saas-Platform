@@ -18,7 +18,7 @@ public interface ApiPmsUserService {
 
 
     /**
-     * 根据 用户名 获取用户信息
+     * Get the user by username
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -27,7 +27,7 @@ public interface ApiPmsUserService {
 
 
     /**
-     * 根据 手机号 获取用户信息
+     * Get the user by mobile number
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -36,7 +36,7 @@ public interface ApiPmsUserService {
 
 
     /**
-     * 根据 邮箱 获取用户信息
+     * Get the user by email
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -45,7 +45,7 @@ public interface ApiPmsUserService {
 
 
     /**
-     * 根据 用户ID 获取用户信息
+     * Get the user by user ID
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -54,7 +54,7 @@ public interface ApiPmsUserService {
 
 
     /**
-     * 根据 用户名 获取用户信息
+     * Get the user by username
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -63,7 +63,7 @@ public interface ApiPmsUserService {
 
 
     /**
-     * 根据 用户Id 判断是否存在
+     * Check whether a user ID exists
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -72,7 +72,7 @@ public interface ApiPmsUserService {
 
 
     /**
-     * 创建租户  初始化用户
+     * Initialize users when a tenant is created
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53

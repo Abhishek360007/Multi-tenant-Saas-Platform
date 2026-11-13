@@ -15,19 +15,19 @@
     <include file="db/changelog/cms.xml"/>
 
 
-    <!-- 初始化 租户，权限模板 -->
+    <!-- Seed tenants and permission templates -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-10">
         <sqlFile path="db/changelog/sql/tenant_init.sql"/>
     </changeSet>
 
 
-    <!-- 初始化 用户，角色，部门， -->
+    <!-- Seed users, roles and departments, -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-20">
         <sqlFile path="db/changelog/sql/pms_init.sql"/>
     </changeSet>
 
 
-    <!-- 初始化 默认的项目 -->
+    <!-- Seed the default projects -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-30">
         <sqlFile path="db/changelog/sql/cms_init.sql"/>
     </changeSet>
@@ -39,25 +39,25 @@
     </changeSet>
 
 
-    <!-- 初始化 全局配置-->
+    <!-- Seed global settings-->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-50">
         <sqlFile path="db/changelog/sql/sys_config.sql"/>
     </changeSet>
 
 
-    <!-- 初始化 字典类型表-->
+    <!-- Seed dictionary types-->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-60">
         <sqlFile path="db/changelog/sql/sys_dict_type.sql"/>
     </changeSet>
 
 
-    <!-- 初始化 字典数据表-->
+    <!-- Seed dictionary data-->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-70">
         <sqlFile path="db/changelog/sql/sys_dict_data.sql"/>
     </changeSet>
 
 
-    <!-- 初始化 菜单权限表 -->
+    <!-- Seed menu permissions -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414472275-80">
         <sqlFile path="db/changelog/sql/sys_menu.sql"/>
     </changeSet>

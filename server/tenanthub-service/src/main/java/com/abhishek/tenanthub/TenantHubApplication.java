@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * <p>
- * spring boot mybatis-plus 多租户 启动类
+ * spring boot mybatis-plus Multi-tenant application entry point
  * </p>
  *
  * @author WangChenChen

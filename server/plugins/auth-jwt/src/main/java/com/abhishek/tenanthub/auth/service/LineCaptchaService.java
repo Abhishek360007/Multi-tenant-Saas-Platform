@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * <p>
- * 验证码
+ * Captcha
  * </p>
  *
  * @author Wang Chen Chen<932560435@qq.com>
@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 public interface LineCaptchaService {
 
     /**
-     * 随机获取图形验证码
+     * Get a random image captcha
      *
      * @param codeKey
      * @return ImageVerifyCode
@@ -25,7 +25,7 @@ public interface LineCaptchaService {
     BufferedImage random(String codeKey);
 
     /**
-     * 删除在 redis 中缓存的。图形验证码值
+     * Delete the cached captcha value from Redis
      *
      * @param codeKey
      * @return ImageVerifyCode
@@ -35,7 +35,7 @@ public interface LineCaptchaService {
     void delete(String codeKey);
 
     /**
-     * 删除在 redis 中缓存的。图形验证码值
+     * Delete the cached captcha value from Redis
      *
      * @param codeKey
      * @param userCodeText

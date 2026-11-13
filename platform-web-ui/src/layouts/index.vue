@@ -12,7 +12,7 @@ import { DeviceEnum } from "@/constants/app-key"
 import { getCssVariableValue, setCssVariableValue } from "@/utils"
 import { useSettingsStore } from "@/store/modules/settings"
 
-/** Layout 布局响应式 */
+/** Layout Responsive layout */
 useResize()
 const { setWatermark, clearWatermark } = useWatermark()
 
@@ -29,7 +29,7 @@ const classes = computed(() => {
   }
 })
 
-//#region 隐藏标签栏时删除其高度，是为了让 Logo 组件高度和 Header 区域高度始终一致
+//#region When the tab bar is hidden its height is removed so the logo and header heights always match
 const cssVariableName = "--v3-tagsview-height"
 const v3TagsviewHeight = getCssVariableValue(cssVariableName)
 watchEffect(() => {
@@ -39,7 +39,7 @@ watchEffect(() => {
 })
 //#endregion
 
-/** 开启或关闭系统水印 */
+/** Turn the watermark on or off */
 watchEffect(() => {
   showWatermark.value ? setWatermark(import.meta.env.VITE_APP_TITLE) : clearWatermark()
 })
@@ -47,13 +47,13 @@ watchEffect(() => {
 
 <template>
   <div :class="classes">
-    <!-- 左侧模式 -->
+    <!-- Left layout -->
     <LeftMode v-if="layoutMode === 'left' || appStore.device === DeviceEnum.Mobile" />
-    <!-- 顶部模式 -->
+    <!-- Top layout -->
     <TopMode v-else-if="layoutMode === 'top'" />
-    <!-- 混合模式 -->
+    <!-- Mixed layout -->
     <LeftTopMode v-else-if="layoutMode === 'left-top'" />
-    <!-- 右侧设置面板 -->
+    <!-- Right settings panel -->
     <RightPanel v-if="showSettings">
       <Settings />
     </RightPanel>

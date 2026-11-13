@@ -1,107 +1,107 @@
-// 搜索分页查询
+// Paged search
 export interface ISearchQuery {
-  // 包含操作用户信息
+  // Includes operator details
   includeCauu?: boolean
-  // 当前是第几页
+  // Current page number
   pageIndex: number
-  // 每页多少条
+  // Items per page
   pageSize: number
-  // 关键字
+  // Keyword
   keywords: string
-  // 开始日期 YYYY-MM-DD
+  // Start date YYYY-MM-DD
   startDate?: string
-  // 结束日期 YYYY-MM-DD
+  // End date YYYY-MM-DD
   endDate?: string
-  // 排序的方向, true: 顺序、false: 倒序
+  // Sort direction, true: ascending, false: descending
   asc?: boolean
-  // 排序的字段,如: createUser,lastUpdateTime
+  // Field to sort by, e.g.: createUser,lastUpdateTime
   orderByColumns?: string[]
 }
 
-// 简单租户
+// Simple tenant
 export interface ISimpleTenant {
-  /** 租户ID */
+  /** Tenant ID */
   tenantId: string
   /** Logo */
   logo: string
-  /** 租户名称 */
+  /** Tenant name */
   name: string
-  /** 联系人名称 */
+  /** Contact name */
   linkman: string
 }
 
-// 简单项目
+// Simple project
 export interface ISimpleProject {
-  /** 项目ID */
+  /** Project ID */
   projectId: number
-  /** 项目名称 */
+  /** Project name */
   projectName: string
-  /** 联系人名称 */
+  /** Contact name */
   linkman: string
-  /** 行政地址 */
+  /** Address area */
   areaCode: number
-  /** 所在地址 */
+  /** Address */
   address: string
 }
 
-// 基础类型
+// Base type
 export interface IBaseEntity {
-  /** 创建时间 */
+  /** Created at */
   createTime?: string
-  /** 创建人 id */
+  /** Created by id */
   createUser?: number
-  /** 创建人信息 */
+  /** Creator details */
   createUserEntity?: IOperateUserEntity
-  /** 最后一次修改时间 */
+  /** Last updated at */
   lastUpdateTime?: string
-  /** 最后一次修改人 id */
+  /** Last updated by id */
   lastUpdateUser?: number
-  /** 最后一次修改人信息 */
+  /** Last updater details */
   lastUpdateUserEntity?: IOperateUserEntity
 }
 
-// 操作用户信息
+// Operator details
 export interface IOperateUserEntity {
-  /** 操作的用户ID */
+  /** Operator ID */
   userId: number
-  /** 操作的用户头像 */
+  /** Operator avatar */
   avatar: string
-  /** 操作的用户昵称 */
+  /** Operator nickname */
   nickname: string
 }
 
-// 简单菜单
+// Simple menu
 export interface ITreeNode {
-  /** 菜单ID */
+  /** Menu ID */
   id: number
-  /** 菜单名称 */
+  /** Menu name */
   name: string
-  /** 上级 */
+  /** Parent */
   parentId: number
-  /** 排序 */
+  /** Sort order */
   weight: number
-  /** 子菜单 */
+  /** Submenu */
   children: ITreeNode[]
 }
 
-// 修改菜单
+// Edit menu
 export interface IUpdateMenus {
-  /** 拥有的菜单ID */
+  /** Assigned menus ID */
   have: number[]
-  /** 全部的菜单 */
+  /** All menus */
   all: ITreeNode[]
 }
 
-// 推送消息
+// Push message
 export interface IPushMessage {
   /** ID */
   id: number
-  /** 标题 */
+  /** Title */
   title: string
-  /** 消息 */
+  /** Message */
   content: string
-  /** 创建时间 */
+  /** Created at */
   createTime: string
-  /** 状态 0.失败  1.成功  */
+  /** Status: 0 = failed, 1 = succeeded  */
   status: number
 }

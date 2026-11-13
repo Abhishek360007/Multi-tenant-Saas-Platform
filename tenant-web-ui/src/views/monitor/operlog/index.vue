@@ -3,13 +3,13 @@
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="params">
         <el-form-item>
-          <el-input v-model="params.keywords" clearable placeholder="根据 昵称、用户名 搜索" />
+          <el-input v-model="params.keywords" clearable placeholder="Search by nickname or username" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :icon="Search" @click="searchTableData">搜索</el-button>
+          <el-button type="primary" :icon="Search" @click="searchTableData">Search</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="danger" :icon="Delete" @click="handleBatchDelete">批量删除</el-button>
+          <el-button type="danger" :icon="Delete" @click="handleBatchDelete">Delete selected</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -19,42 +19,42 @@
         <el-table :data="tableData" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55" />
           <el-table-column prop="id" label="ID" />
-          <el-table-column prop="title" label="标题" />
-          <el-table-column prop="description" label="描述" />
-          <el-table-column prop="serviceName" label="服务名称" />
-          <el-table-column prop="requestMethod" label="请求类型" />
-          <el-table-column prop="username" label="用户名">
+          <el-table-column prop="title" label="Title" />
+          <el-table-column prop="description" label="Description" />
+          <el-table-column prop="serviceName" label="Service name" />
+          <el-table-column prop="requestMethod" label="Request method" />
+          <el-table-column prop="username" label="Username">
             <template #default="scope">
-              <el-tooltip effect="dark" :content="`用户ID: ${scope.row.userId}`" placement="top">
+              <el-tooltip effect="dark" :content="`User ID: ${scope.row.userId}`" placement="top">
                 <el-link> {{ scope.row.username }}</el-link>
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column prop="avatar" label="头像">
+          <el-table-column prop="avatar" label="Avatar">
             <template #default="scope">
               <el-avatar :size="40" :icon="UserFilled" :src="scope.row.avatar" />
             </template>
           </el-table-column>
-          <el-table-column prop="requestUrl" label="请求地址" />
-          <el-table-column prop="requestIp" label="请求IP" />
-          <el-table-column prop="address" label="请求地址" />
-          <el-table-column prop="status" label="状态" />
-          <el-table-column prop="timeCost" label="耗时(毫秒)" />
-          <el-table-column prop="createTime" label="创建时间">
+          <el-table-column prop="requestUrl" label="Request URL" />
+          <el-table-column prop="requestIp" label="Request IP" />
+          <el-table-column prop="address" label="Request URL" />
+          <el-table-column prop="status" label="Status" />
+          <el-table-column prop="timeCost" label="Duration (ms)" />
+          <el-table-column prop="createTime" label="Created at">
             <template #default="scope">
               <el-tooltip v-if="scope.row.createTime" :content="scope.row.createTime" placement="top">
                 <el-link> {{ showTimeAgo(scope.row.createTime) }}</el-link>
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="120">
+          <el-table-column label="Actions" width="120">
             <template #default="scope">
               <el-link :icon="View" type="primary" v-has="['pre_role:delete']" @click="handleInfo(scope.row)"
-                >详情</el-link
+                >Details</el-link
               >
               &nbsp;
               <el-link :icon="Delete" type="danger" v-has="['pre_role:delete']" @click="handleDelete(scope.row)"
-                >删除</el-link
+                >Delete</el-link
               >
             </template>
           </el-table-column>
@@ -74,7 +74,7 @@
       </div>
     </el-card>
 
-    <!-- 新增和修改的弹窗 -->
+    <!-- Add/edit dialog -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="50%">
       <el-form
         ref="entityFormRef"
@@ -83,25 +83,25 @@
         label-width="50px"
         @keyup.enter="dialogVisible = false"
       >
-        <el-form-item label="描述">
+        <el-form-item label="Description">
           {{ entityForm.description }}
         </el-form-item>
-        <el-form-item label="地址">
+        <el-form-item label="Address">
           {{ entityForm.requestUrl }}
         </el-form-item>
-        <el-form-item label="类型">
+        <el-form-item label="Type">
           {{ entityForm.requestMethod }}
         </el-form-item>
-        <el-form-item label="参数">
+        <el-form-item label="Parameters">
           <el-input v-model="entityForm.methodArgs" rows="5" type="textarea" />
         </el-form-item>
-        <el-form-item label="结果">
+        <el-form-item label="Result">
           <el-input v-model="entityForm.responseResult" rows="10" type="textarea" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+          <el-button type="primary" @click="dialogVisible = false">OK</el-button>
         </span>
       </template>
     </el-dialog>
@@ -116,7 +116,7 @@ import { queryOperLogApi, deleteOperLogApi } from "@/api/loginLog"
 import { IOperLog } from "@/types/lms"
 import { showTimeAgo } from "@/hooks/useIndex"
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
 const dialogVisible = ref(false)
@@ -125,82 +125,82 @@ const dialogTitle = ref("")
 
 const tableData = ref<IOperLog[]>()
 
-/// 表单数据
+/// Form data
 const entityForm = ref<IOperLog>({
   /**
    * ID
    */
   id: "",
   /**
-   * 标题
+   * Title
    */
   title: "",
   /**
-   * 描述
+   * Description
    */
   description: "",
   /**
-   * 服务名称
+   * Service name
    */
   serviceName: "",
   /**
-   * 用户ID
+   * User ID
    */
   userId: 0,
   /**
-   * 用户昵称
+   * User nickname
    */
   nickname: "",
   /**
-   * 用户名
+   * Username
    */
   username: "",
   /**
-   * 头像
+   * Avatar
    */
   avatar: "",
   /**
-   * 方法
+   * Method
    */
   method: "",
   /**
-   * 方法参数
+   * Method arguments
    */
   methodArgs: "",
   /**
-   * 请求类型
+   * Request method
    */
   requestMethod: "",
   /**
-   * 请求地址
+   * Request URL
    */
   requestUrl: "",
   /**
-   * 请求IP
+   * Request IP
    */
   requestIp: "",
   /**
-   * 请求地址
+   * Request URL
    */
   address: "",
   /**
-   * 请求响应
+   * Response
    */
   responseResult: "",
   /**
-   * 状态
+   * Status
    */
   status: 0,
   /**
-   * 错误日志
+   * Error log
    */
   errorLog: "",
   /**
-   * 耗时(毫秒)
+   * Duration (ms)
    */
   timeCost: 0,
   /**
-   * 创建时间
+   * Created at
    */
   createTime: ""
 })
@@ -215,7 +215,7 @@ const params = reactive({
   includeCauu: true
 })
 
-// 获取数据
+// Fetch data
 const getTableData = () => {
   loading.value = true
   queryOperLogApi(params)
@@ -250,7 +250,7 @@ const handleSelectionChange = (data: IOperLog[]) => {
   multipleSelection.value = data
 }
 
-// 详情
+// Details
 const handleInfo = (data: IOperLog) => {
   data.methodArgs = JSON.stringify(JSON.parse(data.methodArgs), null, "\t")
   data.responseResult = JSON.stringify(JSON.parse(data.responseResult), null, "\t")
@@ -259,19 +259,19 @@ const handleInfo = (data: IOperLog) => {
   dialogTitle.value = data.title
 }
 
-// 批量删除
+// Delete selected
 const handleBatchDelete = () => {
   if (multipleSelection.value.length < 1) {
     ElMessage({
-      message: "最少选择一个",
+      message: "Select at least one",
       type: "warning"
     })
     return
   }
   const items = multipleSelection.value.map((r) => r.id)
-  ElMessageBox.confirm(`确要批量删除吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(`Delete the selected items?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
@@ -279,7 +279,7 @@ const handleBatchDelete = () => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `批量删除成功！`,
+              message: `Deleted`,
               type: "success"
             })
           }
@@ -296,11 +296,11 @@ const handleBatchDelete = () => {
     })
 }
 
-// 删除
+// Delete
 const handleDelete = (data: IOperLog) => {
-  ElMessageBox.confirm(`确要删除 ${data.title} 吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(`Delete ${data.title}?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
@@ -308,7 +308,7 @@ const handleDelete = (data: IOperLog) => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `删除 ${data.title} 成功！`,
+              message: `Deleted ${data.title}`,
               type: "success"
             })
           }

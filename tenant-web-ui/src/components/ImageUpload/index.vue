@@ -34,7 +34,7 @@ const props = defineProps({
   }
 })
 
-// 基于类型
+// Type-based
 const emit = defineEmits<{
   (e: "change", id: string): void
 }>()
@@ -45,17 +45,17 @@ onMounted(() => {
   imageUrl.value = props.src!
 })
 
-// 删除旧的图片
+// Delete the old image
 const deleteOldFile = (url: string) => {
   deleteFile(url).then((result) => console.log("deleteOldFile :", result.data))
 }
 
-// 获取上传地址
+// Get upload URL
 const getAction = `${getEnvBaseURLPrefix()}/upload/image?width=100&height=100`
 
 const tenantId = useUserStoreHook().userInfo?.tenantId
 
-// 请求头
+// Request headers
 const myHeaders = {
   Authorization: getToken(),
   "x-tenant-id": tenantId
@@ -64,11 +64,11 @@ const myHeaders = {
 const handleAvatarSuccess: UploadProps["onSuccess"] = (response, _) => {
   if (response.status === 200) {
     const resp = response.data
-    // 删除旧的头像
+    // Delete the old avatar
     if (imageUrl.value) {
       deleteOldFile(imageUrl.value)
     }
-    // 将新的头像赋值
+    // Assign the new avatar
     imageUrl.value = resp.url
     emit("change", imageUrl.value)
   } else {
@@ -80,10 +80,10 @@ const regular = new RegExp("(image/jpg|image/jpeg|image/png|image/gif|)")
 
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   if (!regular.test(rawFile.type)) {
-    ElMessage.error("图片只能是[ jpeg , png , jpg , gif ]的图片格式")
+    ElMessage.error("Images must be jpeg, png, jpg or gif")
     return false
   } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error("图片大小不能超过2MB")
+    ElMessage.error("Image size cannot exceed 2MB")
     return false
   }
   return true

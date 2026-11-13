@@ -6,20 +6,20 @@ import {useUserStoreHook} from "./user"
 import {getSimpleTenantApi} from "@/api/tenant"
 
 export const useTenantStore = defineStore("tenant", () => {
-  // 当前租户
+  // Current tenant
   const tenant = ref<ISimpleTenant>()
 
-  // 获取当前租户
+  // Get current tenant
   const getTenantId = (): string => {
     return tenant.value!.tenantId
   }
 
-  // 获取当前租户
+  // Get current tenant
   const getTenant = (): ISimpleTenant => {
     return tenant.value!
   }
 
-  /** 获取登录用户所在的租户 */
+  /** Get the tenant of the signed-in user */
   const getLoginUserTenant = () => {
     return new Promise((resolve, reject) => {
       const tenantId = useUserStoreHook().userInfo?.tenantId
@@ -48,7 +48,7 @@ export const useTenantStore = defineStore("tenant", () => {
   }
 })
 
-/** 在 setup 外使用 */
+/** Use outside setup */
 export function useTenantStoreHook() {
   return useTenantStore(store)
 }

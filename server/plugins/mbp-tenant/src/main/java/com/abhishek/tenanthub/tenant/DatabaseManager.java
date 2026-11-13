@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 public interface DatabaseManager {
 
     /**
-     * TODO 获取默认的数据源
+     * TODO Get the default data source
      *
      * @author WangChenChen
      * @date 2022/12/11 11:04
@@ -19,7 +19,7 @@ public interface DatabaseManager {
 
 
     /**
-     * TODO 根据租户ID 获取对应的数据源
+     * TODO Get the data source for a tenant ID
      *
      * @author WangChenChen
      * @date 2022/12/11 11:04
@@ -29,7 +29,7 @@ public interface DatabaseManager {
 
 
     /**
-     * TODO 租户创建表结构
+     * TODO Create tenant tables
      *
      * @author WangChenChen
      * @date 2022/12/11 11:04
@@ -38,7 +38,7 @@ public interface DatabaseManager {
 
 
     /**
-     * TODO 租户创建表结构
+     * TODO Create tenant tables
      *
      * @author WangChenChen
      * @date 2022/12/11 11:04
@@ -47,7 +47,7 @@ public interface DatabaseManager {
 
 
     /**
-     * TODO 租户创建表结构
+     * TODO Create tenant tables
      *
      * @author WangChenChen
      * @date 2022/12/11 11:04
@@ -56,7 +56,7 @@ public interface DatabaseManager {
 
 
     /**
-     * TODO 租户删除表结构
+     * TODO Drop tenant tables
      *
      * @author WangChenChen
      * @date 2022/12/11 11:04
@@ -65,7 +65,7 @@ public interface DatabaseManager {
 
 
     /**
-     * TODO 获取多租户信息
+     * TODO Get multi-tenant details
      *
      * @author WangChenChen
      * @date 2022/12/11 11:04

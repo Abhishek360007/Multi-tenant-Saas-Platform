@@ -6,103 +6,103 @@
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
 
-    <!-- [ 系统 ] 租户表 -->
+    <!-- [ System ] Tenant table -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414015975-1">
-        <createTable remarks="[ 系统 ] 租户表" tableName="sys_tenant">
-            <column name="tenant_id" remarks="租户 ID" type="VARCHAR(20)">
+        <createTable remarks="[ System ] Tenant table" tableName="sys_tenant">
+            <column name="tenant_id" remarks="Tenant ID" type="VARCHAR(20)">
                 <constraints nullable="false" primaryKey="true" unique="true"/>
             </column>
-            <column name="logo" remarks="租户 logo" type="VARCHAR(255)">
+            <column name="logo" remarks="Tenant logo" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" remarks="租户名称" type="VARCHAR(255)">
+            <column name="name" remarks="Tenant name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="email" remarks="租户邮箱" type="VARCHAR(50)">
+            <column name="email" remarks="Tenant email" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="linkman" remarks="联系人名称" type="VARCHAR(255)">
+            <column name="linkman" remarks="Contact name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="contact_number" remarks="联系电话" type="VARCHAR(50)">
+            <column name="contact_number" remarks="Contact number" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="area_code" remarks="行政区域" type="BIGINT">
+            <column name="area_code" remarks="Area" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="address" remarks="联系地址" type="VARCHAR(255)">
+            <column name="address" remarks="Address" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="status" remarks="租户状态 0.禁用 1.正常 9.初始化中" type="TINYINT(4)">
+            <column defaultValueNumeric="1" name="status" remarks="Tenant status: 0 = disabled, 1 = normal, 9 = initializing" type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="expired" remarks="过期时间。默认是 10 年" type="datetime">
+            <column name="expired" remarks="Expiry time (default 10 years)" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_time" remarks="添加时间" type="datetime">
+            <column name="create_time" remarks="Added at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建人" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="最后一次，修改时间" type="datetime">
+            <column name="last_update_time" remarks="Last updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="最后一次，修改人" type="BIGINT">
+            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
 
-    <!-- [ 系统 ] 租户和权限模板表 -->
+    <!-- [ System ] Tenant-template table -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414015975-2">
-        <createTable remarks="[ 系统 ] 租户和权限模板表" tableName="sys_tenant_template">
-            <column name="tenant_id" remarks="租户ID" type="VARCHAR(20)">
+        <createTable remarks="[ System ] Tenant-template table" tableName="sys_tenant_template">
+            <column name="tenant_id" remarks="Tenant ID" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="template_id" remarks="模板 ID" type="BIGINT">
+            <column name="template_id" remarks="Template ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
 
-    <!-- [ 系统 ] 用户和租户表 -->
+    <!-- [ System ] User-tenant table -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414015975-3">
-        <createTable remarks="[ 系统 ] 用户和租户表" tableName="sys_user_tenant">
-            <column name="user_id" remarks="用户 ID" type="BIGINT">
+        <createTable remarks="[ System ] User-tenant table" tableName="sys_user_tenant">
+            <column name="user_id" remarks="User ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="tenant_id" remarks="租户 ID" type="VARCHAR(20)">
+            <column name="tenant_id" remarks="Tenant ID" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
 
-    <!-- [ 系统 ] 权限模板表 -->
+    <!-- [ System ] Permission template table -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414015975-4">
-        <createTable remarks="[ 系统 ] 权限模板表" tableName="sys_template">
-            <column autoIncrement="true" name="id" remarks="模板ID" type="BIGINT">
+        <createTable remarks="[ System ] Permission template table" tableName="sys_template">
+            <column autoIncrement="true" name="id" remarks="Template ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="name" remarks="模板名称" type="VARCHAR(50)">
+            <column name="name" remarks="Template name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" remarks="备注" type="VARCHAR(200)">
+            <column name="description" remarks="Remarks" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_time" remarks="添加时间" type="datetime">
+            <column name="create_time" remarks="Added at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建人" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="最后一次，修改时间" type="datetime">
+            <column name="last_update_time" remarks="Last updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="最后一次，修改人" type="BIGINT">
+            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -110,13 +110,13 @@
     </changeSet>
 
 
-    <!-- [ 系统 ] 模板和菜单权限表 -->
+    <!-- [ System ] Template-menu table -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414015975-5">
-        <createTable remarks="[ 系统 ] 模板和菜单权限表" tableName="sys_template_menu">
-            <column name="template_id" remarks="模板 ID" type="BIGINT">
+        <createTable remarks="[ System ] Template-menu table" tableName="sys_template_menu">
+            <column name="template_id" remarks="Template ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="menu_id" remarks="菜单ID" type="BIGINT">
+            <column name="menu_id" remarks="Menu ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -154,34 +154,34 @@
     </changeSet>
 
 
-    <!--[ 通用 ]全局配置-->
+    <!--[ Common ] Global settings-->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414059273-1">
-        <createTable remarks="[ 通用 ] 参数配置表" tableName="sys_config">
-            <column autoIncrement="true" name="config_id" remarks="参数主键" type="BIGINT">
+        <createTable remarks="[ Common ] Parameter settings table" tableName="sys_config">
+            <column autoIncrement="true" name="config_id" remarks="Parameter key" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column defaultValue="" name="config_name" remarks="参数名称" type="VARCHAR(100)">
+            <column defaultValue="" name="config_name" remarks="Parameter name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="" name="config_key" remarks="参数键名" type="VARCHAR(100)">
+            <column defaultValue="" name="config_key" remarks="Parameter key" type="VARCHAR(100)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="config_value" remarks="参数键值" type="TEXT">
+            <column name="config_value" remarks="Parameter value" type="TEXT">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="config_type" remarks="系统内置（1.是 0.否）" type="TINYINT(4)">
+            <column defaultValueNumeric="0" name="config_type" remarks="Built in (1 = yes, 0 = no)" type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_time" remarks="创建时间" type="datetime">
+            <column name="create_time" remarks="Created at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建人" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="最后一次修改时间" type="datetime">
+            <column name="last_update_time" remarks="Last updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="最后一次修改人" type="BIGINT">
+            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -189,31 +189,31 @@
     </changeSet>
 
 
-    <!--[ 通用 ] 字典类型表-->
+    <!--[ Common ] Dictionary type table-->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699412931547-1">
-        <createTable remarks="[ 通用 ] 字典类型表" tableName="sys_dict_type">
-            <column autoIncrement="true" name="type_id" remarks="字典类型 ID" type="BIGINT">
+        <createTable remarks="[ Common ] Dictionary type table" tableName="sys_dict_type">
+            <column autoIncrement="true" name="type_id" remarks="Dictionary type ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="type_name" remarks="字典类型名" type="VARCHAR(50)">
+            <column name="type_name" remarks="Dictionary type name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="type_key" remarks="字典类型关键字" type="VARCHAR(50)">
+            <column name="type_key" remarks="Dictionary type key" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" remarks="部门描述" type="VARCHAR(255)">
+            <column name="description" remarks="Department description" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_time" remarks="创建时间" type="datetime">
+            <column name="create_time" remarks="Created at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建人" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="最后一次修改时间" type="datetime">
+            <column name="last_update_time" remarks="Last updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="最后一次修改人" type="BIGINT">
+            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -221,37 +221,37 @@
     </changeSet>
 
 
-    <!--[ 通用 ] 字典数据表-->
+    <!--[ Common ] Dictionary data table-->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414089273-1">
-        <createTable remarks="[ 通用 ] 字典数据表" tableName="sys_dict_data">
-            <column autoIncrement="true" name="dict_code" remarks="字典编码" type="BIGINT">
+        <createTable remarks="[ Common ] Dictionary data table" tableName="sys_dict_data">
+            <column autoIncrement="true" name="dict_code" remarks="Dictionary code" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column defaultValueNumeric="0" name="dict_sort" remarks="字典排序" type="BIGINT">
+            <column defaultValueNumeric="0" name="dict_sort" remarks="Dictionary sort order" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="" name="dict_label" remarks="字典标签" type="VARCHAR(100)">
+            <column defaultValue="" name="dict_label" remarks="Dictionary label" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="" name="dict_value" remarks="字典键值" type="VARCHAR(100)">
+            <column defaultValue="" name="dict_value" remarks="Dictionary value" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="" name="type_key" remarks="字典类型" type="VARCHAR(50)">
+            <column defaultValue="" name="type_key" remarks="Dictionary type" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="is_default" remarks="是否默认（1.是 0.否）" type="TINYINT(4)">
+            <column defaultValueNumeric="0" name="is_default" remarks="Is default (1 = yes, 0 = no)" type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建者" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_time" remarks="创建时间" type="datetime">
+            <column name="create_time" remarks="Created at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="更新者" type="BIGINT">
+            <column name="last_update_user" remarks="Updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="更新时间" type="datetime">
+            <column name="last_update_time" remarks="Updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -259,56 +259,56 @@
     </changeSet>
 
 
-    <!--[ 通用 ] 菜单权限表-->
+    <!--[ Common ] Menu permission table-->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414100077-1">
-        <createTable remarks="[ 通用 ] 菜单权限表" tableName="sys_menu">
-            <column autoIncrement="true" name="menu_id" remarks="菜单ID" type="BIGINT">
+        <createTable remarks="[ Common ] Menu permission table" tableName="sys_menu">
+            <column autoIncrement="true" name="menu_id" remarks="Menu ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="menu_name" remarks="菜单名称" type="VARCHAR(255)">
+            <column name="menu_name" remarks="Menu name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="parent_id" remarks="父主键" type="BIGINT">
+            <column defaultValueNumeric="0" name="parent_id" remarks="Parent key" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="perms" remarks="权限标识" type="VARCHAR(255)">
+            <column name="perms" remarks="Permission key" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="#" name="component" remarks="组件" type="VARCHAR(255)">
+            <column defaultValue="#" name="component" remarks="Component" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="#" name="icon" remarks="菜单图标" type="VARCHAR(255)">
+            <column defaultValue="#" name="icon" remarks="Menu icon" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="#" name="path" remarks="路由地址" type="VARCHAR(255)">
+            <column defaultValue="#" name="path" remarks="Route path" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="sort" remarks="排序" type="BIGINT">
+            <column name="sort" remarks="Sort order" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="menu_type" remarks="菜单类型（1.菜单 2.按钮）" type="TINYINT(4)">
+            <column defaultValueNumeric="1" name="menu_type" remarks="Menu type (1 = menu, 2 = button)" type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="visible" remarks="菜单状态（1.显示 0.隐藏）" type="TINYINT(4)">
+            <column defaultValueNumeric="1" name="visible" remarks="Menu visibility (1 = shown, 0 = hidden)" type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="2" name="target" remarks="0.租户用户   1. 系统用户   2.全部用户"
+            <column defaultValueNumeric="2" name="target" remarks="0.Tenant user, 1 = platform user, 2 = all users"
                     type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="keep_alive" remarks="保持状态（1.保持 0.不保持）" type="TINYINT(4)">
+            <column defaultValueNumeric="0" name="keep_alive" remarks="Keep alive (1 = yes, 0 = no)" type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_time" remarks="创建时间" type="datetime">
+            <column name="create_time" remarks="Created at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建人" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="最后一次修改时间" type="datetime">
+            <column name="last_update_time" remarks="Last updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="最后一次修改人" type="BIGINT">
+            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -316,31 +316,31 @@
     </changeSet>
 
 
-    <!--[ 通用 ] 文件记录表 -->
+    <!--[ Common ] File records table -->
     <changeSet context="platform" author="WangChenChen (generated)" id="1699414106974-1">
-        <createTable remarks="[ 通用 ] 文件记录表" tableName="sys_file_detail">
-            <column name="id" remarks="文件id" type="VARCHAR(32)">
+        <createTable remarks="[ Common ] File records table" tableName="sys_file_detail">
+            <column name="id" remarks="File id" type="VARCHAR(32)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="url" remarks="文件访问地址" type="VARCHAR(512)">
+            <column name="url" remarks="File URL" type="VARCHAR(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="size" remarks="文件大小，单位字节" type="BIGINT"/>
-            <column name="filename" remarks="文件名称" type="VARCHAR(256)"/>
-            <column name="original_filename" remarks="原始文件名" type="VARCHAR(256)"/>
-            <column name="base_path" remarks="基础存储路径" type="VARCHAR(256)"/>
-            <column name="path" remarks="存储路径" type="VARCHAR(256)"/>
-            <column name="ext" remarks="文件扩展名" type="VARCHAR(32)"/>
-            <column name="content_type" remarks="MIME类型" type="VARCHAR(32)"/>
-            <column name="platform" remarks="存储平台" type="VARCHAR(32)"/>
-            <column name="th_url" remarks="缩略图访问路径" type="VARCHAR(512)"/>
-            <column name="th_filename" remarks="缩略图名称" type="VARCHAR(256)"/>
-            <column name="th_size" remarks="缩略图大小，单位字节" type="BIGINT"/>
-            <column name="th_content_type" remarks="缩略图MIME类型" type="VARCHAR(32)"/>
-            <column name="object_id" remarks="文件所属对象id" type="VARCHAR(32)"/>
-            <column name="object_type" remarks="文件所属对象类型，例如用户头像，评价图片" type="VARCHAR(32)"/>
-            <column name="attr" remarks="附加属性" type="TEXT"/>
-            <column name="create_time" remarks="创建时间" type="datetime"/>
+            <column name="size" remarks="File size in bytes" type="BIGINT"/>
+            <column name="filename" remarks="File name" type="VARCHAR(256)"/>
+            <column name="original_filename" remarks="Original file name" type="VARCHAR(256)"/>
+            <column name="base_path" remarks="Base storage path" type="VARCHAR(256)"/>
+            <column name="path" remarks="Storage path" type="VARCHAR(256)"/>
+            <column name="ext" remarks="File extension" type="VARCHAR(32)"/>
+            <column name="content_type" remarks="MIME Type" type="VARCHAR(32)"/>
+            <column name="platform" remarks="Storage platform" type="VARCHAR(32)"/>
+            <column name="th_url" remarks="Thumbnail URL" type="VARCHAR(512)"/>
+            <column name="th_filename" remarks="Thumbnail name" type="VARCHAR(256)"/>
+            <column name="th_size" remarks="Thumbnail size in bytes" type="BIGINT"/>
+            <column name="th_content_type" remarks="Thumbnail MIME type" type="VARCHAR(32)"/>
+            <column name="object_id" remarks="Owner object id" type="VARCHAR(32)"/>
+            <column name="object_type" remarks="Owner object type, e.g. user avatar or review image" type="VARCHAR(32)"/>
+            <column name="attr" remarks="Extra attributes" type="TEXT"/>
+            <column name="create_time" remarks="Created at" type="datetime"/>
         </createTable>
     </changeSet>
 

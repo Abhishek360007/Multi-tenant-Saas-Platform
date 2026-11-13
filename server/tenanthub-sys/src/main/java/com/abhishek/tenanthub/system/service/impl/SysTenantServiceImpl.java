@@ -125,7 +125,7 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
                 .select(List.of(SysTenant::getTenantId, SysTenant::getLogo, SysTenant::getName, SysTenant::getLinkman))
                 .eq(SysTenant::getStatus, StatusEnum.NORMAL.getCode())
                 .orderByAsc(SysTenant::getCreateTime);
-        // 如果当前登录的用户，关联的有租户，
+        // If the signed-in user is linked to tenants,
         var tenantIds = sysUserService.listHaveTenantIds(getUserId());
         if (!tenantIds.isEmpty()) {
             wrapper.in(SysTenant::getTenantId, tenantIds);
@@ -174,7 +174,7 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
     @Override
     public boolean save(SysTenant entity) {
         if (!isMasterUser()) {
-            throw new BizException("只有系统用户，才能创建租户！");
+            throw new BizException("Only platform users can create tenants");
         }
         if (StringUtils.isBlank(entity.getTenantId())) {
             do {
@@ -184,10 +184,10 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
         } else {
             var isMatch = Pattern.matches("\\w{4,12}$", entity.getTenantId());
             if (!isMatch) {
-                throw new BizException("租户ID 只能是字母和数字，长度4~12位!！");
+                throw new BizException("Tenant ID must be 4 to 12 letters and numbers");
             }
             if (tenantManager.existById(entity.getTenantId())) {
-                throw new BizException(String.format("租户ID %s 已经存在了！", entity.getTenantId()));
+                throw new BizException(String.format("Tenant ID %s already exists", entity.getTenantId()));
             }
         }
         if (entity.getExpired() == null) {
@@ -216,30 +216,30 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
     @Override
     public TenantCreatedSuccessVO create(CreateTenantPO po) throws Exception {
         if (!isMasterUser()) {
-            throw new BizException("只有系统用户，才能创建租户！");
+            throw new BizException("Only platform users can create tenants");
         }
 
-        // 如果 租户ID 为空，就随机给一个
+        // If the tenant ID is empty, generate one
         if (StringUtils.isBlank(po.getTenantId())) {
             po.setTenantId(getUUIDSuffix());
         }
 
-        // 如果 管理员 用户名为空，就随机给一个
+        // If the admin username is empty, generate one
         if (StringUtils.isBlank(po.getAdminUsername())) {
             po.setAdminUsername(getUUIDSuffix());
         }
 
-        // 管理员邮箱,如果不填写，默认使用商户邮箱
+        // Admin email; defaults to the tenant email if empty
         if (StringUtils.isBlank(po.getAdminEmail())) {
             po.setAdminEmail(po.getEmail());
         }
 
-        // 管理员名称！如果不填写，默认是商户名称
+        // Admin name; defaults to the tenant name if empty
         if (StringUtils.isBlank(po.getAdminNickname())) {
             po.setAdminNickname(po.getName());
         }
 
-        // 管理员手机号,如果不填写，默认使用商户联系人手机号
+        // Admin mobile number; defaults to the tenant contact number if empty
         if (StringUtils.isBlank(po.getAdminMobile())) {
             po.setAdminMobile(po.getContactNumber());
         }
@@ -260,13 +260,13 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
                 .setAreaCode(po.getAreaCode())
                 .setAddress(po.getAddress())
                 .setExpired(po.getExpired())
-                // 状态 设置为初始化中...
+                // Set the status to initializing...
                 .setStatus((byte) 9);
 
-        // 保存租户
+        // Save the tenant
         this.save(sysTenant);
 
-        // 新增权限模板
+        // Add permission templates
         if (po.getTemplates() != null && !po.getTemplates().isEmpty()) {
             var tempIds = po.getTemplates().stream()
                     .map(SysTemplate::getId)
@@ -281,17 +281,17 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
             baseMapper.insertByTemplates(sysTenant.getTenantId(), templateIds);
         }
 
-        // 初始化 用户 角色 部门
+        // Initialize users, roles and departments
         var initUserDTO = new InitUserDTO();
         BeanUtils.copyProperties(po, initUserDTO);
 
-        // 初始化 项目
+        // Initialize projects
         var initTenantDTO = new SysTenantDTO();
         BeanUtils.copyProperties(sysTenant, initTenantDTO);
 
         var loginUser = getLoginUser();
 
-        // 初始化租户数据
+        // Initialize tenant data
         initData(loginUser, initTenantDTO, initUserDTO);
 
         return TenantCreatedSuccessVO.builder()
@@ -308,11 +308,11 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
     @Override
     public TenantCreatedSuccessVO resetData(String tenantId) {
         if (!isMasterUser() && !isAdminUser()) {
-            throw new BizException("非系统管理员，无法重置租户数据！");
+            throw new BizException("Only platform admins can reset tenant data");
         }
         var source = super.getById(tenantId);
         if (source == null) {
-            throw new BizException(String.format("租户ID %s 不存在！", tenantId));
+            throw new BizException(String.format("Tenant ID %s does not exist", tenantId));
         }
         var initTenantDTO = new SysTenantDTO();
         BeanUtils.copyProperties(source, initTenantDTO);
@@ -331,10 +331,10 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
 
         var dbName = tenantManager.getDbName(tenantId);
 
-        // 获取 当前租户 数据库中，的所有表
+        // Get all tables in the current tenant database
         var tableNames = delegate(tenantId, () -> baseMapper.selectListTableNames());
 
-        // 移除 liquibase 版本控制，使用的数据库表格。默认是 DATABASECHANGELOGLOCK , DATABASECHANGELOG
+        // Exclude the Liquibase tracking tables. Defaults to DATABASECHANGELOGLOCK , DATABASECHANGELOG
         var excludeTableNames = List.of(liquibaseProperties.getDatabaseChangeLogLockTable(),
                 liquibaseProperties.getDatabaseChangeLogLockTable().toLowerCase(),
                 liquibaseProperties.getDatabaseChangeLogLockTable().toUpperCase(),
@@ -344,17 +344,17 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
 
         tableNames.removeAll(new HashSet<>(excludeTableNames));
 
-        // 状态 设置为初始化中...
+        // Set the status to initializing...
         source.setStatus((byte) 9);
         super.updateById(source);
 
         var loginUser = getLoginUser();
         CompletableFuture.runAsync(() -> {
-            // 异步 清空所有表的数据
+            // Clear all tables asynchronously
             delegate(tenantId, () -> baseMapper.truncateTableData(dbName, tableNames));
         }).whenComplete((val, ex) -> {
             if (ex == null) {
-                // 重新 更新表结构，初始化数据
+                // Recreate the schema and seed data
                 delegate(tenantId, () -> {
                     initData(loginUser, initTenantDTO, initUser);
                     return true;
@@ -373,47 +373,47 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
     }
 
 
-    // 初始化 数据库表结构 和 默认数据
+    // Initialize the schema and default data
     private void initData(JwtLoginUser loginUser, SysTenantDTO initTenant, InitUserDTO initUser) {
         if (loginUser == null || initTenant == null || initUser == null) {
             return;
         }
-        // 异步初始化  数据库表结构  和  基础数据
+        // Asynchronously initialize the schema and base data
         dataSourceManager.asyncUpdateTable(initTenant.getTenantId(),
                 (Exception ex) -> {
-                    // 设置登录用户
+                    // Set the signed-in user
                     JwtSecurityUtils.setLoginUser(loginUser);
                     var msg = new SimpPushMessage()
                             .setId(IdUtils.getStandaloneId())
-                            .setTitle("初始化租户数据结果")
+                            .setTitle("Tenant initialization result")
                             .setStatus(StatusEnum.NORMAL.getCode())
                             .setCreateTime(LocalDateTime.now());
                     if (ex == null) {
-                        // 初始化 用户 角色 部门
+                        // Initialize users, roles and departments
                         userService.initUserAndRoleAndDept(initUser);
 
-                        // 初始化 项目
+                        // Initialize projects
                         projectService.initProject(initTenant);
 
                         var smallTenant = BeanUtil.copyProperties(initTenant, SmallTenant.class);
                         smallTenant.setProjectIds(new HashSet<>(Set.of(DEFAULT_PROJECT_ID.getValue())));
-                        // 将 新创建的 租户信息 保存到 redis 中
+                        // Save the new tenant to Redis
                         tenantManager.addTenantId(smallTenant);
 
-                        // 将状态修改为 初始化成功
+                        // Set the status to initialized
                         var t1 = new SysTenant()
                                 .setTenantId(initTenant.getTenantId())
                                 .setStatus(StatusEnum.NORMAL.getCode());
 
                         baseMapper.updateById(t1);
-                        msg.setContent(String.format("租户 %s 初始化数据完成！", initTenant.getName()));
+                        msg.setContent(String.format("Tenant %s initialized", initTenant.getName()));
                     } else {
                         log.error("tenantId: {} async update table : \n{}", initTenant.getTenantId(), ex.getMessage());
                         msg.setStatus(StatusEnum.DISABLE.getCode());
-                        msg.setContent(String.format("租户 %s 初始化数据异常，原因 %s ！", initTenant.getName(), ex.getMessage()));
+                        msg.setContent(String.format("Tenant %s failed to initialize: %s", initTenant.getName(), ex.getMessage()));
                     }
                     messagingTemplate.convertAndSendToUser(loginUser.getLoginId(), QUEUE_SINGLE_CREATE_TENANT, JsonUtils.toJson(msg));
-                    // 清除登录的用户信息
+                    // Clear the signed-in user
                     JwtSecurityUtils.setLoginUser(null);
                 }
         );
@@ -424,7 +424,7 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
     @Override
     public boolean updateById(SysTenant entity) {
         if (!isMasterUser()) {
-            throw new BizException("只有系统用户，才能修改租户！");
+            throw new BizException("Only platform users can update tenants");
         }
         var templateIds = entity.getTemplates()
                 .stream()
@@ -439,14 +439,14 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
     @Override
     public boolean updateTemplate(String tenantId, Set<Long> templateIds) {
         if (!isMasterUser()) {
-            throw new BizException("只有系统用户，才能修改租户权限！");
+            throw new BizException("Only platform users can update tenant permissions");
         }
-        // 先删除拥有的，模板ID
+        // Delete the assigned templates first ID
         baseMapper.deleteHaveTemplates(tenantId);
         if (templateIds == null || templateIds.isEmpty()) {
             return true;
         }
-        // 租户新增，权限模板
+        // Add permission templates to the tenant
         return baseMapper.insertByTemplates(tenantId, templateIds) > 0;
     }
 
@@ -455,24 +455,24 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
     @Override
     public boolean removeById(Serializable id) {
         if (!isMasterUser() && !isAdminUser()) {
-            throw new BizException("非系统管理员，无法删除租户！");
+            throw new BizException("Only platform admins can delete tenants");
         }
         var tenantId = String.valueOf(id);
         if (!this.exist(SysTenant::getTenantId, tenantId)) {
             return false;
         }
         if (StringUtils.equals(tenantId, tenantManager.getDefaultTenantId())) {
-            throw new BizException(String.format("无法删除 %s 默认租户！", tenantId));
+            throw new BizException(String.format("The default tenant %s cannot be deleted", tenantId));
         }
-        // 删除 租户信息
+        // Delete the tenant
         var flag = super.removeById(tenantId);
-        // 删除 租户模板权限
+        // Delete the tenant template permissions
         baseMapper.deleteHaveTemplates(tenantId);
-        // 删除 租户数据库
+        // Drop the tenant database
         dataSourceManager.deleteTable(tenantId);
-        // 删除 redis中租户
+        // Remove the tenant from Redis
         tenantManager.removeTenantId(tenantId);
-        // 删除 关联此租户的 系统用户
+        // Remove platform users linked to this tenant
         sysUserService.deleteHaveSysUser(tenantId);
         return flag;
     }

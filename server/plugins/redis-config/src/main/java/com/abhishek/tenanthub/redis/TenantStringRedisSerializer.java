@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 /**
  * <p>
- * redis 自定义序列化，用于保存租户号，隔离数据
+ * redis Custom serializer that prefixes keys with the tenant to isolate data
  * </p>
  *
  * @author Wang Chen Chen<932560435@qq.com>
@@ -25,21 +25,21 @@ public class TenantStringRedisSerializer implements RedisSerializer<String> {
     private final Supplier<String> getTenantId;
 
     /**
-     * 不隔离的多租户的key。 equals
-     * 如果集合中包含 "captcha_codes" 那么
-     * 除了 captcha_codes 其他的 任何key 都需要拼接 租户ID
+     * Keys that are not isolated per tenant. equals
+     * If the collection contains "captcha_codes" then
+     * Every key except captcha_codes gets the tenant prefix ID
      */
     private final Set<String> ignoreEqualsKeys;
 
     /**
-     * 不隔离的多租户的key。 startsWith
-     * 如果集合中包含 "captcha_codes:" 那么
+     * Keys that are not isolated per tenant. startsWith
+     * If the collection contains "captcha_codes:" then
      * <p>
-     * 以下的redis key 不拼接 租户ID：
+     * These Redis keys do not get the tenant ID:
      * key1 :  captcha_codes:123456
      * key2 :  captcha_codes:user:123456
      * <p>
-     * 以下的 redis key 会在添加前缀 租户ID：
+     * These Redis keys are prefixed with the tenant ID:
      * key1 :  hello:123456
      * key2 :  app:webui:123456
      */
@@ -61,19 +61,19 @@ public class TenantStringRedisSerializer implements RedisSerializer<String> {
             return new byte[0];
         }
         var tenantId = this.getTenantId.get();
-        // 租户ID 为空，不拼接
+        // No tenant ID, no prefix
         if (StrUtil.isNotBlank(tenantId)) {
             var prefix = tenantId + StrPool.COLON;
-            // 如果不包含。就需要拼接租户Id
+            // If not included, add the tenant prefix Id
             if (!str.startsWith(prefix)) {
-                // true：拼接多租户ID
+                // true: add the tenant prefix ID
                 var flag = true;
-                // 判断 ignoreEqualsKeys 是否包含 此key
+                // Check whether ignoreEqualsKeys contains this key
                 if (!ignoreEqualsKeys.isEmpty()) {
                     flag = ignoreEqualsKeys.stream().noneMatch(str::equals);
                 }
                 if (flag && !ignoreStartsWithKeys.isEmpty()) {
-                    // 判断 ignoreStartsWithKeys 中 此key
+                    // Check ignoreStartsWithKeys for this key
                     flag = ignoreStartsWithKeys.stream().noneMatch(str::startsWith);
                 }
                 if (flag) {

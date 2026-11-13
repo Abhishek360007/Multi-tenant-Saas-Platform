@@ -1,12 +1,12 @@
-### 获取全局配置列表
+### Get the global settings list
 GET {{baseUrl}}/sys/config/query
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
-#x-tenant-id: google
+#x-tenant-id: globex
 Authorization: Bearer {{tokenValue}}
 
 
-### 获取用户列表
+### Get the user list
 GET {{baseUrl}}/pms/user/query
 Content-Type: application/json
 #x-tenant-id: {{tenantId}}
@@ -15,30 +15,30 @@ Authorization: Bearer {{tokenValue}}
 
 
 
-### 获取角色数据
+### Fetch role data
 GET {{baseUrl}}/pms/role/query
 Content-Type: application/json
 #x-tenant-id: {{tenantId}}
-x-tenant-id: google
+x-tenant-id: globex
 Authorization: Bearer {{tokenValue}}
 
 
 
-### 获取角色数据
+### Fetch role data
 GET {{baseUrl}}/server/info/hello1
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
 Authorization: Bearer {{tokenValue}}
 
 
-### 获取角色数据
+### Fetch role data
 GET {{baseUrl}}/server/info/hello2
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
 Authorization: Bearer {{tokenValue}}
 
 
-### 获取角色数据
+### Fetch role data
 GET {{baseUrl}}/server/info/hello3
 Content-Type: application/json
 x-tenant-id: {{tenantId}}

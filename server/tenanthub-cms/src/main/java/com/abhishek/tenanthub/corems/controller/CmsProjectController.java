@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * <p>
- * 项目 控制器
+ * Project controller
  * </p>
  *
  * @author Wang Chen Chen
@@ -32,7 +32,7 @@ import java.util.List;
  */
 
 @Slf4j
-@Tag(name = "[ 核心 ] 项目")
+@Tag(name = "[ Core ] Projects")
 @RestController
 @RequestMapping("/cms/project")
 @AllArgsConstructor
@@ -41,14 +41,14 @@ public class CmsProjectController {
     private CmsProjectService baseService;
 
 
-    @Operation(summary = "单个查询", description = "根据Id查询")
+    @Operation(summary = "Get one", description = "Query by ID")
     @GetMapping("/{id}")
     public JsonResult<CmsProject> findById(@PathVariable("id") Long id) {
         return JsonResult.success(baseService.getById(id));
     }
 
 
-    @Operation(summary = "简单分页查询", description = "简单分页 搜索查询所有")
+    @Operation(summary = "Simple paged query", description = "Simple paged search of all")
     @GetMapping("/simple/query")
     public JsonResult<Pagination<CmsProject>> simplePageQuery(SearchPO po) {
         var pageResult = baseService.simplePageKeywords(po);
@@ -59,7 +59,7 @@ public class CmsProjectController {
     }
 
 
-    @Operation(summary = "分页", description = "分页 查询所有")
+    @Operation(summary = "Paged query", description = "Paged query of all")
     @GetMapping("/query")
     public JsonResult<Pagination<CmsProject>> pageQuery(ProjectQueryPO params) {
         IPage<CmsProject> page = baseService.pageKeywords(params);
@@ -67,7 +67,7 @@ public class CmsProjectController {
     }
 
 
-    @Operation(summary = "查询所有", description = " 查询所有")
+    @Operation(summary = "Query all", description = " Query all")
     @GetMapping("/list")
     public JsonResult<List<CmsProject>> list() {
         return JsonResult.success(baseService.list());
@@ -75,7 +75,7 @@ public class CmsProjectController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "新增", description = "不需要添加id")
+    @Operation(summary = "Add", description = "Do not include id")
     @PostMapping()
     public JsonResult<Boolean> save(@RequestBody @Validated(ValidCreate.class) CmsProject entity) {
         var flag = baseService.save(entity);
@@ -84,7 +84,7 @@ public class CmsProjectController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改", description = "修改必须要id")
+    @Operation(summary = "Update", description = "Update requires id")
     @PutMapping()
     public JsonResult<Boolean> updateById(@RequestBody @Validated(ValidUpdate.class) CmsProject entity) {
         return JsonResult.success(baseService.updateById(entity));
@@ -92,7 +92,7 @@ public class CmsProjectController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "删除", description = "只需要id即可")
+    @Operation(summary = "Delete", description = "Only the ID is required")
     @DeleteMapping()
     public JsonResult<Boolean> removeById(@Validated(ValidDelete.class) CmsProject entity) {
         return JsonResult.success(baseService.removeById(entity));
@@ -100,7 +100,7 @@ public class CmsProjectController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "重置项目密码", description = "重置项目密码")
+    @Operation(summary = "Reset project password", description = "Reset the project password")
     @PostMapping("/reset/password")
     public JsonResult<Boolean> resetPassword(@RequestBody @Validated ResetPasswordVO data) {
         return JsonResult.success(

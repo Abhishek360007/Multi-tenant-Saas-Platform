@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 基础的租户信息
+ * Basic tenant details
  * </p>
  *
  * @author WangChenChen
@@ -17,7 +17,7 @@ import java.util.Set;
  */
 
 
-@Schema(description = "租户")
+@Schema(description = "Tenant")
 @Getter
 @Setter
 @Builder
@@ -27,33 +27,33 @@ import java.util.Set;
 public class SmallTenant implements java.io.Serializable {
 
     /**
-     * 租户 ID
+     * Tenant ID
      */
-    @Schema(description = "租户ID")
+    @Schema(description = "Tenant ID")
     private String tenantId;
 
     /**
-     * 租户 logo
+     * Tenant logo
      */
-    @Schema(description = "租户logo")
+    @Schema(description = "Tenant logo")
     private String logo;
 
     /**
-     * 租户名称
+     * Tenant name
      */
-    @Schema(description = "租户名称")
+    @Schema(description = "Tenant name")
     private String name;
 
     /**
-     * 联系人名称
+     * Contact name
      */
-    @Schema(description = "联系人名称")
+    @Schema(description = "Contact name")
     private String linkman;
 
     /**
-     * 项目id列表
+     * Project IDs
      */
-    @Schema(description = "项目Id列表")
+    @Schema(description = "Project IDs")
     private Set<Long> projectIds;
 
 }

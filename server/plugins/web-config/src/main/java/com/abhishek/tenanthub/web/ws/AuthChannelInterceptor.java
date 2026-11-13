@@ -35,18 +35,18 @@ public class AuthChannelInterceptor implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         var accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-        // 1、判断是否首次连接
+        // 1. Check whether this is the first connection
         if (accessor != null && StompCommand.CONNECT.equals(accessor.getCommand())) {
             var props = jwtTokenService.getProps();
-            // 2、获取 token
+            // 2. Get token
             var bearerToken = accessor.getFirstNativeHeader(props.getTokenHeader());
             if (StringUtils.isNotBlank(bearerToken)) {
                 try {
                     var token = jwtTokenService.validate(bearerToken);
-                    // 如果存在用户信息，将用户名赋值，后期发送时，可以指定 loginId 即可发送到对应用户
+                    // If user details exist, set the username so messages can later be sent to that loginId
                     accessor.setUser(token);
                 } catch (JwtAuthException e) {
-                    log.error("WebSocket 认证失败！{}", e.getMessage());
+                    log.error("WebSocket Authentication failed {}", e.getMessage());
                     return new ErrorMessage(e);
                 }
             } else {

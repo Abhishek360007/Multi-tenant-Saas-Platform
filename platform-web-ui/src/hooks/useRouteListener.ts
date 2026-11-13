@@ -2,42 +2,42 @@ import { onBeforeUnmount } from "vue"
 import mitt, { type Handler } from "mitt"
 import { type RouteLocationNormalized } from "vue-router"
 
-/** 回调函数的类型 */
+/** Callback type */
 type Callback = (route: RouteLocationNormalized) => void
 
 const emitter = mitt()
 const key = Symbol("ROUTE_CHANGE")
 let latestRoute: RouteLocationNormalized
 
-/** 设置最新的路由信息，触发路由变化事件 */
+/** Set the latest route and fire the route change event */
 export const setRouteChange = (to: RouteLocationNormalized) => {
-  // 触发事件
+  // Fire the event
   emitter.emit(key, to)
-  // 缓存最新的路由信息
+  // Cache the latest route
   latestRoute = to
 }
 
-/** 单独监听路由会浪费渲染性能，使用发布订阅模式去进行分发管理 */
+/** Watching the route separately wastes rendering; use publish/subscribe instead */
 export function useRouteListener() {
-  /** 回调函数集合 */
+  /** Callbacks */
   const callbackList: Callback[] = []
 
-  /** 监听路由变化（可以选择立即执行） */
+  /** Listen for route changes (optionally run immediately) */
   const listenerRouteChange = (callback: Callback, immediate = false) => {
-    // 缓存回调函数
+    // Cache the callback
     callbackList.push(callback)
-    // 监听事件
+    // Listen for the event
     emitter.on(key, callback as Handler)
-    // 可以选择立即执行一次回调函数
+    // Optionally run the callback once immediately
     immediate && latestRoute && callback(latestRoute)
   }
 
-  /** 移除路由变化事件监听器 */
+  /** Remove the route change listener */
   const removeRouteListener = (callback: Callback) => {
     emitter.off(key, callback as Handler)
   }
 
-  /** 组件销毁前移除监听器 */
+  /** Remove the listener before the component is destroyed */
   onBeforeUnmount(() => {
     for (let i = 0; i < callbackList.length; i++) {
       removeRouteListener(callbackList[i])

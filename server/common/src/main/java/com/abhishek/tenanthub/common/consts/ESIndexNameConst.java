@@ -5,7 +5,7 @@ import com.abhishek.tenanthub.common.util.TenantUtils;
 
 /**
  * <p>
- * es 索引名称
+ * es Index name
  * </p>
  *
  * @author Wang Chen Chen
@@ -16,12 +16,12 @@ import com.abhishek.tenanthub.common.util.TenantUtils;
 public class ESIndexNameConst {
 
     /**
-     * 操作日志 索引名称
+     * Operation log index name
      */
     private static final String OPERATE_LOG_INDEX = "_lms_oper_log";
 
     /**
-     * 获取 操作日志 索引名称
+     * Get the operation log index name
      */
     public static String getOperateLogIndex() {
         return TenantUtils.getTenantId() + OPERATE_LOG_INDEX;
@@ -29,13 +29,13 @@ public class ESIndexNameConst {
 
 
     /**
-     * 登录日志
+     * Login log
      */
     private static final String LOGIN_LOG_INDEX = "_lms_login_log";
 
 
     /**
-     * 获取 操作日志 索引名称
+     * Get the operation log index name
      */
     public static String getLoginLogIndex() {
         return TenantUtils.getTenantId() + LOGIN_LOG_INDEX;
@@ -43,13 +43,13 @@ public class ESIndexNameConst {
 
 
     /**
-     * 设备日志
+     * Device log
      */
     private static final String DEVICE_LOG_INDEX = "_dms_device_log";
 
 
     /**
-     * 获取 设备日志 索引名称
+     * Get the device log index name
      */
     public static String getDeviceLogIndex() {
         return TenantUtils.getTenantId() + DEVICE_LOG_INDEX;

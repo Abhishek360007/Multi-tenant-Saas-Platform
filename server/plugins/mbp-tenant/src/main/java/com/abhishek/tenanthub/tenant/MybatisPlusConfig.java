@@ -46,29 +46,29 @@ public class MybatisPlusConfig {
     private final MultiTenantProperties multiTenantProperties;
 
     /**
-     * 单页分页条数限制(默认无限制,参见 插件#handlerLimit 方法)
+     * Per-page row limit (unlimited by default, see the plugin handlerLimit method)
      */
     private static final Long MAX_LIMIT = 100L;
 
     /**
-     * 新的分页插件,一缓和二缓遵循mybatis的规则,
-     * 需要设置 MybatisConfiguration#useDeprecatedExecutor = false
-     * 避免缓存出现问题(该属性会在旧插件移除后一同移除)
+     * New pagination plugin; first- and second-level caches follow MyBatis rules,
+     * Must set MybatisConfiguration#useDeprecatedExecutor = false
+     * Avoids cache problems (removed together with the old plugin)
      */
     @Bean
     public MybatisPlusInterceptor paginationInterceptor() {
-        // 设置 ObjectMapper
+        // Set ObjectMapper
         JacksonTypeHandler.setObjectMapper(JsonUtils.getMapper());
 
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
 
-        // 是否启用租户
+        // Enable tenants
         if (multiTenantProperties.getEnable()) {
             var schemaInterceptor = new SchemaInterceptor(multiTenantProperties);
             interceptor.addInnerInterceptor(schemaInterceptor);
         }
 
-        // 是否启用项目
+        // Enable projects
         if (multiTenantProperties.getEnableProject()) {
             interceptor.addInnerInterceptor(
                     new TenantLineInnerInterceptor(
@@ -77,12 +77,12 @@ public class MybatisPlusConfig {
             );
         }
 
-        //分页插件: PaginationInnerInterceptor
+        //Pagination plugin: PaginationInnerInterceptor
         var paginationInnerInterceptor = new PaginationInnerInterceptor();
         paginationInnerInterceptor.setMaxLimit(MAX_LIMIT);
         interceptor.addInnerInterceptor(paginationInnerInterceptor);
 
-        //防止全表更新与删除插件: BlockAttackInnerInterceptor
+        //Block full-table update and delete: BlockAttackInnerInterceptor
         var blockAttackInnerInterceptor = new BlockAttackInnerInterceptor();
         interceptor.addInnerInterceptor(blockAttackInnerInterceptor);
 
@@ -91,7 +91,7 @@ public class MybatisPlusConfig {
 
 
     /**
-     * 自定义 ID 生成器
+     * Custom ID generator
      *
      * @author WangChenChen
      * @version 1.0.1
@@ -104,7 +104,7 @@ public class MybatisPlusConfig {
 
 
     /**
-     * 参数 自动 填充
+     * Automatic field fill
      *
      * @author WangChenChen
      * @version 1.0.1

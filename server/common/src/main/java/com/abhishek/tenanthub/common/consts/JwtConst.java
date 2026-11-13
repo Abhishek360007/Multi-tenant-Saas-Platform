@@ -5,31 +5,31 @@ import static com.abhishek.tenanthub.common.consts.WebSocketConst.STOMP_ENDPOINT
 
 public class JwtConst {
 
-    // 用户登录的地址
+    // Sign-in URL
     public static final String LOGIN_URL = "/auth/login";
 
-    // 用户登出的地址
+    // Sign-out URL
     public static final String LOGOUT_URL = "/auth/logout";
 
     public static final String LOGIN_USER_URL = "/auth/login/user";
 
-    // 刷新token
+    // Refresh token
     public static final String REFRESH_URL = "/auth/refresh";
 
-    // 验证码
+    // Captcha
     public static final String CAPTCHA_CODES_URL = "/auth/captcha/codes";
 
-    // 获取公钥
+    // Get public key
     public static final String PUBLIC_KEY_URL = "/auth/public/key";
 
-    // 不需要认证的路径
+    // Paths that skip authentication
     public static final String[] WHITE_LIST = {
             LOGIN_URL,
             PUBLIC_KEY_URL,
             String.format("%s/**", CAPTCHA_CODES_URL),
             String.format("%s/**", STOMP_ENDPOINT),
             "/actuator/**",
-            // 判断租户是否存在
+            // Check whether a tenant exists
             "/sys/tenant/simple",
             "/v2/api-docs",
             "/v3/api-docs/**",
@@ -46,7 +46,7 @@ public class JwtConst {
     };
 
 
-    // 不需要添加租户的路径
+    // Paths that do not need a tenant
     public static final String[] TENANT_WHITE_LIST = {
             "/upload/**",
             "/files/**",

@@ -1,6 +1,6 @@
 import {type App} from "vue"
 
-// 字典数据选择器
+// Dictionary data picker
 import SelectDictData from "@/components/SelectDictData/index.vue"
 import OperateUser from "@/components/OperateUser/index.vue"
 

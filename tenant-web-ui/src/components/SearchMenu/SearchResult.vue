@@ -16,7 +16,7 @@ const emit = defineEmits<{
 const instance = getCurrentInstance()
 const scrollbarHeight = ref<number>(0)
 
-/** 选中的菜单 */
+/** Selected menu */
 const activeRouteName = computed({
   get() {
     return props.modelValue
@@ -26,7 +26,7 @@ const activeRouteName = computed({
   }
 })
 
-/** 菜单的样式 */
+/** Menu style */
 const itemStyle = (item: RouteRecordRaw) => {
   const flag = item.name === activeRouteName.value
   return {
@@ -35,39 +35,39 @@ const itemStyle = (item: RouteRecordRaw) => {
   }
 }
 
-/** 鼠标移入 */
+/** Mouse enter */
 const handleMouseenter = (item: RouteRecordRaw) => {
-  // 如果上键或下键与 mouseenter 事件同时生效，则以上下键为准，不执行该函数的赋值逻辑
+  // If the arrow keys and mouseenter fire together, the arrow keys win and this assignment is skipped
   if (props.isPressUpOrDown) return
   activeRouteName.value = item.name
 }
 
-/** 计算滚动可视区高度 */
+/** Compute the visible scroll height */
 const getScrollbarHeight = () => {
   // el-scrollbar max-height="40vh"
   scrollbarHeight.value = Number((window.innerHeight * 0.4).toFixed(1))
 }
 
-/** 根据下标计算到顶部的距离 */
+/** Compute the distance to the top from the index */
 const getScrollTop = (index: number) => {
   const currentInstance = instance?.proxy?.$refs[`resultItemRef${index}`] as HTMLDivElement[]
   if (!currentInstance) return 0
   const currentRef = currentInstance[0]
-  const scrollTop = currentRef.offsetTop + 128 // 128 = 两个 result-item （56 + 56 = 112）高度与上下 margin（8 + 8 = 16）大小之和
+  const scrollTop = currentRef.offsetTop + 128 // 128 = Two result-item heights (56 + 56 = 112) plus top and bottom margin (8 + 8 = 16)
   return scrollTop > scrollbarHeight.value ? scrollTop - scrollbarHeight.value : 0
 }
 
-/** 在组件挂载前添加窗口大小变化事件监听器 */
+/** Add the window resize listener before mount */
 onBeforeMount(() => {
   window.addEventListener("resize", getScrollbarHeight)
 })
 
-/** 在组件挂载时立即计算滚动可视区高度 */
+/** Compute the visible scroll height on mount */
 onMounted(() => {
   getScrollbarHeight()
 })
 
-/** 在组件卸载前移除窗口大小变化事件监听器 */
+/** Remove the window resize listener before unmount */
 onBeforeUnmount(() => {
   window.removeEventListener("resize", getScrollbarHeight)
 })
@@ -76,7 +76,7 @@ defineExpose({ getScrollTop })
 </script>
 
 <template>
-  <!-- 外层 div 不能删除，是用来接收父组件 click 事件的 -->
+  <!-- Keep the outer div: it receives the parent click event -->
   <div>
     <div
       v-for="(item, index) in list"

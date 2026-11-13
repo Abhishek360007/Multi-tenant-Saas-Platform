@@ -7,39 +7,39 @@ package com.abhishek.tenanthub.common.consts;
  *
  * @author WangChenChen
  * @version 1.0.0
- * @date 2024/10/28 下午6:37
+ * @date 2024/10/28 PM 6:37
  */
 
 
 public class DataScopeConst {
 
     /**
-     * 全部数据权限
+     * All data
      */
     public static final int DATA_SCOPE_ALL = 1;
 
     /**
-     * 自定数据权限
+     * Custom data
      */
     public static final int DATA_SCOPE_CUSTOM = 2;
 
     /**
-     * 部门数据权限
+     * Department data
      */
     public static final int DATA_SCOPE_DEPT = 3;
 
     /**
-     * 部门及以下数据权限
+     * Department and below
      */
     public static final int DATA_SCOPE_DEPT_AND_CHILD = 4;
 
     /**
-     * 仅本人数据权限
+     * Own data only
      */
     public static final int DATA_SCOPE_SELF = 5;
 
     /**
-     * 数据权限过滤关键字
+     * Data permission filter key
      */
     public static final String DATA_SCOPE = "dataScope";
 

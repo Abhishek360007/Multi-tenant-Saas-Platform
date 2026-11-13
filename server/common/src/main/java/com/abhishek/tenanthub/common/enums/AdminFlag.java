@@ -7,8 +7,8 @@ import lombok.ToString;
 
 /**
  * <p>
- * 0.租户用户
- * 1. 系统用户
+ * 0.Tenant user
+ * 1. Platform user
  * </p>
  *
  * @author Wang Chen Chen
@@ -20,9 +20,9 @@ import lombok.ToString;
 @ToString
 public enum AdminFlag {
 
-    NO((byte) 0, "非管理员"),
+    NO((byte) 0, "Not admin"),
 
-    YES((byte) 1, "是管理员");
+    YES((byte) 1, "Admin");
 
     AdminFlag(Byte code, String description) {
         this.code = code;

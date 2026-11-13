@@ -7,7 +7,7 @@ import lombok.ToString;
 
 /**
  * <p>
- * 业务 异常
+ * Business exception
  * </p>
  *
  * @author Wang Chen Chen

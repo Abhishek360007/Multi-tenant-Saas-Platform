@@ -17,7 +17,7 @@ import static com.abhishek.tenanthub.common.consts.MbpConst.PROJECT_IGNORE_TABLE
 
 /**
  * <p>
- * 项目id 拦截器
+ * Project ID interceptor
  * </p>
  *
  * @author WangChenChen
@@ -43,7 +43,7 @@ public class ProjectLineHandler implements TenantLineHandler {
 
 
     /**
-     * 获取 项目 的字段名
+     * Get the project column name
      */
     @Override
     public String getTenantIdColumn() {
@@ -52,8 +52,8 @@ public class ProjectLineHandler implements TenantLineHandler {
 
 
     /**
-     * 过滤不需要拼接 项目ID 的表
-     * 默认返回 false 表示所有表都需要拼接条件
+     * Skip tables that do not need the project ID
+     * Returns false by default: every table gets the condition
      */
     @Override
     public boolean ignoreTable(String tableName) {

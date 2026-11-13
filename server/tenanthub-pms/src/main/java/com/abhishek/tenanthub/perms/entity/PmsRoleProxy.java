@@ -18,7 +18,7 @@ import lombok.Setter;
  */
 
 
-@Schema(description = "用户角色")
+@Schema(description = "User roles")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,7 +26,7 @@ import lombok.Setter;
 public class PmsRoleProxy extends PmsRole {
 
     @JsonIgnore
-    @Schema(description = "用户ID")
+    @Schema(description = "User ID")
     private Long userId;
 
 }

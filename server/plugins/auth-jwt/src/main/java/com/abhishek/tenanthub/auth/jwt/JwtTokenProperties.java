@@ -23,32 +23,32 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProperties {
 
     /**
-     * 请求头的KEY。默认 "Authorization"
+     * Request header key. Default "Authorization"
      */
     private String tokenHeader = "Authorization";
 
     /**
-     * token 类型
+     * Token type
      */
     private String tokenType = "Bearer ";
 
     /**
-     * token 缓存 过期时间  单位(秒)
+     * Token cache expiry in seconds
      */
     private Integer tokenExpired = 7200;
 
     /**
-     * 短信验证码过期时间 单位(秒)
+     * SMS code expiry in seconds
      */
     private Integer smsCodeExpired = 600;
 
     /**
-     * 用户被挤下线，提示的过期时间 单位(秒)
+     * How long a forced sign-out notice is kept, in seconds
      */
     private Integer promptExpired = 600;
 
     /**
-     * 验证码 过期时间 单位(秒)
+     * Captcha expiry in seconds
      */
     private Integer captchaExpired = 180;
 
@@ -76,12 +76,12 @@ public class JwtTokenProperties {
     private String rsaPublicKey;
 
     /**
-     * 单点登录，是否启用
+     * Enable single sign-on
      */
     private Boolean sso = Boolean.TRUE;
 
     /**
-     * 需要排除的URL
+     * Excluded URL
      */
     private String[] excludePath = {
             "/open/**"

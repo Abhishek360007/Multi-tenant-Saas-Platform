@@ -11,21 +11,21 @@ import { getEnvBaseURL } from "@/utils"
 import { IPushMessage } from "@/types/base"
 
 export const useNoticeStore = defineStore("notice", () => {
-  // 广播消息
+  // Broadcast message
   const broadcast = ref<IPushMessage[]>([])
 
-  // 推送消息
+  // Push message
   const pushNotices = ref<IPushMessage[]>([])
 
-  // 创建租户结果 消息
+  // Tenant creation result message
   const createTenantNotice = ref<IPushMessage>()
 
   const stompClientActive = ref<boolean>(false)
 
-  // websocket 客户端
+  // websocket Client
   const stompClient = ref<Client>()
 
-  // 启动 WebSocket
+  // Start WebSocket
   const startWebSocket = () => {
     return new Promise<void>((resolve, reject) => {
       const tenantStore = useTenantStoreHook()
@@ -35,38 +35,38 @@ export const useNoticeStore = defineStore("notice", () => {
           "x-tenant-id": tenantStore.getCurrentTenantId()
         },
         debug: function () {},
-        reconnectDelay: 5000, // 重连时间
+        reconnectDelay: 5000, // Reconnect delay
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000
       })
 
       const wsUrl = `${getEnvBaseURL()}/stomp/push`
 
-      // 用 SockJS 代替 brokenURL
+      // Use SockJS instead brokenURL
       stompClientAgent.webSocketFactory = function () {
         return new SockJS(wsUrl)
       }
 
-      // 连接
+      // Connect
       stompClientAgent.onConnect = (frame) => {
         broadcast.value = []
         pushNotices.value = []
 
-        console.log("连接 WebSocket 成功 :>> ", frame.headers["user-name"])
+        console.log("WebSocket connected :>> ", frame.headers["user-name"])
 
-        // 订阅广播主题
+        // Subscribe to the broadcast topic
         stompClientAgent.subscribe("/topic/broadcast/notice", (resp) => {
           const result = responseTimesToLocal(JSON.parse(resp.body)) as IPushMessage
           broadcast.value?.push(result)
         })
 
-        // 订阅推送主题
+        // Subscribe to the push topic
         stompClientAgent.subscribe("/user/queue/single/push", (resp) => {
           const result = responseTimesToLocal(JSON.parse(resp.body)) as IPushMessage
           pushNotices.value?.push(result)
         })
 
-        // 订阅 租户创建结果的 主题
+        // Subscribe to the tenant creation result topic
         stompClientAgent.subscribe("/user/queue/single/create/tenant", (resp) => {
           const result = responseTimesToLocal(JSON.parse(resp.body)) as IPushMessage
           createTenantNotice.value = result
@@ -74,14 +74,14 @@ export const useNoticeStore = defineStore("notice", () => {
         })
       }
 
-      // 错误
+      // Error
       stompClientAgent.onStompError = function (frame) {
         console.log("Broker reported error: " + frame.headers["message"])
         console.log("Additional details: " + frame.body)
         reject(frame.body)
       }
 
-      // 启动
+      // Start
       stompClientAgent.activate()
 
       stompClient.value = stompClientAgent
@@ -93,7 +93,7 @@ export const useNoticeStore = defineStore("notice", () => {
   }
 
   const stopWebSocket = () => {
-    // 停止
+    // Stop
     if (stompClient.value) {
       stompClient.value!.deactivate()
     }
@@ -103,12 +103,12 @@ export const useNoticeStore = defineStore("notice", () => {
     return stompClientActive.value
   }
 
-  // 获取广播消息
+  // Receive broadcast messages
   const getBroadcast = computed(() => {
     return broadcast.value
   })
 
-  // 获取推送消息
+  // Receive push messages
   const getPushNotices = computed(() => {
     return pushNotices.value
   })
@@ -125,7 +125,7 @@ export const useNoticeStore = defineStore("notice", () => {
   }
 })
 
-/** 在 setup 外使用 */
+/** Use outside setup */
 export function useNoticeStoreHook() {
   return useNoticeStore(store)
 }

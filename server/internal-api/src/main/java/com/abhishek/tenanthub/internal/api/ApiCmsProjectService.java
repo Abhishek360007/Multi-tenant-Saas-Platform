@@ -10,7 +10,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 项目
+ * Project
  * </p>
  *
  * @author WangChenChen
@@ -21,7 +21,7 @@ import java.util.Set;
 public interface ApiCmsProjectService {
 
     /**
-     * 根据 项目ID 获取简单的项目信息。如：id，名称，
+     * Get basic project details by project ID, e.g. id, name,
      *
      * @author WangChenChen
      * @date 2023/8/11 10:47
@@ -30,7 +30,7 @@ public interface ApiCmsProjectService {
 
 
     /**
-     * 创建租户  初始化项目
+     * Initialize projects when a tenant is created
      *
      * @return
      * @author WangChenChen
@@ -40,7 +40,7 @@ public interface ApiCmsProjectService {
 
 
     /**
-     * 根据 部门ID 获取 关联的 项目列表
+     * Get the projects linked to a department ID
      *
      * @author WangChenChen
      * @date 2023/8/11 10:47
@@ -49,7 +49,7 @@ public interface ApiCmsProjectService {
 
 
     /**
-     * 根据 部门ID 获取 关联的 项目列表
+     * Get the projects linked to a department ID
      *
      * @author WangChenChen
      * @date 2023/8/11 10:47
@@ -58,7 +58,7 @@ public interface ApiCmsProjectService {
 
 
     /**
-     * 根据 租户数据前缀 + 租户ID 获取项目列表
+     * Get projects by tenant database prefix + tenant ID
      *
      * @date 2023/11/21 15:33
      */

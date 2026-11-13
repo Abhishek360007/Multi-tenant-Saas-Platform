@@ -3,19 +3,19 @@
     <el-form ref="searchFormRef" :inline="true">
       <el-form-item>
         <el-button type="primary" link :icon="Sort" @click="switchExpandAndCollapse">{{
-          expandAndCollapse ? "折叠" : "展开"
+          expandAndCollapse ? "Collapse" : "Expand"
           }}</el-button>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" link :icon="checkAll ? 'CloseBold' : 'Select'" @click="switchCheckAll">{{
-          checkAll ? "取消" : "全选"
+          checkAll ? "Clear" : "Select all"
           }}</el-button>
       </el-form-item>
       <el-form-item>
-        <el-checkbox v-model="checkStrictly" label="父子联动" />
+        <el-checkbox v-model="checkStrictly" label="Cascade parent and child" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="filterMenuText" clearable placeholder="根据名称筛选" />
+        <el-input v-model="filterMenuText" clearable placeholder="Filter by name" />
       </el-form-item>
     </el-form>
     <br>
@@ -42,18 +42,18 @@ const props = defineProps({
 
 const filterMenuText = ref("")
 
-// 展开
+// Expand
 const expandAndCollapse = ref(true)
 
-// 全选
+// Select all
 const checkAll = ref(true)
 
-// 父子联动
+// Cascade parent and child
 const checkStrictly = ref(false)
 
 const treeRef = ref<InstanceType<typeof ElTree>>()
 
-// 获取 全部菜单ID
+// Get all menus ID
 const getMenuIdAll = () => {
   const result: number[] = []
   const deep = (arr1: ITreeNode[], arr2: number[]) => {
@@ -68,7 +68,7 @@ const getMenuIdAll = () => {
   return result
 }
 
-// 展开和折叠
+// Expand and collapse
 const switchExpandAndCollapse = () => {
   expandAndCollapse.value = !expandAndCollapse.value
   props.data.forEach((v) => {
@@ -76,7 +76,7 @@ const switchExpandAndCollapse = () => {
   })
 }
 
-// 全选和取消全选
+// Select all / clear all
 const switchCheckAll = () => {
   checkAll.value = !checkAll.value
   if (checkAll.value) {
@@ -96,14 +96,14 @@ const filterNode = (value: string, data: any) => {
   return data.name.includes(value)
 }
 
-// 设置 tree 菜单数据
+// Set tree menu data
 const setCheckedKeys = (value: number[]) => {
   checkAll.value = value.length > 0
   treeRef.value!.setCheckedKeys(value, false)
   expandAndCollapse.value = true
 }
 
-// 获取 tree 菜单数据
+// Get tree menu data
 const getCheckedKeys = (): number[] => {
   return treeRef.value!.getCheckedKeys(false) as number[]
 }

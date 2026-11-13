@@ -14,21 +14,21 @@ import java.util.Set;
 public interface PmsUserMapper extends BaseMapper<PmsUser> {
 
     /**
-     * 删除某个用户，拥有的角色
+     * Delete the roles of a user
      */
     @Delete("delete from pms_user_role where user_id = #{userId}")
     int deleteHaveRoles(Long userId);
 
 
     /**
-     * 用户关联多个角色
+     * Link a user to several roles
      */
     int insertByRoles(@Param("userId") Long userId,
                       @Param("roles") Set<Long> roles);
 
 
     /**
-     * 根据用户id，查询
+     * Query by user ID
      */
     List<PmsUser> selectSimpleListByUserIds(
             @Param("dbNameList") Set<String> dbNameList,
@@ -37,14 +37,14 @@ public interface PmsUserMapper extends BaseMapper<PmsUser> {
 
 
     /**
-     * 根据条件列表查询数据
+     * List query by conditions
      */
     @DataScope()
     List<PmsUser> selectUserList(@Param("p") PmsUser user);
 
 
     /**
-     * 根据条件分页查询数据
+     * Paged query by conditions
      */
     @DataScope()
     IPage<PmsUser> selectUserPage(IPage<?> page, @Param("p") PmsUser user);

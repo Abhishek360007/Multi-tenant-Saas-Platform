@@ -17,7 +17,7 @@ public interface ApiSysTenantService {
 
 
     /**
-     * 判断 租户ID 是否存在
+     * Check whether a tenant ID exists
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -26,7 +26,7 @@ public interface ApiSysTenantService {
 
 
     /**
-     * 判断 租户，是否包含 项目ID 是否存在
+     * Check whether the tenant contains the project ID
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -35,7 +35,7 @@ public interface ApiSysTenantService {
 
 
     /**
-     * 租户 添加项目ID
+     * Add a project to the tenant ID
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -44,7 +44,7 @@ public interface ApiSysTenantService {
 
 
     /**
-     * 租户 删除项目ID
+     * Remove a project from the tenant ID
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -53,7 +53,7 @@ public interface ApiSysTenantService {
 
 
     /**
-     * 根据租户ID 获取租户信息
+     * Get the tenant by tenant ID
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -62,7 +62,7 @@ public interface ApiSysTenantService {
 
 
     /**
-     * 根据 租户ID 获取租户信息
+     * Get the tenant by tenant ID
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -71,7 +71,7 @@ public interface ApiSysTenantService {
 
 
     /**
-     * 获取当前的租户信息
+     * Get the current tenant
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -80,7 +80,7 @@ public interface ApiSysTenantService {
 
 
     /**
-     * 获取默认的租户ID
+     * Get the default tenant ID
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53
@@ -89,7 +89,7 @@ public interface ApiSysTenantService {
 
 
     /**
-     * 获取 多租户配置
+     * Get the multi-tenant settings
      *
      * @author WangChenChen
      * @date 2023/2/14 10:53

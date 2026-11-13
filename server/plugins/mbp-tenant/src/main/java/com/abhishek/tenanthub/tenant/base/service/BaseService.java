@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * <p>
- * 通用 service 实现类
+ * Generic service implementation
  * </p>
  *
  * @author Wang Chen Chen <932560435@qq.com>
@@ -29,12 +29,12 @@ import java.util.Map;
 public interface BaseService<T extends BaseEntity> extends IService<T> {
 
     /**
-     * 根据 用户ID 获取 操作用户
+     * Get the operator by user ID
      */
     void reflectionFill(Object objList);
 
     /**
-     * 插入时 填写
+     * Filled on insert
      */
     default <S extends BaseEntity> void saveFill(S entity) {
         var userId = JwtSecurityUtils.getLoginUser().getUserId();
@@ -50,7 +50,7 @@ public interface BaseService<T extends BaseEntity> extends IService<T> {
 
 
     /**
-     * 修改时 填写
+     * Filled on update
      */
     default <S extends BaseEntity> void updateFill(S entity) {
         var userId = JwtSecurityUtils.getLoginUser().getUserId();
@@ -64,10 +64,10 @@ public interface BaseService<T extends BaseEntity> extends IService<T> {
 
 
     /**
-     * 根据关键字查询
+     * Query by keyword
      *
-     * @param params  参数
-     * @param columns 实体类字段
+     * @param params  Parameters
+     * @param columns Entity field
      * @author Wang Chen Chen
      * @date 2021/8/25 9:41
      */
@@ -75,7 +75,7 @@ public interface BaseService<T extends BaseEntity> extends IService<T> {
 
 
     /**
-     * 根据 条件 查询全部
+     * Query all by conditions
      *
      * @author Wang Chen Chen
      * @date 2021/8/25 9:41
@@ -84,7 +84,7 @@ public interface BaseService<T extends BaseEntity> extends IService<T> {
 
 
     /**
-     * 根据 多条件 查询全部
+     * Query all by multiple conditions
      *
      * @param columns
      * @author Wang Chen Chen
@@ -94,7 +94,7 @@ public interface BaseService<T extends BaseEntity> extends IService<T> {
 
 
     /**
-     * 根据 多条件 查询全部
+     * Query all by multiple conditions
      *
      * @param values
      * @author Wang Chen Chen
@@ -104,7 +104,7 @@ public interface BaseService<T extends BaseEntity> extends IService<T> {
 
 
     /**
-     * 根据 字段 判断，是否存在
+     * Check whether a record exists by field
      *
      * @author Wang Chen Chen
      * @date 2021/8/25 9:41
@@ -113,7 +113,7 @@ public interface BaseService<T extends BaseEntity> extends IService<T> {
 
 
     /**
-     * 根据 字段 判断，是否存在
+     * Check whether a record exists by field
      *
      * @author Wang Chen Chen
      * @date 2021/8/25 9:41
@@ -122,7 +122,7 @@ public interface BaseService<T extends BaseEntity> extends IService<T> {
 
 
     /**
-     * 根据 字段 判断，数量
+     * Count by field
      *
      * @return
      * @author Wang Chen Chen
@@ -132,7 +132,7 @@ public interface BaseService<T extends BaseEntity> extends IService<T> {
 
 
     /**
-     * 根据 字段 判断，是否存在
+     * Check whether a record exists by field
      *
      * @author Wang Chen Chen
      * @date 2021/8/25 9:41

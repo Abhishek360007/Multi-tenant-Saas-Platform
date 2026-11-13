@@ -26,16 +26,16 @@ const useUserStore = useUserStoreHook()
 
 const router = useRouter()
 
-/** 登录表单元素的引用 */
+/** Sign-in form ref */
 const loginFormRef = ref<FormInstance | null>(null)
 
-/** 登录按钮 Loading */
+/** Sign-in button Loading */
 const loading = ref(false)
 
-/** 标题 */
+/** Title */
 const appTitle = import.meta.env.VITE_APP_TITLE
 
-/** 验证码图片 URL */
+/** Captcha image URL */
 const codeUrl = ref("")
 
 const target: ILoginData = {
@@ -52,42 +52,42 @@ if (source) {
   source.codeText = ""
   merge(target, source)
 }
-/** 登录表单数据 */
+/** Sign-in form data */
 const loginFormData: ILoginData = reactive(target)
 
-/** 登录表单校验规则 */
+/** Login form validation rules */
 const loginFormRules: FormRules = {
   tenantId: [
-    { required: true, message: "请输入租户ID", trigger: "blur" },
-    { min: 4, max: 12, message: "长度在 4 到 12 个字符", trigger: "blur" }
+    { required: true, message: "Enter a tenant ID", trigger: "blur" },
+    { min: 4, max: 12, message: "Must be 4 to 12 characters", trigger: "blur" }
   ],
   username: [
-    { required: true, message: "请输入用户名", trigger: "blur" },
-    { min: 5, max: 32, message: "长度在 5 到 32 个字符", trigger: "blur" }
+    { required: true, message: "Enter your username", trigger: "blur" },
+    { min: 5, max: 32, message: "Must be 5 to 32 characters", trigger: "blur" }
   ],
   password: [
-    { required: true, message: "请输入密码", trigger: "blur" },
-    { min: 5, max: 32, message: "长度在 5 到 32 个字符", trigger: "blur" }
+    { required: true, message: "Enter your password", trigger: "blur" },
+    { min: 5, max: 32, message: "Must be 5 to 32 characters", trigger: "blur" }
   ],
   codeText: [
-    { required: true, message: "请输入验证码", trigger: "blur" },
-    { min: 4, max: 4, message: "长度在 4 个字符", trigger: "blur" }
+    { required: true, message: "Enter the captcha", trigger: "blur" },
+    { min: 4, max: 4, message: "Must be 4 characters", trigger: "blur" }
   ]
 }
 
-/** 登录逻辑 */
+/** Sign-in logic */
 const handleLogin = () => {
   loginFormRef.value?.validate((valid: boolean, fields) => {
     if (valid) {
       loading.value = true
       useUserStore.userLogin(loginFormData)
         .then(() => {
-          // 获取 上一次登录的租户Id。如果和本次不同，清空项目缓存
+          // Get the tenant ID from the last sign-in; if it differs, clear the project cache
           if (getLastTenantId() !== loginFormData.tenantId) {
-            // 将项目，重置为 默认项目
+            // Reset the project to the default
             useProjectStoreHook().resetCurrentProject()
           }
-          // 登录成功后，是否记住密码 ?
+          // Remember the password after signing in ?
           if (loginFormData.rememberMe) {
             const saveUserInfo = clone(loginFormData)
             setUserAndPassword(saveUserInfo)
@@ -104,30 +104,30 @@ const handleLogin = () => {
           loading.value = false
         })
     } else {
-      console.error("表单校验不通过", fields)
+      console.error("Form validation failed", fields)
     }
   })
 }
 
-/** 创建验证码 */
+/** Create a captcha */
 const createCode = () => {
-  // 先清空验证码的输入
+  // Clear the captcha input first
   loginFormData.codeText = ""
-  // 获取验证码
+  // Get captcha
   codeUrl.value = `${getEnvBaseURL()}/auth/captcha/codes?codeKey=${loginFormData.codeKey}&r=${Math.random()}`
 }
 
-/** 判断租户ID 是否存在 */
+/** Check whether the tenant ID exists */
 const getSimpleTenant = async (tenantId: string) => {
   const { data } = await getSimpleTenantApi(tenantId)
   return data
 }
 
-/** 初始化验证码 */
+/** Initialize the captcha */
 createCode()
 
 onMounted(() => {
-  // 初始化，获取公钥key
+  // Initialize and fetch the public key
   useUserStore.getPublicKey()
 })
 
@@ -135,11 +135,11 @@ const route = useRoute()
 const tenantId = ref()
 
 if (route.query.tenantId) {
-  // 从 URL 参数中获取 租户ID http://tenanthub.example.com/tenant/#/login?tenantId=google
+  // Read the tenant from the URL parameters ID http://tenanthub.example.com/tenant/#/login?tenantId=google
   tenantId.value = route.query.tenantId as string
 } else {
-  // 如果 URL 参数中没有，那么就从 域名前缀截取
-  // 如 http://google.tenanthub.example.com/tenant/#/login 截取 google
+  // If not in the URL parameters, take it from the subdomain
+  // e.g. take it from http://acme.tenanthub.example.com/tenant/#/login google
   const domain = location.hostname
   const idx1 = domain.indexOf(".")
   tenantId.value = domain.substring(0, idx1)
@@ -182,7 +182,7 @@ if (tenantId.value) {
           <el-form-item prop="tenantId" v-if="!tenantId">
             <el-input
               v-model.trim="loginFormData.tenantId"
-              placeholder="租户Id"
+              placeholder="Tenant Id"
               type="text"
               tabindex="1"
               size="large"
@@ -196,7 +196,7 @@ if (tenantId.value) {
           <el-form-item prop="username">
             <el-input
               v-model.trim="loginFormData.username"
-              placeholder="用户名"
+              placeholder="Username"
               type="text"
               tabindex="2"
               :prefix-icon="User"
@@ -207,7 +207,7 @@ if (tenantId.value) {
           <el-form-item prop="password">
             <el-input
               v-model.trim="loginFormData.password"
-              placeholder="密码"
+              placeholder="Password"
               type="password"
               tabindex="3"
               :prefix-icon="Lock"
@@ -219,7 +219,7 @@ if (tenantId.value) {
           <el-form-item prop="codeText">
             <el-input
               v-model.trim="loginFormData.codeText"
-              placeholder="验证码"
+              placeholder="Captcha"
               type="text"
               tabindex="4"
               :prefix-icon="Key"
@@ -244,9 +244,9 @@ if (tenantId.value) {
             </el-input>
           </el-form-item>
           <el-form-item prop="rememberMe">
-            <el-checkbox v-model="loginFormData.rememberMe" label="记住密码" size="large" />
+            <el-checkbox v-model="loginFormData.rememberMe" label="Remember me" size="large" />
           </el-form-item>
-          <el-button :loading="loading" type="primary" size="large" @click.prevent="handleLogin">登 录</el-button>
+          <el-button :loading="loading" type="primary" size="large" @click.prevent="handleLogin">Sign in</el-button>
         </el-form>
       </div>
     </div>

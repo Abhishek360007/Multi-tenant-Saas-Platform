@@ -8,7 +8,7 @@ import com.abhishek.tenanthub.monitor.entity.LmsLoginLog;
 
 /**
  * <p>
- * 登录日志
+ * Login log
  * </p>
  *
  * @author WangChenChen

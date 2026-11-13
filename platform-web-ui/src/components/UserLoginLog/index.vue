@@ -1,16 +1,16 @@
 <template>
   <el-form v-loading="loading" :model="entityForm" label-position="right" label-width="80px">
-    <el-form-item label="登录地址">
+    <el-form-item label="Sign-in location">
       {{ entityForm.address }}
     </el-form-item>
-    <el-form-item label="登录设备">
+    <el-form-item label="Sign-in device">
       {{ entityForm.osName }}
       {{ entityForm.browser }}
     </el-form-item>
-    <el-form-item label="请求IP">
+    <el-form-item label="Request IP">
       {{ entityForm.requestIp }}
     </el-form-item>
-    <el-form-item label="登录时间">
+    <el-form-item label="Signed in at">
       {{ entityForm.createTime }}
     </el-form-item>
   </el-form>
@@ -30,31 +30,31 @@ const props = defineProps({
 
 const loading = ref(false)
 
-/// 表单数据
+/// Form data
 const entityForm = ref<ILoginLog>({
   /* ID */
   id: "",
-  /*授权类型*/
+  /*Grant type*/
   grantType: "",
-  /*用户ID*/
+  /*User ID*/
   userId: 0,
-  /*用户昵称*/
+  /*User nickname*/
   nickname: "",
-  /*用户名*/
+  /*Username*/
   username: "",
-  /*头像*/
+  /*Avatar*/
   avatar: "",
-  /*请求地址*/
+  /*Request URL*/
   requestUrl: "",
-  /*请求IP*/
+  /*Request IP*/
   requestIp: "",
-  /*请求地址*/
+  /*Request URL*/
   address: "",
-  /*操作系统*/
+  /*Operating system*/
   osName: "",
-  /*浏览器*/
+  /*Browser*/
   browser: "",
-  /*创建时间*/
+  /*Created at*/
   createTime: ""
 })
 
@@ -73,7 +73,7 @@ const getLoginLogData = (loginId: String) => {
 }
 
 watch(props, (newValue, _) => {
-  console.log("新的值: ", newValue.value)
+  console.log("New value: ", newValue.value)
   getLoginLogData(newValue.value)
 })
 

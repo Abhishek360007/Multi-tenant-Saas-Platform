@@ -19,13 +19,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "图片大小")
+@Schema(description = "Image size")
 public class ImageSizePO implements java.io.Serializable {
 
-    @Schema(description = "宽度")
+    @Schema(description = "Width")
     private Integer width;
 
-    @Schema(description = "高度")
+    @Schema(description = "Height")
     private Integer height;
 
 }

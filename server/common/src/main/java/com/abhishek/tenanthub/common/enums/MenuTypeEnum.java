@@ -7,9 +7,9 @@ import lombok.ToString;
 
 /**
  * <p>
- * 菜单的类型
- * 0.菜单
- * 1.按钮
+ * Menu type
+ * 0.Menu
+ * 1.Button
  * </p>
  *
  * @author Wang Chen Chen
@@ -21,9 +21,9 @@ import lombok.ToString;
 @ToString
 public enum MenuTypeEnum {
 
-    MENU(0, "菜单"),
+    MENU(0, "Menu"),
 
-    BUTTON(1, "按钮");
+    BUTTON(1, "Button");
 
     MenuTypeEnum(int code, String description) {
         this.code = code;
@@ -37,7 +37,7 @@ public enum MenuTypeEnum {
 
 
     /**
-     * 用于 spring mvc 实体参数绑定
+     * For Spring MVC entity parameter binding
      *
      * @author Wang Chen Chen
      * @date 2021/7/23 10:27

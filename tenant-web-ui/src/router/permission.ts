@@ -30,20 +30,20 @@ router.beforeEach(async (to, _from, next) => {
   NProgress.start()
 
   const token = getToken()
-  // 判断该用户是否已经登录
+  // Check whether the user is signed in
   if (!token) {
-    // 如果在免登录的白名单中，则直接进入
+    // Pages on the sign-in allowlist are opened directly
     if (isWhiteList(to)) {
       next()
     } else {
-      // 其他没有访问权限的页面将被重定向到登录页面
+      // Any other page redirects to sign-in
       NProgress.done()
       next(loginUrl)
     }
     return
   }
 
-  // 如果已经登录，并准备进入 Login 页面，则重定向到主页
+  // Already signed in and opening the sign-in page: redirect home
   if (to.path === loginUrl) {
     NProgress.done()
     return next({ path: "/" })
@@ -67,31 +67,31 @@ router.beforeEach(async (to, _from, next) => {
     return next({ path: "/" })
   }
 
-  // 如果用户已经获得其权限
+  // If the user already has their permissions
   if (userStore.menus.length !== 0) {
     return next()
   } else {
-    // 否则要重新获取 用户权限菜单
+    // Otherwise fetch the permission menus again
     try {
-      // 初始化数据
+      // Initialize data
       await initBasicData()
-      // 检查用户是否已获得其权限菜单
+      // Check whether the user has their permission menus
       if (userStore.menus.length === 0) {
         await userStore.getUserPerms()
-        // 根据 用户权限菜单 生成可访问的 Routes（可访问路由 = 常驻路由 + 有访问权限的动态路由）
+        // Generate accessible routes from the permission menus (accessible = constant + permitted dynamic routes)
         permissionStore.setRoutes(userStore.menus)
-        // 将'有访问权限的动态路由' 添加到 Router 中
+        // Add the 'permitted dynamic routes' to the router
         permissionStore.dynamicRoutes.forEach((route) => router.addRoute(route))
-        // 确保添加路由已完成
-        // 设置 replace: true, 因此导航将不会留下历史记录
+        // Make sure the routes have been added
+        // replace: true so the navigation leaves no history entry
         next({ ...to, replace: true })
       } else {
         next()
       }
     } catch (err: any) {
-      // 过程中发生任何错误，都直接重置 Token，并重定向到登录页面
+      // On any error, reset the token and redirect to sign-in
       userStore.fedLogout()
-      ElMessage.error(err.message || "路由守卫过程发生错误")
+      ElMessage.error(err.message || "Route guard error")
       NProgress.done()
       next(loginUrl)
     }
@@ -104,20 +104,20 @@ router.afterEach((to) => {
   NProgress.done()
 })
 
-// 初始化数据,如: 用户信息，数据字典，全局配置
+// Initialize data such as user details, dictionaries and global config
 async function initBasicData() {
-  // 获取用户信息
+  // Get user details
   if (userStore.userInfo === undefined || !userStore.userInfo) {
     await userStore.getUserInfo()
     await tenantStore.getLoginUserTenant()
   }
 
-  // 获取字典数据
+  // Fetch dictionary data
   if (dictStore.dictMapKeys === undefined || !dictStore.dictMapKeys) {
     await dictStore.getDictMapKeys()
   }
 
-  // 启动 WebSocket
+  // Start WebSocket
   if (!noticeStore.getStompClientActive()) {
     noticeStore.startWebSocket()
   }

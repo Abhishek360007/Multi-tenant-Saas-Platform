@@ -17,7 +17,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 监控 登录日志
+ * Login log monitor
  * </p>
  *
  * @author Wang Chen Chen <932560435@qq.com>
@@ -28,21 +28,21 @@ import java.util.Set;
 @Slf4j
 @RestController
 @RequestMapping("/lms/lgoin")
-@Tag(name = "[ 监控 ] 登录日志")
+@Tag(name = "[ Monitor ] Login logs")
 @AllArgsConstructor
 public class LmsLoginLogController {
 
     private final LmsLoginLogService baseService;
 
 
-    @Operation(summary = "单个查询", description = "根据Id查询")
+    @Operation(summary = "Get one", description = "Query by ID")
     @GetMapping("/{id}")
     public JsonResult<LmsLoginLog> findById(@PathVariable("id") String id) {
         return JsonResult.success(baseService.getById(id));
     }
 
 
-    @Operation(summary = "分页", description = "分页 查询所有")
+    @Operation(summary = "Paged query", description = "Paged query of all")
     @GetMapping("/query")
     public JsonResult<Pagination<LmsLoginLog>> pageQuery(SearchPO params) {
         var page = baseService.pageKeywords(params);
@@ -51,7 +51,7 @@ public class LmsLoginLogController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "批量删除", description = "只需要id即可")
+    @Operation(summary = "Delete selected", description = "Only the IDs are required")
     @PostMapping()
     public JsonResult<Boolean> delete(@RequestBody Set<String> ids) {
         boolean b = baseService.removeBatchByIds(ids);

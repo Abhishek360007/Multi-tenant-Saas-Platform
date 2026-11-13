@@ -3,22 +3,22 @@
     <el-header>
       <el-row :gutter="20">
         <el-col :span="16">
-          <el-input v-model="params.keywords" placeholder="根据租户名称搜索" clearable :prefix-icon="Search" />
+          <el-input v-model="params.keywords" placeholder="Search by tenant name" clearable :prefix-icon="Search" />
         </el-col>
         <el-col :span="8">
-          <el-button type="primary" @click="searchTenantList">搜索</el-button>
+          <el-button type="primary" @click="searchTenantList">Search</el-button>
         </el-col>
       </el-row>
     </el-header>
     <el-main>
       <el-table :data="simpleTenants" style="width: 100%">
-        <el-table-column prop="tenantId" label="租户ID" width="120" />
+        <el-table-column prop="tenantId" label="Tenant ID" width="120" />
         <el-table-column prop="logo" label="Logo" width="100">
           <template #default="scope">
             <el-avatar :size="50" :icon="UserFilled" :src="scope.row.logo" />
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="租户名称">
+        <el-table-column prop="name" label="Tenant name">
           <template #default="scope">
             <strong style="color: #409eff" v-if="!currentTenantId(scope.row.tenantId)">
               {{ scope.row.name }}
@@ -26,15 +26,15 @@
             <span v-else> {{ scope.row.name }} </span>
           </template>
         </el-table-column>
-        <el-table-column prop="linkman" label="联系人" />
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column prop="linkman" label="Contact person" />
+        <el-table-column fixed="right" label="Actions" width="100">
           <template #default="scope">
             <el-button
               v-if="currentTenantId(scope.row.tenantId)"
               text
               type="primary"
               @click="handleSwitchClick(scope.row)"
-              >切换</el-button
+              >Switch</el-button
             >
           </template>
         </el-table-column>
@@ -68,7 +68,7 @@ const projectStore = useProjectStoreHook()
 
 const simpleTenants = ref<ISimpleTenant[]>()
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
 const params = reactive({
@@ -82,7 +82,7 @@ const emit = defineEmits<{
   (e: "handleSwitch", id: string): void
 }>()
 
-// 切换租户
+// Switch tenant
 const handleSwitchClick = (t: ISimpleTenant) => {
   const tenant: ISimpleTenant = {
     tenantId: t.tenantId,
@@ -91,7 +91,7 @@ const handleSwitchClick = (t: ISimpleTenant) => {
     linkman: t.linkman
   }
   tenantStore.setCurrentTenant(tenant)
-  // 重置当前项目为默认项目
+  // Reset the current project to the default
   projectStore.resetCurrentProject()
   emit("handleSwitch", t.name)
 }
@@ -138,7 +138,7 @@ onMounted(() => {
 
 const searchList = () => searchTenantList()
 
-// 输出组件的方法，让外部组件可以调用
+// Expose component methods to parent components
 defineExpose({
   searchList
 })

@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户登录成功后，返回的按钮权限
+ * Button permissions returned after sign-in
  * </p>
  *
  * @author Wang Chen Chen <932560435@qq.com>
@@ -26,15 +26,15 @@ import lombok.experimental.Accessors;
 public class ButtonVO implements java.io.Serializable {
 
     /**
-     * 标识符
+     * Identifier
      */
-    @Schema(description = "按钮权限 标识符！")
+    @Schema(description = "Button permission key")
     private String perms;
 
     /**
-     * 标题
+     * Title
      */
-    @Schema(description = "按钮权限 标题！")
+    @Schema(description = "Button permission title")
     private String title;
 
 }

@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 项目表
+ * Project table
  * </p>
  *
  * @author Wang Chen Chen
@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  */
 
 
-@Schema(description = "项目")
+@Schema(description = "Project")
 @Getter
 @Setter
 @Builder
@@ -26,63 +26,63 @@ import lombok.experimental.Accessors;
 public class CmsProjectDTO implements java.io.Serializable {
 
     /**
-     * 项目ID
+     * Project ID
      */
-    @Schema(description = "项目ID")
+    @Schema(description = "Project ID")
     private Long projectId;
 
     /**
-     * 项目名称
+     * Project name
      */
-    @Schema(description = "项目名称")
+    @Schema(description = "Project name")
     private String projectName;
 
     /**
-     * 联系人名称
+     * Contact name
      */
-    @Schema(description = "联系人名称")
+    @Schema(description = "Contact name")
     private String linkman;
 
     /**
-     * 联系电话
+     * Contact number
      */
-    @Schema(description = "联系电话")
+    @Schema(description = "Contact number")
     private String contactNumber;
 
     /**
-     * 行政地址
+     * Address area
      */
-    @Schema(description = "行政地址")
+    @Schema(description = "Address area")
     private Long areaCode;
 
     /**
-     * 联系地址 如：左右云创谷1栋A座
+     * Address, e.g. 12 MG Road, Block A
      */
-    @Schema(description = "联系地址")
+    @Schema(description = "Address")
     private String address;
 
     /**
-     * 排序
+     * Sort order
      */
-    @Schema(description = "排序")
+    @Schema(description = "Sort order")
     private Long sort;
 
     /**
-     * 项目密码，做一些危险操作时，使用
+     * Project password, required for dangerous operations
      */
-    @Schema(description = "项目密码，做一些危险操作时，使用")
+    @Schema(description = "Project password, required for dangerous operations")
     private String password;
 
     /**
-     * 状态 【0.禁用 1.正常 2.锁定 】
+     * Status [0 = disabled, 1 = normal, 2 = locked]
      */
-    @Schema(description = "状态 【0.禁用 1.正常 2.锁定 】")
+    @Schema(description = "Status [0 = disabled, 1 = normal, 2 = locked]")
     private Byte status;
 
     /**
-     * 所属部门
+     * Department
      */
-    @Schema(description = "所属部门Id")
+    @Schema(description = "Department Id")
     private Long deptId;
 
 }

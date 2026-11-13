@@ -73,7 +73,7 @@ public class NoSpringTests {
 
     @Test
     public void test4() {
-        boolean isMatch = Pattern.matches("\\w{4,12}$", "你好啊啊啊dwa541");
+        boolean isMatch = Pattern.matches("\\w{4,12}$", "Hello there dwa541");
         System.out.println(isMatch);
     }
 
@@ -89,11 +89,11 @@ public class NoSpringTests {
     @Test
     public void test6() {
         var treeNodes = List.of(
-                new TreeNode<>(1001, 10, "部门1", 1),
-                new TreeNode<>(1002, 11, "部门2", 3),
-                new TreeNode<>(1003, 1002, "部门2", 4),
-                new TreeNode<>(1004, 1002, "部门2", 5),
-                new TreeNode<>(1005, 1001, "部门2", 6)
+                new TreeNode<>(1001, 10, "Department 1", 1),
+                new TreeNode<>(1002, 11, "Department 2", 3),
+                new TreeNode<>(1003, 1002, "Department 2", 4),
+                new TreeNode<>(1004, 1002, "Department 2", 5),
+                new TreeNode<>(1005, 1001, "Department 2", 6)
         );
         var first = treeNodes.stream().map(TreeNode::getParentId).sorted().findFirst().get();
         List<Tree<Integer>> build = TreeUtil.build(treeNodes, first);
@@ -141,7 +141,7 @@ public class NoSpringTests {
 
     @Test
     public void test11() throws Exception {
-        // 登录接口，也需要，添加租户ID
+        // The login endpoint also needs the tenant ID
         var whiteList = Stream.of(JwtConst.WHITE_LIST, JwtConst.TENANT_WHITE_LIST)
                 .flatMap(Stream::of)
                 .filter(s -> !JwtConst.LOGIN_URL.equals(s))
@@ -166,25 +166,25 @@ public class NoSpringTests {
         @Schema(description = "ID")
         private Long id;
 
-        @Schema(description = "名称")
+        @Schema(description = "Name")
         private String name;
 
-        @Schema(description = "爱好")
+        @Schema(description = "Hobby")
         protected List<String> hobby;
 
-        @Schema(description = "长辈")
+        @Schema(description = "Elder")
         protected Map<String, Long> elder;
 
-        @Schema(description = "创建日期")
+        @Schema(description = "Created on")
         protected LocalDate createDate;
 
-        @Schema(description = "创建时间")
+        @Schema(description = "Created at")
         protected LocalTime createTime;
 
-        @Schema(description = "创建日期时间")
+        @Schema(description = "Created at")
         protected LocalDateTime createDateTime;
 
-        @Schema(description = "创建人信息")
+        @Schema(description = "Creator details")
         protected OperateUserDTO createUserEntity;
 
     }
@@ -218,7 +218,7 @@ public class NoSpringTests {
         var file = Files.createFile(Path.of(String.format("%s.xlsx", RandomUtil.randomString(10)))).toFile();
         FileUtil.writeBytes(entity.toByteArray(), file);
         var ms = System.currentTimeMillis() - start;
-        System.out.printf("%s => 耗时: %d ms \n", file.getName(), ms);
+        System.out.printf("%s => Duration: %d ms \n", file.getName(), ms);
     }
 
 
@@ -265,7 +265,7 @@ public class NoSpringTests {
     @Test
     public void test16() {
         var pattern = Pattern.compile(RegexConst.MOBILE);
-        var matcher = pattern.matcher("15071525211");
+        var matcher = pattern.matcher("9876500103");
         System.out.println(matcher.find());
     }
 
@@ -288,32 +288,32 @@ public class NoSpringTests {
 
     @Test
     public void test19() throws Exception {
-        // 单表全量
+        // Whole table
         Table table = new Table("test");
         Select select = SelectUtils.buildSelectFromTable(table);
         System.err.println(select); // SELECT * FROM test
 
-        // 指定列查询
+        // Select specific columns
         Select buildSelectFromTableAndExpressions = SelectUtils.buildSelectFromTableAndExpressions(new Table("test"), new Column("col1"), new Column("col2"));
         System.err.println(buildSelectFromTableAndExpressions); // SELECT col1, col2 FROM test
 
         // WHERE =
-        EqualsTo equalsTo = new EqualsTo(); // 等于表达式
-        equalsTo.setLeftExpression(new Column(table, "user_id")); // 设置表达式左边值
-        equalsTo.setRightExpression(new StringValue("123456"));// 设置表达式右边值
-        PlainSelect plainSelect = (PlainSelect) select.getSelectBody(); // 转换为更细化的Select对象
+        EqualsTo equalsTo = new EqualsTo(); // Equals expression
+        equalsTo.setLeftExpression(new Column(table, "user_id")); // Set the left-hand value of the expression
+        equalsTo.setRightExpression(new StringValue("123456"));// Set the right-hand value of the expression
+        PlainSelect plainSelect = (PlainSelect) select.getSelectBody(); // Convert to a more specific Select object
         plainSelect.setWhere(equalsTo);
         System.err.println(plainSelect);//  SELECT * FROM test WHERE test.user_id = '123456'
 
         // WHERE  != <>
         NotEqualsTo notEqualsTo = new NotEqualsTo();
-        notEqualsTo.setLeftExpression(new Column(table, "user_id")); // 设置表达式左边值
-        notEqualsTo.setRightExpression(new StringValue("123456"));// 设置表达式右边值
+        notEqualsTo.setLeftExpression(new Column(table, "user_id")); // Set the left-hand value of the expression
+        notEqualsTo.setRightExpression(new StringValue("123456"));// Set the right-hand value of the expression
         PlainSelect plainSelectNot = (PlainSelect) select.getSelectBody();
         plainSelectNot.setWhere(notEqualsTo);
         System.err.println(plainSelectNot);//  SELECT * FROM test WHERE test.user_id <> '123456'
 
-        // 其他运算符, 参考上面代码添加表达式即可
+        // For other operators, add expressions as above
         GreaterThan gt = new GreaterThan(); // ">"
         GreaterThanEquals geq = new GreaterThanEquals(); // ">="
         MinorThan mt = new MinorThan(); // "<"
@@ -326,52 +326,52 @@ public class NoSpringTests {
         bt.setNot(true);// "not between"
 
         // WHERE LIKE
-        LikeExpression likeExpression = new LikeExpression(); // 创建Like表达式对象
-        likeExpression.setLeftExpression(new Column("username")); // 表达式左边
-        likeExpression.setRightExpression(new StringValue("张%")); // 右边表达式
+        LikeExpression likeExpression = new LikeExpression(); // Create a LIKE expression
+        likeExpression.setLeftExpression(new Column("username")); // Left side of the expression
+        likeExpression.setRightExpression(new StringValue("Ra%")); // right-hand expression
         PlainSelect plainSelectLike = (PlainSelect) select.getSelectBody();
         plainSelectLike.setWhere(likeExpression);
-        System.err.println(plainSelectLike); // SELECT * FROM test WHERE username LIKE '张%'
+        System.err.println(plainSelectLike); // SELECT * FROM test WHERE username LIKE 'Ra%'
 
         // WHERE IN
-        Set<String> deptIds = Sets.newLinkedHashSet(); // 创建IN范围的元素集合
+        Set<String> deptIds = Sets.newLinkedHashSet(); // Create the IN list items
         deptIds.add("0001");
         deptIds.add("0002");
-        var itemsList = new ExpressionList(deptIds.stream().map(StringValue::new).collect(Collectors.toList())); // 把集合转变为JSQLParser需要的元素列表
-        InExpression inExpression = new InExpression(new Column("dept_id "), itemsList); // 创建IN表达式对象，传入列名及IN范围列表
+        var itemsList = new ExpressionList(deptIds.stream().map(StringValue::new).collect(Collectors.toList())); // Convert the collection into the JSQLParser item list
+        InExpression inExpression = new InExpression(new Column("dept_id "), itemsList); // Create the IN expression with the column and list
         PlainSelect plainSelectIn = (PlainSelect) select.getSelectBody();
         plainSelectIn.setWhere(inExpression);
         System.err.println(plainSelectIn); // SELECT * FROM test WHERE dept_id  IN ('0001', '0002')
 
         // WHERE BETWEEN AND
         Between between = new Between();
-        between.setBetweenExpressionStart(new LongValue(18)); // 设置起点值
-        between.setBetweenExpressionEnd(new LongValue(30)); // 设置终点值
-        between.setLeftExpression(new Column("age")); // 设置左边的表达式，一般为列
+        between.setBetweenExpressionStart(new LongValue(18)); // Set the start value
+        between.setBetweenExpressionEnd(new LongValue(30)); // Set the end value
+        between.setLeftExpression(new Column("age")); // Set the left-hand expression, usually a column
         PlainSelect plainSelectBetween = (PlainSelect) select.getSelectBody();
         plainSelectBetween.setWhere(between);
         System.err.println(plainSelectBetween); // SELECT * FROM test WHERE age BETWEEN 18 AND 30
 
-        //  WHERE AND 多个条件结合,都需要成立
-        AndExpression andExpression = new AndExpression(); // AND 表达式
-        andExpression.setLeftExpression(equalsTo); // AND 左边表达式
-        andExpression.setRightExpression(between);  // AND 右边表达式
+        //  WHERE AND All conditions must hold
+        AndExpression andExpression = new AndExpression(); // AND Expression
+        andExpression.setLeftExpression(equalsTo); // AND Left-hand expression
+        andExpression.setRightExpression(between);  // AND Right-hand expression
         PlainSelect plainSelectAnd = (PlainSelect) select.getSelectBody();
         plainSelectAnd.setWhere(andExpression);
         System.err.println(plainSelectAnd); //  SELECT * FROM test WHERE test.user_id = '123456' AND age BETWEEN 18 AND 30
 
-        //  WHERE OR 多个条件满足一个条件成立返回
-        OrExpression orExpression = new OrExpression();// OR 表达式
-        orExpression.setLeftExpression(equalsTo); // OR 左边表达式
-        orExpression.setRightExpression(between);  // OR 右边表达式
+        //  WHERE OR At least one condition must hold
+        OrExpression orExpression = new OrExpression();// OR Expression
+        orExpression.setLeftExpression(equalsTo); // OR Left-hand expression
+        orExpression.setRightExpression(between);  // OR Right-hand expression
         PlainSelect plainSelectOr = (PlainSelect) select.getSelectBody();
         plainSelectOr.setWhere(orExpression);
         System.err.println(plainSelectOr); // SELECT * FROM test WHERE test.user_id = '123456' OR age BETWEEN 18 AND 30
 
-        // ORDER BY 排序
-        OrderByElement orderByElement = new OrderByElement(); // 创建排序对象
-        orderByElement.isAsc(); //  设置升序排列 从小到大
-        orderByElement.setExpression(new Column("col01")); // 设置排序字段
+        // ORDER BY Sort order
+        OrderByElement orderByElement = new OrderByElement(); // Create the ORDER BY element
+        orderByElement.isAsc(); //  Ascending order
+        orderByElement.setExpression(new Column("col01")); // Set the sort column
         PlainSelect plainSelectOrderBy = (PlainSelect) select.getSelectBody();
         plainSelectOrderBy.addOrderByElements(orderByElement);
         System.err.println(plainSelectOrderBy); // SELECT * FROM test WHERE test.user_id = '123456' OR age BETWEEN 18 AND 30 ORDER BY col01
@@ -380,14 +380,14 @@ public class NoSpringTests {
 
     @Test
     public void test20() throws Exception {
-        // 单表全量
+        // Whole table
         Table table = new Table("test");
         Select select = SelectUtils.buildSelectFromTable(table);
         System.err.println(select); // SELECT * FROM test
 
-        EqualsTo equalsTo = new EqualsTo(); // 等于表达式
-        equalsTo.setLeftExpression(new Column(table, "user_id")); // 设置表达式左边值
-        equalsTo.setRightExpression(new StringValue("123456"));// 设置表达式右边值
+        EqualsTo equalsTo = new EqualsTo(); // Equals expression
+        equalsTo.setLeftExpression(new Column(table, "user_id")); // Set the left-hand value of the expression
+        equalsTo.setRightExpression(new StringValue("123456"));// Set the right-hand value of the expression
 
         final var in = CCJSqlParserUtil.parseExpression("u.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id in (1,2) )");
         PlainSelect plainSelectIn = (PlainSelect) select.getSelectBody();
@@ -415,9 +415,9 @@ public class NoSpringTests {
                 new Table("sys_role")
         );
 
-        EqualsTo equalsTo = new EqualsTo(); // 等于表达式
-        equalsTo.setLeftExpression(new Column("user_id")); // 设置表达式左边值
-        equalsTo.setRightExpression(childSelect);// 设置表达式右边值
+        EqualsTo equalsTo = new EqualsTo(); // Equals expression
+        equalsTo.setLeftExpression(new Column("user_id")); // Set the left-hand value of the expression
+        equalsTo.setRightExpression(childSelect);// Set the right-hand value of the expression
 
         select.getPlainSelect().setWhere(equalsTo);
 

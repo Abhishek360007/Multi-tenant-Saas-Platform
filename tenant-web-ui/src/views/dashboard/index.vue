@@ -41,15 +41,15 @@ const toolbox1 = {
     dataView: {
       show: true,
       readOnly: false,
-      title: "数据视图"
+      title: "Data view"
     },
     restore: {
       show: true,
-      title: "还原"
+      title: "Restore"
     },
     saveAsImage: {
       show: true,
-      title: "保存"
+      title: "Save"
     }
   }
 }
@@ -63,23 +63,23 @@ const toolbox2 = {
     dataView: {
       show: true,
       readOnly: false,
-      title: "数据视图"
+      title: "Data view"
     },
     magicType: {
       show: true,
       type: ["line", "bar"],
       title: {
-        line: "切换为折线图",
-        bar: "切换为柱状图"
+        line: "Switch to line chart",
+        bar: "Switch to bar chart"
       }
     },
     restore: {
       show: true,
-      title: "还原"
+      title: "Restore"
     },
     saveAsImage: {
       show: true,
-      title: "保存"
+      title: "Save"
     }
   }
 }
@@ -93,7 +93,7 @@ const grid1 = {
 
 const option1 = ref({
   title: {
-    text: "用户来源",
+    text: "User sources",
     left: "center"
   },
   tooltip: {
@@ -104,7 +104,7 @@ const option1 = ref({
   legend: {
     orient: "vertical",
     left: "left",
-    data: ["微信", "腾讯QQ", "抖音", "微博", "知乎", "支付宝", "淘宝", "拼多多"]
+    data: ["WhatsApp", "Instagram", "YouTube", "X", "LinkedIn", "Paytm", "Flipkart", "Meesho"]
   },
   toolbox: toolbox1,
   series: [
@@ -114,14 +114,14 @@ const option1 = ref({
       radius: "55%",
       center: ["50%", "60%"],
       data: [
-        { value: 1350, name: "微信" },
-        { value: 2101, name: "腾讯QQ" },
-        { value: 334, name: "抖音" },
-        { value: 165, name: "微博" },
-        { value: 190, name: "知乎" },
-        { value: 1248, name: "支付宝" },
-        { value: 548, name: "淘宝" },
-        { value: 348, name: "拼多多" }
+        { value: 1350, name: "WhatsApp" },
+        { value: 2101, name: "Tencent QQ" },
+        { value: 334, name: "Douyin" },
+        { value: 165, name: "Weibo" },
+        { value: 190, name: "Zhihu" },
+        { value: 1248, name: "Alipay" },
+        { value: 548, name: "Taobao" },
+        { value: 348, name: "Pinduoduo" }
       ],
       emphasis: {
         itemStyle: {
@@ -136,7 +136,7 @@ const option1 = ref({
 
 const option2 = ref({
   title: {
-    text: "访问流量",
+    text: "Traffic",
     left: "center"
   },
   tooltip: {
@@ -150,7 +150,7 @@ const option2 = ref({
   xAxis: [
     {
       type: "category",
-      data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       axisTick: {
         alignWithLabel: true
       }
@@ -163,7 +163,7 @@ const option2 = ref({
   ],
   series: [
     {
-      name: "API流量",
+      name: "API Traffic",
       type: "bar",
       barWidth: "60%",
       data: [19849, 45645, 22656, 111334, 64948, 53642, 36665]
@@ -173,58 +173,58 @@ const option2 = ref({
 
 const option3 = ref({
   title: {
-    text: "电商销售额"
+    text: "E-commerce sales"
   },
   tooltip: {
     trigger: "axis",
     formatter: (params: any) => {
       let relVal = params[0].name
       params.forEach((element: any) => {
-        relVal += `<br/> ${element.marker} ${element.seriesName} : ${element.value} 万`
+        relVal += `<br/> ${element.marker} ${element.seriesName} : ${element.value} 10k`
       })
       return relVal
     }
   },
   legend: {
-    data: ["拼多多", "淘宝", "京东", "唯品会", "抖音直播"]
+    data: ["Flipkart", "Amazon", "Meesho", "Myntra", "Nykaa"]
   },
   grid: grid1,
   toolbox: toolbox2,
   xAxis: {
     type: "category",
     boundaryGap: false,
-    data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
   },
   yAxis: {
     type: "value"
   },
   series: [
     {
-      name: "拼多多",
+      name: "Pinduoduo",
       type: "line",
       stack: "Total",
       data: [120, 132, 101, 134, 90, 230, 210]
     },
     {
-      name: "淘宝",
+      name: "Taobao",
       type: "line",
       stack: "Total",
       data: [220, 182, 191, 234, 290, 330, 310]
     },
     {
-      name: "京东",
+      name: "JD.com",
       type: "line",
       stack: "Total",
       data: [150, 232, 201, 154, 190, 330, 410]
     },
     {
-      name: "唯品会",
+      name: "Vipshop",
       type: "line",
       stack: "Total",
       data: [320, 332, 301, 334, 390, 330, 320]
     },
     {
-      name: "抖音直播",
+      name: "Douyin Live",
       type: "line",
       stack: "Total",
       data: [820, 932, 901, 934, 1290, 1330, 1320]

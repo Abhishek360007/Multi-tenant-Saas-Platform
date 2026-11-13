@@ -11,7 +11,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 修改租户模板
+ * Update tenant templates
  * </p>
  *
  * @author Wang Chen Chen
@@ -26,16 +26,16 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Schema(description = "租户关联模板")
+@Schema(description = "Tenant templates")
 public class UpdateTenantTemplateIdVO implements java.io.Serializable {
 
-    @Schema(description = "租户ID不能为空！")
-    @NotEmpty(message = "租户ID不能为空!")
+    @Schema(description = "Tenant ID is required")
+    @NotEmpty(message = "Tenant ID is required!")
     private String tenantId;
 
-    @Schema(description = "租户权限模板！最少选择一个！")
-    @NotNull(message = "租户权限模板必须填写！")
-    @Size(min = 1, message = "租户权限模板！最少选择一个！")
+    @Schema(description = "Select at least one tenant permission template")
+    @NotNull(message = "Tenant permission template is required")
+    @Size(min = 1, message = "Select at least one tenant permission template")
     private Set<Long> templateIds;
 
 

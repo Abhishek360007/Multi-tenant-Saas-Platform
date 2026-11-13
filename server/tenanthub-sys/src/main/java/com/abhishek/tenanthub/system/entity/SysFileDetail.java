@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 
 /**
- * [ 通用 ] 文件记录表
+ * [ Common ] File records table
  *
  * @TableName sys_file_detail
  */
@@ -24,93 +24,93 @@ import java.time.LocalDateTime;
 public class SysFileDetail implements java.io.Serializable {
 
     /**
-     * 文件id
+     * File id
      */
     @TableId
     private String id;
 
     /**
-     * 文件访问地址
+     * File URL
      */
     private String url;
 
     /**
-     * 文件大小，单位字节
+     * File size in bytes
      */
     private Long size;
 
     /**
-     * 文件名称
+     * File name
      */
     private String filename;
 
     /**
-     * 原始文件名
+     * Original file name
      */
     private String originalFilename;
 
     /**
-     * 基础存储路径
+     * Base storage path
      */
     private String basePath;
 
     /**
-     * 存储路径
+     * Storage path
      */
     private String path;
 
     /**
-     * 文件扩展名
+     * File extension
      */
     private String ext;
 
     /**
-     * MIME类型
+     * MIME Type
      */
     private String contentType;
 
     /**
-     * 存储平台
+     * Storage platform
      */
     private String platform;
 
     /**
-     * 缩略图访问路径
+     * Thumbnail URL
      */
     private String thUrl;
 
     /**
-     * 缩略图名称
+     * Thumbnail name
      */
     private String thFilename;
 
     /**
-     * 缩略图大小，单位字节
+     * Thumbnail size in bytes
      */
     private Long thSize;
 
     /**
-     * 缩略图MIME类型
+     * Thumbnail MIME type
      */
     private String thContentType;
 
     /**
-     * 文件所属对象id
+     * Owner object id
      */
     private String objectId;
 
     /**
-     * 文件所属对象类型，例如用户头像，评价图片
+     * Owner object type, e.g. user avatar or review image
      */
     private String objectType;
 
     /**
-     * 附加属性
+     * Extra attributes
      */
     private String attr;
 
     /**
-     * 创建时间
+     * Created at
      */
     private LocalDateTime createTime;
 

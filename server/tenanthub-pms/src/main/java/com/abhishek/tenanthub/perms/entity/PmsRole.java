@@ -17,7 +17,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 角色
+ * Role
  * </p>
  *
  * @author Wang Chen Chen
@@ -25,7 +25,7 @@ import java.util.Set;
  * @date 2021/7/5 9:31
  */
 
-@Schema(description = "角色")
+@Schema(description = "Role")
 @TableName("pms_role")
 @Getter
 @Setter
@@ -36,45 +36,45 @@ import java.util.Set;
 public class PmsRole extends ParamBaseEntity {
 
     /**
-     * 角色 ID
+     * Role ID
      */
-    @Schema(description = "角色ID")
+    @Schema(description = "Role ID")
     @TableId(type = IdType.AUTO)
-    @NotNull(message = "角色ID,必须填写", groups = {ValidUpdate.class})
+    @NotNull(message = "Role ID is required", groups = {ValidUpdate.class})
     private Long roleId;
 
     /**
-     * 角色 名称
+     * Role name
      */
-    @Schema(description = "角色名称")
-    @NotBlank(message = "角色名称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Role name")
+    @NotBlank(message = "Role name is required", groups = {ValidCreate.class})
     private String roleName;
 
     /**
-     * 排序
+     * Sort order
      */
-    @Schema(description = "排序")
-    @NotNull(message = "排序,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Sort order")
+    @NotNull(message = "Sort order is required", groups = {ValidCreate.class})
     private Long sort;
 
     /**
-     * 角色描述
+     * Role description
      */
-    @Schema(description = "角色描述")
-    @NotBlank(message = "角色描述,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Role description")
+    @NotBlank(message = "Role description is required", groups = {ValidCreate.class})
     private String description;
 
     /**
-     * 数据范围（1：全部数据权限 2：自定数据权限 3：仅本部门数据权限 4：本部门及以下数据权限 5：仅自己的权限）
+     * Data scope (1: all data, 2: custom, 3: own department only, 4: own department and below, 5: own data only)
      */
-    @Schema(description = "数据范围", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "数据范围,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Data scope", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "Data scope is required", groups = {ValidCreate.class})
     private Integer dataScope;
 
     /**
-     * 自定义数据权限
+     * Custom data permissions
      */
-    @Schema(description = "自定义数据权限")
+    @Schema(description = "Custom data permissions")
     @TableField(exist = false)
     private Set<Long> deptIds;
 

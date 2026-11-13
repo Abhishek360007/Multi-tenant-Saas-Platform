@@ -80,11 +80,11 @@ public class ApiCmsProjectServiceImpl implements ApiCmsProjectService {
     public void initProject(SysTenantDTO po) {
         var password = Optional.ofNullable(configService.getValueByKey(DEFAULT_PROJECT_PASSWORD.getKey()))
                 .orElse(DEFAULT_PROJECT_PASSWORD.getValue());
-        // 委托，新的租户id。执行初始化数据
+        // Delegate to the new tenant ID and initialize its data
         delegate(po.getTenantId(), () -> {
             var project = new CmsProject()
                     .setProjectId(DEFAULT_PROJECT_ID.getValue())
-                    .setProjectName("默认项目")
+                    .setProjectName("Default project")
                     .setLinkman(po.getLinkman())
                     .setContactNumber(po.getContactNumber())
                     .setAreaCode(po.getAreaCode())

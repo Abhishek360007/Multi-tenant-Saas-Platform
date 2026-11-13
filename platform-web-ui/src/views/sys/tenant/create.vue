@@ -1,25 +1,25 @@
 <template>
   <el-steps :active="active" finish-status="success">
-    <el-step title="租户信息" />
-    <el-step title="管理员信息" />
-    <el-step title="结果" />
+    <el-step title="Tenant details" />
+    <el-step title="Admin details" />
+    <el-step title="Result" />
   </el-steps>
   <br />
   <br />
   <el-form ref="entityFormRef" :model="entityForm" :rules="entityFormRules" label-position="right" label-width="100px">
     <template v-if="active === 0">
-      <el-alert title="Logo建议上传, 长宽都是100px的png图片..." type="info" />
+      <el-alert title="Logo Recommended: a 100x100 px PNG..." type="info" />
       <br />
       <el-form-item prop="logo" label="Logo">
         <image-upload :key="entityForm.logo" :src="entityForm.logo" @change="getLogoSrc" />
       </el-form-item>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="tenantId" label="租户ID">
+          <el-form-item prop="tenantId" label="Tenant ID">
             <el-input
               v-model.trim="entityForm.tenantId"
               clearable
-              placeholder="租户ID"
+              placeholder="Tenant ID"
               type="text"
               tabindex="1"
               onkeyup="value=value.replace(/[^\w]/g,'')"
@@ -36,28 +36,28 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="name" label="名称">
-            <el-input v-model.trim="entityForm.name" clearable placeholder="租户名称" type="text" tabindex="2" />
+          <el-form-item prop="name" label="Name">
+            <el-input v-model.trim="entityForm.name" clearable placeholder="Tenant name" type="text" tabindex="2" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="email" label="邮箱">
-            <el-input v-model.trim="entityForm.email" clearable placeholder="租户邮箱" type="text" tabindex="3" />
+          <el-form-item prop="email" label="Email">
+            <el-input v-model.trim="entityForm.email" clearable placeholder="Tenant email" type="text" tabindex="3" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="linkman" label="联系人">
-            <el-input v-model="entityForm.linkman" clearable placeholder="租户联系人" type="text" tabindex="4" />
+          <el-form-item prop="linkman" label="Contact person">
+            <el-input v-model="entityForm.linkman" clearable placeholder="Tenant contact" type="text" tabindex="4" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="contactNumber" label="联系方式">
+          <el-form-item prop="contactNumber" label="Contact details">
             <el-input
               v-model.trim="entityForm.contactNumber"
               clearable
-              placeholder="租户联系方式"
+              placeholder="Tenant contact number"
               type="text"
               tabindex="5"
             />
@@ -66,20 +66,20 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="areaCode" label="行政地址">
+          <el-form-item prop="areaCode" label="Address area">
             <search-india-area v-model="entityForm.areaCode" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="address" label="联系地址">
-            <el-input v-model="entityForm.address" clearable placeholder="租户联系地址" type="text" tabindex="6" />
+          <el-form-item prop="address" label="Address">
+            <el-input v-model="entityForm.address" clearable placeholder="Tenant address" type="text" tabindex="6" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="templates" label="租户模板">
-            <el-select v-model="entityTemplates" filterable clearable multiple placeholder="选择租户模板">
+          <el-form-item prop="templates" label="Tenant template">
+            <el-select v-model="entityTemplates" filterable clearable multiple placeholder="Select tenant templates">
               <el-option v-for="item in templateList" :key="item.id" :label="item.name" :value="item.id">
                 <span style="float: left">{{ item.name }}</span>
                 <span style="float: right; color: var(--el-text-color-secondary); font-size: 13px">{{
@@ -90,12 +90,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="expired" label="过期时间">
+          <el-form-item prop="expired" label="Expiry time">
             <el-date-picker
               v-model="entityForm.expired"
               clearable
               type="datetime"
-              placeholder="请选择过期时间"
+              placeholder="Select an expiry time"
               format="YYYY-MM-DD HH:mm:ss"
               value-format="YYYY-MM-DD HH:mm:ss"
               :shortcuts="futureShortcuts"
@@ -108,8 +108,8 @@
     <template v-else-if="active === 1">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="adminUsername" label="用户名">
-            <el-input v-model.trim="entityForm.adminUsername" placeholder="管理员用户名" type="text" tabindex="1">
+          <el-form-item prop="adminUsername" label="Username">
+            <el-input v-model.trim="entityForm.adminUsername" placeholder="Admin username" type="text" tabindex="1">
               <template #append>
                 <el-button :icon="Refresh" @click="refreshUsername" />
               </template>
@@ -117,46 +117,46 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="adminPwd" label="密码">
-            <el-input v-model.trim="entityForm.adminPwd" placeholder="管理员密码" type="text" tabindex="2" />
+          <el-form-item prop="adminPwd" label="Password">
+            <el-input v-model.trim="entityForm.adminPwd" placeholder="Admin password" type="text" tabindex="2" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="adminEmail" label="邮箱">
-            <el-input v-model.trim="entityForm.adminEmail" placeholder="管理员邮箱" type="text" tabindex="3" />
+          <el-form-item prop="adminEmail" label="Email">
+            <el-input v-model.trim="entityForm.adminEmail" placeholder="Admin email" type="text" tabindex="3" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item prop="adminMobile" label="手机号">
-            <el-input v-model.trim="entityForm.adminMobile" placeholder="管理员手机号" type="text" tabindex="4" />
+          <el-form-item prop="adminMobile" label="Mobile number">
+            <el-input v-model.trim="entityForm.adminMobile" placeholder="Admin mobile number" type="text" tabindex="4" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item prop="adminNickname" label="昵称">
-            <el-input v-model.trim="entityForm.adminNickname" placeholder="管理员昵称" type="text" tabindex="5" />
+          <el-form-item prop="adminNickname" label="Nickname">
+            <el-input v-model.trim="entityForm.adminNickname" placeholder="Admin nickname" type="text" tabindex="5" />
           </el-form-item>
         </el-col>
         <el-col :span="12" />
       </el-row>
     </template>
     <template v-else>
-      <el-form-item prop="adminNickname" label="管理员昵称">
+      <el-form-item prop="adminNickname" label="Admin nickname">
         {{ adminResult.adminNickname }}
       </el-form-item>
-      <el-form-item prop="adminUsername" label="登录用户名">
+      <el-form-item prop="adminUsername" label="Sign-in username">
         {{ adminResult.adminUsername }}
       </el-form-item>
-      <el-form-item prop="adminPwd" label="登录密码">
+      <el-form-item prop="adminPwd" label="Sign-in password">
         {{ adminResult.adminPwd }}
       </el-form-item>
-      <el-form-item prop="adminEmail" label="管理员邮箱">
+      <el-form-item prop="adminEmail" label="Admin email">
         {{ adminResult.adminEmail }}
       </el-form-item>
-      <el-form-item prop="adminMobile" label="管理员手机号">
+      <el-form-item prop="adminMobile" label="Admin mobile number">
         {{ adminResult.adminMobile }}
       </el-form-item>
     </template>
@@ -165,18 +165,18 @@
   <el-button-group :style="{ float: 'right' }">
     <template v-if="active === 0">
       <el-button type="primary" @click="next">
-        下一步<el-icon class="el-icon--right"><ArrowRight /></el-icon>
+        Next<el-icon class="el-icon--right"><ArrowRight /></el-icon>
       </el-button>
     </template>
     <template v-if="active === 1">
-      <el-button type="info" :icon="ArrowLeft" @click="previous" v-loading="loading">上一步</el-button>
+      <el-button type="info" :icon="ArrowLeft" @click="previous" v-loading="loading">Back</el-button>
       <el-button type="primary" @click="next" v-preventReClick v-loading="loading">
-        确定 <el-icon class="el-icon--right"><Check /></el-icon>
+        OK <el-icon class="el-icon--right"><Check /></el-icon>
       </el-button>
     </template>
     <template v-if="active === 2">
       <el-button type="primary" @click="close">
-        关闭<el-icon class="el-icon--right"><Close /></el-icon>
+        Close<el-icon class="el-icon--right"><Close /></el-icon>
       </el-button>
     </template>
   </el-button-group>
@@ -197,12 +197,12 @@ import { v4 as uuidv4 } from "uuid"
 import { isEmail, isTelphone } from "@/utils/validate"
 import { showStringOverflow } from "@/hooks/useIndex"
 
-// 随机生成租户ID
+// Generate a random tenant ID
 const randomTenantId = () => {
   return uuidv4().split("-")[4]
 }
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
 const active = ref(0)
@@ -216,12 +216,12 @@ const props = defineProps({
 
 const { templateList } = toRefs(props)
 
-// 基于类型
+// Type-based
 const emit = defineEmits<{
   (e: "close"): void
 }>()
 
-/// 表单数据
+/// Form data
 const entityForm = ref<ICreateTenant>({
   tenantId: randomTenantId(),
   logo: "",
@@ -240,7 +240,7 @@ const entityForm = ref<ICreateTenant>({
   adminPwd: ""
 })
 
-/// 表单数据
+/// Form data
 const adminResult = ref<ICreateTenantAdmin>({
   adminNickname: "",
   adminUsername: "",
@@ -253,7 +253,7 @@ const entityFormRef = ref<FormInstance | null>(null)
 
 const tenantIdValidator = (rule: any, value: any, callback: any) => {
   if (!/^\w{4,12}$/.test(value)) {
-    callback(new Error("只能是字母和数字，长度4~12位!"))
+    callback(new Error("Letters and numbers only, 4 to 12 characters!"))
   } else {
     callback()
   }
@@ -261,7 +261,7 @@ const tenantIdValidator = (rule: any, value: any, callback: any) => {
 
 const emailValidator = (rule: any, value: any, callback: any) => {
   if (!isEmail(value)) {
-    callback(new Error("邮箱格式不正确!"))
+    callback(new Error("Invalid email address!"))
   } else {
     callback()
   }
@@ -269,33 +269,33 @@ const emailValidator = (rule: any, value: any, callback: any) => {
 
 const telphoneValidator = (rule: any, value: any, callback: any) => {
   if (!isTelphone(value)) {
-    callback(new Error("手机或者电话号码格式不正确!"))
+    callback(new Error("Invalid mobile or phone number!"))
   } else {
     callback()
   }
 }
 
-/// 表单校验规则
+/// Form validation rules
 const entityFormRules: FormRules = {
   tenantId: [
-    { required: true, message: "请输入租户ID", trigger: "blur" },
+    { required: true, message: "Enter a tenant ID", trigger: "blur" },
     { validator: tenantIdValidator, trigger: "blur" }
   ],
-  logo: [{ required: true, message: "请上传租户Logo", trigger: "blur" }],
-  name: [{ required: true, message: "请输入名称", trigger: "blur" }],
+  logo: [{ required: true, message: "Upload a tenant Logo", trigger: "blur" }],
+  name: [{ required: true, message: "Enter a name", trigger: "blur" }],
   email: [
-    { required: true, message: "请输入邮箱", trigger: "blur" },
+    { required: true, message: "Enter an email", trigger: "blur" },
     { validator: emailValidator, trigger: "blur" }
   ],
-  linkman: [{ required: true, message: "请输入联系人", trigger: "blur" }],
+  linkman: [{ required: true, message: "Enter a contact person", trigger: "blur" }],
   contactNumber: [
-    { required: true, message: "请输入联系方式", trigger: "blur" },
+    { required: true, message: "Enter contact details", trigger: "blur" },
     { validator: telphoneValidator, trigger: "blur" }
   ],
-  areaCode: [{ required: true, message: "请选择行政区域", trigger: "blur" }],
-  address: [{ required: true, message: "请输入联系地址", trigger: "blur" }],
-  status: [{ required: true, message: "请输入状态", trigger: "blur" }],
-  templates: [{ required: true, message: "请选择租户模板", trigger: "blur" }]
+  areaCode: [{ required: true, message: "Select an area", trigger: "blur" }],
+  address: [{ required: true, message: "Enter an address", trigger: "blur" }],
+  status: [{ required: true, message: "Enter a status", trigger: "blur" }],
+  templates: [{ required: true, message: "Select a tenant template", trigger: "blur" }]
 }
 
 const entityTemplates = computed({
@@ -317,7 +317,7 @@ const entityTemplates = computed({
   }
 })
 
-// 重置 Entity 属性
+// Reset entity fields
 const resetEntity = () => {
   active.value = 0
   entityForm.value = {
@@ -375,7 +375,7 @@ const next = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "添加租户成功！",
+                message: "Tenant added",
                 type: "success"
               })
               adminResult.value = resp.data

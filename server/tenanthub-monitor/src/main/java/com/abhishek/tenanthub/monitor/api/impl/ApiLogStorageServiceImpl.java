@@ -39,7 +39,7 @@ public class ApiLogStorageServiceImpl implements ApiLogStorageService {
 
 
     public ApiLogStorageServiceImpl(LmsLoginLogService loginLogService, LmsOperLogService operLogService) {
-        // 批量操作队列。100条数据，或者10秒钟提交一次
+        // Batch queue: flushes every 100 records or every 10 seconds
         loginLogQueueHandler = FQueueRegistry.buildFQueue(LoginLogDTO.class)
                 .fanOut(2)
                 .batch()
@@ -49,7 +49,7 @@ public class ApiLogStorageServiceImpl implements ApiLogStorageService {
                 .done()
                 .consume(list -> {
                     var start = System.currentTimeMillis();
-                    // 根据 索引名称 分组
+                    // Group by index name
                     list.stream()
                             .collect(Collectors.groupingBy(LoginLogDTO::getTenantId))
                             .forEach((tenantId, values) -> {
@@ -64,7 +64,7 @@ public class ApiLogStorageServiceImpl implements ApiLogStorageService {
                                 }
                             });
                     var end = System.currentTimeMillis() - start;
-                    log.info("批量保存登录日志 数量: {} , 耗时: {} ms", list.size(), end);
+                    log.info("Batch-saved login logs, count: {}, took: {} ms", list.size(), end);
                 });
 
         operLogQueueHandler = FQueueRegistry.buildFQueue(OperLogDTO.class)
@@ -76,7 +76,7 @@ public class ApiLogStorageServiceImpl implements ApiLogStorageService {
                 .done()
                 .consume(list -> {
                     var start = System.currentTimeMillis();
-                    // 根据 索引名称 分组
+                    // Group by index name
                     list.stream()
                             .collect(Collectors.groupingBy(OperLogDTO::getTenantId))
                             .forEach((tenantId, values) -> {
@@ -93,7 +93,7 @@ public class ApiLogStorageServiceImpl implements ApiLogStorageService {
                                 }
                             });
                     var end = System.currentTimeMillis() - start;
-                    log.info("批量保存操作日志 数量: {} , 耗时: {}ms", list.size(), end);
+                    log.info("Batch-saved operation logs, count: {}, took: {}ms", list.size(), end);
                 });
     }
 

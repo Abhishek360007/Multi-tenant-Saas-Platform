@@ -7,7 +7,7 @@ import lombok.ToString;
 
 /**
  * <p>
- * 查询类型
+ * Query type
  * </p>
  *
  * @author Wang Chen Chen
@@ -19,15 +19,15 @@ import lombok.ToString;
 @ToString
 public enum QueryTypeEnum {
 
-    YEAR("year", "年"),
+    YEAR("year", "Year"),
 
-    QUARTER("quarter", "季度"),
+    QUARTER("quarter", "Quarter"),
 
-    MONTH("month", "月"),
+    MONTH("month", "Month"),
 
-    WEEK("week", "周"),
+    WEEK("week", "Week"),
 
-    DAY("date", "日");
+    DAY("date", "Day");
 
     QueryTypeEnum(String code, String description) {
         this.code = code;

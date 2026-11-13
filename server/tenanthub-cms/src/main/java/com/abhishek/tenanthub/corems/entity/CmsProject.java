@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 项目表
+ * Project table
  * </p>
  *
  * @author Wang Chen Chen
@@ -28,7 +28,7 @@ import lombok.experimental.Accessors;
  * @date 2023/10/10 9:31
  */
 
-@Schema(description = "项目")
+@Schema(description = "Project")
 @TableName("cms_project")
 @Getter
 @Setter
@@ -39,79 +39,79 @@ import lombok.experimental.Accessors;
 public class CmsProject extends ParamBaseEntity {
 
     /**
-     * 项目ID
+     * Project ID
      */
-    @Schema(description = "项目ID")
+    @Schema(description = "Project ID")
     @TableId(type = IdType.AUTO)
-    @NotNull(message = "项目ID,必须填写", groups = {ValidUpdate.class, ValidDelete.class})
+    @NotNull(message = "Project ID is required", groups = {ValidUpdate.class, ValidDelete.class})
     private Long projectId;
 
     /**
-     * 项目名称
+     * Project name
      */
-    @Schema(description = "项目名称")
-    @NotEmpty(message = "项目名称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Project name")
+    @NotEmpty(message = "Project name is required", groups = {ValidCreate.class})
     private String projectName;
 
     /**
-     * 联系人名称
+     * Contact name
      */
-    @Schema(description = "联系人名称")
-    @NotEmpty(message = "联系人名称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Contact name")
+    @NotEmpty(message = "Contact name is required", groups = {ValidCreate.class})
     private String linkman;
 
     /**
-     * 联系电话
+     * Contact number
      */
-    @Schema(description = "联系电话")
-    @NotEmpty(message = "联系电话,必须填写", groups = {ValidCreate.class})
-    @Pattern(regexp = RegexConst.TEL_PHONE, message = "联系电话,格式错误", groups = {ValidCreate.class, ValidUpdate.class})
+    @Schema(description = "Contact number")
+    @NotEmpty(message = "Contact number is required", groups = {ValidCreate.class})
+    @Pattern(regexp = RegexConst.TEL_PHONE, message = "Contact number is invalid", groups = {ValidCreate.class, ValidUpdate.class})
     private String contactNumber;
 
     /**
-     * 行政地址
+     * Address area
      */
-    @Schema(description = "行政地址")
-    @NotNull(message = "行政地址,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Address area")
+    @NotNull(message = "Area is required", groups = {ValidCreate.class})
     private Long areaCode;
 
     /**
-     * 联系地址 如：左右云创谷1栋A座
+     * Address, e.g. 12 MG Road, Block A
      */
-    @Schema(description = "联系地址")
-    @NotEmpty(message = "联系地址,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Address")
+    @NotEmpty(message = "Address is required", groups = {ValidCreate.class})
     private String address;
 
     /**
-     * 排序
+     * Sort order
      */
-    @Schema(description = "排序")
+    @Schema(description = "Sort order")
     private Long sort;
 
     /**
-     * 项目密码，做一些危险操作时，使用
+     * Project password, required for dangerous operations
      */
-    @Schema(description = "项目密码，做一些危险操作时，使用")
-    @NotEmpty(message = "项目密码,必须填写", groups = {ValidDelete.class})
+    @Schema(description = "Project password, required for dangerous operations")
+    @NotEmpty(message = "Project password is required", groups = {ValidDelete.class})
     private String password;
 
     /**
-     * 状态 【0.禁用 1.正常 2.锁定 】
+     * Status [0 = disabled, 1 = normal, 2 = locked]
      */
-    @Schema(description = "状态 【0.禁用 1.正常 2.锁定 】")
+    @Schema(description = "Status [0 = disabled, 1 = normal, 2 = locked]")
     private Byte status;
 
     /**
-     * 所属部门
+     * Department
      */
-    @Schema(description = "所属部门Id")
-    @NotNull(message = "所属部门Id,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Department Id")
+    @NotNull(message = "Department ID is required", groups = {ValidCreate.class})
     private Long deptId;
 
     /**
-     * 所属部门
+     * Department
      */
-    @Schema(description = "所属部门")
+    @Schema(description = "Department")
     @TableField(exist = false)
     private PmsDeptDTO dept;
 

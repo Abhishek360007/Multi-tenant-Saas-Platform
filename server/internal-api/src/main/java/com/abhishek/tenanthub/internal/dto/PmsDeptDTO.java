@@ -31,59 +31,59 @@ import lombok.experimental.Accessors;
 public class PmsDeptDTO implements java.io.Serializable {
 
     /**
-     * 部门 ID
+     * Department ID
      */
-    @Schema(description = "部门ID")
-    @NotNull(message = "部门ID,必须填写", groups = {ValidUpdate.class})
+    @Schema(description = "Department ID")
+    @NotNull(message = "Department ID is required", groups = {ValidUpdate.class})
     private Long deptId;
 
     /**
-     * 部门上级
+     * Parent department
      */
-    @Schema(description = "上级部门ID")
-    @NotNull(message = "上级部门ID,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Parent department ID")
+    @NotNull(message = "Parent department ID is required", groups = {ValidCreate.class})
     private Long parentId;
 
     /**
-     * 部门 名称
+     * Department name
      */
-    @Schema(description = "部门名称")
-    @NotBlank(message = "部门名称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Department name")
+    @NotBlank(message = "Department name is required", groups = {ValidCreate.class})
     private String deptName;
 
     /**
-     * 部门 领导名称
+     * Department leader name
      */
-    @Schema(description = "领导名称")
-    @NotBlank(message = "领导名称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Leader name")
+    @NotBlank(message = "Leader name is required", groups = {ValidCreate.class})
     private String leader;
 
     /**
-     * 部门 领导手机号
+     * Department leader mobile
      */
-    @Schema(description = "领导手机号")
-    @NotBlank(message = "领导手机号,必须填写", groups = {ValidCreate.class})
-    @Pattern(regexp = RegexConst.MOBILE, message = "领导手机号,格式错误", groups = {ValidCreate.class, ValidUpdate.class})
+    @Schema(description = "Leader mobile number")
+    @NotBlank(message = "Leader mobile number is required", groups = {ValidCreate.class})
+    @Pattern(regexp = RegexConst.MOBILE, message = "Leader mobile number is invalid", groups = {ValidCreate.class, ValidUpdate.class})
     private String leaderMobile;
 
     /**
-     * 排序
+     * Sort order
      */
-    @Schema(description = "排序")
-    @NotNull(message = "部门排序,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Sort order")
+    @NotNull(message = "Department sort order is required", groups = {ValidCreate.class})
     private Long sort;
 
     /**
-     * 部门描述
+     * Department description
      */
-    @Schema(description = "部门描述")
-    @NotBlank(message = "部门描述,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Department description")
+    @NotBlank(message = "Department description is required", groups = {ValidCreate.class})
     private String description;
 
     /**
-     * 祖级列表
+     * Ancestor list
      */
-    @Schema(description = "祖级列表")
+    @Schema(description = "Ancestor list")
     @JsonIgnore
     private String ancestors;
 

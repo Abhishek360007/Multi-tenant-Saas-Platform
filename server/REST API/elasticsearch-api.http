@@ -1,24 +1,24 @@
-### 查询索引
+### Query index
 GET {{esUrl}}/_cat/indices?v
 Content-Type: application/json
 
 
-### 索引排序
+### Index sorting
 GET {{esUrl}}/_cat/indices/master_*?v&s=docs.count:desc
 Content-Type: application/json
 
 
-### 查询索引映射
-GET {{esUrl}}/google_dms_device_log
+### Query index mappings
+GET {{esUrl}}/globex_dms_device_log
 Content-Type: application/json
 
 
-### 删除索引
+### Delete index
 DELETE {{esUrl}}/master_lms_login_log
 Content-Type: application/json
 
 
-### 修改索引，默认分片和副本
+### Update index default shards and replicas
 POST {{esUrl}}/_template/default_template
 Content-Type: application/json
 
@@ -34,8 +34,8 @@ Content-Type: application/json
 
 
 
-### 查询索引映射
-GET {{esUrl}}/google_lms_oper_log/_search
+### Query index mappings
+GET {{esUrl}}/globex_lms_oper_log/_search
 Content-Type: application/json
 
 {

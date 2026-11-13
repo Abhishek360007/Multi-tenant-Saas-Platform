@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
 
 
 /**
- * TODO 初始化 租户的表结构
+ * TODO Initialize the tenant tables
  * <p>
- *     一定要在
+ *     Must run after
  *     @see com.abhishek.tenanthub.corems.runner.ProjectTableRunner.run()
- *     方法之后初始化
+ *     the method
  * </p>
  *
  * @author WangChenChen
@@ -58,7 +58,7 @@ public class TenantTableRunner {
         var props = databaseManager.getMultiTenantProperties();
         if (props.getEnable()) {
             log.info("ignore tenant_id intercept table name : \n{}", JsonUtils.toJson(MbpConst.TENANT_IGNORE_TABLES));
-            // 获取默认租户Id
+            // Get the default tenant Id
             var defaultTenantId = props.getDefaultTenantId();
             var wrapper = new LambdaQueryWrapper<SysTenant>()
                     .select(List.of(SysTenant::getTenantId, SysTenant::getLogo,
@@ -72,7 +72,7 @@ public class TenantTableRunner {
                     .map(SmallTenant::getTenantId)
                     .collect(Collectors.toSet());
 
-            // 是否创建表结构
+            // Create tables
             if (props.getCreateTable()) {
                 var newTenantIds = new HashSet<>(tenantIds);
                 newTenantIds.remove(defaultTenantId);

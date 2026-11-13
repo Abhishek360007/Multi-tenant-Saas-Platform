@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 租户数据
+ * Tenant data
  * </p>
  *
  * @author Wang Chen Chen
@@ -24,13 +24,13 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class TenantSimpleDataVO implements java.io.Serializable {
 
-    @Schema(description = "租户ID")
+    @Schema(description = "Tenant ID")
     private String tenantId;
 
-    @Schema(description = "租户名称")
+    @Schema(description = "Tenant name")
     private String name;
 
-    @Schema(description = "租户logo")
+    @Schema(description = "Tenant logo")
     private String logo;
 
 }

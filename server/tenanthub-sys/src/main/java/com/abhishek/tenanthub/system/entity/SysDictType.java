@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 字典类型表
+ * Dictionary type table
  * </p>
  *
  * @author Wang Chen Chen
@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
  * @date 2021/7/15 10:42
  */
 
-@Schema(description = "字典类型")
+@Schema(description = "Dictionary type")
 @TableName("sys_dict_type")
 @Getter
 @Setter
@@ -33,32 +33,32 @@ import lombok.experimental.Accessors;
 public class SysDictType extends BaseEntity {
 
     /**
-     * 字典类型 ID
+     * Dictionary type ID
      */
-    @Schema(description = "字典类型 ID")
+    @Schema(description = "Dictionary type ID")
     @TableId(type = IdType.AUTO)
-    @NotNull(message = "字典类型ID,必须填写", groups = {ValidUpdate.class})
+    @NotNull(message = "Dictionary type ID is required", groups = {ValidUpdate.class})
     private Long typeId;
 
     /**
-     * 字典类型名
+     * Dictionary type name
      */
-    @Schema(description = "类型名")
-    @NotEmpty(message = "类型名,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Type name")
+    @NotEmpty(message = "Type name is required", groups = {ValidCreate.class})
     private String typeName;
 
     /**
-     * 字典类型关键字
+     * Dictionary type key
      */
-    @Schema(description = "关键字")
-    @NotEmpty(message = "关键字,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Keyword")
+    @NotEmpty(message = "Key is required", groups = {ValidCreate.class})
     private String typeKey;
 
     /**
-     * 字典描述
+     * Dictionary description
      */
-    @Schema(description = "描述")
-    @NotEmpty(message = "描述,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Description")
+    @NotEmpty(message = "Description is required", groups = {ValidCreate.class})
     private String description;
 
 }

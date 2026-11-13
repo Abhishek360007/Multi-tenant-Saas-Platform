@@ -31,7 +31,7 @@
     </sql>
 
 
-    <!--    查询租户所有权限-->
+    <!--    Query all tenant permissions-->
     <select id="selectByTenantId" resultMap="BaseResultMap">
         SELECT m.*
         FROM sys_menu AS m
@@ -41,7 +41,7 @@
     </select>
 
 
-    <!--    查询租户所有权限-->
+    <!--    Query all tenant permissions-->
     <select id="selectPermsByTenantId" resultType="java.lang.String">
         SELECT m.perms
         FROM sys_menu AS m

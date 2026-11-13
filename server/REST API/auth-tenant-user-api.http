@@ -1,14 +1,14 @@
-## 安全认证
+## Authentication
 
-### 获取验证码
+### Get captcha
 ###  http://localhost:18891/auth/captcha/codes?codeKey=sNHnDNSliZe7ynOLem
 GET {{baseUrl}}/auth/captcha/codes?codeKey=sNHnDNSliZe7ynOLem
 
 
-### [google]密码模式登录
+### [globex] Password login
 POST {{baseUrl}}/auth/login
 Content-Type: application/json
-x-tenant-id: google
+x-tenant-id: globex
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0
 
 {
@@ -24,34 +24,34 @@ client.global.set("refreshToken", response.body.data.refresh_token);
 %}
 
 
-### 退出登录
+### Sign out
 POST {{baseUrl}}/auth/logout
 Content-Type: application/json
-x-tenant-id: google
+x-tenant-id: globex
 x-project-id: 10003
 Authorization: Bearer {{tokenValue}}
 
 
-### 刷新token
+### Refresh token
 GET {{baseUrl}}/auth/refresh
 Content-Type: application/json
-x-tenant-id: google
+x-tenant-id: globex
 Authorization: Bearer {{tokenValue}}
 
 
-### 获取登录的用户信息
+### Get the signed-in user
 GET {{baseUrl}}/auth/login/user
 Content-Type: application/json
-x-tenant-id: google
+x-tenant-id: globex
 x-project-id: 10003
 Authorization: Bearer {{tokenValue}}
 
 
 
-### 获取 项目列表
+### Get the project list
 GET {{baseUrl}}/cms/project/simple/query?pageIndex=1&pageSize=5&keywords=
 Content-Type: application/json
-x-tenant-id: google
+x-tenant-id: globex
 x-project-id: 10002
 Authorization: Bearer {{tokenValue}}
 

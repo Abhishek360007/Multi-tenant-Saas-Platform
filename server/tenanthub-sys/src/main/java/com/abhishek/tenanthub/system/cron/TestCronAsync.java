@@ -53,11 +53,11 @@ public class TestCronAsync {
             var ind = count1.decrementAndGet();
             var msg = new SimpPushMessage()
                     .setId(IdUtils.getStandaloneId())
-                    .setTitle(String.format("广播消息=>%d", RandomUtil.randomInt(10000, 99999)))
+                    .setTitle(String.format("Broadcast message=>%d", RandomUtil.randomInt(10000, 99999)))
                     .setContent(randomChinese(20))
                     .setCreateTime(LocalDateTime.now());
             var json = JsonUtils.toJson(msg);
-            // 广播通知  给所有用户
+            // Broadcast to all users
             messagingTemplate.convertAndSend(BROADCAST_NOTICE, json);
             if (ind == 1) {
                 count2.set(8760);
@@ -75,11 +75,11 @@ public class TestCronAsync {
         tokenService.mapAllLoginUser().forEach((userId, user) -> {
             var msg = new SimpPushMessage()
                     .setId(IdUtils.getStandaloneId())
-                    .setTitle(String.format("推送消息=>%d", RandomUtil.randomInt(10000, 99999)))
+                    .setTitle(String.format("Push message=>%d", RandomUtil.randomInt(10000, 99999)))
                     .setContent(randomChinese(20))
                     .setCreateTime(LocalDateTime.now());
             var json = JsonUtils.toJson(msg);
-            // 推送给指定用户 ,  /user/queue/single/push
+            // Push to a specific user ,  /user/queue/single/push
             messagingTemplate.convertAndSendToUser(user.getLoginId(), QUEUE_SINGLE_PUSH, json);
             if (ind == 1) {
                 count2.set(8760);

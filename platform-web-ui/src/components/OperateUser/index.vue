@@ -28,11 +28,11 @@ import { ref } from "vue"
 import { showTimeAgo, showStringOverflow } from "@/hooks/useIndex"
 import { IOperateUserEntity } from "@/types/base"
 
-// 操作用户信息
+// Operator details
 interface IPropsEntity {
-  /** 操作时间 */
+  /** Operated at */
   dateTime?: string
-  /** 操作的用户信息 */
+  /** Operator details */
   entity?: IOperateUserEntity
 }
 

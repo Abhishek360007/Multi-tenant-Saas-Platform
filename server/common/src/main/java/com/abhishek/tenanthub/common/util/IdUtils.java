@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>
- * Twitter 魔改的 雪花ID 算法
+ * Twitter Modified snowflake ID algorithm
  * </p>
  *
  * @author Wang Chen Chen
@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class IdUtils {
 
     static {
-        // workerId 范围 1~63。
+        // workerId Range 1 to 63.
         var workerId = (short) RandomUtil.randomInt(1, 63);
         log.info("IdUtils random workerId: {}", workerId);
         var options = new IdGeneratorOptions(workerId);
@@ -30,7 +30,7 @@ public class IdUtils {
 
 
     /**
-     * [单机版] 雪花ID
+     * [Standalone] snowflake ID
      */
     public static long getStandaloneId() {
         return YitIdHelper.nextId();
@@ -38,7 +38,7 @@ public class IdUtils {
 
 
     /**
-     * [单机版] 雪花ID
+     * [Standalone] snowflake ID
      */
     public static String getStandaloneStrId() {
         return String.valueOf(YitIdHelper.nextId());

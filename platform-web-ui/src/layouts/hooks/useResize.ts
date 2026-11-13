@@ -3,21 +3,21 @@ import {useAppStore} from "@/store/modules/app"
 import {useRouteListener} from "@/hooks/useRouteListener"
 import {DeviceEnum} from "@/constants/app-key"
 
-/** 参考 Bootstrap 的响应式设计将最大移动端宽度设置为 992 */
+/** Following Bootstrap responsive breakpoints, the maximum mobile width is 992 */
 const MAX_MOBILE_WIDTH = 992
 
-/** 根据浏览器宽度变化，变换 Layout 布局 */
+/** Switch layout when the browser width changes */
 export default () => {
   const appStore = useAppStore()
   const { listenerRouteChange } = useRouteListener()
 
-  /** 用于判断当前设备是否为移动端 */
+  /** Whether the current device is mobile */
   const _isMobile = () => {
     const rect = document.body.getBoundingClientRect()
     return rect.width - 1 < MAX_MOBILE_WIDTH
   }
 
-  /** 用于处理窗口大小变化事件 */
+  /** Handle window resize */
   const _resizeHandler = () => {
     if (!document.hidden) {
       const isMobile = _isMobile()
@@ -25,19 +25,19 @@ export default () => {
       isMobile && appStore.closeSidebar(true)
     }
   }
-  /** 监听路由变化，根据设备类型调整布局 */
+  /** Adjust the layout to the device type on route change */
   listenerRouteChange(() => {
     if (appStore.device === DeviceEnum.Mobile && appStore.sidebar.opened) {
       appStore.closeSidebar(false)
     }
   })
 
-  /** 在组件挂载前添加窗口大小变化事件监听器 */
+  /** Add the window resize listener before mount */
   onBeforeMount(() => {
     window.addEventListener("resize", _resizeHandler)
   })
 
-  /** 在组件挂载后根据窗口大小判断设备类型并调整布局 */
+  /** Detect the device type from the window size after mount and adjust the layout */
   onMounted(() => {
     if (_isMobile()) {
       appStore.toggleDevice(DeviceEnum.Mobile)
@@ -45,7 +45,7 @@ export default () => {
     }
   })
 
-  /** 在组件卸载前移除窗口大小变化事件监听器 */
+  /** Remove the window resize listener before unmount */
   onBeforeUnmount(() => {
     window.removeEventListener("resize", _resizeHandler)
   })

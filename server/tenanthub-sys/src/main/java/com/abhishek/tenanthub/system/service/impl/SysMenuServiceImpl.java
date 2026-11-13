@@ -46,7 +46,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu>
     @Override
     public boolean save(SysMenu entity) {
         if (this.exist(SysMenu::getPerms, entity.getPerms())) {
-            throw new BizException(String.format("权限标识: %s 已经存在了", entity.getPerms()));
+            throw new BizException(String.format("Permission key %s already exists", entity.getPerms()));
         }
         return super.save(entity);
     }
@@ -58,7 +58,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu>
                 .eq(SysMenu::getPerms, entity.getPerms())
                 .ne(SysMenu::getMenuId, entity.getMenuId());
         if (this.exist(wrapper)) {
-            throw new BizException(String.format("权限标识: %s 已经存在了", entity.getPerms()));
+            throw new BizException(String.format("Permission key %s already exists", entity.getPerms()));
         }
         return super.updateById(entity);
     }
@@ -69,10 +69,10 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu>
     public boolean removeById(Serializable id) {
         Long mid = Long.valueOf(id.toString());
         if (baseMapper.haveChildren(mid) > 0) {
-            throw new BizException("当前菜单有子菜单引用！无法删除！");
+            throw new BizException("This menu has child menus and cannot be deleted");
         }
         if (baseMapper.templateReference(mid) > 0) {
-            throw new BizException("当前菜单有权限模板引用！无法删除！");
+            throw new BizException("This menu is used by a permission template and cannot be deleted");
         }
         return super.removeById(id);
     }
@@ -89,10 +89,10 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu>
         var wrapper = new LambdaQueryWrapper<SysMenu>();
         wrapper.select(SysMenu::getMenuId, SysMenu::getParentId, SysMenu::getMenuName, SysMenu::getSort);
         if (isMasterUser()) {
-            // 如果是系统用户，那么就获取，非租户的所有菜单
+            // Platform users get all non-tenant menus
             wrapper.ne(SysMenu::getTarget, TENANT.getCode());
         } else {
-            // 如果是租户用户，那么就获取，非系统的所有菜单
+            // Tenant users get all non-platform menus
             wrapper.ne(SysMenu::getTarget, SYSTEM.getCode());
         }
         var list = baseMapper.selectList(wrapper);

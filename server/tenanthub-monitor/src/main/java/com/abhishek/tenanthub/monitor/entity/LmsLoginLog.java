@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 登录日志
+ * Login log
  * </p>
  *
  * @author WangChenChen
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  * @date 2023/2/6 15:27
  */
 
-@Schema(description = "用户登录日志")
+@Schema(description = "User login log")
 @TableName("lms_login_log")
 @Getter
 @Setter
@@ -36,74 +36,74 @@ public class LmsLoginLog implements java.io.Serializable {
     private String id;
 
     /**
-     * 授权类型
+     * Grant type
      */
-    @Schema(description = "授权类型")
+    @Schema(description = "Grant type")
     private String grantType;
 
     /**
-     * 用户ID
+     * User ID
      */
-    @Schema(description = "用户ID")
+    @Schema(description = "User ID")
     private Long userId;
 
     /**
-     * 用户昵称
+     * User nickname
      */
-    @Schema(description = "用户昵称")
+    @Schema(description = "User nickname")
     private String nickname;
 
     /**
-     * 用户名
+     * Username
      */
-    @Schema(description = "用户名")
+    @Schema(description = "Username")
     private String username;
 
     /**
-     * 头像
+     * Avatar
      */
-    @Schema(description = "用户头像")
+    @Schema(description = "User avatar")
     private String avatar;
 
     /**
-     * 请求地址
+     * Request URL
      */
-    @Schema(description = "请求URL")
+    @Schema(description = "Request URL")
     private String requestUrl;
 
     /**
-     * 请求IP
+     * Request IP
      */
-    @Schema(description = "请求IP")
+    @Schema(description = "Request IP")
     private String requestIp;
 
     /**
-     * 请求地址
+     * Request URL
      */
-    @Schema(description = "请求地址")
+    @Schema(description = "Request URL")
     private String address;
 
     /**
-     * 操作系统
+     * Operating system
      */
-    @Schema(description = "操作系统")
+    @Schema(description = "Operating system")
     private String osName;
 
     /**
-     * 浏览器
+     * Browser
      */
-    @Schema(description = "浏览器")
+    @Schema(description = "Browser")
     private String browser;
 
     /**
-     * 创建时间
+     * Created at
      */
-    @Schema(description = "创建时间")
+    @Schema(description = "Created at")
     @TableField(fill = FieldFill.INSERT)
     protected LocalDateTime createTime;
 
     /**
-     * 租户ID
+     * Tenant ID
      */
     @TableField(exist = false)
     @JsonIgnore

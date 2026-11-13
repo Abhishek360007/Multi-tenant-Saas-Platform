@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 租户
+ * Tenant
  * </p>
  *
  * @author Wang Chen Chen
@@ -23,28 +23,28 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class InitUserDTO implements java.io.Serializable {
 
-    // 租户 ID
+    // Tenant ID
     private String tenantId;
 
-    //  租户名称必须填写！
+    //  Tenant name is required
     private String name;
 
-    //  租户名称必须填写！
+    //  Tenant name is required
     private String logo;
 
-    // 管理员名称！如果不填写，默认是商户名称！
+    // Admin name. Defaults to the tenant name if empty.
     private String adminNickname;
 
-    // 管理员登录用户名,如果不填写，随机生成！
+    // Admin login username. Randomly generated if empty.
     private String adminUsername;
 
-    // 管理员手机号,如果不填写，默认使用商户联系人手机号！
+    // Admin mobile number. Defaults to the tenant contact number if empty.
     private String adminMobile;
 
-    // 管理员邮箱,如果不填写，默认使用商户邮箱！
+    // Admin email. Defaults to the tenant email if empty.
     private String adminEmail;
 
-    // 管理员密码,如果不填写，默认使用默认密码！
+    // Admin password. A random one-time password is generated if empty.
     private String adminPwd;
 
 }

@@ -3,13 +3,13 @@
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="params">
         <el-form-item>
-          <el-input v-model="params.keywords" clearable placeholder="根据 字典名称 搜索" />
+          <el-input v-model="params.keywords" clearable placeholder="Search by dictionary name" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :icon="Search" @click="searchTableData">搜索</el-button>
+          <el-button type="primary" :icon="Search" @click="searchTableData">Search</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="success" :icon="Plus" @click="handleAdd()">新增</el-button>
+          <el-button type="success" :icon="Plus" @click="handleAdd()">Add</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -17,16 +17,16 @@
     <el-card shadow="never">
       <div class="toolbar-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="typeId" label="字典ID" />
-          <el-table-column prop="typeName" label="字典名称" />
-          <el-table-column prop="typeKey" label="字典关键字">
+          <el-table-column prop="typeId" label="Dictionary ID" />
+          <el-table-column prop="typeName" label="Dictionary name" />
+          <el-table-column prop="typeKey" label="Dictionary key">
             <template #default="scope">
               <router-link :to="{ path: '/sys/dict/data', query: { typeKey: scope.row.typeKey } }">
                 <el-link type="primary">{{ scope.row.typeKey }}</el-link>
               </router-link>
             </template>
           </el-table-column>
-          <el-table-column prop="description" label="字典描述">
+          <el-table-column prop="description" label="Dictionary description">
             <template #default="scope">
               <el-popover
                 placement="top-start"
@@ -41,23 +41,23 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间">
+          <el-table-column prop="createTime" label="Created at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.createTime" :entity="scope.row.createUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdateTime" label="修改时间">
+          <el-table-column prop="lastUpdateTime" label="Updated at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.lastUpdateTime" :entity="scope.row.lastUpdateUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="130">
+          <el-table-column label="Actions" width="130">
             <template #default="scope">
               <div v-admin>
-                <el-link :icon="Edit" type="warning" @click="handleEdit(scope.row)">编辑</el-link>
+                <el-link :icon="Edit" type="warning" @click="handleEdit(scope.row)">Edit</el-link>
                 &nbsp;
                 <el-link v-if="scope.row.configType !== 1" :icon="Delete" type="danger" @click="handleDelete(scope.row)"
-                  >删除</el-link
+                  >Delete</el-link
                 >
               </div>
             </template>
@@ -78,7 +78,7 @@
       </div>
     </el-card>
 
-    <!-- 新增和修改的弹窗 -->
+    <!-- Add/edit dialog -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="30%" :close-on-click-modal="false">
       <el-form
         ref="entityFormRef"
@@ -89,20 +89,20 @@
       >
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="typeName" label="字典名称">
-              <el-input v-model.trim="entityForm.typeName" placeholder="字典名称" type="text" tabindex="1" />
+            <el-form-item prop="typeName" label="Dictionary name">
+              <el-input v-model.trim="entityForm.typeName" placeholder="Dictionary name" type="text" tabindex="1" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="typeKey" label="字典KEY">
-              <el-input v-model.trim="entityForm.typeKey" placeholder="字典KEY" type="text" tabindex="1" />
+            <el-form-item prop="typeKey" label="Dictionary KEY">
+              <el-input v-model.trim="entityForm.typeKey" placeholder="Dictionary KEY" type="text" tabindex="1" />
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item prop="description" label="字典描述">
+        <el-form-item prop="description" label="Dictionary description">
           <el-input
             v-model="entityForm.description"
-            placeholder="字典描述"
+            placeholder="Dictionary description"
             show-word-limit
             type="textarea"
             :rows="5"
@@ -112,8 +112,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">确定</el-button>
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">OK</el-button>
         </span>
       </template>
     </el-dialog>
@@ -132,10 +132,10 @@ import { useDictStoreHook } from "@/store/modules/dict"
 
 const dictStore = useDictStoreHook()
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
-// true : 新增，false : 修改
+// true : add, false: edit
 const saveFlag = ref(false)
 
 const dialogVisible = ref(false)
@@ -152,7 +152,7 @@ const params = reactive({
   includeCauu: true
 })
 
-/// 表单数据
+/// Form data
 const entityForm = ref<IDictType>({
   typeId: 0,
   typeName: "",
@@ -162,14 +162,14 @@ const entityForm = ref<IDictType>({
 
 const entityFormRef = ref<FormInstance | null>(null)
 
-/// 表单校验规则
+/// Form validation rules
 const entityFormRules: FormRules = {
-  typeName: [{ required: true, message: "请输入字典名称", trigger: "blur" }],
-  typeKey: [{ required: true, message: "请输入字典关键字", trigger: "blur" }],
-  description: [{ required: true, message: "请输入字典描述", trigger: "blur" }]
+  typeName: [{ required: true, message: "Enter a dictionary name", trigger: "blur" }],
+  typeKey: [{ required: true, message: "Enter a dictionary key", trigger: "blur" }],
+  description: [{ required: true, message: "Enter a dictionary description", trigger: "blur" }]
 }
 
-// 获取数据
+// Fetch data
 const getTableData = () => {
   loading.value = true
   queryDictTypeApi(params)
@@ -185,7 +185,7 @@ const getTableData = () => {
     })
 }
 
-// 重置 Entity 属性
+// Reset entity fields
 const resetEntity = () => {
   entityForm.value = {
     typeId: 0,
@@ -210,28 +210,28 @@ const handleCurrentChange = (val: number) => {
   getTableData()
 }
 
-// 编辑
+// Edit
 const handleEdit = (data: IDictType) => {
   resetEntity()
   entityForm.value = cloneDeep(data)
-  dialogTitle.value = "修改"
+  dialogTitle.value = "Edit"
   saveFlag.value = false
   dialogVisible.value = true
 }
 
-// 新增
+// Add
 const handleAdd = () => {
   resetEntity()
-  dialogTitle.value = "新增"
+  dialogTitle.value = "Add"
   saveFlag.value = true
   dialogVisible.value = true
 }
 
-// 删除
+// Delete
 const handleDelete = (data: IDictType) => {
-  ElMessageBox.confirm(`确要删除 ${data.typeName} 吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(`Delete ${data.typeName}?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
@@ -239,7 +239,7 @@ const handleDelete = (data: IDictType) => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `删除 ${data.typeName} 成功！`,
+              message: `Deleted ${data.typeName}`,
               type: "success"
             })
           }
@@ -257,7 +257,7 @@ const handleDelete = (data: IDictType) => {
     })
 }
 
-// 新增和修改
+// Add and edit
 const handleSaveAndFlush = () => {
   entityFormRef.value?.validate((valid: boolean) => {
     if (valid) {
@@ -267,7 +267,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "新增字典成功！",
+                message: "Dictionary added",
                 type: "success"
               })
             }
@@ -286,7 +286,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "修改字典成功！",
+                message: "Dictionary updated",
                 type: "success"
               })
             }

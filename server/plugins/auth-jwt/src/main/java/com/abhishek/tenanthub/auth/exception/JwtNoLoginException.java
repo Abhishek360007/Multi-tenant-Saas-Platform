@@ -8,7 +8,7 @@ import org.springframework.security.core.AuthenticationException;
 
 /**
  * <p>
- * 认证异常
+ * Authentication error
  * </p>
  *
  * @author Wang Chen Chen

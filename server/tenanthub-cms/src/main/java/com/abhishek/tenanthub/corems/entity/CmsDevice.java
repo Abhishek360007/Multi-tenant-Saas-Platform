@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 设备表
+ * Device table
  * </p>
  *
  * @author Wang Chen Chen
@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
  * @date 2023/10/25 9:31
  */
 
-@Schema(description = "设备")
+@Schema(description = "Device")
 @TableName("cms_device")
 @Getter
 @Setter
@@ -33,25 +33,25 @@ import lombok.experimental.Accessors;
 public class CmsDevice extends ProjectBaseEntity {
 
     /**
-     * 设备 ID
+     * Device ID
      */
-    @Schema(description = "设备ID")
+    @Schema(description = "Device ID")
     @TableId(type = IdType.ASSIGN_ID)
-    @NotNull(message = "设备ID,必须填写", groups = {ValidUpdate.class})
+    @NotNull(message = "Device ID is required", groups = {ValidUpdate.class})
     private Long deviceId;
 
     /**
-     * 设备名称
+     * Device name
      */
-    @Schema(description = "设备名称")
-    @NotNull(message = "设备名称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Device name")
+    @NotNull(message = "Device name is required", groups = {ValidCreate.class})
     private String deviceName;
 
     /**
-     * 状态 【0.禁用 1.正常 2.锁定 】
+     * Status [0 = disabled, 1 = normal, 2 = locked]
      */
-    @Schema(description = "状态 【0.禁用 1.正常 2.锁定 】")
-    @NotNull(message = "状态,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Status [0 = disabled, 1 = normal, 2 = locked]")
+    @NotNull(message = "Status is required", groups = {ValidCreate.class})
     private Byte status;
 
 }

@@ -6,36 +6,36 @@ import { setCurrentTenant as setTenant, getCurrentTenant as getTenant } from "@/
 import { defaultTenant } from "@/utils"
 
 export const useTenantStore = defineStore("tenant", () => {
-  // 当前租户
+  // Current tenant
   const currentTenant = ref<ISimpleTenant>(getTenant())
 
-  // 获取当前租户
+  // Get current tenant
   const getCurrentTenantId = (): string => {
     return getCurrentTenant().tenantId
   }
 
-  // 获取默认租户
+  // Get the default tenant
   const getDefaultTenantId = (): string => {
     return defaultTenant.tenantId
   }
 
-  // 获取当前租户
+  // Get current tenant
   const getCurrentTenant = (): ISimpleTenant => {
     return currentTenant.value
   }
 
-  // 设置当前租户信息
+  // Set the current tenant
   const setCurrentTenant = (tenant: ISimpleTenant): void => {
     currentTenant.value = tenant
     setTenant(tenant)
   }
 
-  // 重置当前操作的租户
+  // Reset the current tenant
   const resetCurrentTenant = (): void => {
     setCurrentTenant(defaultTenant)
   }
 
-  // 获取当前租户
+  // Get current tenant
   const isDefaultTenantId = (): boolean => {
     return getCurrentTenantId() === getDefaultTenantId()
   }
@@ -50,7 +50,7 @@ export const useTenantStore = defineStore("tenant", () => {
   }
 })
 
-/** 在 setup 外使用 */
+/** Use outside setup */
 export function useTenantStoreHook() {
   return useTenantStore(store)
 }

@@ -3,13 +3,13 @@
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="params">
         <el-form-item>
-          <el-input v-model="params.keywords" clearable placeholder="根据 名称 搜索" />
+          <el-input v-model="params.keywords" clearable placeholder="Search by name" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :icon="Search" @click="searchTableData">搜索</el-button>
+          <el-button type="primary" :icon="Search" @click="searchTableData">Search</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="success" :icon="Plus" @click="handleAdd()">新增</el-button>
+          <el-button type="success" :icon="Plus" @click="handleAdd()">Add</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -18,30 +18,30 @@
       <div class="toolbar-wrapper">
         <el-table :data="tableData">
           <el-table-column prop="dictCode" label="ID" />
-          <el-table-column prop="dictLabel" label="名称" />
-          <el-table-column prop="dictValue" label="键值" />
-          <el-table-column prop="isDefault" label="默认">
+          <el-table-column prop="dictLabel" label="Name" />
+          <el-table-column prop="dictValue" label="Key" />
+          <el-table-column prop="isDefault" label="Default">
             <template #default="scope">
               {{ dictStore.getYesNo(scope.row.isDefault) }}
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间">
+          <el-table-column prop="createTime" label="Created at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.createTime" :entity="scope.row.createUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdateTime" label="修改时间">
+          <el-table-column prop="lastUpdateTime" label="Updated at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.lastUpdateTime" :entity="scope.row.lastUpdateUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="130">
+          <el-table-column label="Actions" width="130">
             <template #default="scope">
               <div v-admin>
-                <el-link :icon="Edit" type="warning" @click="handleEdit(scope.row)">编辑</el-link>
+                <el-link :icon="Edit" type="warning" @click="handleEdit(scope.row)">Edit</el-link>
                 &nbsp;
                 <el-link v-if="scope.row.configType !== 1" :icon="Delete" type="danger" @click="handleDelete(scope.row)"
-                  >删除</el-link
+                  >Delete</el-link
                 >
               </div>
             </template>
@@ -62,7 +62,7 @@
       </div>
     </el-card>
 
-    <!-- 新增和修改的弹窗 -->
+    <!-- Add/edit dialog -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="30%" :close-on-click-modal="false">
       <el-form
         ref="entityFormRef"
@@ -73,20 +73,20 @@
       >
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="dictLabel" label="名称">
-              <el-input v-model.trim="entityForm.dictLabel" placeholder="名称" type="text" tabindex="1" />
+            <el-form-item prop="dictLabel" label="Name">
+              <el-input v-model.trim="entityForm.dictLabel" placeholder="Name" type="text" tabindex="1" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="isDefault" label="默认">
+            <el-form-item prop="isDefault" label="Default">
               <select-dict-data v-model:value="entityForm.isDefault" dictTypeKey="sys_yes_no" />
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item prop="dictValue" label="键值">
+        <el-form-item prop="dictValue" label="Key">
           <el-input
             v-model="entityForm.dictValue"
-            placeholder="键值"
+            placeholder="Key"
             show-word-limit
             type="textarea"
             :rows="5"
@@ -96,8 +96,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">确定</el-button>
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">OK</el-button>
         </span>
       </template>
     </el-dialog>
@@ -120,10 +120,10 @@ const route = useRoute()
 
 const typeKey = route.query.typeKey as string
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
-// true : 新增，false : 修改
+// true : add, false: edit
 const saveFlag = ref(false)
 
 const dialogVisible = ref(false)
@@ -141,7 +141,7 @@ const params = reactive({
   includeCauu: true
 })
 
-/// 表单数据
+/// Form data
 const entityForm = ref<IDictData>({
   dictCode: 0,
   dictSort: 0,
@@ -153,14 +153,14 @@ const entityForm = ref<IDictData>({
 
 const entityFormRef = ref<FormInstance | null>(null)
 
-/// 表单校验规则
+/// Form validation rules
 const entityFormRules: FormRules = {
-  dictLabel: [{ required: true, message: "请输入名称", trigger: "blur" }],
-  dictValue: [{ required: true, message: "请输入键值", trigger: "blur" }],
-  isDefault: [{ required: true, message: "请输入默认", trigger: "blur" }]
+  dictLabel: [{ required: true, message: "Enter a name", trigger: "blur" }],
+  dictValue: [{ required: true, message: "Enter a value", trigger: "blur" }],
+  isDefault: [{ required: true, message: "Choose default", trigger: "blur" }]
 }
 
-// 获取数据
+// Fetch data
 const getTableData = () => {
   loading.value = true
   queryDictDataApi(params)
@@ -176,7 +176,7 @@ const getTableData = () => {
     })
 }
 
-// 重置 Entity 属性
+// Reset entity fields
 const resetEntity = () => {
   entityForm.value = {
     dictCode: 0,
@@ -203,28 +203,28 @@ const handleCurrentChange = (val: number) => {
   getTableData()
 }
 
-// 编辑
+// Edit
 const handleEdit = (data: IDictData) => {
   resetEntity()
   entityForm.value = cloneDeep(data)
-  dialogTitle.value = "修改"
+  dialogTitle.value = "Edit"
   saveFlag.value = false
   dialogVisible.value = true
 }
 
-// 新增
+// Add
 const handleAdd = () => {
   resetEntity()
-  dialogTitle.value = "新增"
+  dialogTitle.value = "Add"
   saveFlag.value = true
   dialogVisible.value = true
 }
 
-// 删除
+// Delete
 const handleDelete = (data: IDictData) => {
-  ElMessageBox.confirm(`确要删除 ${data.dictLabel} 吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(`Delete ${data.dictLabel}?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
@@ -232,7 +232,7 @@ const handleDelete = (data: IDictData) => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `删除 ${data.dictLabel} 成功！`,
+              message: `Deleted ${data.dictLabel}`,
               type: "success"
             })
           }
@@ -250,7 +250,7 @@ const handleDelete = (data: IDictData) => {
     })
 }
 
-// 新增和修改
+// Add and edit
 const handleSaveAndFlush = () => {
   entityFormRef.value?.validate((valid: boolean) => {
     if (valid) {
@@ -260,7 +260,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "新增字典成功！",
+                message: "Dictionary added",
                 type: "success"
               })
             }
@@ -279,7 +279,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "修改字典成功！",
+                message: "Dictionary updated",
                 type: "success"
               })
             }

@@ -4,29 +4,29 @@ import indiaAreaJson from "@/assets/IndiaArea.json"
 import {ISimpleProject, ISimpleTenant} from "@/types/base"
 import {CascaderOption} from "element-plus"
 
-//#region 格式化日期时间
+//#region Format date and time
 export const DEFAULT_DATE_TIME_PATTERN = "YYYY-MM-DD HH:mm:ss"
 
 export const DEFAULT_DATE_PATTERN = "YYYY-MM-DD"
 
 export const DEFAULT_TIME_PATTERN = "HH:mm:ss"
 
-/** 格式化日期时间 */
+/** Format date and time */
 export const formatDateTime = (time: string | number | Date) => {
   return time ? dayjs(new Date(time)).format(DEFAULT_DATE_TIME_PATTERN) : "N/A"
 }
 
-/** 格式化日期 */
+/** Format date */
 export const formatDate = (time: string | number | Date) => {
   return time ? dayjs(new Date(time)).format(DEFAULT_DATE_PATTERN) : "N/A"
 }
 
-/** 格式化时间 */
+/** Format time */
 export const formatTime = (time: string | number | Date) => {
   return time ? dayjs(new Date(time)).format(DEFAULT_TIME_PATTERN) : "N/A"
 }
 
-/** 计算时间差 */
+/** Time difference */
 export const diffDateTime = (time1: string | number | Date, time2: string | number | Date) => {
   if (!time1) {
     return "N/A"
@@ -45,15 +45,15 @@ export function timeAgo(time: string | number | Date) {
   const limit = dayjs(Date.now()).diff(dayjs(new Date(time)), "second")
   let content = ""
   if (limit < 60) {
-    content = "刚刚"
+    content = "just now"
   } else if (limit >= 60 && limit < 3600) {
-    content = Math.floor(limit / 60) + " 分钟前"
+    content = Math.floor(limit / 60) + " minutes ago"
   } else if (limit >= 3600 && limit < 86400) {
-    content = Math.floor(limit / 3600) + " 小时前"
+    content = Math.floor(limit / 3600) + " hours ago"
   } else if (limit >= 86400 && limit < 2592000) {
-    content = Math.floor(limit / 86400) + " 天前"
+    content = Math.floor(limit / 86400) + " days ago"
   } else if (limit >= 2592000 && limit < 31104000) {
-    content = Math.floor(limit / 2592000) + " 个月前"
+    content = Math.floor(limit / 2592000) + " months ago"
   } else {
     content = dayjs(time).format(DEFAULT_DATE_PATTERN)
   }
@@ -64,13 +64,13 @@ export function expiredDateAgo(time: string | number | Date) {
   const data = dayjs(time, DEFAULT_DATE_TIME_PATTERN)
   const now = dayjs()
   if (data.diff(now, "year") > 0) {
-    return `${data.diff(now, "year")}年后`
+    return `${data.diff(now, "year")} years from now`
   } else if (data.diff(now, "month") > 0) {
-    return `${data.diff(now, "month")}月后`
+    return `${data.diff(now, "month")} months from now`
   } else if (data.diff(now, "day") > 0) {
-    return `${data.diff(now, "day")}天后`
+    return `${data.diff(now, "day")} days from now`
   } else if (data.isBefore(now)) {
-    return "已过期"
+    return "Expired"
   } else {
     return data.format("MM-DD HH:mm")
   }
@@ -78,11 +78,11 @@ export function expiredDateAgo(time: string | number | Date) {
 
 //#endregion
 
-/** 用 JS 获取全局 css 变量 */
+/** Read a global CSS variable from JS */
 export const getCssVariableValue = (cssVariableName: string) => {
   let cssVariableValue = ""
   try {
-    // 没有拿到值时，会返回空串
+    // Returns an empty string if not found
     cssVariableValue = getComputedStyle(document.documentElement).getPropertyValue(cssVariableName)
   } catch (error) {
     console.error(error)
@@ -90,7 +90,7 @@ export const getCssVariableValue = (cssVariableName: string) => {
   return cssVariableValue
 }
 
-/** 用 JS 设置全局 CSS 变量 */
+/** Set a global CSS variable from JS */
 export const setCssVariableValue = (cssVariableName: string, cssVariableValue: string) => {
   try {
     document.documentElement.style.setProperty(cssVariableName, cssVariableValue)
@@ -99,14 +99,14 @@ export const setCssVariableValue = (cssVariableName: string, cssVariableValue: s
   }
 }
 
-/** 重置项目配置 */
+/** Reset project settings */
 export const resetConfigLayout = () => {
   removeConfigLayout()
   location.reload()
 }
 
 /**
- * 将字符串，转为 hashCode
+ * Convert the string to hashCode
  * @param {string} str
  * @returns {number}
  */
@@ -141,17 +141,17 @@ export const getQueryObject = (url: string) => {
   return obj
 }
 
-/** 获取 http 请求头 前缀 */
+/** Get the HTTP header prefix */
 export const getEnvBaseURLPrefix = () => {
   return import.meta.env.MODE === "development" ? "/api/v1" : getEnvBaseURL()
 }
 
-/** 获取 默认api url */
+/** Get the default api url */
 export const getEnvBaseURL = () => {
   return import.meta.env.VITE_BASE_API
 }
 
-/** 获取 区域名称 */
+/** Get the area name */
 export const indiaAreaDeepQuery = (areaCode: number) => {
   let isGet = false
   let node = {areaCode: 0, mergerName: ""}
@@ -172,7 +172,7 @@ export const indiaAreaDeepQuery = (areaCode: number) => {
   return node
 }
 
-/** 将权限树形结构扁平化为一维数组，用于权限查询 */
+/** Flatten the permission tree into an array for lookups */
 export const flatTreeToCascaderOption = (arr: any[], { value = "id", label = "label", disabled = "disabled", children = "children" }) => {
   const result: CascaderOption[] = []
   const deep = (arr1: any[], arr2: CascaderOption[]) => {
@@ -193,75 +193,75 @@ export const flatTreeToCascaderOption = (arr: any[], { value = "id", label = "la
   return result
 }
 
-// 未来的时间
+// Future time
 export const futureShortcuts = [
   {
-    text: "一周后",
+    text: "In 1 week",
     value: dayjs().add(1, "week").toDate()
   },
   {
-    text: "一个月后",
+    text: "In 1 month",
     value: dayjs().add(1, "month").toDate()
   },
   {
-    text: "三个月后",
+    text: "In 3 months",
     value: dayjs().add(3, "month").toDate()
   },
   {
-    text: "六个月后",
+    text: "In 6 months",
     value: dayjs().add(6, "month").toDate()
   },
   {
-    text: "一年后",
+    text: "In 1 year",
     value: dayjs().add(1, "year").toDate()
   },
   {
-    text: "三年后",
+    text: "In 3 years",
     value: dayjs().add(3, "year").toDate()
   }
 ]
 
-// 过去的时间
+// Past time
 export const pastShortcuts = [
   {
-    text: "一周前",
+    text: "1 week ago",
     value: dayjs().subtract(1, "week").toDate()
   },
   {
-    text: "一个月前",
+    text: "1 month ago",
     value: dayjs().subtract(1, "month").toDate()
   },
   {
-    text: "三个月前",
+    text: "3 months ago",
     value: dayjs().subtract(3, "month").toDate()
   },
   {
-    text: "六个月前",
+    text: "6 months ago",
     value: dayjs().subtract(6, "month").toDate()
   },
   {
-    text: "一年前",
+    text: "1 year ago",
     value: dayjs().subtract(1, "year").toDate()
   },
   {
-    text: "三年前",
+    text: "3 years ago",
     value: dayjs().subtract(3, "year").toDate()
   }
 ]
 
-// 设置 默认的租户
+// Set the default tenant
 export const defaultTenant: ISimpleTenant = {
   tenantId: "master",
   logo: "https://raw.githubusercontent.com/Abhishek360007/Multi-tenant-Saas-Platform/main/docs/brand/tenanthub-logo.png",
-  name: "默认租户",
+  name: "Default tenant",
   linkman: "master"
 }
 
-// 设置 默认的项目
+// Set the default project
 export const defaultProject: ISimpleProject = {
   projectId: 10001,
-  projectName: "默认项目",
-  linkman: "默认项目",
+  projectName: "Default project",
+  linkman: "Default project",
   areaCode: 29052505542,
-  address: "默认项目"
+  address: "Default project"
 }

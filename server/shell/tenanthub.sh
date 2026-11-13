@@ -6,40 +6,40 @@
 #===========================================================================================
 # Document And Example
 #===========================================================================================
-#用法: ./脚本名.sh {start|stop|restart|status}
-#例子(一)：./tenanthub.sh start 					  # 启动
-#例子(一)：./tenanthub.sh stop 					  # 停止
-#例子(一)：./tenanthub.sh restart 					# 重启
-#例子(一)：./tenanthub.sh status 					# 状态
+#Usage: ./script.sh {start|stop|restart|status}
+#Example:./tenanthub.sh start 					  # Start
+#Example:./tenanthub.sh stop 					  # Stop
+#Example:./tenanthub.sh restart 					# Restart
+#Example:./tenanthub.sh status 					# Status
 
 #===========================================================================================
 # Spring Boot Application Start Configuration
 #===========================================================================================
 
-# Spring Boot App 名称
+# Spring Boot App Name
 APP_NAME=/opt/tenanthub-server/tenanthub-service-1.0.1.jar
 
-# spring.profiles.active 配置激活环境
-#SPRING_ENV=dev           # 开发环境
-SPRING_ENV=pro            # 本地生产环境
-#SPRING_ENV=prod          # 线上生产环境
-#SPRING_ENV=test          # 测试环境
+# spring.profiles.active Active profile
+#SPRING_ENV=dev           # Development
+SPRING_ENV=pro            # Local production
+#SPRING_ENV=prod          # Production
+#SPRING_ENV=test          # Testing
 
-# JVM参数
+# JVM Parameters
 JVM_OPTS="-Dname=$APP_NAME -server -Xms4g -Xmx4g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Duser.timezone=UTC -Djava.security.egd=file:/dev/./urandom"
 
-# JDK路径
+# JDK Path
 JAVA_HOME=/opt/jdk-17
 
-# 第一个参数 start|stop|restart|status 中的一个
+# First argument: one of start|stop|restart|status
 if [ "$1" = "" ];
 then
-	echo -e "\033[0;31m 未输入操作名 \033[0m  \033[0;34m {start|stop|restart|status} \033[0m"
+	echo -e "\033[0;31m No action given \033[0m  \033[0;34m {start|stop|restart|status} \033[0m"
 	exit 1
 fi
 
 
-# 启动服务
+# Start the service
 function start()
 {
 	PID=`ps -ef |grep java|grep $APP_NAME|grep -v grep|wc -l`
@@ -52,7 +52,7 @@ function start()
 }
 
 
-# 停止服务
+# Stop the service
 function stop()
 {
 	PID=""
@@ -75,7 +75,7 @@ function stop()
 }
 
 
-# 重启服务
+# Restart the service
 function restart()
 {
 	stop
@@ -84,7 +84,7 @@ function restart()
 }
 
 
-# 查看服务状态
+# Show service status
 function status()
 {
 	PID=`ps -ef |grep java|grep $APP_NAME|grep -v grep|wc -l`

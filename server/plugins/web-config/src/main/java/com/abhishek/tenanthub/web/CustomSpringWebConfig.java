@@ -47,7 +47,7 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
     private final ServerProperties sp;
 
     /**
-     * TODO 输出文档地址
+     * TODO Print the docs URL
      *
      * @author WangChenChen
      * @date 2023/3/26 1:30
@@ -61,13 +61,13 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
     }
 
 
-    // 防止重复提交 拦截器
+    // Duplicate submission interceptor
     private final NoRepeatSubmitInterceptor noRepeatSubmitInterceptor;
 
-    // 获取租户ID 拦截器
+    // Tenant ID interceptor
     private final TenantIdInterceptor tenantIdInterceptor;
 
-    // 获取项目ID 拦截器
+    // Project ID interceptor
     private final ProjectIdInterceptor projectIdInterceptor;
 
     private final ApiSysTenantService tenantService;
@@ -75,7 +75,7 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 登录接口，也需要，添加租户ID
+        // The login endpoint also needs the tenant ID
         var whiteList = Stream.of(JwtConst.WHITE_LIST, JwtConst.TENANT_WHITE_LIST)
                 .flatMap(Stream::of)
                 .filter(s -> !JwtConst.LOGIN_URL.equals(s))
@@ -83,7 +83,7 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
                 .collect(Collectors.toList());
 
         var mtp = tenantService.getByMultiTenantProperties();
-        // 启用 租户ID 拦截器
+        // Enable the tenant ID interceptor
         if (mtp.getEnable()) {
             registry.addInterceptor(tenantIdInterceptor)
                     .addPathPatterns("/**")
@@ -91,7 +91,7 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
             log.info("Enable TenantIdInterceptor Success ...");
         }
 
-        // 启用 项目ID 拦截器
+        // Enable the project ID interceptor
         if (mtp.getEnableProject()) {
             registry.addInterceptor(projectIdInterceptor)
                     .addPathPatterns("/**")
@@ -99,7 +99,7 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
             log.info("Enable ProjectIdInterceptor Success ...");
         }
 
-        // 添加 防止重复提交 拦截器
+        // Add the duplicate submission interceptor
         registry.addInterceptor(noRepeatSubmitInterceptor)
                 .addPathPatterns("/**");
         WebMvcConfigurer.super.addInterceptors(registry);
@@ -121,7 +121,7 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
 
 
     /**
-     * 跨域过滤器
+     * CORS filter
      *
      * @author WangChenChen
      * @date 2022/12/30 13:42
@@ -141,7 +141,7 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
 
 
     /***
-     * Date日期类型转换器
+     * Date converter
      */
     @Bean
     public Formatter<Date> dateFormatter() {

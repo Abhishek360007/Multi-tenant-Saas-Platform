@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 
 /**
- * 设备
+ * Device
  *
  * @author WangChenChen
  * @version 2.0

@@ -22,19 +22,19 @@ import java.util.Set;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "系统用户授权多个租户")
+@Schema(description = "Grant a platform user access to several tenants")
 public class UserListTenantVO implements java.io.Serializable {
 
     /**
-     * 已经拥有的 租户ID
+     * Assigned tenants ID
      */
-    @Schema(description = "拥有的 租户ID！")
+    @Schema(description = "Assigned tenant IDs")
     private Set<String> have;
 
     /**
-     * 全部 租户信息
+     * All tenants
      */
-    @Schema(description = "全部 租户信息！")
+    @Schema(description = "All tenants")
     private Set<Entry> all;
 
 

@@ -3,17 +3,17 @@
     <el-header>
       <el-row :gutter="20">
         <el-col :span="16">
-          <el-input v-model="params.keywords" placeholder="根据项目名称搜索" clearable :prefix-icon="Search" />
+          <el-input v-model="params.keywords" placeholder="Search by project name" clearable :prefix-icon="Search" />
         </el-col>
         <el-col :span="8">
-          <el-button type="primary" @click="searchProjectList">搜索</el-button>
+          <el-button type="primary" @click="searchProjectList">Search</el-button>
         </el-col>
       </el-row>
     </el-header>
     <el-main>
       <el-table :data="simpleProjects" style="width: 100%">
-        <el-table-column prop="projectId" label="项目ID" />
-        <el-table-column prop="projectName" label="项目名称">
+        <el-table-column prop="projectId" label="Project ID" />
+        <el-table-column prop="projectName" label="Project name">
           <template #default="scope">
             <strong style="color: #409eff" v-if="!currentProjectId(scope.row.projectId)">
               {{ scope.row.projectName }}
@@ -21,21 +21,21 @@
             <span v-else> {{ scope.row.projectName }} </span>
           </template>
         </el-table-column>
-        <el-table-column prop="linkman" label="联系人" />
-        <el-table-column prop="areaCode" label="行政区域">
+        <el-table-column prop="linkman" label="Contact person" />
+        <el-table-column prop="areaCode" label="Area">
           <template #default="scope">
             {{ showIndiaArea(scope.row.areaCode) }}
           </template>
         </el-table-column>
-        <el-table-column prop="address" label="联系地址" />
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column prop="address" label="Address" />
+        <el-table-column fixed="right" label="Actions" width="100">
           <template #default="scope">
             <el-button
               v-if="currentProjectId(scope.row.projectId)"
               text
               type="primary"
               @click="handleSwitchClick(scope.row)"
-              >切换</el-button
+              >Switch</el-button
             >
           </template>
         </el-table-column>
@@ -68,7 +68,7 @@ const projectStore = useProjectStoreHook()
 
 const simpleProjects = ref<ISimpleProject[]>()
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
 const params = reactive({
@@ -82,7 +82,7 @@ const emit = defineEmits<{
   (e: "handleSwitch", id: string): void
 }>()
 
-// 切换项目
+// Switch project
 const handleSwitchClick = (t: ISimpleProject) => {
   const project: ISimpleProject = {
     projectId: t.projectId,
@@ -137,7 +137,7 @@ onMounted(() => {
   searchProjectList()
 })
 
-// 输出组件的方法，让外部组件可以调用
+// Expose component methods to parent components
 defineExpose({
   searchList
 })

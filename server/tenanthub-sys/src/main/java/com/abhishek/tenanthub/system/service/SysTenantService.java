@@ -23,7 +23,7 @@ import java.util.Set;
 public interface SysTenantService extends BaseService<SysTenant> {
 
     /**
-     * 根据关键字查询
+     * Query by keyword
      *
      * @author Wang Chen Chen
      * @date 2021/8/25 9:41
@@ -32,7 +32,7 @@ public interface SysTenantService extends BaseService<SysTenant> {
 
 
     /**
-     * 根据关键字查询
+     * Query by keyword
      *
      * @author Wang Chen Chen
      * @date 2021/8/25 9:41
@@ -48,7 +48,7 @@ public interface SysTenantService extends BaseService<SysTenant> {
 
 
     /**
-     * 创建商户
+     * Create tenant
      *
      * @param params
      * @return
@@ -59,7 +59,7 @@ public interface SysTenantService extends BaseService<SysTenant> {
 
 
     /**
-     * 商户 重置 数据
+     * Reset tenant data
      *
      * @param params
      * @return
@@ -70,7 +70,7 @@ public interface SysTenantService extends BaseService<SysTenant> {
 
 
     /**
-     * 修改 租户权限模板
+     * Update tenant permission templates
      *
      * @param tenantId
      * @param templateId

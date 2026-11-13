@@ -7,10 +7,10 @@ import lombok.ToString;
 
 /**
  * <p>
- * 菜单的使用人群
- * 0.租户用户
- * 1.系统用户
- * 2.全部用户
+ * Menu audience
+ * 0.Tenant user
+ * 1.Platform user
+ * 2.All users
  * </p>
  *
  * @author Wang Chen Chen
@@ -22,11 +22,11 @@ import lombok.ToString;
 @ToString
 public enum MenuTargetEnum {
 
-    TENANT(0, "租户用户"),
+    TENANT(0, "Tenant user"),
 
-    SYSTEM(1, "系统用户"),
+    SYSTEM(1, "Platform user"),
 
-    ALL(2, "菜单");
+    ALL(2, "Menu");
 
     MenuTargetEnum(int code, String description) {
         this.code = code;
@@ -39,7 +39,7 @@ public enum MenuTargetEnum {
     private final String description;
 
     /**
-     * 用于 spring mvc 实体参数绑定
+     * For Spring MVC entity parameter binding
      *
      * @author Wang Chen Chen
      * @date 2021/7/23 10:27

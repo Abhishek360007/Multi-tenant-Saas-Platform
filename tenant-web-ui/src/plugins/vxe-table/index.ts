@@ -3,18 +3,22 @@ import {type App} from "vue"
 import VXETable from "vxe-table"
 // https://github.com/x-extends/vxe-table-plugin-element
 import VXETablePluginElement from "vxe-table-plugin-element"
+import XEUtils from "xe-utils"
+import enUS from "vxe-table/es/locale/lang/en-US"
 
 VXETable.use(VXETablePluginElement)
 
-/** 全局默认参数 */
+/** Global default parameters */
 VXETable.setup({
-  /** 全局尺寸 */
+  /** English UI text (vxe-table defaults to Chinese) */
+  i18n: (key: string, args?: any) => XEUtils.toFormatString(XEUtils.get(enUS, key), args),
+  /** Global size */
   size: "medium",
-  /** 全局 zIndex 起始值，如果项目的的 z-index 样式值过大时就需要跟随设置更大，避免被遮挡 */
+  /** Global starting zIndex; raise it if the project uses large z-index values so dialogs are not hidden */
   zIndex: 9999,
-  /** 版本号，对于某些带数据缓存的功能有用到，上升版本号可以用于重置数据 */
+  /** Version number; used by features that cache data. Bump it to reset that data */
   version: 0,
-  /** 全局 loading 提示内容，如果为 null 则不显示文本 */
+  /** Global loading text; null hides the text */
   loadingText: null,
   table: {
     showHeader: true,
@@ -24,7 +28,7 @@ VXETable.setup({
     // stripe: false,
     border: "inner",
     // round: false,
-    emptyText: "暂无数据",
+    emptyText: "No data",
     rowConfig: {
       isHover: true,
       isCurrent: true
@@ -34,12 +38,12 @@ VXETable.setup({
     },
     align: "center",
     headerAlign: "center",
-    /** 行数据的唯一主键字段名 */
+    /** Row primary key field name */
     rowId: "_VXE_ID"
   },
   pager: {
     // size: "medium",
-    /** 配套的样式 */
+    /** Matching styles */
     perfect: false,
     pageSize: 10,
     pagerCount: 7,
@@ -61,6 +65,6 @@ VXETable.setup({
 })
 
 export function loadVxeTable(app: App) {
-  /** Vxe Table 组件完整引入 */
+  /** Vxe Table Import all components */
   app.use(VXETable)
 }

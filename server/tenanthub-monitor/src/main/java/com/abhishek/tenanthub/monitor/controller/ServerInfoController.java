@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/server/info")
 @AllArgsConstructor
-@Tag(name = "[ 通用 ] 服务器")
+@Tag(name = "[ Common ] Server")
 public class ServerInfoController {
 
 
-    @Operation(summary = "服务器详情", description = "获取服务器详情，内存，CPU，磁盘")
+    @Operation(summary = "Server details", description = "Get server details: memory, CPU, disk")
     @GetMapping()
     public JsonResult<ServerInfo> info() throws Exception {
         var serverInfo = new ServerInfo();
@@ -29,7 +29,7 @@ public class ServerInfoController {
     }
 
 
-    @Operation(summary = "测试hello1", description = "测试hello1")
+    @Operation(summary = "Test hello1", description = "Test hello1")
     @PreAuthorize("hasAuthority('abc')")
     @GetMapping("hello1")
     public JsonResult<String> hello1() throws Exception {
@@ -37,7 +37,7 @@ public class ServerInfoController {
     }
 
 
-    @Operation(summary = "测试hello2", description = "测试hello1")
+    @Operation(summary = "Test hello2", description = "Test hello1")
     @PreAuthorize("hasAuthority('pre_user:view')")
     @GetMapping("hello2")
     public JsonResult<String> hello2() throws Exception {

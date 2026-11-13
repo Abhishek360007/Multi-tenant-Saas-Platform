@@ -5,7 +5,7 @@ import com.abhishek.tenanthub.tenant.base.service.BaseService;
 
 /**
  * <p>
- * 设备
+ * Device
  * </p>
  *
  * @author WangChenChen

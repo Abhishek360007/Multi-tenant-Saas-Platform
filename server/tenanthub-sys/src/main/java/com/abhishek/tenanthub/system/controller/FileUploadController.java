@@ -36,7 +36,7 @@ import java.time.LocalDate;
 
 
 @Slf4j
-@Tag(name = "[ 通用 ] 文件上传")
+@Tag(name = "[ Common ] File upload")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/upload")
@@ -45,10 +45,10 @@ public class FileUploadController {
     private final FileStorageService storageService;
 
     /**
-     * 仅在 本地开发时 情况下使用
-     * 生产环境请使用 nginx 或者 公有云的 OSS。
+     * For local development only
+     * In production use nginx or a cloud object store.
      *
-     * @link <a href="https://x-file-storage.xuyanwu.cn/#/">文档</a>
+     * @link <a href="https://x-file-storage.xuyanwu.cn/#/">Documentation</a>
      */
     @Bean
     @Profile("dev")
@@ -64,10 +64,10 @@ public class FileUploadController {
     }
 
     /**
-     * 上传文件，成功返回文件 url
+     * Upload a file; returns the file url
      */
     @NoRepeatSubmit
-    @Operation(summary = "图片上传", description = "图片上传")
+    @Operation(summary = "Image upload", description = "Image upload")
     @PostMapping("/image")
     public JsonResult<FileInfoVO> image(MultipartFile file, ImageSizePO size) {
         try {
@@ -97,10 +97,10 @@ public class FileUploadController {
 
 
     /**
-     * 头像上传，成功返回文件 url，会压缩
+     * Avatar upload; returns the compressed file URL
      */
     @NoRepeatSubmit
-    @Operation(summary = "头像上传", description = "头像上传 压缩头像的宽高 200 * 200")
+    @Operation(summary = "Avatar upload", description = "Avatar upload, resized to 200 * 200")
     @PostMapping("/avatar")
     public JsonResult<FileInfoVO> avatar(MultipartFile file) {
         try {
@@ -110,7 +110,7 @@ public class FileUploadController {
             var fileInfo = storageService.of(file)
                     .setObjectType("avatar")
                     .setContentType(contentType)
-                    .image()  // 将图片大小调整到 200 * 200
+                    .image()  // Resize the image to 200 * 200
                     .setPath(
                             String.format("%d/%d/%d/", now.getYear(), now.getMonthValue(), now.getDayOfMonth())
                     )
@@ -128,14 +128,14 @@ public class FileUploadController {
 
 
     /**
-     * 上传固件
+     * Upload firmware
      *
      * @param fileUrl
      * @author Wang Chen Chen
      * @date 2021/7/19 18:28
      */
     @NoRepeatSubmit
-    @Operation(summary = "文件删除", description = "文件删除")
+    @Operation(summary = "Delete file", description = "Delete a file")
     @DeleteMapping
     public JsonResult<Boolean> delete(String fileUrl) {
         var ok = storageService.delete(fileUrl);
@@ -144,10 +144,10 @@ public class FileUploadController {
 
 
     /**
-     * 获取文件上传使用的token
+     * Get the file upload token
      */
     @NoRepeatSubmit
-    @Operation(summary = "获取上传Token", description = "获取文件上传Token")
+    @Operation(summary = "Get upload token", description = "Get a file upload Token")
     @GetMapping("/token")
     public JsonResult<FileUploadTokenVO> uploadToken() {
         var fileStorage = (QiniuKodoFileStorage) storageService.getFileStorage();
@@ -165,23 +165,23 @@ public class FileUploadController {
     private static final String IMAGE_REG = ".+(.JPEG|.jpeg|.JPG|.jpg|.png|.PNG|.bmp|.BMP|.webp|.WEBP)$";
 
     /**
-     * 判断是否是图片
+     * Check whether it is an image
      *
-     * @param imageName 图片名称
-     * @return boolean true,通过，false，没通过
+     * @param imageName Image name
+     * @return boolean true,passed, false: failed
      */
     public static void isImage(String imageName) {
         if (StringUtils.isBlank(imageName)) {
-            throw new BizException("图片名称必须填写！");
+            throw new BizException("Image name is required");
         }
         if (!imageName.matches(IMAGE_REG)) {
-            throw new BizException("只可以上传[ jpg , jpeg , png , bmp , webp ]其中的一种");
+            throw new BizException("Only jpg, jpeg, png, bmp or webp can be uploaded");
         }
     }
 
 
     /**
-     * 根据文件后缀名，判断 ContentType
+     * Decide by file extension ContentType
      *
      * @author WangChenChen
      * @date 2023/1/6 16:50

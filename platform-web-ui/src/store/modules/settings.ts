@@ -5,30 +5,30 @@ import { type LayoutSettings, layoutSettings } from "@/config/layouts"
 import { setConfigLayout, getControlSize, setControlSize } from "@/utils/cache/local-storage"
 
 type SettingsStore = {
-  // 使用映射类型来遍历 layoutSettings 对象的键
+  // Mapped type over the keys of layoutSettings
   [Key in keyof LayoutSettings]: Ref<LayoutSettings[Key]>
 }
 
 type SettingsStoreKey = keyof SettingsStore
 
 export const useSettingsStore = defineStore("settings", () => {
-  /** 状态对象 */
+  /** State object */
   const state = {} as SettingsStore
 
-  // 遍历 layoutSettings 对象的键值对
+  // Iterate over the layoutSettings entries
   for (const [key, value] of Object.entries(layoutSettings)) {
-    // 使用类型断言来指定 key 的类型，将 value 包装在 ref 函数中，创建一个响应式变量
+    // Assert the key type and wrap the value in ref to make it reactive
     const refValue = ref(value)
     state[key as SettingsStoreKey] = refValue
-    // 监听每个响应式变量
+    // Watch each reactive value
     watch(refValue, () => {
-      // 缓存
+      // Cache
       const settings = _getCacheData()
       setConfigLayout(settings)
     })
   }
 
-  /** 获取要缓存的数据：将 state 对象转化为 settings 对象 */
+  /** Data to cache: convert the state object into a settings object */
   const _getCacheData = () => {
     const settings = {} as LayoutSettings
     for (const [key, value] of Object.entries(state)) {
@@ -40,7 +40,7 @@ export const useSettingsStore = defineStore("settings", () => {
 
   const controlSize = ref<string>(getControlSize() || "default")
 
-  // 更新控件尺寸
+  // Update component size
   const updateControlSize = (value: string) => {
     controlSize.value = value
     setControlSize(value)
@@ -53,7 +53,7 @@ export const useSettingsStore = defineStore("settings", () => {
   }
 })
 
-/** 在 setup 外使用 */
+/** Use outside setup */
 export function useSettingsStoreHook() {
   return useSettingsStore(store)
 }

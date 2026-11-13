@@ -7,8 +7,8 @@ import lombok.ToString;
 
 /**
  * <p>
- * 0. 租户用户
- * 1. 系统用户
+ * 0. Tenant user
+ * 1. Platform user
  * </p>
  *
  * @author Wang Chen Chen
@@ -20,11 +20,11 @@ import lombok.ToString;
 @ToString
 public enum GenderType {
 
-    FEMALE((byte) 0, "女"),
+    FEMALE((byte) 0, "Female"),
 
-    MALE((byte) 1, "男"),
+    MALE((byte) 1, "Male"),
 
-    UNKNOWN((byte) 2, "未知");
+    UNKNOWN((byte) 2, "Unknown");
 
     GenderType(byte code, String description) {
         this.code = code;

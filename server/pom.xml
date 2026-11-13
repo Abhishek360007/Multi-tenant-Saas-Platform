@@ -39,30 +39,30 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- graalvm native-maven-plugin -->
         <native-maven.version>0.10.5</native-maven.version>
-        <!-- 优化的雪花算法（雪花漂移），它生成的ID更短、速度更快 -->
+        <!-- Optimized snowflake (drift) algorithm: shorter IDs, faster -->
         <idgenerator.version>1.0.6</idgenerator.version>
-        <!-- x-file-storage文件上传 文档地址 https://x-file-storage.xuyanwu.cn -->
+        <!-- x-file-storage File upload docs https://x-file-storage.xuyanwu.cn -->
         <storage.version>2.2.1</storage.version>
-        <!-- 离线 ip 转 真实地址 -->
+        <!-- Offline IP to location lookup -->
         <ip2region.version>2.6.6</ip2region.version>
-        <!-- 七牛云文件上传 -->
+        <!-- Qiniu Cloud file upload -->
         <qiniu-storage.version>7.15.1</qiniu-storage.version>
-        <!-- 阿里云文件上传 -->
+        <!-- Aliyun file upload -->
         <aliyun-storage.version>3.17.4</aliyun-storage.version>
-        <!-- 服务器运行状态查询， 如: CPU、磁盘、内存 -->
+        <!-- Server status queries such as CPU, disk and memory -->
         <oshi.version>6.4.13</oshi.version>
-        <!-- Excel文件操作 -->
+        <!-- Excel File handling -->
         <apache-poi.version>5.4.1</apache-poi.version>
-        <!-- 小而美的工具库 -->
+        <!-- Small, handy utility library -->
         <hutool.version>5.8.38</hutool.version>
-        <!-- 简单、方便的OpenAPI接口文档 -->
+        <!-- Simple OpenAPI documentation -->
         <knife4j.version>4.5.0</knife4j.version>
-        <!-- MyBatis 的增强工具，基友搭配，效率翻倍 -->
+        <!-- MyBatis enhancement toolkit, a perfect pair that doubles productivity -->
         <mybatis-plus.version>3.5.12</mybatis-plus.version>
         <!-- Lombok pinned to a release that supports JDK 25 -->
         <lombok.version>1.18.48</lombok.version>
         <springdoc.version>2.8.17</springdoc.version>
-        <!-- JavaEE 颠覆者 -->
+        <!-- JavaEE Game changer -->
         <spring-boot.version>3.5.16</spring-boot.version>
     </properties>
 

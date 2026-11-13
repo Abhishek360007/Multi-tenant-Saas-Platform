@@ -52,14 +52,14 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- spring-file-storage 必须要引入 -->
+        <!-- spring-file-storage Required -->
         <dependency>
             <groupId>org.dromara.x-file-storage</groupId>
             <artifactId>x-file-storage-spring</artifactId>
             <version>${storage.version}</version>
         </dependency>
 
-        <!-- 七牛云 Kodo 不使用的情况下可以不引入 -->
+        <!-- Not needed if Qiniu Kodo is unused -->
         <dependency>
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>

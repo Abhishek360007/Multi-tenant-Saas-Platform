@@ -14,10 +14,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class LinkedTarget implements Serializable {
 
-    @Schema(description = "目标Id")
+    @Schema(description = "Target Id")
     private Long targetId;
 
-    @Schema(description = "来源Id")
+    @Schema(description = "Source Id")
     private Long sourceId;
 
 }

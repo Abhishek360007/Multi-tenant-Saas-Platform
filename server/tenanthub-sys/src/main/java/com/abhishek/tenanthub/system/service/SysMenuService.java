@@ -18,19 +18,19 @@ import java.util.List;
 public interface SysMenuService extends BaseService<SysMenu> {
 
     /**
-     * 获取所有菜单 。以树节点展示
+     * Get all menus as a tree
      */
     List<Tree<Long>> tree();
 
 
     /**
-     * 获取当前用户可用的所有菜单
+     * Get all menus available to the current user
      */
     List<Tree<Long>> treeCurrentUserAvailable();
 
 
     /**
-     * 获取 租户可用的所有菜单
+     * Get all menus available to the tenant
      */
     List<Tree<Long>> treeTenantAvailable();
 

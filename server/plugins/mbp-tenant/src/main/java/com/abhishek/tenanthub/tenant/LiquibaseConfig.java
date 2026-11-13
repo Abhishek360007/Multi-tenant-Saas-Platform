@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 
 /**
  * <p>
- * Multi Tenant Spring Liquibase 配置
+ * Multi Tenant Spring Liquibase Settings
  * </p>
  *
  * @author Wang Chen Chen
@@ -28,7 +28,7 @@ import javax.sql.DataSource;
 @AllArgsConstructor
 public class LiquibaseConfig {
 
-    // 默认租户的数据源
+    // Default tenant data source
     private final DataSource dataSource;
 
     private final MultiTenantProperties multiTenantProperties;

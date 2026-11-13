@@ -21,19 +21,19 @@ import java.util.Set;
 public interface SysTemplateService extends BaseService<SysTemplate> {
 
     /**
-     * 获取权限模板的所有 菜单权限
+     * Get all menu permissions of a permission template
      */
     UpdateMenusVO listHaveMenus(Long templateId);
 
 
     /**
-     * 权限模板 修改菜单
+     * Update the menus of a permission template
      */
     boolean updateMenus(Long templateId, Set<Long> menus);
 
 
     /**
-     * 根据租户ID, 获取关联的 模板
+     * Get the templates linked to a tenant ID
      */
     Map<String, Set<SysTemplate>> listByTenantIds(Set<String> tenantIds);
 

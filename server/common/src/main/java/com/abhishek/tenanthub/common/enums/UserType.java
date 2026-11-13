@@ -7,8 +7,8 @@ import lombok.ToString;
 
 /**
  * <p>
- * 0. 租户用户
- * 1. 系统用户
+ * 0. Tenant user
+ * 1. Platform user
  * </p>
  *
  * @author Wang Chen Chen
@@ -20,9 +20,9 @@ import lombok.ToString;
 @ToString
 public enum UserType {
 
-    TENANT((byte) 0, "租户用户"),
+    TENANT((byte) 0, "Tenant user"),
 
-    SYSTEM((byte) 1, "系统用户");
+    SYSTEM((byte) 1, "Platform user");
 
     UserType(byte code, String description) {
         this.code = code;

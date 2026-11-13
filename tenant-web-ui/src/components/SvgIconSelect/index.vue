@@ -1,7 +1,7 @@
 <template>
   <el-popover placement="bottom-start" :width="540" v-model:visible="showChooseIcon" trigger="click">
     <template #reference>
-      <el-input v-model="result" placeholder="点击选择图标" v-click-outside="hideSelectIcon" readonly>
+      <el-input v-model="result" placeholder="Click to choose an icon" v-click-outside="hideSelectIcon" readonly>
         <template #prefix>
           <svg-icon v-if="result" :name="result" :size="18" />
           <el-icon v-else><search /></el-icon>
@@ -13,7 +13,7 @@
         v-model="iconName"
         style="position: relative"
         clearable
-        placeholder="请输入图标名称"
+        placeholder="Enter an icon name"
         @clear="filterIcons"
         @input="filterIcons"
         :prefix-icon="Search"
@@ -49,7 +49,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: "请选择图标"
+    default: "Choose an icon"
   }
 })
 
@@ -79,13 +79,13 @@ function filterIcons() {
   }
 }
 
-/** 选择图标 */
+/** Choose icon */
 function handleSelect(name: string) {
   showChooseIcon.value = false
   result.value = name
 }
 
-/** 图标外层点击隐藏下拉列表 */
+/** Clicking outside the icon hides the dropdown */
 function hideSelectIcon(event: any) {
   const elem = event.relatedTarget || event.srcElement || event.target || event.currentTarget
   const className = elem.className

@@ -6,49 +6,49 @@
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
 
-    <!-- [ 核心 ] 项目表 -->
+    <!-- [ Core ] Project table -->
     <changeSet context="tenant" author="WangChenChen (generated)" id="1699414175082-1">
-        <createTable remarks="[ 项目 ] 项目表" tableName="cms_project">
-            <column autoIncrement="true" name="project_id" remarks="项目ID" type="BIGINT">
+        <createTable remarks="[ Project ] Project table" tableName="cms_project">
+            <column autoIncrement="true" name="project_id" remarks="Project ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="project_name" remarks="项目名称" type="VARCHAR(255)">
+            <column name="project_name" remarks="Project name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="linkman" remarks="联系人名称" type="VARCHAR(255)">
+            <column name="linkman" remarks="Contact name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="contact_number" remarks="联系电话" type="VARCHAR(255)">
+            <column name="contact_number" remarks="Contact number" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="area_code" remarks="行政区域" type="BIGINT">
+            <column name="area_code" remarks="Area" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="address" remarks="联系地址，如：左右云创谷1栋A座" type="VARCHAR(255)">
+            <column name="address" remarks="Address, e.g. 12 MG Road, Block A" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="sort" remarks="排序" type="BIGINT">
+            <column name="sort" remarks="Sort order" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="password" remarks="项目密码，做一些危险操作时，使用" type="VARCHAR(255)">
+            <column name="password" remarks="Project password, required for dangerous operations" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="status" remarks="状态 【0.禁用 1.正常 2.锁定 】" type="TINYINT(4)">
+            <column defaultValueNumeric="1" name="status" remarks="Status [0 = disabled, 1 = normal, 2 = locked]" type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="dept_id" remarks="部门ID" type="BIGINT">
+            <column name="dept_id" remarks="Department ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_time" remarks="创建时间" type="datetime">
+            <column name="create_time" remarks="Created at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建人" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="最后一次修改时间" type="datetime">
+            <column name="last_update_time" remarks="Last updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="最后一次修改人" type="BIGINT">
+            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -56,31 +56,31 @@
     </changeSet>
 
 
-    <!-- [ 项目 ] 设备表 -->
+    <!-- [ Project ] Device table -->
     <changeSet context="tenant" author="WangChenChen (generated)" id="1699414177577-1">
-        <createTable remarks="[ 项目 ] 设备表" tableName="cms_device">
-            <column name="device_id" remarks="设备ID" type="BIGINT">
+        <createTable remarks="[ Project ] Device table" tableName="cms_device">
+            <column name="device_id" remarks="Device ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="device_name" remarks="设备名称" type="VARCHAR(255)">
+            <column name="device_name" remarks="Device name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="status" remarks="状态 【0.禁用 1.正常 2.锁定 】" type="TINYINT(4)">
+            <column defaultValueNumeric="1" name="status" remarks="Status [0 = disabled, 1 = normal, 2 = locked]" type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="project_id" remarks="项目ID" type="BIGINT">
+            <column name="project_id" remarks="Project ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_time" remarks="创建时间" type="datetime">
+            <column name="create_time" remarks="Created at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建人" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="最后一次修改时间" type="datetime">
+            <column name="last_update_time" remarks="Last updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="最后一次修改人" type="BIGINT">
+            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>

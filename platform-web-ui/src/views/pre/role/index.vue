@@ -3,22 +3,22 @@
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="params">
         <el-form-item>
-          <el-input v-model="params.keywords" clearable placeholder="根据 角色名称 搜索" />
+          <el-input v-model="params.keywords" clearable placeholder="Search by role name" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :icon="Search" @click="searchTableData">搜索</el-button>
+          <el-button type="primary" :icon="Search" @click="searchTableData">Search</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="success" :icon="Plus" v-has="['pre_role:create']" @click="handleAdd()">新增</el-button>
+          <el-button type="success" :icon="Plus" v-has="['pre_role:create']" @click="handleAdd()">Add</el-button>
         </el-form-item>
       </el-form>
     </el-card>
     <el-card shadow="never">
       <div class="toolbar-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="roleId" label="角色ID" />
-          <el-table-column prop="roleName" label="名称" />
-          <el-table-column prop="description" label="描述">
+          <el-table-column prop="roleId" label="Role ID" />
+          <el-table-column prop="roleName" label="Name" />
+          <el-table-column prop="description" label="Description">
             <template #default="scope">
               <el-popover placement="top-start" :width="300" trigger="hover" v-if="scope.row.description"
                 :content="scope.row.description">
@@ -28,27 +28,27 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="sort" label="排序" sortable />
-          <el-table-column prop="createTime" label="创建时间">
+          <el-table-column prop="sort" label="Sort order" sortable />
+          <el-table-column prop="createTime" label="Created at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.createTime" :entity="scope.row.createUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdateTime" label="修改时间">
+          <el-table-column prop="lastUpdateTime" label="Updated at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.lastUpdateTime" :entity="scope.row.lastUpdateUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="200">
+          <el-table-column label="Actions" width="200">
             <template #default="scope">
               <el-link :icon="EditPen" type="info" v-has="['pre_role:update:permissions']"
-                @click="handleEditMenu(scope.row)">权限</el-link>
+                @click="handleEditMenu(scope.row)">Permissions</el-link>
               &nbsp;
               <el-link :icon="Edit" type="warning" v-has="['pre_role:update']"
-                @click="handleEdit(scope.row)">编辑</el-link>
+                @click="handleEdit(scope.row)">Edit</el-link>
               &nbsp;
               <el-link :icon="Delete" type="danger" v-has="['pre_role:delete']"
-                @click="handleDelete(scope.row)">删除</el-link>
+                @click="handleDelete(scope.row)">Delete</el-link>
             </template>
           </el-table-column>
         </el-table>
@@ -60,48 +60,48 @@
       </div>
     </el-card>
 
-    <!-- 新增和修改的弹窗 -->
+    <!-- Add/edit dialog -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="50%" :close-on-click-modal="false">
       <el-form ref="entityFormRef" :model="entityForm" :rules="entityFormRules" label-position="right"
         label-width="80px" @keyup.enter="handleSaveAndFlush">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="roleName" label="名称">
-              <el-input v-model.trim="entityForm.roleName" placeholder="名称" type="text" tabindex="1" />
+            <el-form-item prop="roleName" label="Name">
+              <el-input v-model.trim="entityForm.roleName" placeholder="Name" type="text" tabindex="1" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="sort" label="排序">
+            <el-form-item prop="sort" label="Sort order">
               <el-input-number v-model="entityForm.sort" :min="1" :max="9999999" tabindex="2" />
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item prop="description" label="描述">
-          <el-input v-model="entityForm.description" placeholder="描述" :rows="3" :maxlength="100" type="textarea"
+        <el-form-item prop="description" label="Description">
+          <el-input v-model="entityForm.description" placeholder="Description" :rows="3" :maxlength="100" type="textarea"
             tabindex="3" />
         </el-form-item>
-        <el-form-item prop="dataScope" label="数据权限">
+        <el-form-item prop="dataScope" label="Data permissions">
           <select-dict-data v-model:value="dataScope" dictTypeKey="sys_data_scope" />
         </el-form-item>
-        <el-form-item v-if="entityForm.dataScope === 2" prop="deptIds" label="自定部门">
+        <el-form-item v-if="entityForm.dataScope === 2" prop="deptIds" label="Custom departments">
           <custom-tree v-if="deptsData" :data="deptsData?.all" ref="deptsRef" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleSaveAndFlush">确定</el-button>
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="handleSaveAndFlush">OK</el-button>
         </span>
       </template>
     </el-dialog>
 
-    <!-- 修改权限 -->
+    <!-- Edit permissions -->
     <el-dialog v-model="menusDialog.visible" :title="menusDialog.title" width="50%" :close-on-click-modal="false">
       <custom-tree v-if="menusDialog.data" :data="menusDialog.data?.all" ref="menusRef" />
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="menusDialog.visible = false">取消</el-button>
-          <el-button type="primary" v-preventReClick @click="handleUpdateMenus">确定</el-button>
+          <el-button @click="menusDialog.visible = false">Cancel</el-button>
+          <el-button type="primary" v-preventReClick @click="handleUpdateMenus">OK</el-button>
         </span>
       </template>
     </el-dialog>
@@ -129,18 +129,18 @@ import { IUpdateMenus } from "@/types/base"
 import CustomTree from "@/components/CustomTree/index.vue"
 
 interface ITreeDialog {
-  /** 菜单ID */
+  /** Menu ID */
   visible: boolean
-  /** 菜单名称 */
+  /** Menu name */
   title: string
-  /** 上级 */
+  /** Parent */
   data?: IUpdateMenus
 }
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
-// true : 新增，false : 修改
+// true : add, false: edit
 const saveFlag = ref(false)
 
 const dialogVisible = ref(false)
@@ -167,7 +167,7 @@ const params = reactive({
   includeCauu: true
 })
 
-/// 表单数据
+/// Form data
 const entityForm = ref<IPmsRole>({
   roleId: 0,
   roleName: "",
@@ -179,15 +179,15 @@ const entityForm = ref<IPmsRole>({
 
 const entityFormRef = ref<FormInstance | null>(null)
 
-/// 表单校验规则
+/// Form validation rules
 const entityFormRules: FormRules = {
-  roleName: [{ required: true, message: "请输入名称", trigger: "blur" }],
-  sort: [{ required: true, message: "请输入排序", trigger: "blur" }],
-  description: [{ required: true, message: "请输入描述", trigger: "blur" }],
-  dataScope: [{ required: true, message: "请选择数据权限", trigger: "blur" }],
+  roleName: [{ required: true, message: "Enter a name", trigger: "blur" }],
+  sort: [{ required: true, message: "Enter a sort order", trigger: "blur" }],
+  description: [{ required: true, message: "Enter a description", trigger: "blur" }],
+  dataScope: [{ required: true, message: "Select data permissions", trigger: "blur" }],
 }
 
-// 获取数据
+// Fetch data
 const getTableData = () => {
   loading.value = true
   queryRoleApi(params)
@@ -203,7 +203,7 @@ const getTableData = () => {
     })
 }
 
-// 重置 Entity 属性
+// Reset entity fields
 const resetEntity = () => {
   entityForm.value = {
     roleId: 0,
@@ -230,11 +230,11 @@ const handleCurrentChange = (val: number) => {
   getTableData()
 }
 
-// 编辑权限
+// Edit permissions
 const handleEditMenu = (data: IPmsRole) => {
   loading.value = true
   entityForm.value = cloneDeep(data)
-  menusDialog.title = "修改"
+  menusDialog.title = "Edit"
   getRoleMenusApi(data.roleId)
     .then((resp) => {
       menusDialog.data = resp.data
@@ -244,25 +244,25 @@ const handleEditMenu = (data: IPmsRole) => {
       console.log("err :>> ", err)
     })
     .finally(() => {
-      // 调用子组件的方法，重新渲染 tree
+      // Call the child component method to re-render tree
       menusRef.value!.setCheckedKeys(menusDialog.data!.have)
       loading.value = false
     })
 }
 
-// 修改权限
+// Edit permissions
 const handleUpdateMenus = () => {
   const menuIds: number[] = menusRef.value!.getCheckedKeys()
   if (menuIds && menuIds.length < 1) {
     ElMessage({
-      message: "至少选择一个权限",
+      message: "Select at least one permission",
       type: "warning"
     })
     return
   }
-  ElMessageBox.confirm(`确要修改 ${entityForm.value.roleName} 的权限吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(`Change the permissions of ${entityForm.value.roleName}?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
@@ -274,7 +274,7 @@ const handleUpdateMenus = () => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `修改 ${entityForm.value.roleName} 的权限成功！`,
+              message: `Updated permissions of ${entityForm.value.roleName}`,
               type: "success"
             })
           }
@@ -305,7 +305,7 @@ const dataScope = computed({
 })
 
 
-// 编辑部门
+// Edit departments
 const handleEditDept = () => {
   loading.value = true
   getRoleDeptsApi(entityForm.value.roleId)
@@ -316,39 +316,39 @@ const handleEditDept = () => {
       console.log("err :>> ", err)
     })
     .finally(() => {
-      // 调用子组件的方法，重新渲染 tree
+      // Call the child component method to re-render tree
       deptsRef.value!.setCheckedKeys(deptsData.value!.have)
       loading.value = false
     })
 }
 
 
-// 编辑
+// Edit
 const handleEdit = (data: IPmsRole) => {
   resetEntity()
   entityForm.value = cloneDeep(data)
   if (data.dataScope === 2) {
     handleEditDept()
   }
-  dialogTitle.value = "修改"
+  dialogTitle.value = "Edit"
   saveFlag.value = false
   dialogVisible.value = true
 }
 
-// 新增
+// Add
 const handleAdd = () => {
   resetEntity()
   entityForm.value.sort = params.pageTotal + 1
-  dialogTitle.value = "新增"
+  dialogTitle.value = "Add"
   saveFlag.value = true
   dialogVisible.value = true
 }
 
-// 删除
+// Delete
 const handleDelete = (data: IPmsRole) => {
-  ElMessageBox.confirm(`确要删除 ${data.roleName} 吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(`Delete ${data.roleName}?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
@@ -356,7 +356,7 @@ const handleDelete = (data: IPmsRole) => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `删除 ${data.roleName} 成功！`,
+              message: `Deleted ${data.roleName}`,
               type: "success"
             })
           }
@@ -373,14 +373,14 @@ const handleDelete = (data: IPmsRole) => {
     })
 }
 
-// 新增和修改
+// Add and edit
 const handleSaveAndFlush = () => {
-  // 自定义权限
+  // Custom permissions
   if (entityForm.value.dataScope === 2) {
     const deptIds: number[] = deptsRef.value!.getCheckedKeys()
     if (deptIds && deptIds.length < 1) {
       ElMessage({
-        message: "至少选择一个部门",
+        message: "Select at least one department",
         type: "warning"
       })
       return
@@ -395,7 +395,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "新增角色成功！",
+                message: "Role added",
                 type: "success"
               })
             }
@@ -413,7 +413,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "修改角色成功！",
+                message: "Role updated",
                 type: "success"
               })
             }

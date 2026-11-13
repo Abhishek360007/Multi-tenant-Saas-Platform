@@ -27,7 +27,7 @@ import static com.abhishek.tenanthub.common.consts.JwtConst.WHITE_LIST;
 
 /**
  * <p>
- * jwt核心拦截器
+ * jwt Core interceptor
  * </p>
  *
  * @author Wang Chen Chen <932560435@qq.com>
@@ -52,7 +52,7 @@ public class JwtAuthTokenFilter extends BasicAuthenticationFilter {
     }
 
     /**
-     * 获取当前登录用户的信息
+     * Get the signed-in user
      * <p>
      * JwtUserDetails userDetails = JwtSecurityUtils.getLoginUser()
      *
@@ -62,16 +62,16 @@ public class JwtAuthTokenFilter extends BasicAuthenticationFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        // 判断此路径 是否不校验忽略
+        // Check whether this path skips validation
         if (urlIgnore(request.getRequestURI())) {
             chain.doFilter(request, response);
             return;
         }
-        // 获取 Request 中的请求头为 “ Authorization ” 的 token 值
+        // Read the token from the Authorization request header
         String bearerToken = request.getHeader(props.getTokenHeader());
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(props.getTokenType())) {
             try {
-                // 根据 token 去 redis 中查询 user 数据，足够信任token的情况下，可以省略这一步
+                // Look up the user in Redis by token; skip this if the token is fully trusted
                 var userDetails = tokenService.validate(bearerToken);
                 // Accounts with an administrator-set password may only change it (or log out)
                 if (isPasswordChangePending(userDetails, request.getRequestURI())) {
@@ -82,7 +82,7 @@ public class JwtAuthTokenFilter extends BasicAuthenticationFilter {
                 var authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                // 将用户信息，设置到 SecurityContext 中，可以在任何地方 使用 下面语句获取 获取 当前用户登录信息
+                // Put the user into the SecurityContext so the current user can be read anywhere with the statement below
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 chain.doFilter(request, response);
             } catch (Exception ex) {
@@ -96,7 +96,7 @@ public class JwtAuthTokenFilter extends BasicAuthenticationFilter {
     }
 
 
-    // spring 路径匹配工具
+    // spring Path matcher
     private static final PathMatcher PATH_MATCHER = new AntPathMatcher();
 
     /**
@@ -117,7 +117,7 @@ public class JwtAuthTokenFilter extends BasicAuthenticationFilter {
     }
 
     /**
-     * @param url 需要验证的 url 地址
+     * @param url URL to check
      * @author Wang Chen Chen
      * @date 2021/7/9 10:14
      */

@@ -28,7 +28,7 @@ import static com.abhishek.tenanthub.tenant.util.DelegateUtils.delegate;
 
 /**
  * <p>
- * 操作日志
+ * Operation log
  * </p>
  *
  * @author WangChenChen
@@ -51,9 +51,9 @@ public class LmsOperLogServiceImpl extends ServiceImpl<LmsOperLogMapper, LmsOper
     public IPage<LmsOperLog> pageKeywords(SearchPO params) {
         Page<LmsOperLog> pageRequest = Page.of(params.getPageIndex(), params.getPageSize());
         var wrapper = new LambdaQueryWrapper<LmsOperLog>();
-        // 开始时间是否为空
+        // Whether the start time is empty
         if (ObjectUtil.isNotEmpty(params.getStartDate())) {
-            // 如果结束时间是否为空
+            // Whether the end time is empty
             if (ObjectUtil.isNotEmpty(params.getEndDate())) {
                 wrapper.between(LmsOperLog::getCreateTime, params.getStartDate(), params.getEndDate());
             } else {
@@ -78,7 +78,7 @@ public class LmsOperLogServiceImpl extends ServiceImpl<LmsOperLogMapper, LmsOper
                 .map(LmsOperLog::getUserId)
                 .collect(Collectors.toSet());
 
-        // 获取默认 租户ID 的用户
+        // Get users of the default tenant ID
         var delegate1 = delegate(tenantManager.getDefaultTenantId(), () -> {
             return userService.listByUserIds(userIds)
                     .stream().collect(Collectors.toMap(PmsUserDTO::getUserId, r -> r));
@@ -86,7 +86,7 @@ public class LmsOperLogServiceImpl extends ServiceImpl<LmsOperLogMapper, LmsOper
 
         var mapUsers = new HashMap<Long, PmsUserDTO>(delegate1);
 
-        // 获取 非默认租户ID 的用户
+        // Get users of non-default tenant IDs
         if (!tenantManager.isDefaultTenantId(TenantUtils.getTenantId())) {
             var delegate2 = delegate(TenantUtils.getTenantId(), () -> {
                 return userService.listByUserIds(userIds)

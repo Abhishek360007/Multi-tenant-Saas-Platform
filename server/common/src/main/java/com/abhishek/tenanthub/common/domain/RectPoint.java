@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * <p>
- * 矩形 点位
+ * Rectangle point
  * </p>
  *
  * @author WangChenChen
@@ -18,19 +18,19 @@ import lombok.Data;
 public class RectPoint<T> {
 
     /**
-     * x 坐标
+     * x Coordinates
      */
-    @Schema(description = "x坐标")
+    @Schema(description = "x Coordinates")
     private Double x;
 
     /**
-     * y 坐标
+     * y Coordinates
      */
-    @Schema(description = "y坐标")
+    @Schema(description = "y Coordinates")
     private Double y;
 
     /**
-     * 唯一ID
+     * Unique ID
      */
     private T id;
 

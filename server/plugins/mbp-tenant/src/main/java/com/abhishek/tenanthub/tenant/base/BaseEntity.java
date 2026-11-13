@@ -28,44 +28,44 @@ import java.time.LocalDateTime;
 public class BaseEntity implements java.io.Serializable {
 
     /**
-     * 创建时间
+     * Created at
      */
-    @Schema(description = "创建时间")
+    @Schema(description = "Created at")
     @TableField(fill = FieldFill.INSERT)
     protected LocalDateTime createTime;
 
     /**
-     * 创建人 id
+     * Created by id
      */
-    @Schema(description = "创建人 id")
+    @Schema(description = "Created by id")
     @TableField(fill = FieldFill.INSERT)
     protected Long createUser;
 
     /**
-     * 创建人信息
+     * Creator details
      */
-    @Schema(description = "创建人信息")
+    @Schema(description = "Creator details")
     @TableField(exist = false)
     protected OperateUserDTO createUserEntity;
 
     /**
-     * 最后一次修改时间
+     * Last updated at
      */
-    @Schema(description = "最后一次修改时间")
+    @Schema(description = "Last updated at")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     protected LocalDateTime lastUpdateTime;
 
     /**
-     * 最后一次修改人 id
+     * Last updated by id
      */
-    @Schema(description = "最后一次修改人 id")
+    @Schema(description = "Last updated by id")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     protected Long lastUpdateUser;
 
     /**
-     * 最后一次修改人信息
+     * Last updater details
      */
-    @Schema(description = "最后一次修改人信息")
+    @Schema(description = "Last updater details")
     @TableField(exist = false)
     protected OperateUserDTO lastUpdateUserEntity;
 

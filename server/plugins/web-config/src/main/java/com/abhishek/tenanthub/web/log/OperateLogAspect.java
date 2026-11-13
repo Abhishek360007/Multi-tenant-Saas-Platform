@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 操作日志记录处理
+ * Operation log handling
  * </p>
  *
  * @author Wang Chen Chen
@@ -58,7 +58,7 @@ public class OperateLogAspect {
     private String appName;
 
     /**
-     * 统一切面日志,参数校验、统一异常处理、日志打印
+     * Unified aspect for validation, exception handling and logging
      */
     @Pointcut("@annotation(io.swagger.v3.oas.annotations.Operation)")
     public void logPointCut() {
@@ -66,16 +66,16 @@ public class OperateLogAspect {
 
 
     /**
-     * 环绕增强，相当于MethodInterceptor
+     * Around advice, equivalent to MethodInterceptor
      */
     @Around("logPointCut()")
     public Object doAfterReturning(ProceedingJoinPoint joinPoint) {
         long startTime = System.currentTimeMillis();
-        // 方法执行的结果
+        // Method result
         Object result = null;
-        // 耗时，单位毫秒
+        // Duration in milliseconds
         long timeCost = 0L;
-        // 执行方法异常
+        // Method threw an exception
         Throwable ex = null;
         try {
             result = joinPoint.proceed();
@@ -86,7 +86,7 @@ public class OperateLogAspect {
             log.error(ew.getMessage());
             result = JsonResult.fail(ew.getMessage());
         } finally {
-            //方法执行完成后增加日志
+            //Log after the method completes
             addOperationLog(joinPoint, result, ex, timeCost);
         }
         return result;
@@ -95,7 +95,7 @@ public class OperateLogAspect {
 
     private void addOperationLog(JoinPoint joinPoint, Object resp, Throwable ex, long timeCost) {
         var request = ServletUtils.getRequestInfo();
-        // 如果是 GET 请求，就忽略
+        // Skip GET requests
         if ("GET".equals(request.getMethod())) {
             return;
         }
@@ -115,7 +115,7 @@ public class OperateLogAspect {
             operLog.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
         operLog.setServiceName(appName);
-        // 全类名，方法名称
+        // Fully qualified class name and method name
         var methodName = String.format("%s.%s()", signature.getDeclaringTypeName(), signature.getName());
         operLog.setMethod(methodName);
         if (joinPoint.getArgs() != null) {
@@ -126,7 +126,7 @@ public class OperateLogAspect {
                         || arg instanceof HttpServletResponse
                         || arg instanceof HttpHeaders
                 ) {
-                    log.debug("spring mvc 对象...");
+                    log.debug("spring mvc Object...");
                 } else {
                     params.add(arg);
                 }

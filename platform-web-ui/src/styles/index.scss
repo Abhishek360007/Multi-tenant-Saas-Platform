@@ -1,4 +1,4 @@
-// 全局 CSS 变量
+// Global CSS variables
 @import "./variables.css";
 // Transition
 @import "./transition.scss";
@@ -6,7 +6,7 @@
 @import "./element-plus.scss";
 // Vxe Table
 @import "./vxe-table.scss";
-// 注册多主题
+// Register themes
 @import "./theme/register.scss";
 // mixin
 @import "./mixins.scss";
@@ -20,7 +20,7 @@ body {
   background-color: var(--v3-body-bg-color);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial,
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Arial,
     sans-serif;
   @extend %scrollbar;
 }
@@ -47,7 +47,7 @@ div:focus {
   outline: none;
 }
 
-// 业务页面几乎都应该在根元素上挂载 class="app-container"，以保持页面美观
+// Business pages should almost always set class="app-container" on their root element
 .app-container {
   padding: 10px;
 }

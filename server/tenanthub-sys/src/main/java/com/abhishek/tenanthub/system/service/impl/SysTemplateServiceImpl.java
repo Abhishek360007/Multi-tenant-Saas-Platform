@@ -48,9 +48,9 @@ public class SysTemplateServiceImpl extends BaseServiceImpl<SysTemplateMapper, S
     public boolean removeById(Serializable id) {
         Long tid = Long.valueOf(id.toString());
         if (baseMapper.userReference(tid) > 0) {
-            throw new BizException("此模板，还有租户在使用，无法删除！");
+            throw new BizException("This template is still used by tenants and cannot be deleted");
         }
-        // 先删除拥有的菜单
+        // Delete the assigned menus first
         baseMapper.deleteHaveMenus(tid);
         return super.removeById(tid);
     }
@@ -76,10 +76,10 @@ public class SysTemplateServiceImpl extends BaseServiceImpl<SysTemplateMapper, S
 
     @Override
     public UpdateMenusVO listHaveMenus(Long templateId) {
-        // 当前模板，已经拥有的菜单ID
+        // Menus already assigned to the template ID
         var haveHashSet = baseMapper.selectByTemplateId(templateId);
 
-        // 获取 非系统菜单
+        // Get non-platform menus
         var wrapper = new LambdaQueryWrapper<SysMenu>();
         wrapper.select(SysMenu::getMenuId, SysMenu::getParentId, SysMenu::getMenuName, SysMenu::getSort)
                 .ne(SysMenu::getTarget, MenuTargetEnum.SYSTEM.getCode());
@@ -97,7 +97,7 @@ public class SysTemplateServiceImpl extends BaseServiceImpl<SysTemplateMapper, S
     @Override
     public boolean updateMenus(Long templateId, Set<Long> menus) {
         if (!exist(SysTemplate::getId, templateId)) {
-            throw new BizException(String.format("模板ID %d 不存在！", templateId));
+            throw new BizException(String.format("Template ID %d does not exist", templateId));
         }
         baseMapper.deleteHaveMenus(templateId);
         if (menus != null && !menus.isEmpty()) {

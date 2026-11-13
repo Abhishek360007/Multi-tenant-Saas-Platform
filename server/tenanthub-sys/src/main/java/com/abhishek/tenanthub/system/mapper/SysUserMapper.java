@@ -10,22 +10,22 @@ import java.util.Set;
 public interface SysUserMapper {
 
 
-    // 查询 系统用户 关联的租户
+    // Query the tenants linked to a platform user
     @Select("select tenant_id from sys_user_tenant WHERE user_id = #{userId}")
     Set<String> selectHaveTenants(Long userId);
 
 
-    // 系统用户 删除关联的租户
+    // Remove tenants linked to a platform user
     @Delete("delete from sys_user_tenant WHERE user_id = #{userId}")
     int deleteHaveTenants(Long userId);
 
 
-    // 租户 删除关联的 系统用户
+    // Remove platform users linked to the tenant
     @Delete("delete from sys_user_tenant WHERE tenant_id = #{tenantId}")
     int deleteHaveSysUser(String tenantId);
 
 
-    // 系统用户 关联租户
+    // Link a platform user to tenants
     int insertByTenants(@Param("userId") Long userId,
                         @Param("tenantIds") Set<String> tenantIds);
 

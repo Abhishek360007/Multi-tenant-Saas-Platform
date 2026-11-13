@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 请求日志
+ * Request log
  * </p>
  *
  * @author Wang Chen Chen
@@ -26,39 +26,39 @@ import lombok.experimental.Accessors;
 public class CustomRequestInfo implements java.io.Serializable {
 
     /**
-     * 请求方式  GET POST PUT DELETE
+     * Request method  GET POST PUT DELETE
      */
-    @Schema(description = "请求方式")
+    @Schema(description = "Request method")
     private String method;
 
     /**
-     * 请求 url
+     * Request url
      */
-    @Schema(description = "请求url")
+    @Schema(description = "Request url")
     private String requestUrl;
 
     /**
-     * 请求的ip地址
+     * Client IP address
      */
-    @Schema(description = "ip地址")
+    @Schema(description = "ip Address")
     private String ip;
 
     /**
-     * 操作系统类型
+     * Operating system type
      */
-    @Schema(description = "操作系统")
+    @Schema(description = "Operating system")
     private String osName;
 
     /**
-     * 浏览器
+     * Browser
      */
-    @Schema(description = "浏览器")
+    @Schema(description = "Browser")
     private String browser;
 
     /**
-     * 地址
+     * Address
      */
-    @Schema(description = "真实地址")
+    @Schema(description = "Real address")
     private String address;
 
 }

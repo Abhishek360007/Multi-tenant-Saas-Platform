@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>通知</h1>
+    <h1>Notifications</h1>
   </div>
 </template>
 
@@ -9,7 +9,7 @@ import { ref, onMounted } from "vue"
 const data1 = ref({})
 console.log("data1 :>> ", data1)
 onMounted(() => {
-  console.log("1.-组件挂载到页面之后执行")
+  console.log("1.-Runs after the component is mounted")
 })
 </script>
 

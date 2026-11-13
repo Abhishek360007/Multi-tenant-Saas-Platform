@@ -14,7 +14,7 @@ const isLeftTop = computed(() => layoutMode.value === "left-top")
 
 <template>
   <div class="select-layout-mode">
-    <el-tooltip content="左侧模式">
+    <el-tooltip content="Left layout">
       <el-container class="layout-mode left" :class="{ active: isLeft }" @click="layoutMode = 'left'">
         <el-aside />
         <el-container>
@@ -23,13 +23,13 @@ const isLeftTop = computed(() => layoutMode.value === "left-top")
         </el-container>
       </el-container>
     </el-tooltip>
-    <el-tooltip content="顶部模式">
+    <el-tooltip content="Top layout">
       <el-container class="layout-mode top" :class="{ active: isTop }" @click="layoutMode = 'top'">
         <el-header />
         <el-main />
       </el-container>
     </el-tooltip>
-    <el-tooltip content="混合模式">
+    <el-tooltip content="Mixed layout">
       <el-container class="layout-mode left-top" :class="{ active: isLeftTop }" @click="layoutMode = 'left-top'">
         <el-header />
         <el-container>

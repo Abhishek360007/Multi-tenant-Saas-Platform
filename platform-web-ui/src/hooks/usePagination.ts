@@ -17,7 +17,7 @@ interface PaginationData {
   keywords?: string
 }
 
-/** 默认的分页参数 */
+/** Default pagination parameters */
 const defaultPaginationData: DefaultPaginationData = {
   total: 0,
   currentPage: 1,
@@ -27,16 +27,16 @@ const defaultPaginationData: DefaultPaginationData = {
 }
 
 export function usePagination(fn: Function, initialPaginationData: PaginationData = {}) {
-  /** 合并分页参数 */
+  /** Merge pagination parameters */
   const paginationData = reactive({ ...defaultPaginationData, ...initialPaginationData })
 
-  /** 改变当前页码 */
+  /** Change the current page */
   const handleCurrentChange = (value: number) => {
     paginationData.currentPage = value
     fn()
   }
 
-  /** 改变页面大小 */
+  /** Change the page size */
   const handleSizeChange = (value: number) => {
     paginationData.pageSize = value
     fn()

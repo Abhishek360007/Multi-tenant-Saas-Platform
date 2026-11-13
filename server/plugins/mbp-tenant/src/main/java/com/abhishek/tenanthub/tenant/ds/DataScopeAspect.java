@@ -18,7 +18,7 @@ import java.util.Objects;
 import static com.abhishek.tenanthub.common.consts.DataScopeConst.*;
 
 /**
- * 数据过滤处理
+ * Data filtering
  */
 
 @Aspect
@@ -37,23 +37,23 @@ public class DataScopeAspect {
         if (!JwtSecurityUtils.isAuthenticated()) {
             return;
         }
-        // 平台用户 和 租户管理员，禁用数据权限
+        // Data permissions are disabled for platform users and tenant admins
         if (JwtSecurityUtils.isAdminUser() || JwtSecurityUtils.isMasterUser()) {
             return;
         }
-        // 获取当前的用户
+        // Get the current user
         var currentUser = JwtSecurityUtils.getLoginUser();
         dataScopeFilter(joinPoint, currentUser, ds.deptAlias(), ds.userAlias());
     }
 
 
     /**
-     * 数据范围过滤
+     * Data scope filter
      *
-     * @param joinPoint 切点
-     * @param user      用户
-     * @param deptAlias 部门别名
-     * @param userAlias 用户别名
+     * @param joinPoint Pointcut
+     * @param user      User
+     * @param deptAlias Department alias
+     * @param userAlias User alias
      */
     public static void dataScopeFilter(JoinPoint joinPoint, JwtLoginUser user, String deptAlias, String userAlias) {
         StringBuilder sqlString = new StringBuilder();
@@ -75,7 +75,7 @@ public class DataScopeAspect {
                 break;
             } else if (Objects.equals(DATA_SCOPE_CUSTOM, dataScope)) {
                 if (scopeCustomIds.size() > 1) {
-                    // 多个自定数据权限使用in查询，避免多次拼接。
+                    // Multiple custom data permissions use an IN query to avoid repeated joins.
                     sqlString.append(StrUtil.format(" OR {}.dept_id IN ( SELECT dept_id FROM pms_role_dept WHERE role_id in ({}) ) ", deptAlias, String.join(",", scopeCustomIds)));
                 } else {
                     sqlString.append(StrUtil.format(" OR {}.dept_id IN ( SELECT dept_id FROM pms_role_dept WHERE role_id = {} ) ", deptAlias, role.getRoleId()));
@@ -88,13 +88,13 @@ public class DataScopeAspect {
                 if (StrUtil.isNotBlank(userAlias)) {
                     sqlString.append(StrUtil.format(" OR {}.user_id = {} ", userAlias, user.getUserId()));
                 } else {
-                    // 数据权限为仅本人且没有userAlias别名不查询任何数据
+                    // Own-data scope without a userAlias returns no data
                     sqlString.append(StrUtil.format(" OR {}.dept_id = 0 ", deptAlias));
                 }
             }
             conditions.add(dataScope);
         }
-        // 角色都不包含传递过来的权限字符，这个时候sqlString也会为空，所以要限制一下,不查询任何数据
+        // If no role has the given permission, sqlString is empty too, so return no data
         if (CollectionUtil.isEmpty(conditions)) {
             sqlString.append(StrUtil.format(" OR {}.dept_id = 0 ", deptAlias));
         }
@@ -109,7 +109,7 @@ public class DataScopeAspect {
 
 
     /**
-     * 拼接权限sql前先清空params.dataScope参数防止注入
+     * Clear params.dataScope before building the permission SQL to prevent injection
      */
     private void clearDataScope(final JoinPoint joinPoint) {
         var params = Arrays.stream(joinPoint.getArgs()).filter(a -> a instanceof ParamBaseEntity).findFirst();

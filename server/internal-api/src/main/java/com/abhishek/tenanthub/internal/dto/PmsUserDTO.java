@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 系统用户
+ * Platform user
  * </p>
  *
  * @author Wang Chen Chen
@@ -25,57 +25,57 @@ import java.time.LocalDateTime;
 public class PmsUserDTO implements java.io.Serializable {
 
     /**
-     * 用户唯一id
+     * Unique user id
      */
     private Long userId;
 
     /**
-     * 头像
+     * Avatar
      */
     private String avatar;
 
     /**
-     * 用户名
+     * Username
      */
     private String username;
 
     /**
-     * 手机号码
+     * Mobile number
      */
     private String mobile;
 
     /**
-     * 邮箱
+     * Email
      */
     private String email;
 
     /**
-     * 昵称
+     * Nickname
      */
     private String nickname;
 
     /**
-     * 密码
+     * Password
      */
     private String password;
 
     /**
-     * 性别[ 0.女  1.男  2.未知]
+     * Gender [0 = female, 1 = male, 2 = unknown]
      */
     private Byte gender;
 
     /**
-     * 是否管理员 0. 普通用户  1. 管理员
+     * Is admin: 0 = regular user, 1 = admin
      */
     private Byte adminFlag;
 
     /**
-     * 状态 【0.禁用 1.正常】
+     * Status [0 = disabled, 1 = normal]
      */
     private Byte status;
 
     /**
-     * 所属部门
+     * Department
      */
     private Long deptId;
 
@@ -85,7 +85,7 @@ public class PmsUserDTO implements java.io.Serializable {
     private Byte passwordChangeRequired;
 
     /**
-     * 过期时间  为空就是永久
+     * Expiry time (empty = never expires)
      */
     private LocalDateTime expired;
 

@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * <p>
- * 设备 控制器
+ * Device controller
  * </p>
  *
  * @author Wang Chen Chen
@@ -29,7 +29,7 @@ import java.util.List;
  */
 
 @Slf4j
-@Tag(name = "[ 核心 ] 设备")
+@Tag(name = "[ Core ] Devices")
 @RestController
 @RequestMapping("/cms/device")
 @AllArgsConstructor
@@ -38,14 +38,14 @@ public class CmsDeviceController {
     private CmsDeviceService baseService;
 
 
-    @Operation(summary = "单个查询", description = "根据Id查询")
+    @Operation(summary = "Get one", description = "Query by ID")
     @GetMapping("/{id}")
     public JsonResult<CmsDevice> findById(@PathVariable("id") Long id) {
         return JsonResult.success(baseService.getById(id));
     }
 
 
-    @Operation(summary = "分页", description = "分页 查询所有")
+    @Operation(summary = "Paged query", description = "Paged query of all")
     @GetMapping("/query")
     public JsonResult<Pagination<CmsDevice>> pageQuery(SearchParentPO params) {
         IPage<CmsDevice> page = baseService.pageKeywords(params,
@@ -54,7 +54,7 @@ public class CmsDeviceController {
     }
 
 
-    @Operation(summary = "查询所有", description = " 查询所有")
+    @Operation(summary = "Query all", description = " Query all")
     @GetMapping("/list")
     public JsonResult<List<CmsDevice>> list() {
         return JsonResult.success(baseService.list());
@@ -62,7 +62,7 @@ public class CmsDeviceController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "新增", description = "不需要添加id")
+    @Operation(summary = "Add", description = "Do not include id")
     @PostMapping()
     public JsonResult<Boolean> create(@RequestBody @Validated(ValidCreate.class) CmsDevice entity) {
         var flag = baseService.save(entity);
@@ -71,7 +71,7 @@ public class CmsDeviceController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改", description = "修改必须要id")
+    @Operation(summary = "Update", description = "Update requires id")
     @PutMapping()
     public JsonResult<Boolean> updateById(@RequestBody @Validated(ValidUpdate.class) CmsDevice entity) {
         return JsonResult.success(baseService.updateById(entity));
@@ -79,7 +79,7 @@ public class CmsDeviceController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "删除", description = "只需要id即可")
+    @Operation(summary = "Delete", description = "Only the ID is required")
     @DeleteMapping("/{id}")
     public JsonResult<Boolean> removeById(@PathVariable("id") Long id) {
         return JsonResult.success(baseService.removeById(id));

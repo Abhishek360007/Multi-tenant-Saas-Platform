@@ -7,7 +7,7 @@ import lombok.ToString;
 
 /**
  * <p>
- * 基础参数传递
+ * Basic parameter passing
  * </p>
  *
  * @author Wang Chen Chen<932560435@qq.com>
@@ -17,20 +17,20 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Schema(description = "搜索分页查询")
+@Schema(description = "Paged search")
 public class SearchPO extends PagePO implements java.io.Serializable {
 
     /**
-     * 搜索，关键字
+     * Search keyword
      */
-    @Schema(description = "关键字搜索")
+    @Schema(description = "Keyword search")
     private String keywords;
 
     /**
-     * 包含创建和修改用户信息
+     * Includes creator and last updater details
      * include create and update user
      */
-    @Schema(description = "包含创建和修改用户信息")
+    @Schema(description = "Includes creator and last updater details")
     private Boolean includeCauu;
 
     public boolean isIncludeCauu() {

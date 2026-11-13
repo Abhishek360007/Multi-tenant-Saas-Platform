@@ -30,11 +30,11 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: "请选择"
+    default: "Select"
   }
 })
 
-// 基于类型
+// Type-based
 const emit = defineEmits<{
   (e: "update:value", value: String | Number): void
 }>()

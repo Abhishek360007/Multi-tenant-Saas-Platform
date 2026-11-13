@@ -8,59 +8,59 @@ import svgLoader from "vite-svg-loader"
 import vueJsx from "@vitejs/plugin-vue-jsx"
 import {createSvgIconsPlugin} from "vite-plugin-svg-icons"
 
-/** 配置项文档：https://cn.vitejs.dev/config */
+/** Configuration docs:https://cn.vitejs.dev/config */
 export default (configEnv: ConfigEnv): UserConfigExport => {
   const viteEnv = loadEnv(configEnv.mode, process.cwd()) as ImportMetaEnv
   const { VITE_PUBLIC_PATH, VITE_BASE_API } = viteEnv
   return {
-    /** 打包时根据实际情况修改 base */
+    /** Adjust for your deployment base */
     base: VITE_PUBLIC_PATH,
     resolve: {
       alias: {
-        /** @ 符号指向 src 目录 */
+        /** @ symbol points to the src directory */
         "@": resolve(__dirname, "./src")
       }
     },
     server: {
-      /** 设置 host: true 才可以使用 Network 的形式，以 IP 访问项目 */
+      /** host: true allows access over the network by IP */
       host: true, // host: "0.0.0.0"
-      /** 端口号 */
+      /** Port */
       port: 8333,
-      /** 是否自动打开浏览器 */
+      /** Open the browser automatically */
       open: false,
-      /** 跨域设置允许 */
+      /** Allow cross-origin */
       cors: true,
-      /** 端口被占用时，是否直接退出 */
+      /** Exit if the port is in use */
       strictPort: false,
-      /** 接口代理 */
+      /** API proxy */
       proxy: {
         "/api/v1": {
           target: VITE_BASE_API,
           ws: true,
-          /** 是否允许跨域 */
+          /** Allow cross-origin */
           changeOrigin: true,
           rewrite: (path: string) => path.replace("/api/v1", "")
         }
       },
-      /** 预热常用文件，提高初始页面加载速度 */
+      /** Warm up common files to speed up the first page load */
       warmup: {
         clientFiles: ["./src/{views,components}/*.vue"]
       },
     },
 
     build: {
-      /** 单个 chunk 文件的大小超过 2048KB 时发出警告 */
+      /** Warn when a single chunk exceeds 2048KB */
       chunkSizeWarningLimit: 2048,
-      /** 禁用 gzip 压缩大小报告 */
+      /** Disable gzip size reporting */
       reportCompressedSize: false,
-      /** 打包后静态资源目录 */
+      /** Static asset directory after build */
       assetsDir: "static",
       rollupOptions: {
         output: {
           /**
-           * 分块策略
-           * 1. 注意这些包名必须存在，否则打包会报错
-           * 2. 如果你不想自定义 chunk 分割策略，可以直接移除这段配置
+           * Chunking strategy
+           * 1. These package names must exist or the build fails
+           * 2. Remove this block if you do not want custom chunk splitting
            */
           manualChunks: {
             vue: ["vue", "vue-router", "pinia"],
@@ -70,20 +70,20 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
         }
       }
     },
-    /** 混淆器 */
+    /** Minifier */
     esbuild: {
-      /** 打包时移除 console.log */
+      /** Removed in production builds console.log */
       pure: ["console.log"],
-      /** 打包时移除 debugger */
+      /** Removed in production builds debugger */
       drop: ["debugger"],
-      /** 打包时移除所有注释 */
+      /** Remove all comments in production builds */
       legalComments: "none"
     },
-    /** Vite 插件 */
+    /** Vite Plugins */
     plugins: [
       vue(),
       vueJsx(),
-      /** 将 SVG 静态图转化为 Vue 组件 */
+      /** Turn static SVGs into Vue components */
       svgLoader({ defaultImport: "url" }),
       /** SVG */
       createSvgIconsPlugin({
@@ -93,7 +93,7 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
       /** UnoCSS */
       UnoCSS()
     ],
-    /** Vitest 单元测试配置：https://cn.vitest.dev/config */
+    /** Vitest Unit test settings:https://cn.vitest.dev/config */
     test: {
       include: ["tests/**/*.test.ts"],
       environment: "jsdom"

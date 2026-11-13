@@ -41,7 +41,7 @@ import static com.abhishek.tenanthub.common.consts.DataScopeConst.*;
 
 /**
  * <p>
- * 用户登录
+ * User login
  * </p>
  *
  * @author Wang Chen Chen<932560435@qq.com>
@@ -77,7 +77,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     private final RsaAsymmetricCryptoService cryptoService;
 
     /**
-     * 登录表单获取 Token
+     * From the sign-in form Token
      *
      * @return
      * @date 2018/11/16
@@ -85,29 +85,29 @@ public class UserLoginServiceImpl implements UserLoginService {
      */
     @Override
     public JwtTokenValue login(LoginFormPO po, HttpServletRequest request) throws JwtAuthException {
-        // 验证码是否正确
+        // Whether the captcha is correct
         if (!captchaService.check(po.getCodeKey(), po.getCodeText())) {
-            throw new JwtAuthException("认证失败：验证码错误。");
+            throw new JwtAuthException("Authentication failed: incorrect captcha.");
         }
-        // 判断租户是否存在
+        // Check whether a tenant exists
         var currentTenant = tenantService.getByCurrentTenant();
         if (currentTenant == null) {
-            throw new JwtAuthException("租户不存在！");
+            throw new JwtAuthException("Tenant does not exist");
         }
-        // 判断租户状态
+        // Check the tenant status
         if (!Objects.equals(currentTenant.getStatus(), StatusEnum.NORMAL.getCode())) {
-            throw new JwtAuthException(String.format("租户 %s 被停用！", currentTenant.getName()));
+            throw new JwtAuthException(String.format("Tenant %s is disabled", currentTenant.getName()));
         }
-        // 判断租户是否过期
+        // Check whether the tenant has expired
         if (LocalDateTime.now().isAfter(currentTenant.getExpired())) {
             var format = LocalDateTimeUtil.formatNormal(currentTenant.getExpired().toLocalDate());
-            throw new JwtAuthException(String.format("租户 %s 已经在 %s 过期了！", currentTenant.getName(), format));
+            throw new JwtAuthException(String.format("Tenant %s expired on %s", currentTenant.getName(), format));
         }
-        // 解密
+        // Decrypt
         final var username = cryptoService.decrypt(po.getUsername()).trim();
         po.setUsername(username);
         final var password = cryptoService.decrypt(po.getPassword()).trim();
-        // 把表单提交的 username  password 封装到 UsernamePasswordAuthenticationToken中
+        // Wrap the submitted username and password in a UsernamePasswordAuthenticationToken
         var authResult = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
         );
@@ -117,10 +117,10 @@ public class UserLoginServiceImpl implements UserLoginService {
         target.setGrantType(GrantType.PASSWORD);
         target.setLoginTime(LocalDateTime.now());
         target.setTenantId(currentTenant.getTenantId());
-        // 生成一个随机ID 跟当前用户关联
+        // Generate a random ID linked to the current user
         target.setLoginId(IdUtils.getStandaloneStrId());
 
-        // 判断当前登录的用户类型。系统用户 还是 租户用户
+        // Determine whether the signed-in user is a platform user or a tenant user
         String defaultTenantId = tenantService.getByDefaultTenantId();
         var userType = StringUtils.equals(defaultTenantId, target.getTenantId())
                 ? UserType.SYSTEM : UserType.TENANT;
@@ -129,33 +129,33 @@ public class UserLoginServiceImpl implements UserLoginService {
         target.setHaveProjectIds(new HashSet<>());
         target.setHaveTenantIds(new HashSet<>());
 
-        // 如果当前登录的用户，是否系统用户
+        // Whether the signed-in user is a platform user
         if (userType == UserType.SYSTEM) {
             var haveTenantIds = sysUserService.listHaveTenantIds(target.getUserId());
             target.setHaveTenantIds(haveTenantIds);
         } else {
-            // 非管理员 用户。根据部门Id获取关联的项目Id
+            // Non-admin user: get the linked projects by department ID
             if (target.getAdminFlag() == AdminFlag.NO) {
-                // 获取当前登录的用户 项目ID 列表
+                // Get the project IDs of the signed-in user
                 var haveProjectIds = cmsProjectService.listProjectByDeptId(target.getDeptId());
                 target.setHaveProjectIds(haveProjectIds);
             }
         }
 
-        // 设置角色和菜单权限
+        // Set role and menu permissions
         setAuthoritys(target);
 
         tokenService.setLoginUser(target);
 
-        // 保存登录日志到数据库中
+        // Save the login log to the database
         asyncLoginLogSave(target, ServletUtils.getRequestInfo(request));
 
-        // 删除 redis 中的 验证码
+        // Delete the captcha from Redis
         captchaService.delete(po.getCodeKey());
 
         var props = tokenService.getProps();
 
-        // 将当前用户设置为登录
+        // Mark the current user as signed in
         JwtSecurityUtils.setLoginUser(target);
 
         return JwtTokenValue.builder()
@@ -169,7 +169,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Override
     public void refreshAuthoritys() {
-        // 判断用户是否登录
+        // Check whether the user is signed in
         if (JwtSecurityUtils.isAuthenticated()) {
             refreshAuthoritys(JwtSecurityUtils.getLoginUser());
         }
@@ -179,21 +179,21 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Override
     public void refreshAuthoritys(JwtLoginUser target) {
         target.setAuthorities(List.of());
-        // 设置用户的权限
+        // Set the user permissions
         setAuthoritys(target);
-        // 更新用户的权限
+        // Update the user permissions
         tokenService.updateLoginUser(target);
     }
 
 
     /**
-     * 设置用户的权限
+     * Set the user permissions
      *
      * @author WangChenChen
      * @date 2023/2/6 15:56
      */
     private void setAuthoritys(JwtLoginUser target) {
-        // 获取 登录用户，拥有的角色
+        // Get the roles of the signed-in user
         var roles = roleService.listByUserId(target.getUserId());
         if (roles.isEmpty()) {
             target.setRoles(new HashSet<>());
@@ -201,15 +201,15 @@ public class UserLoginServiceImpl implements UserLoginService {
         }
         target.setRoles(roles);
 
-        // 根据角色，获取部门权限
+        // Get department permissions from the roles
         var deptIds = listDeptIdByRoles(target);
         target.setHaveDeptIds(deptIds);
 
-        // 判断当前 登录的用户，是不是管理员
-        // 系统管理员。那么就获取所有除了租户的菜单。
-        // 租户管理员。根据租户关联的模板，获取所有的菜单
+        // Whether the signed-in user is an admin
+        // Platform admin: get every menu except tenant menus.
+        // Tenant admin: get all menus from the tenant templates
         if (target.getAdminFlag() == AdminFlag.YES) {
-            // 判断当前登录的用户，是不是系统用户
+            // Whether the signed-in user is a platform user
             Set<StringGrantedAuthority> authorities;
             if (target.getUserType() == UserType.SYSTEM) {
                 authorities = menuService.listPermsByNonTenant()
@@ -225,10 +225,10 @@ public class UserLoginServiceImpl implements UserLoginService {
             target.setAuthorities(authorities);
             return;
         }
-        // 非管理员。就获取，角色关联的权限
+        // Non-admin: get the permissions linked to the roles
         var roleIds = roles.stream().map(PmsRoleDTO::getRoleId).collect(Collectors.toSet());
 
-        // 再根据，角色 获取关联的菜单ID
+        // then get the menus linked to the roles ID
         var menuIds = roleService.listMenuIdByRoleIds(roleIds);
         if (!menuIds.isEmpty()) {
             var authorities = menuService.listPermsByMenuIds(menuIds)
@@ -247,14 +247,14 @@ public class UserLoginServiceImpl implements UserLoginService {
         if (target.getRoles().isEmpty()) {
             return Set.of();
         }
-        // 角色列表中是否包含 1.全部数据权限
+        // Whether the roles include 1. all data
         var isAll = target.getRoles().stream().anyMatch(a -> Objects.equals(a.getDataScope(), DATA_SCOPE_ALL));
         if (isAll) {
             return deptService.listDeptIdByAll();
         }
 
         var depsIds = new HashSet<Long>();
-        // 角色列表中是否包含 2.自定数据权限
+        // Whether the roles include 2. custom data
         var roleIds = target.getRoles().stream()
                 .filter(a -> Objects.equals(a.getDataScope(), DATA_SCOPE_CUSTOM))
                 .map(PmsRoleDTO::getRoleId).collect(Collectors.toSet());
@@ -263,13 +263,13 @@ public class UserLoginServiceImpl implements UserLoginService {
             depsIds.addAll(v1);
         }
 
-        // 角色列表中是否包含 3.仅本部门数据权限
+        // Whether the roles include 3. own department only
         var isOnlyMe = target.getRoles().stream().anyMatch(a -> Objects.equals(a.getDataScope(), DATA_SCOPE_DEPT));
         if (isOnlyMe) {
             depsIds.add(target.getDeptId());
         }
 
-        // 角色列表中是否包含 4：本部门及以下数据权限
+        // Whether the roles include 4. own department and below
         var isMeAndChild = target.getRoles().stream().anyMatch(a -> Objects.equals(a.getDataScope(), DATA_SCOPE_DEPT_AND_CHILD));
         if (isMeAndChild) {
             var v1 = deptService.listChildIdByDeptId(target.getDeptId());
@@ -281,7 +281,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 
 
     /**
-     * 保存 登录日志
+     * Save the login log
      *
      * @author WangChenChen
      * @date 2023/2/6 15:56

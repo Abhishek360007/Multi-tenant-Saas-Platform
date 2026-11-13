@@ -15,16 +15,16 @@ import java.math.RoundingMode;
 public class ArithUtils {
 
     /**
-     * 默认除法运算精度
+     * Default division precision
      */
     private static final int DEF_DIV_SCALE = 10;
 
     /**
-     * 提供精确的加法运算。
+     * Exact addition.
      *
-     * @param v1 被加数
-     * @param v2 加数
-     * @return 两个参数的和
+     * @param v1 Augend
+     * @param v2 Addend
+     * @return Sum of the two arguments
      */
     public static double add(double v1, double v2) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
@@ -33,11 +33,11 @@ public class ArithUtils {
     }
 
     /**
-     * 提供精确的减法运算。
+     * Exact subtraction.
      *
-     * @param v1 被减数
-     * @param v2 减数
-     * @return 两个参数的差
+     * @param v1 Minuend
+     * @param v2 Subtrahend
+     * @return Difference of the two arguments
      */
     public static double sub(double v1, double v2) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
@@ -46,11 +46,11 @@ public class ArithUtils {
     }
 
     /**
-     * 提供精确的乘法运算。
+     * Exact multiplication.
      *
-     * @param v1 被乘数
-     * @param v2 乘数
-     * @return 两个参数的积
+     * @param v1 Multiplicand
+     * @param v2 Multiplier
+     * @return Product of the two arguments
      */
     public static double mul(double v1, double v2) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
@@ -59,25 +59,25 @@ public class ArithUtils {
     }
 
     /**
-     * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到
-     * 小数点以后10位，以后的数字四舍五入。
+     * (Relatively) exact division; when not exact, rounded to
+     * 10 decimal places, rounding half up.
      *
-     * @param v1 被除数
-     * @param v2 除数
-     * @return 两个参数的商
+     * @param v1 Dividend
+     * @param v2 Divisor
+     * @return Quotient of the two arguments
      */
     public static double div(double v1, double v2) {
         return div(v1, v2, DEF_DIV_SCALE);
     }
 
     /**
-     * 提供（相对）精确的除法运算。当发生除不尽的情况时，由scale参数指
-     * 定精度，以后的数字四舍五入。
+     * (Relatively) exact division; when not exact, the scale argument
+     * sets the precision, rounding half up.
      *
-     * @param v1    被除数
-     * @param v2    除数
-     * @param scale 表示表示需要精确到小数点以后几位。
-     * @return 两个参数的商
+     * @param v1    Dividend
+     * @param v2    Divisor
+     * @param scale Number of decimal places to keep.
+     * @return Quotient of the two arguments
      */
     public static double div(double v1, double v2, int scale) {
         if (scale < 0) {
@@ -93,11 +93,11 @@ public class ArithUtils {
     }
 
     /**
-     * 提供精确的小数位四舍五入处理。
+     * Exact decimal rounding.
      *
-     * @param v     需要四舍五入的数字
-     * @param scale 小数点后保留几位
-     * @return 四舍五入后的结果
+     * @param v     Number to round
+     * @param scale Decimal places to keep
+     * @return Rounded result
      */
     public static double round(double v, int scale) {
         if (scale < 0) {

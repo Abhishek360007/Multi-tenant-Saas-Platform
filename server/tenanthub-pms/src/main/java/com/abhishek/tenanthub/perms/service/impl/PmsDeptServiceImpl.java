@@ -71,7 +71,7 @@ public class PmsDeptServiceImpl extends BaseServiceImpl<PmsDeptMapper, PmsDept> 
     @Override
     public List<Tree<Long>> treeNode() {
         final var deptList = baseMapper.selectDeptList(new PmsDept());
-        // 获取 部门的 所有祖籍节点
+        // Get all ancestors of the department
         var ancestors = deptList.stream()
                 .filter(a -> StrUtil.isNotBlank(a.getAncestors()))
                 .map(a -> a.getAncestors().split(StrUtil.COMMA))
@@ -80,7 +80,7 @@ public class PmsDeptServiceImpl extends BaseServiceImpl<PmsDeptMapper, PmsDept> 
                 .map(Long::parseLong)
                 .filter(a -> a > 0)
                 .collect(Collectors.toSet());
-        // 移除已经存在的节点
+        // Remove nodes that already exist
         if (!ancestors.isEmpty()) {
             var c1 = deptList.stream().map(PmsDept::getDeptId).collect(Collectors.toSet());
             ancestors.removeAll(c1);
@@ -176,7 +176,7 @@ public class PmsDeptServiceImpl extends BaseServiceImpl<PmsDeptMapper, PmsDept> 
 
     private void includeParentName(Collection<PmsDept> deptList) {
         if (CollectionUtil.isNotEmpty(deptList)) {
-            // 获取全部 祖先ID
+            // Get all ancestors ID
             var ancestors = deptList.stream()
                     .filter(a -> StrUtil.isNotBlank(a.getAncestors()))
                     .map(a -> a.getAncestors().split(StrUtil.COMMA))
@@ -221,7 +221,7 @@ public class PmsDeptServiceImpl extends BaseServiceImpl<PmsDeptMapper, PmsDept> 
         } else {
             var parentDept = super.getById(entity.getParentId());
             if (parentDept == null) {
-                throw new BizException(String.format("上级部门 %d 不存在!", entity.getParentId()));
+                throw new BizException(String.format("Parent department %d does not exist!", entity.getParentId()));
             }
             entity.setAncestors(parentDept.getAncestors() + StrUtil.COMMA + entity.getParentId());
         }
@@ -235,18 +235,18 @@ public class PmsDeptServiceImpl extends BaseServiceImpl<PmsDeptMapper, PmsDept> 
     public boolean removeById(Serializable id) {
         var dept = getById(id);
         if (dept == null) {
-            throw new BizException(String.format("部门 %s 不存在!", id));
+            throw new BizException(String.format("Department %s does not exist!", id));
         }
         if (super.exist(PmsDept::getParentId, dept.getDeptId())) {
-            throw new BizException(String.format("请先删除 %s 的下级部门!", dept.getDeptName()));
+            throw new BizException(String.format("Delete the child departments of %s first!", dept.getDeptName()));
         }
         if (projectService.countProjectByDeptId(dept.getDeptId()) > 0) {
-            throw new BizException(String.format("部门 %s 还有项目关联!", dept.getDeptName()));
+            throw new BizException(String.format("Department %s still has linked projects!", dept.getDeptName()));
         }
         var wrapper = new LambdaQueryWrapper<PmsUser>()
                 .eq(PmsUser::getDeptId, dept.getDeptId());
         if (userMapper.selectCount(wrapper) > 0) {
-            throw new BizException(String.format("部门 %s 还有用户关联!", dept.getDeptName()));
+            throw new BizException(String.format("Department %s still has linked users!", dept.getDeptName()));
         }
         return super.removeById(id);
     }
@@ -256,7 +256,7 @@ public class PmsDeptServiceImpl extends BaseServiceImpl<PmsDeptMapper, PmsDept> 
     @Override
     public boolean updateById(PmsDept entity) {
         if (NumberUtil.equals(entity.getDeptId(), entity.getParentId())) {
-            throw new BizException("上级部门不能是自己!");
+            throw new BizException("A department cannot be its own parent!");
         }
         var newParentDept = getById(entity.getParentId());
         var oldDept = getById(entity.getDeptId());

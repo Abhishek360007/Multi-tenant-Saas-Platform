@@ -39,26 +39,26 @@ public class TenantIdInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         /*
-         * 从请求头中获取 如:
+         * From the request header, e.g.:
          * GET https://www.baidu.com/hello
          * x-tenant-id=master
          * */
         var tenantId = request.getHeader(X_TENANT_ID);
         /*
-         * 从URL地址中获取   如:
+         * From the URL, e.g.:
          * GET https://www.baidu.com/hello?x-tenant-id=master
          * */
         var paramTenantId = request.getParameter(X_TENANT_ID);
-        // URL中的租户id。会覆盖掉请求头中的租户id
+        // URL tenant ID in. Overrides the tenant in the request header id
         if (StringUtils.isEmpty(tenantId) || StringUtils.isNotEmpty(paramTenantId)) {
             tenantId = paramTenantId;
         }
         if (StringUtils.isEmpty(tenantId)) {
-            // 判断当前此请求，是否已经登录。
+            // Check whether the request is signed in.
             if (JwtSecurityUtils.isAuthenticated()) {
-                // 判断登录的用户类型。
-                // 系统用户:  必须添加 租户ID.
-                // 租户用户:  租户ID 在登录的时候，已经确定了
+                // Determine the signed-in user type.
+                // Platform users: must specify a tenant ID.
+                // Tenant users: the tenant ID is fixed at sign-in
                 if (JwtSecurityUtils.isMasterUser()) {
                     return writeError(response);
                 } else {
@@ -68,14 +68,14 @@ public class TenantIdInterceptor implements HandlerInterceptor {
                 return writeError(response);
             }
         }
-        // 校验租户，是否存在系统中
+        // Check that the tenant exists
         if (!tenantService.existById(tenantId)) {
-            var err = String.format("租户ID %s 不存在！", tenantId);
+            var err = String.format("Tenant ID %s does not exist", tenantId);
             ServletUtils.renderError(response, JsonResult.result(TENANT_ID_DOES_NOT_EXIST.getStatus(), err));
             return false;
         }
         TenantUtils.setTenantId(tenantId);
-        // 校验 当前用户是否 有操作此租户的权限
+        // Check whether the current user may access this tenant
         if (!haveTenantPermissions(response, tenantId)) {
             return false;
         }
@@ -84,14 +84,14 @@ public class TenantIdInterceptor implements HandlerInterceptor {
 
 
     /**
-     * 判断 当前用户是否拥有 此租户的操作权限
+     * Check whether the current user has permission for this tenant
      */
     private boolean haveTenantPermissions(HttpServletResponse response, String tenantId) {
-        // 如果当前用户是 系统用户
+        // If the current user is a platform user
         if (JwtSecurityUtils.isMasterUser()) {
             var haveTenantIds = JwtSecurityUtils.getLoginUser().getHaveTenantIds();
             if (!haveTenantIds.isEmpty() && !haveTenantIds.contains(tenantId)) {
-                var err = String.format("您没有 租户ID %s 的操作权限！", tenantId);
+                var err = String.format("You do not have permission for tenant ID %s", tenantId);
                 var first = haveTenantIds.stream().findFirst();
                 var result = JsonResult.error(NO_HAVE_TENANT_PERMISSIONS.getStatus(), err, SmallTenant.class);
                 var firstTenant = tenantService.getSmallByTenantId(first.get());
@@ -105,7 +105,7 @@ public class TenantIdInterceptor implements HandlerInterceptor {
 
 
     private static boolean writeError(HttpServletResponse response) {
-        var err = String.format("请求头或者URL参数中必须添加 %s ", X_TENANT_ID);
+        var err = String.format("Must be provided in the request header or URL parameters %s ", X_TENANT_ID);
         ServletUtils.renderError(response, JsonResult.result(REQUEST_MUST_ADD_TENANT_ID.getStatus(), err));
         return false;
     }

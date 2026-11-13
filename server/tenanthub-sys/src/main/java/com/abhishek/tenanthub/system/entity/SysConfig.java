@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 通用父实体类
+ * Common parent entity
  * </p>
  *
  * @author Wang Chen Chen
@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
  */
 
 
-@Schema(description = "全局配置")
+@Schema(description = "Global settings")
 @TableName("sys_config")
 @Getter
 @Setter
@@ -34,39 +34,39 @@ import lombok.experimental.Accessors;
 public class SysConfig extends BaseEntity {
 
     /**
-     * 参数主键
+     * Parameter key
      */
-    @Schema(description = "配置ID")
+    @Schema(description = "Settings ID")
     @TableId(type = IdType.AUTO)
-    @NotNull(message = "配置ID,必须填写", groups = {ValidUpdate.class})
+    @NotNull(message = "Config ID is required", groups = {ValidUpdate.class})
     private Long configId;
 
     /**
-     * 参数名称
+     * Parameter name
      */
-    @Schema(description = "参数名称")
-    @NotEmpty(message = "参数名称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Parameter name")
+    @NotEmpty(message = "Parameter name is required", groups = {ValidCreate.class})
     private String configName;
 
     /**
-     * 参数键名
+     * Parameter key
      */
-    @Schema(description = "参数键名")
-    @NotEmpty(message = "参数键名,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Parameter key")
+    @NotEmpty(message = "Parameter key is required", groups = {ValidCreate.class})
     private String configKey;
 
     /**
-     * 参数键值
+     * Parameter value
      */
-    @Schema(description = "参数键值")
-    @NotEmpty(message = "参数键值,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Parameter value")
+    @NotEmpty(message = "Parameter value is required", groups = {ValidCreate.class})
     private String configValue;
 
     /**
-     * 系统内置（1.是 0.否）
+     * Built in (1 = yes, 0 = no)
      */
-    @Schema(description = "系统内置（1.是 0.否）")
-    @NotNull(message = "系统内置,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Built in (1 = yes, 0 = no)")
+    @NotNull(message = "Built-in flag is required", groups = {ValidCreate.class})
     private Byte configType;
 
 }

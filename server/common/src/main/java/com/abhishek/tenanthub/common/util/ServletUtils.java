@@ -40,7 +40,7 @@ public class ServletUtils {
 
 
     /**
-     * 获取request
+     * Get request
      */
     public static HttpServletRequest getRequest() {
         return getRequestAttributes().getRequest();
@@ -48,7 +48,7 @@ public class ServletUtils {
 
 
     /**
-     * 获取response
+     * Get response
      */
     public static HttpServletResponse getResponse() {
         return getRequestAttributes().getResponse();
@@ -56,7 +56,7 @@ public class ServletUtils {
 
 
     /**
-     * 获取String参数
+     * Get a String parameter
      */
     public static String getParameter(String name) {
         return getRequest().getParameter(name);
@@ -64,7 +64,7 @@ public class ServletUtils {
 
 
     /**
-     * 获取客户端信息
+     * Get client information
      *
      * @return
      */
@@ -75,7 +75,7 @@ public class ServletUtils {
 
 
     /**
-     * 获取客户端信息
+     * Get client information
      *
      * @return
      */
@@ -86,7 +86,7 @@ public class ServletUtils {
 
 
     /**
-     * 获取客户端信息
+     * Get client information
      */
     public static UserAgent getUserAgent(String ua) {
         return UserAgentUtil.parse(ua);
@@ -94,10 +94,10 @@ public class ServletUtils {
 
 
     /**
-     * 获取 请求全路径
+     * Get the full request path
      */
     public static String getFullPath(HttpServletRequest request) {
-        // 经过网关 需要带上前缀
+        // Behind a gateway the prefix must be included
         String prefix = request.getHeader("x-forwarded-prefix");
         StringBuilder url = new StringBuilder(prefix == null ? "" : prefix);
         url.append(request.getRequestURI());
@@ -109,7 +109,7 @@ public class ServletUtils {
 
 
     /**
-     * 获取 Http Request 客户端的参数
+     * Get parameters of the HTTP request client
      */
     public static CustomRequestInfo getRequestInfo() {
         var request = getRequest();
@@ -118,7 +118,7 @@ public class ServletUtils {
 
 
     /**
-     * 获取 Http Request 客户端的参数
+     * Get parameters of the HTTP request client
      */
     public static CustomRequestInfo getRequestInfo(HttpServletRequest request) {
         var fullPath = getFullPath(request);
@@ -138,10 +138,10 @@ public class ServletUtils {
 
 
     /**
-     * 将字符串渲染到客户端
+     * Render a string to the client
      *
-     * @param response 渲染对象
-     * @param string   待渲染的字符串
+     * @param response Render object
+     * @param string   String to render
      * @return null
      */
     public static void renderString(HttpServletResponse response, String string) {
@@ -158,10 +158,10 @@ public class ServletUtils {
 
 
     /**
-     * 将字符串渲染到客户端
+     * Render a string to the client
      *
-     * @param response 渲染对象
-     * @param ex       待渲染的字符串
+     * @param response Render object
+     * @param ex       String to render
      * @return null
      */
     public static void renderError(HttpServletResponse response, JsonResult result) {
@@ -170,10 +170,10 @@ public class ServletUtils {
 
 
     /**
-     * 将字符串渲染到客户端
+     * Render a string to the client
      *
-     * @param response 渲染对象
-     * @param ex       待渲染的字符串
+     * @param response Render object
+     * @param ex       String to render
      * @return null
      */
     public static void renderError(HttpServletResponse response, int status, String message) {

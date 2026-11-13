@@ -43,31 +43,31 @@ public class ServerInfo implements java.io.Serializable {
     private static final int OSHI_WAIT_SECOND = 1000;
 
     /**
-     * CPU相关信息
+     * CPU Related information
      */
     @Builder.Default()
     private Cpu cpu = new Cpu();
 
     /**
-     * 內存相关信息
+     * Memory details
      */
     @Builder.Default()
     private Mem mem = new Mem();
 
     /**
-     * JVM相关信息
+     * JVM Related information
      */
     @Builder.Default()
     private Jvm jvm = new Jvm();
 
     /**
-     * 服务器相关信息
+     * Server details
      */
     @Builder.Default()
     private Sys sys = new Sys();
 
     /**
-     * 磁盘相关信息
+     * Disk details
      */
     @Builder.Default()
     private List<SysFile> sysFiles = new LinkedList<SysFile>();
@@ -89,10 +89,10 @@ public class ServerInfo implements java.io.Serializable {
     }
 
     /**
-     * 设置CPU信息
+     * Set CPU details
      */
     private void setCpuInfo(CentralProcessor processor) {
-        // CPU信息
+        // CPU Info
         long[] prevTicks = processor.getSystemCpuLoadTicks();
         Util.sleep(OSHI_WAIT_SECOND);
         long[] ticks = processor.getSystemCpuLoadTicks();
@@ -114,7 +114,7 @@ public class ServerInfo implements java.io.Serializable {
     }
 
     /**
-     * 设置内存信息
+     * Set memory details
      */
     private void setMemInfo(GlobalMemory memory) {
         mem.setTotal(memory.getTotal());
@@ -123,7 +123,7 @@ public class ServerInfo implements java.io.Serializable {
     }
 
     /**
-     * 设置服务器信息
+     * Set server details
      */
     private void setSysInfo() {
         Properties props = System.getProperties();
@@ -135,7 +135,7 @@ public class ServerInfo implements java.io.Serializable {
     }
 
     /**
-     * 设置Java虚拟机
+     * Set JVM details
      */
     private void setJvmInfo() {
         Properties props = System.getProperties();
@@ -147,7 +147,7 @@ public class ServerInfo implements java.io.Serializable {
     }
 
     /**
-     * 设置磁盘信息
+     * Set disk details
      */
     private void setSysFiles(OperatingSystem os) {
         FileSystem fileSystem = os.getFileSystem();
@@ -169,10 +169,10 @@ public class ServerInfo implements java.io.Serializable {
     }
 
     /**
-     * 字节转换
+     * Byte conversion
      *
-     * @param size 字节大小
-     * @return 转换后值
+     * @param size Size in bytes
+     * @return Converted value
      */
     public String convertFileSize(long size) {
         long kb = 1024;
@@ -192,7 +192,7 @@ public class ServerInfo implements java.io.Serializable {
     }
 
 
-    @Schema(description = "CPU详情")
+    @Schema(description = "CPU Details")
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -200,39 +200,39 @@ public class ServerInfo implements java.io.Serializable {
     @NoArgsConstructor
     public static class Cpu implements java.io.Serializable {
         /**
-         * 核心数
+         * Cores
          */
-        @Schema(description = "核心数")
+        @Schema(description = "Cores")
         private int cpuNum;
 
         /**
-         * CPU总的使用率
+         * CPU Total usage
          */
-        @Schema(description = "CPU总的使用率")
+        @Schema(description = "CPU Total usage")
         private double total;
 
         /**
-         * CPU系统使用率
+         * CPU System usage
          */
-        @Schema(description = "CPU系统使用率")
+        @Schema(description = "CPU System usage")
         private double sys;
 
         /**
-         * CPU用户使用率
+         * CPU User usage
          */
-        @Schema(description = "CPU用户使用率")
+        @Schema(description = "CPU User usage")
         private double used;
 
         /**
-         * CPU当前等待率
+         * CPU Current I/O wait
          */
-        @Schema(description = "CPU当前等待率")
+        @Schema(description = "CPU Current I/O wait")
         private double wait;
 
         /**
-         * CPU当前空闲率
+         * CPU Current idle
          */
-        @Schema(description = "CPU当前空闲率")
+        @Schema(description = "CPU Current idle")
         private double free;
 
 
@@ -286,7 +286,7 @@ public class ServerInfo implements java.io.Serializable {
     }
 
 
-    @Schema(description = "JVM详情")
+    @Schema(description = "JVM Details")
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -294,34 +294,34 @@ public class ServerInfo implements java.io.Serializable {
     @NoArgsConstructor
     public static class Jvm implements java.io.Serializable {
         /**
-         * 当前JVM占用的内存总数(M)
+         * Total memory held by the JVM (M)
          */
-        @Schema(description = "当前JVM占用的内存总数(M)")
+        @Schema(description = "Total memory held by the JVM (M)")
         private double total;
 
         /**
-         * JVM最大可用内存总数(M)
+         * JVM Maximum available memory (M)
          */
-        @Schema(description = "JVM最大可用内存总数(M)")
+        @Schema(description = "JVM Maximum available memory (M)")
         private double max;
 
         /**
-         * JVM空闲内存(M)
+         * JVM Free memory (M)
          */
-        @Schema(description = "JVM空闲内存(M)")
+        @Schema(description = "JVM Free memory (M)")
         private double free;
 
         /**
-         * JDK版本
+         * JDK Version
          */
         @Getter
-        @Schema(description = "JDK版本")
+        @Schema(description = "JDK Version")
         private String version;
 
         /**
-         * JDK路径
+         * JDK Path
          */
-        @Schema(description = "JDK路径")
+        @Schema(description = "JDK Path")
         private String home;
 
         public double getTotal() {
@@ -357,7 +357,7 @@ public class ServerInfo implements java.io.Serializable {
         }
 
         /**
-         * 获取JDK名称
+         * Get the JDK name
          */
         public String getName() {
             return ManagementFactory.getRuntimeMXBean().getVmName();
@@ -376,7 +376,7 @@ public class ServerInfo implements java.io.Serializable {
         }
 
         /**
-         * JDK启动时间
+         * JDK Started at
          */
         public String getStartTime() {
             long time = ManagementFactory.getRuntimeMXBean().getStartTime();
@@ -384,18 +384,18 @@ public class ServerInfo implements java.io.Serializable {
         }
 
         /**
-         * JDK运行时间
+         * JDK Running time
          */
         public String getRunTime() {
             long time = ManagementFactory.getRuntimeMXBean().getStartTime();
             var start = Instant.ofEpochMilli(time);
             var end = Instant.now();
             var d = Duration.between(start, end);
-            return String.format("%d 天 %d 时 %d 分", d.toDays(), d.toHours(), d.toMinutes());
+            return String.format("%d  days %d hours %d minutes", d.toDays(), d.toHours(), d.toMinutes());
         }
 
         /**
-         * 运行参数
+         * Runtime arguments
          */
         public String getInputArgs() {
             return ManagementFactory.getRuntimeMXBean().getInputArguments().toString();
@@ -403,7 +403,7 @@ public class ServerInfo implements java.io.Serializable {
     }
 
 
-    @Schema(description = "内存详情")
+    @Schema(description = "Memory details")
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -411,21 +411,21 @@ public class ServerInfo implements java.io.Serializable {
     @NoArgsConstructor
     public static class Mem implements java.io.Serializable {
         /**
-         * 内存总量
+         * Total memory
          */
-        @Schema(description = "内存总量")
+        @Schema(description = "Total memory")
         private double total;
 
         /**
-         * 已用内存
+         * Used memory
          */
-        @Schema(description = "已用内存")
+        @Schema(description = "Used memory")
         private double used;
 
         /**
-         * 剩余内存
+         * Free memory
          */
-        @Schema(description = "剩余内存")
+        @Schema(description = "Free memory")
         private double free;
 
         public double getTotal() {
@@ -458,7 +458,7 @@ public class ServerInfo implements java.io.Serializable {
     }
 
 
-    @Schema(description = "系统详情")
+    @Schema(description = "System details")
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -466,39 +466,39 @@ public class ServerInfo implements java.io.Serializable {
     @NoArgsConstructor
     public static class Sys implements java.io.Serializable {
         /**
-         * 服务器名称
+         * Server name
          */
-        @Schema(description = "服务器名称")
+        @Schema(description = "Server name")
         private String computerName;
 
         /**
-         * 服务器Ip
+         * Server Ip
          */
-        @Schema(description = "服务器IP")
+        @Schema(description = "Server IP")
         private String computerIp;
 
         /**
-         * 项目路径
+         * Project path
          */
-        @Schema(description = "项目路径")
+        @Schema(description = "Project path")
         private String userDir;
 
         /**
-         * 操作系统
+         * Operating system
          */
-        @Schema(description = "操作系统")
+        @Schema(description = "Operating system")
         private String osName;
 
         /**
-         * 系统架构
+         * Architecture
          */
-        @Schema(description = "系统架构")
+        @Schema(description = "Architecture")
         private String osArch;
 
     }
 
 
-    @Schema(description = "文件系统详情")
+    @Schema(description = "File system details")
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -506,45 +506,45 @@ public class ServerInfo implements java.io.Serializable {
     @NoArgsConstructor
     public static class SysFile implements java.io.Serializable {
         /**
-         * 盘符路径
+         * Mount path
          */
-        @Schema(description = "盘符路径")
+        @Schema(description = "Mount path")
         private String dirName;
 
         /**
-         * 盘符类型
+         * File system type
          */
-        @Schema(description = "盘符类型")
+        @Schema(description = "File system type")
         private String sysTypeName;
 
         /**
-         * 文件类型
+         * File type
          */
-        @Schema(description = "文件类型")
+        @Schema(description = "File type")
         private String typeName;
 
         /**
-         * 总大小
+         * Total size
          */
-        @Schema(description = "总大小")
+        @Schema(description = "Total size")
         private String total;
 
         /**
-         * 剩余大小
+         * Free space
          */
-        @Schema(description = "剩余大小")
+        @Schema(description = "Free space")
         private String free;
 
         /**
-         * 已经使用量
+         * Used
          */
-        @Schema(description = "已经使用量")
+        @Schema(description = "Used")
         private String used;
 
         /**
-         * 资源的使用率
+         * Resource usage
          */
-        @Schema(description = "资源的使用率")
+        @Schema(description = "Resource usage")
         private double usage;
     }
 

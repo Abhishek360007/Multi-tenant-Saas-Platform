@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * <p>
- * 返回分页
+ * Paged response
  * </p>
  *
  * @author WangChenChen
@@ -25,15 +25,15 @@ import java.util.List;
 public class Pagination<T> {
 
     /**
-     * 总共，有多少条
+     * Total number of records
      */
-    @Schema(description = "总数")
+    @Schema(description = "Total")
     private Long total;
 
     /**
-     * 数据
+     * Data
      */
-    @Schema(description = "数据列表")
+    @Schema(description = "Data list")
     private List<T> list;
 
 }

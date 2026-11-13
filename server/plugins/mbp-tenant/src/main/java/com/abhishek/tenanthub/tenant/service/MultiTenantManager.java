@@ -6,9 +6,9 @@ import com.abhishek.tenanthub.common.domain.SmallTenant;
 import java.util.Set;
 
 /**
- * TODO 多租户管理器
- * 项目初始化的时候，将数据库的全部租户ID,
- * 添加到 redis 中。每次请求，都验证 租户ID 是否存在，
+ * TODO Multi-tenant manager
+ * At startup, load every tenant in the database ID,
+ * into Redis. Each request checks that the tenant ID exists,
  *
  * @author WangChenChen
  * @date 2022/12/11 9:45
@@ -17,7 +17,7 @@ import java.util.Set;
 public interface MultiTenantManager {
 
     /**
-     * TODO 获取默认租户
+     * TODO Get the default tenant
      *
      * @author WangChenChen
      * @date 2022/12/11 9:46
@@ -26,7 +26,7 @@ public interface MultiTenantManager {
 
 
     /**
-     * TODO 判断当前租户是否默认租户ID
+     * TODO Whether the current tenant is the default tenant ID
      *
      * @author WangChenChen
      * @date 2022/12/11 9:46
@@ -35,7 +35,7 @@ public interface MultiTenantManager {
 
 
     /**
-     * TODO 根据租户ID 判断当前租户是否存在
+     * TODO Check whether a tenant exists by tenant ID
      *
      * @author WangChenChen
      * @date 2022/12/11 9:46
@@ -44,7 +44,7 @@ public interface MultiTenantManager {
 
 
     /**
-     * TODO 根据租户ID 获取信息
+     * TODO Get details by tenant ID
      *
      * @author WangChenChen
      * @date 2022/12/11 9:46
@@ -53,7 +53,7 @@ public interface MultiTenantManager {
 
 
     /**
-     * TODO 添加租户ID
+     * TODO Add tenant ID
      *
      * @author WangChenChen
      * @date 2022/12/11 9:46
@@ -62,7 +62,7 @@ public interface MultiTenantManager {
 
 
     /**
-     * TODO 添加租户ID
+     * TODO Add tenant ID
      *
      * @author WangChenChen
      * @date 2022/12/11 9:46
@@ -71,7 +71,7 @@ public interface MultiTenantManager {
 
 
     /**
-     * TODO 添加租户ID
+     * TODO Add tenant ID
      *
      * @author WangChenChen
      * @date 2022/12/11 9:46
@@ -80,7 +80,7 @@ public interface MultiTenantManager {
 
 
     /**
-     * TODO 删除 所有租户 ID
+     * TODO Delete all tenants ID
      *
      * @author WangChenChen
      * @date 2022/12/11 9:46
@@ -88,7 +88,7 @@ public interface MultiTenantManager {
     void removeAll();
 
     /**
-     * TODO 根据 租户ID 获取 数据库 名称
+     * TODO Get the database name for a tenant ID
      */
     String getDbName(String tenantId);
 

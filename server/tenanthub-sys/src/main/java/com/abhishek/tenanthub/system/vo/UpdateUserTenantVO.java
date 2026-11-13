@@ -9,7 +9,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 系统用户关联租户
+ * Link platform user to tenants
  * </p>
  *
  * @author Wang Chen Chen
@@ -24,11 +24,11 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Schema(description = "系统用户授权多个租户")
+@Schema(description = "Grant a platform user access to several tenants")
 public class UpdateUserTenantVO {
 
-    @Schema(description = "用户ID不能为空！")
-    @NotNull(message = "用户ID不能为空!")
+    @Schema(description = "User ID is required")
+    @NotNull(message = "User ID is required!")
     private Long userId;
 
     private Set<String> tenantIds;

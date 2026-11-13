@@ -1,12 +1,12 @@
-## 安全认证
+## Authentication
 
-### 获取验证码
+### Get captcha
 ###  http://localhost:18891/auth/captcha/codes?codeKey=5jXzuwcoUzbtnHNh
 GET {{baseUrl}}/auth/captcha/codes?codeKey=5jXzuwcoUzbtnHNh
 x-tenant-id: {{tenantId}}
 
 
-### [master]密码模式登录
+### [master] Password login
 POST {{baseUrl}}/auth/login
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
@@ -25,41 +25,41 @@ client.global.set("refreshToken", response.body.data.refresh_token);
 %}
 
 
-### 退出登录
+### Sign out
 POST {{baseUrl}}/auth/logout
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
 Authorization: Bearer {{tokenValue}}
 
 
-### 刷新token
+### Refresh token
 GET {{baseUrl}}/auth/refresh
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
 Authorization: Bearer {{tokenValue}}
 
 
-### 获取登录的用户信息
+### Get the signed-in user
 GET {{baseUrl}}/auth/login/user
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
 Authorization: Bearer {{tokenValue}}
 
 
-### 获取登录的用户菜单权限
+### Get the signed-in user menu permissions
 GET {{baseUrl}}/pms/user/rights
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
 Authorization: Bearer {{tokenValue}}
 
 
-### 获取当前租户所有登录的用户
+### Get all signed-in users of the current tenant
 GET {{baseUrl}}/pms/user/online/query
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
 Authorization: Bearer {{tokenValue}}
 
-### 获取当前租户所有登录的用户
+### Get all signed-in users of the current tenant
 GET {{baseUrl}}/pms/user/query
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
@@ -70,7 +70,7 @@ Authorization: Bearer {{tokenValue}}
 ### eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmNTBlY2Y4MTdmNTQ0Njc2OWRhOTYyOTg1NzI0MmI5NCJ9.gria4LT2Am27dnxk87itKvhM6M7h-5Se9Az560LIFy8
 
 
-### google
+### globex
 ### eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5ODdmMzdkMDQ0YTM0NThhYmExYWY3MzdlNTY2ZDhmNiJ9.TNCHkxi988nw7fDULA9E4J8NzJKIC11ewNASuBATzkc
 
 

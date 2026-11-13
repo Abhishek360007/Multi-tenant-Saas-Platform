@@ -10,7 +10,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 角色，部门，租户模板 等... 关联菜单
+ * Menus linked to roles, departments, tenant templates, etc.
  * </p>
  *
  * @author Wang Chen Chen<932560435@qq.com>
@@ -25,19 +25,19 @@ import java.util.Set;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "修改菜单")
+@Schema(description = "Edit menu")
 public class UpdateMenusVO implements java.io.Serializable {
 
     /**
-     * 已经拥有的菜单 ID
+     * Assigned menus ID
      */
-    @Schema(description = "拥有的菜单ID！")
+    @Schema(description = "Assigned menu IDs")
     private Set<Long> have;
 
     /**
-     * 全部 菜单 ID 和 名称
+     * All menu IDs and names
      */
-    @Schema(description = "全部 菜单ID和名称！")
+    @Schema(description = "All menu IDs and names")
     private List<Tree<Long>> all;
 
 }

@@ -2,17 +2,17 @@
   <div class="app-container" v-loading="loading" v-has="['cms_project:view']">
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="params">
-        <el-form-item label="部门">
+        <el-form-item label="Department">
           <CascaderDept v-model="params.deptId" :options="deptTree" />
         </el-form-item>
         <el-form-item>
-          <el-input v-model="params.keywords" clearable placeholder="根据 项目名称 搜索" />
+          <el-input v-model="params.keywords" clearable placeholder="Search by project name" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :icon="Search" @click="searchTableData">搜索</el-button>
+          <el-button type="primary" :icon="Search" @click="searchTableData">Search</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="success" :icon="Plus" v-has="['cms_project:create']" @click="handleAdd()">新增</el-button>
+          <el-button type="success" :icon="Plus" v-has="['cms_project:create']" @click="handleAdd()">Add</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -20,53 +20,53 @@
     <el-card shadow="never">
       <div class="toolbar-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="projectId" label="项目ID" />
-          <el-table-column prop="projectName" label="项目名称" />
-          <el-table-column prop="linkman" label="联系人" />
-          <el-table-column prop="contactNumber" label="联系电话" />
-          <el-table-column prop="areaCode" label="行政区域">
+          <el-table-column prop="projectId" label="Project ID" />
+          <el-table-column prop="projectName" label="Project name" />
+          <el-table-column prop="linkman" label="Contact person" />
+          <el-table-column prop="contactNumber" label="Contact number" />
+          <el-table-column prop="areaCode" label="Area">
             <template #default="scope">
               {{ showIndiaArea(scope.row.areaCode) }}
             </template>
           </el-table-column>
-          <el-table-column prop="address" label="联系地址" />
-          <el-table-column prop="dept" label="部门" width="120">
+          <el-table-column prop="address" label="Address" />
+          <el-table-column prop="dept" label="Department" width="120">
             <template #default="scope">
               <el-popover v-if="scope.row.dept" placement="top-start" :width="230">
                 <template #reference>
                   <el-tag>{{ scope.row.dept.deptName }}</el-tag>
                 </template>
-                <div><strong>部门领导:</strong> &nbsp;&nbsp;&nbsp;{{ scope.row.dept.leader }}</div>
-                <div><strong>领导手机号:</strong> &nbsp;&nbsp;&nbsp;{{ scope.row.dept.leaderMobile }}</div>
-                <div><strong>部门描述:</strong> &nbsp;&nbsp;&nbsp;{{ scope.row.dept.description }}</div>
+                <div><strong>Department leader:</strong> &nbsp;&nbsp;&nbsp;{{ scope.row.dept.leader }}</div>
+                <div><strong>Leader mobile number:</strong> &nbsp;&nbsp;&nbsp;{{ scope.row.dept.leaderMobile }}</div>
+                <div><strong>Department description:</strong> &nbsp;&nbsp;&nbsp;{{ scope.row.dept.description }}</div>
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="status" label="状态">
+          <el-table-column prop="status" label="Status">
             <template #default="scope">
               {{ dictStore.getNormalDisable(scope.row.status) }}
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间">
+          <el-table-column prop="createTime" label="Created at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.createTime" :entity="scope.row.createUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdateTime" label="修改时间">
+          <el-table-column prop="lastUpdateTime" label="Updated at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.lastUpdateTime" :entity="scope.row.lastUpdateUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="130">
+          <el-table-column label="Actions" width="130">
             <template #default="scope">
               <el-link :icon="Edit" type="warning" v-has="['cms_project:update']" @click="handleEdit(scope.row)"
-                >编辑</el-link
+                >Edit</el-link
               >
-              <!-- v-admin 只有管理员才可以，重置项目密码和删除项目 -->
+              <!-- v-admin Only admins can reset project passwords and delete projects -->
               &nbsp;
               <el-dropdown v-admin @command="(cmd: string) => handleCommand(cmd, scope.row)">
                 <span class="el-dropdown-link">
-                  更多
+                  More
                   <el-icon class="el-icon--right">
                     <arrow-down />
                   </el-icon>
@@ -74,10 +74,10 @@
                 <template #dropdown>
                   <el-dropdown-menu>
                     <div v-has="['cms_project:reset:password']">
-                      <el-dropdown-item :icon="Link" command="ResetPassword">重置密码</el-dropdown-item>
+                      <el-dropdown-item :icon="Link" command="ResetPassword">Reset password</el-dropdown-item>
                     </div>
                     <div v-if="scope.row.projectId !== 10001" v-has="['cms_project:delete']">
-                      <el-dropdown-item :icon="Delete" command="Delete">删除</el-dropdown-item>
+                      <el-dropdown-item :icon="Delete" command="Delete">Delete</el-dropdown-item>
                     </div>
                   </el-dropdown-menu>
                 </template>
@@ -100,7 +100,7 @@
       </div>
     </el-card>
 
-    <!-- 新增和修改的弹窗 -->
+    <!-- Add/edit dialog -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="50%" :close-on-click-modal="false">
       <el-form
         ref="entityFormRef"
@@ -112,24 +112,24 @@
       >
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="projectName" label="项目名称">
-              <el-input v-model.trim="entityForm.projectName" placeholder="项目名称" type="text" tabindex="1" />
+            <el-form-item prop="projectName" label="Project name">
+              <el-input v-model.trim="entityForm.projectName" placeholder="Project name" type="text" tabindex="1" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="saveFlag" prop="password" label="密码">
+            <el-form-item v-if="saveFlag" prop="password" label="Password">
               <el-input
                 v-model.trim="entityForm.password"
-                placeholder="项目密码"
+                placeholder="Project password"
                 type="password"
                 tabindex="2"
                 show-password
               />
             </el-form-item>
-            <el-form-item v-else prop="projectId" label="项目ID">
+            <el-form-item v-else prop="projectId" label="Project ID">
               <el-input
                 v-model.trim="entityForm.projectId"
-                placeholder="项目ID"
+                placeholder="Project ID"
                 type="text"
                 tabindex="1"
                 :disabled="!saveFlag"
@@ -139,15 +139,15 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="linkman" label="联系人">
-              <el-input v-model.trim="entityForm.linkman" placeholder="联系人" type="text" tabindex="4" />
+            <el-form-item prop="linkman" label="Contact person">
+              <el-input v-model.trim="entityForm.linkman" placeholder="Contact person" type="text" tabindex="4" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="contactNumber" label="联系电话">
+            <el-form-item prop="contactNumber" label="Contact number">
               <el-input
                 v-model.trim="entityForm.contactNumber"
-                placeholder="联系电话"
+                placeholder="Contact number"
                 type="text"
                 show-word-limit
                 tabindex="3"
@@ -158,29 +158,29 @@
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="status" label="状态">
+            <el-form-item prop="status" label="Status">
               <select-dict-data v-model:value="entityForm.status" dictTypeKey="sys_normal_disable" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="deptId" label="部门">
+            <el-form-item prop="deptId" label="Department">
               <CascaderDept v-model="entityForm.deptId" :options="deptTree" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="areaCode" label="行政地址">
+            <el-form-item prop="areaCode" label="Address area">
               <search-india-area v-model="entityForm.areaCode" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="address" label="联系地址">
+            <el-form-item prop="address" label="Address">
               <el-input
                 v-model="entityForm.address"
                 :rows="3"
                 clearable
-                placeholder="联系地址"
+                placeholder="Address"
                 type="textarea"
                 tabindex="6"
               />
@@ -190,8 +190,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">确定</el-button>
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">OK</el-button>
         </span>
       </template>
     </el-dialog>
@@ -215,10 +215,10 @@ import { showIndiaArea } from "@/hooks/useIndex"
 
 const dictStore = useDictStoreHook()
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
-// true : 新增，false : 修改
+// true : add, false: edit
 const saveFlag = ref(false)
 
 const dialogVisible = ref(false)
@@ -239,7 +239,7 @@ const params = reactive({
   includeDept: true
 })
 
-/// 表单数据
+/// Form data
 const entityForm = ref<ICmsProject>({
   projectId: 0,
   projectName: "",
@@ -256,14 +256,14 @@ const entityForm = ref<ICmsProject>({
 
 const telphoneValidator = (rule: any, value: any, callback: any) => {
   if (!isTelphone(value)) {
-    callback(new Error("手机或者电话号码格式不正确!"))
+    callback(new Error("Invalid mobile or phone number!"))
   } else {
     callback()
   }
 }
 const passwordValidator = (rule: any, value: any, callback: any) => {
   if (!/^\w{5,24}$/.test(value)) {
-    callback(new Error("密码数字和字母长度5~24位"))
+    callback(new Error("Password: letters and numbers, 5 to 24 characters"))
   } else {
     callback()
   }
@@ -271,23 +271,23 @@ const passwordValidator = (rule: any, value: any, callback: any) => {
 
 const entityFormRef = ref<FormInstance | null>(null)
 
-/// 表单校验规则
+/// Form validation rules
 const entityFormRules: FormRules = {
-  projectName: [{ required: true, message: "请输入项目名称", trigger: "blur" }],
-  linkman: [{ required: true, message: "请输入联系人", trigger: "blur" }],
+  projectName: [{ required: true, message: "Enter a project name", trigger: "blur" }],
+  linkman: [{ required: true, message: "Enter a contact person", trigger: "blur" }],
   contactNumber: [
-    { required: true, message: "请输入联系方式", trigger: "blur" },
+    { required: true, message: "Enter contact details", trigger: "blur" },
     { validator: telphoneValidator, trigger: "blur" }
   ],
-  areaCode: [{ required: true, message: "请选择行政区域", trigger: "blur" }],
-  address: [{ required: true, message: "请输入联系地址", trigger: "blur" }],
-  sort: [{ required: true, message: "请输入排序", trigger: "blur" }],
-  status: [{ required: true, message: "请选择状态", trigger: "blur" }],
+  areaCode: [{ required: true, message: "Select an area", trigger: "blur" }],
+  address: [{ required: true, message: "Enter an address", trigger: "blur" }],
+  sort: [{ required: true, message: "Enter a sort order", trigger: "blur" }],
+  status: [{ required: true, message: "Select a status", trigger: "blur" }],
   password: [
-    { required: true, message: "请输入项目密码", trigger: "blur" },
+    { required: true, message: "Enter a project password", trigger: "blur" },
     { validator: passwordValidator, trigger: "blur" }
   ],
-  deptId: [{ required: true, message: "请选择所在部门", trigger: "blur" }]
+  deptId: [{ required: true, message: "Select a department", trigger: "blur" }]
 }
 
 const getTableData = () => {
@@ -305,7 +305,7 @@ const getTableData = () => {
     })
 }
 
-// 重置 Entity 属性
+// Reset entity fields
 const resetEntity = () => {
   entityForm.value = {
     projectId: 0,
@@ -351,21 +351,21 @@ const handleCommand = (command: string, data: ICmsProject) => {
   }
 }
 
-// 新增
+// Add
 const handleAdd = () => {
   resetEntity()
-  dialogTitle.value = "新增"
+  dialogTitle.value = "Add"
   saveFlag.value = true
   dialogVisible.value = true
 }
 
-// 重置密码
+// Reset password
 const handleResetPassword = (data: ICmsProject) => {
-  ElMessageBox.prompt(`确定要重置 ${data.projectName} 的密码吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.prompt(`Reset the password of ${data.projectName}?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     inputPattern: /^\w{5,24}$/,
-    inputErrorMessage: "密码包含数字和字母，长度5~24位",
+    inputErrorMessage: "Password must contain letters and numbers, 5 to 24 characters",
     type: "warning"
   })
     .then(({ value }) => {
@@ -377,7 +377,7 @@ const handleResetPassword = (data: ICmsProject) => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `重置 ${data.projectName} 的密码成功！`,
+              message: `Password of ${data.projectName} reset`,
               type: "success"
             })
           }
@@ -389,16 +389,16 @@ const handleResetPassword = (data: ICmsProject) => {
     .catch(() => console.log("catch..."))
 }
 
-// 编辑
+// Edit
 const handleEdit = (data: ICmsProject) => {
   resetEntity()
   entityForm.value = cloneDeep(data)
-  dialogTitle.value = "修改"
+  dialogTitle.value = "Edit"
   saveFlag.value = false
   dialogVisible.value = true
 }
 
-// 获取部门数据
+// Fetch department data
 const getDeptTreeData = () => {
   loading.value = true
   treeDeptApi()
@@ -413,13 +413,13 @@ const getDeptTreeData = () => {
     })
 }
 
-// 删除
+// Delete
 const handleDelete = (data: ICmsProject) => {
-  ElMessageBox.prompt(`请在下方的输入框中填写项目密码`, `确定要删除 ${data.projectName} 吗?`, {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.prompt(`Enter the project password below`, `Delete ${data.projectName}?`, {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     inputPattern: /^\w{5,24}$/,
-    inputErrorMessage: "密码包含数字和字母，长度5~24位",
+    inputErrorMessage: "Password must contain letters and numbers, 5 to 24 characters",
     type: "warning"
   })
     .then((resp) => {
@@ -427,7 +427,7 @@ const handleDelete = (data: ICmsProject) => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `删除 ${data.projectName} 成功！`,
+              message: `Deleted ${data.projectName}`,
               type: "success"
             })
           }
@@ -444,7 +444,7 @@ const handleDelete = (data: ICmsProject) => {
     })
 }
 
-// 新增和修改
+// Add and edit
 const handleSaveAndFlush = () => {
   entityFormRef.value?.validate((valid: boolean) => {
     if (valid) {
@@ -454,7 +454,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "新增项目成功！",
+                message: "Project added",
                 type: "success"
               })
             }
@@ -472,7 +472,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "修改项目成功！",
+                message: "Project updated",
                 type: "success"
               })
             }

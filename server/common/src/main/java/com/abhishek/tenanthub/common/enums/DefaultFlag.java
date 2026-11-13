@@ -7,8 +7,8 @@ import lombok.ToString;
 
 /**
  * <p>
- * 0.租户用户
- * 1. 系统用户
+ * 0.Tenant user
+ * 1. Platform user
  * </p>
  *
  * @author Wang Chen Chen
@@ -20,9 +20,9 @@ import lombok.ToString;
 @ToString
 public enum DefaultFlag {
 
-    NO((byte) 0, "不是"),
+    NO((byte) 0, "Not"),
 
-    YES((byte) 1, "是");
+    YES((byte) 1, "Yes");
 
     DefaultFlag(Byte code, String description) {
         this.code = code;

@@ -76,12 +76,12 @@ public class SysConfigServiceImpl extends BaseServiceImpl<SysConfigMapper, SysCo
     public boolean save(SysConfig entity) {
         if (isMasterUser() && isAdminUser()) {
             if (super.exist(SysConfig::getConfigKey, entity.getConfigKey())) {
-                throw new BizException(String.format("参数键名 %s 已经存在了！", entity.getConfigKey()));
+                throw new BizException(String.format("Parameter key %s already exists", entity.getConfigKey()));
             }
             hash().put(ConfigDataConst.REDIS_CACHE_KEY, entity.getConfigKey(), entity.getConfigValue());
             return super.save(entity);
         }
-        throw new BizException("非系统管理员用户，不允许新增配置！");
+        throw new BizException("Only platform admins can add settings");
     }
 
 
@@ -92,14 +92,14 @@ public class SysConfigServiceImpl extends BaseServiceImpl<SysConfigMapper, SysCo
                     .eq(SysConfig::getConfigKey, entity.getConfigKey())
                     .ne(SysConfig::getConfigId, entity.getConfigId());
             if (super.count(wrapper) > 0) {
-                throw new BizException(String.format("参数键名 %s 已经存在了！", entity.getConfigKey()));
+                throw new BizException(String.format("Parameter key %s already exists", entity.getConfigKey()));
             }
             if (StringUtils.isNotBlank(entity.getConfigValue())) {
                 hash().put(ConfigDataConst.REDIS_CACHE_KEY, entity.getConfigKey(), entity.getConfigValue());
             }
             return super.updateById(entity);
         }
-        throw new BizException("非系统管理员用户，不允许修改配置！");
+        throw new BizException("Only platform admins can change settings");
     }
 
 
@@ -109,12 +109,12 @@ public class SysConfigServiceImpl extends BaseServiceImpl<SysConfigMapper, SysCo
         if (isMasterUser() && isAdminUser()) {
             var entity = super.getById(id);
             if (entity == null) {
-                throw new BizException("配置不存在！");
+                throw new BizException("Setting does not exist");
             }
             hash().delete(ConfigDataConst.REDIS_CACHE_KEY, entity.getConfigKey());
             return super.removeById(entity.getConfigId());
         }
-        throw new BizException("非系统管理员用户，不允许删除配置！");
+        throw new BizException("Only platform admins can delete settings");
     }
 
 

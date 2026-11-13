@@ -111,10 +111,10 @@ public class ApiPmsUserServiceImpl implements ApiPmsUserService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void initUserAndRoleAndDept(InitUserDTO po) {
-        // 租户默认角色名称
+        // Tenant default role name
         var roleName = Optional.ofNullable(configService.getValueByKey(DEFAULT_ROLE_NAME.getKey()))
                 .orElse(DEFAULT_ROLE_NAME.getValue());
-        // 委托，新的租户id。执行初始化数据
+        // Delegate to the new tenant ID and initialize its data
         delegate(po.getTenantId(), () -> {
 
             var pmsDept = new PmsDept()
@@ -127,7 +127,7 @@ public class ApiPmsUserServiceImpl implements ApiPmsUserService {
                     .setDescription(po.getName())
                     .setAncestors("0");
 
-            // 保存部门
+            // Save the department
             deptMapper.insert(pmsDept);
 
             var newRoleName = String.format("%s %s", po.getName(), roleName);
@@ -136,7 +136,7 @@ public class ApiPmsUserServiceImpl implements ApiPmsUserService {
                     .setRoleName(newRoleName)
                     .setSort(1L)
                     .setDescription(newRoleName);
-            // 保存角色
+            // Save the role
             roleMapper.insert(pmsRole);
 
             var password = encryptPassword(po.getAdminPwd());
@@ -157,7 +157,7 @@ public class ApiPmsUserServiceImpl implements ApiPmsUserService {
                     .setRoles(Set.of(pmsRole));
             userMapper.insert(pmsUser);
 
-            // 保存关联
+            // Save the links
             userMapper.insertByRoles(pmsUser.getUserId(), Set.of(pmsRole.getRoleId()));
 
             return true;

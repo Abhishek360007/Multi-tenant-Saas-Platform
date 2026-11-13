@@ -1,7 +1,7 @@
 /**
- * dark-blue 主题下的 Element Plus CSS 变量
- * 在此查阅所有可自定义的变量：https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss
- * 也可以打开浏览器控制台选择元素，查看要覆盖的变量名
+ * dark-blue Element Plus CSS variables for this theme
+ * All customizable variables are listed here:https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss
+ * You can also inspect elements in the browser console to find the variable names to override
  */
 
 html.dark-blue {

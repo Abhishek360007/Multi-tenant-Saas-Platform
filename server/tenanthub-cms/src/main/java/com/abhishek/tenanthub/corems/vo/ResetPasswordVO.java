@@ -9,7 +9,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 /**
  * <p>
- * 重置密码
+ * Reset password
  * </p>
  *
  * @author Wang Chen Chen
@@ -24,22 +24,22 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Schema(description = "重置密码！")
+@Schema(description = "Reset password")
 public class ResetPasswordVO {
 
     /**
-     * 项目ID
+     * Project ID
      */
-    @Schema(description = "项目ID不能为空！", requiredMode = REQUIRED)
-    @NotNull(message = "项目ID不能为空!")
+    @Schema(description = "Project ID is required", requiredMode = REQUIRED)
+    @NotNull(message = "Project ID is required!")
     private Long projectId;
 
     /**
-     * 新密码
+     * New password
      */
-    @Schema(description = "新密码长度要大于5位！", requiredMode = REQUIRED)
-    @NotNull(message = "新密码不能为空!")
-    @Length(min = 5, message = "新密码长度要大于5位!")
+    @Schema(description = "New password must be longer than 5 characters", requiredMode = REQUIRED)
+    @NotNull(message = "New password is required!")
+    @Length(min = 5, message = "New password must be longer than 5 characters!")
     private String newPwd;
 
 }

@@ -2,9 +2,9 @@
   <div class="app-container" v-loading="loading" v-has="['pre_menu:view']">
     <el-card shadow="never" class="search-wrapper">
       <div class="flex">
-        <el-button type="primary" :icon="Plus" v-has="['pre_menu:create']" @click="handleAdd(null)">新增</el-button>
+        <el-button type="primary" :icon="Plus" v-has="['pre_menu:create']" @click="handleAdd(null)">Add</el-button>
         <el-button type="success" :icon="Sort" @click="switchExpandAndCollapse">{{
-          expandAndCollapse ? "折叠" : "展开"
+          expandAndCollapse ? "Collapse" : "Expand"
         }}</el-button>
       </div>
     </el-card>
@@ -12,11 +12,11 @@
     <el-card shadow="never">
       <div class="toolbar-wrapper">
         <el-table ref="tableRef" :data="tableData" row-key="id" :default-expand-all="expandAndCollapse">
-          <el-table-column prop="menuId" label="权限ID" />
-          <el-table-column prop="menuName" label="权限名称" />
-          <el-table-column prop="perms" label="权限标识" />
-          <el-table-column prop="component" label="权限组件" />
-          <el-table-column prop="path" label="路由地址">
+          <el-table-column prop="menuId" label="Permissions ID" />
+          <el-table-column prop="menuName" label="Permission name" />
+          <el-table-column prop="perms" label="Permission key" />
+          <el-table-column prop="component" label="Permission component" />
+          <el-table-column prop="path" label="Route path">
             <template #default="scope">
               <el-popover :content="scope.row.path" placement="top-start" :width="200" trigger="hover">
                 <template #reference>
@@ -27,13 +27,13 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="icon" label="权限图标">
+          <el-table-column prop="icon" label="Permission icon">
             <template #default="scope">
               <svg-icon v-if="scope.row.icon" :name="scope.row.icon" :size="28" />
             </template>
           </el-table-column>
-          <el-table-column prop="sort" label="排序" width="80" />
-          <el-table-column prop="target" label="所属用户" width="100">
+          <el-table-column prop="sort" label="Sort order" width="80" />
+          <el-table-column prop="target" label="Owner" width="100">
             <template #default="scope">
               <el-tag v-if="scope.row.target === 0" effect="dark">
                 {{ dictStore.getMenuTarget(scope.row.target) }}
@@ -46,7 +46,7 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="menuType" label="权限类型">
+          <el-table-column prop="menuType" label="Permission type">
             <template #default="scope">
               <el-tag v-if="scope.row.menuType === 0" effect="plain" type="info">
                 {{ dictStore.getMenuType(scope.row.menuType) }}
@@ -56,27 +56,27 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="visible" label="状态">
+          <el-table-column prop="visible" label="Status">
             <template #default="scope">
               {{ dictStore.getShowHide(scope.row.visible) }}
             </template>
           </el-table-column>
-          <el-table-column prop="keepAlive" label="保存状态">
+          <el-table-column prop="keepAlive" label="Keep alive">
             <template #default="scope">
               {{ dictStore.getYesNo(scope.row.keepAlive) }}
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间">
+          <el-table-column prop="createTime" label="Created at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.createTime" :entity="scope.row.createUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdateTime" label="修改时间">
+          <el-table-column prop="lastUpdateTime" label="Updated at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.lastUpdateTime" :entity="scope.row.lastUpdateUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="200">
+          <el-table-column label="Actions" width="200">
             <template #default="scope">
               <el-link
                 :icon="Plus"
@@ -84,11 +84,11 @@
                 v-has="['pre_menu:create']"
                 type="primary"
                 @click="handleAdd(scope.row)"
-                >新增</el-link
+                >Add</el-link
               >
               &nbsp;
               <el-link :icon="Edit" type="warning" v-has="['pre_menu:update']" @click="handleEdit(scope.row)"
-                >编辑</el-link
+                >Edit</el-link
               >
               &nbsp;
               <el-link
@@ -97,7 +97,7 @@
                 type="danger"
                 v-has="['pre_menu:delete']"
                 @click="handleDelete(scope.row)"
-                >删除</el-link
+                >Delete</el-link
               >
             </template>
           </el-table-column>
@@ -105,7 +105,7 @@
       </div>
     </el-card>
 
-    <!-- 新增和修改的弹窗 -->
+    <!-- Add/edit dialog -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="50%" :close-on-click-modal="false">
       <el-form
         ref="entityFormRef"
@@ -117,25 +117,25 @@
       >
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="menuName" label="权限名称">
-              <el-input v-model.trim="entityForm.menuName" placeholder="名称" type="text" tabindex="1" />
+            <el-form-item prop="menuName" label="Permission name">
+              <el-input v-model.trim="entityForm.menuName" placeholder="Name" type="text" tabindex="1" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="perms" label="权限标识">
-              <el-input v-model.trim="entityForm.perms" placeholder="标识" type="text" tabindex="2" />
+            <el-form-item prop="perms" label="Permission key">
+              <el-input v-model.trim="entityForm.perms" placeholder="Key" type="text" tabindex="2" />
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="sort" label="权限排序">
+            <el-form-item prop="sort" label="Permission sort order">
               <el-input-number v-model="entityForm.sort" :min="1" :max="9999999" tabindex="6" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="menuType" label="权限类型">
+            <el-form-item prop="menuType" label="Permission type">
               <select-dict-data v-model:value="entityForm.menuType" dictTypeKey="sys_menu_type" />
             </el-form-item>
           </el-col>
@@ -143,12 +143,12 @@
 
         <el-row :gutter="20" v-if="entityForm.menuType == 0">
           <el-col :span="12">
-            <el-form-item prop="component" label="权限组件">
-              <el-input v-model.trim="entityForm.component" placeholder="组件" type="text" tabindex="3" />
+            <el-form-item prop="component" label="Permission component">
+              <el-input v-model.trim="entityForm.component" placeholder="Component" type="text" tabindex="3" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="icon" label="图标">
+            <el-form-item prop="icon" label="Icon">
               <svg-icon-select v-model:value="entityForm.icon" />
             </el-form-item>
           </el-col>
@@ -156,25 +156,25 @@
 
         <el-row :gutter="20" v-if="entityForm.menuType == 0">
           <el-col :span="12">
-            <el-form-item prop="visible" label="显示隐藏">
+            <el-form-item prop="visible" label="Visibility">
               <select-dict-data v-model:value="entityForm.visible" dictTypeKey="sys_show_hide" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="path" label="地址" v-if="entityForm.menuType == 0">
-              <el-input v-model.trim="entityForm.path" placeholder="路由" type="text" tabindex="5" />
+            <el-form-item prop="path" label="Address" v-if="entityForm.menuType == 0">
+              <el-input v-model.trim="entityForm.path" placeholder="Route" type="text" tabindex="5" />
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="target" label="权限所属">
+            <el-form-item prop="target" label="Permission scope">
               <select-dict-data v-model:value="entityForm.target" dictTypeKey="sys_menu_target" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="parentId" label="上级权限">
+            <el-form-item prop="parentId" label="Parent permission">
               <el-cascader
                 v-model="entityForm.parentId"
                 :options="parentNodes"
@@ -188,7 +188,7 @@
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="keepAlive" label="保持状态">
+            <el-form-item prop="keepAlive" label="Keep alive">
               <select-dict-data v-model:value="entityForm.keepAlive" dictTypeKey="sys_yes_no" />
             </el-form-item>
           </el-col>
@@ -197,8 +197,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">确定</el-button>
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">OK</el-button>
         </span>
       </template>
     </el-dialog>
@@ -226,10 +226,10 @@ import { flatTreeToCascaderOption } from "@/utils"
 
 const dictStore = useDictStoreHook()
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
-// true : 新增，false : 修改
+// true : add, false: edit
 const saveFlag = ref(false)
 
 const dialogVisible = ref(false)
@@ -240,7 +240,7 @@ const tableRef = ref<TableInstance | null>(null)
 
 const tableData = ref<ISysMenu[]>([])
 
-/// 表单数据
+/// Form data
 const entityForm = ref<ISysMenu>({
   menuId: 0,
   parentId: 0,
@@ -259,25 +259,25 @@ const entityForm = ref<ISysMenu>({
 
 const entityFormRef = ref<FormInstance | null>(null)
 
-/// 表单校验规则
+/// Form validation rules
 const entityFormRules: FormRules = {
-  parentId: [{ required: true, message: "请选择上级权限", trigger: "blur" }],
-  menuName: [{ required: true, message: "请输入名称", trigger: "blur" }],
+  parentId: [{ required: true, message: "Select a parent permission", trigger: "blur" }],
+  menuName: [{ required: true, message: "Enter a name", trigger: "blur" }],
   perms: [
-    { required: true, message: "请输入权限标识", trigger: "blur" },
-    { min: 5, max: 64, message: "长度最少 5 个字符", trigger: "blur" }
+    { required: true, message: "Enter a permission key", trigger: "blur" },
+    { min: 5, max: 64, message: "At least 5 characters", trigger: "blur" }
   ],
-  component: [{ required: true, message: "请输入组件名称", trigger: "blur" }],
-  icon: [{ required: true, message: "请输入图标名称", trigger: "blur" }],
-  sort: [{ required: true, message: "请输入权限排序", trigger: "blur" }],
-  path: [{ required: true, message: "请输入权限路由", trigger: "blur" }],
-  target: [{ required: true, message: "请输入权限所属", trigger: "blur" }],
-  menuType: [{ required: true, message: "请输入权限类型", trigger: "blur" }],
-  visible: [{ required: true, message: "请输入显示或者隐藏", trigger: "blur" }],
-  keepAlive: [{ required: true, message: "请选择保持状态", trigger: "blur" }]
+  component: [{ required: true, message: "Enter a component name", trigger: "blur" }],
+  icon: [{ required: true, message: "Enter an icon name", trigger: "blur" }],
+  sort: [{ required: true, message: "Enter a sort order", trigger: "blur" }],
+  path: [{ required: true, message: "Enter a route", trigger: "blur" }],
+  target: [{ required: true, message: "Enter a permission scope", trigger: "blur" }],
+  menuType: [{ required: true, message: "Enter a permission type", trigger: "blur" }],
+  visible: [{ required: true, message: "Choose shown or hidden", trigger: "blur" }],
+  keepAlive: [{ required: true, message: "Select keep-alive", trigger: "blur" }]
 }
 
-// 上级权限
+// Parent permission
 const parentNodes = ref<CascaderOption[]>()
 
 const cascaderChange = (data: CascaderValue) => {
@@ -287,7 +287,7 @@ const cascaderChange = (data: CascaderValue) => {
 
 const expandAndCollapse = ref(false)
 
-// 展开和折叠
+// Expand and collapse
 const switchExpandAndCollapse = () => {
   expandAndCollapse.value = !expandAndCollapse.value
   const deep = (arr1: ISysMenu[]) => {
@@ -301,7 +301,7 @@ const switchExpandAndCollapse = () => {
   deep(tableData.value!)
 }
 
-// 获取数据
+// Fetch data
 const getTableData = () => {
   loading.value = true
   treeMenuApi()
@@ -310,7 +310,7 @@ const getTableData = () => {
       parentNodes.value = flatTreeToCascaderOption(resp.data, { value: "id", label: "menuName" })
       const temp: CascaderOption = {
         value: 0,
-        label: "顶级权限"
+        label: "Top-level permission"
       }
       parentNodes.value.unshift(temp)
     })
@@ -322,7 +322,7 @@ const getTableData = () => {
     })
 }
 
-// 重置 Entity 属性
+// Reset entity fields
 const resetEntity = () => {
   entityForm.value = {
     menuId: 0,
@@ -341,44 +341,44 @@ const resetEntity = () => {
   }
 }
 
-// 添加
+// Add
 const handleAdd = (data: ISysMenu | null) => {
   resetEntity()
   if (data) {
-    // 上级权限
+    // Parent permission
     entityForm.value.parentId = data.menuId
-    // 排序
+    // Sort order
     if (data.children) {
       entityForm.value.sort = (data.children.length + 1) * 10
     } else {
       entityForm.value.sort = 0
     }
   } else {
-    // 上级权限
+    // Parent permission
     entityForm.value.parentId = 0
     entityForm.value.sort = (tableData.value.length + 1) * 10
   }
-  // 显示和隐藏
+  // Shown and hidden
   entityForm.value.visible = 1
-  dialogTitle.value = "新增"
+  dialogTitle.value = "Add"
   saveFlag.value = true
   dialogVisible.value = true
 }
 
-// 编辑
+// Edit
 const handleEdit = (data: ISysMenu) => {
   resetEntity()
   entityForm.value = cloneDeep(data)
-  dialogTitle.value = "修改"
+  dialogTitle.value = "Edit"
   saveFlag.value = false
   dialogVisible.value = true
 }
 
-// 删除
+// Delete
 const handleDelete = (data: ISysMenu) => {
-  ElMessageBox.confirm(`确要删除 ${data.menuName} 吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(`Delete ${data.menuName}?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
@@ -386,7 +386,7 @@ const handleDelete = (data: ISysMenu) => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `删除 ${data.menuName} 成功！`,
+              message: `Deleted ${data.menuName}`,
               type: "success"
             })
           }
@@ -403,7 +403,7 @@ const handleDelete = (data: ISysMenu) => {
     })
 }
 
-// 新增和修改
+// Add and edit
 const handleSaveAndFlush = () => {
   entityFormRef.value?.validate((valid: boolean) => {
     if (valid) {
@@ -413,7 +413,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "新增权限成功！",
+                message: "Permission added",
                 type: "success"
               })
             }
@@ -431,7 +431,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "修改权限成功！",
+                message: "Permission updated",
                 type: "success"
               })
             }

@@ -2,20 +2,20 @@
   <div class="app-container" v-loading="loading" v-has="['pre_dept:view']">
     <el-card shadow="never" class="search-wrapper">
       <div class="flex">
-        <el-button type="primary" :icon="Plus" v-has="['pre_dept:create']" @click="handleAdd(null)">新增</el-button>
+        <el-button type="primary" :icon="Plus" v-has="['pre_dept:create']" @click="handleAdd(null)">Add</el-button>
         <el-button type="success" :icon="Sort" @click="switchExpandAndCollapse">{{
-          expandAndCollapse ? "折叠" : "展开"
+          expandAndCollapse ? "Collapse" : "Expand"
         }}</el-button>
       </div>
     </el-card>
     <el-card shadow="never">
       <div class="toolbar-wrapper">
         <el-table ref="tableRef" :data="tableData" row-key="id" :default-expand-all="expandAndCollapse">
-          <el-table-column prop="deptId" label="部门ID" />
-          <el-table-column prop="deptName" label="部门名称" />
-          <el-table-column prop="leader" label="领导名称" />
-          <el-table-column prop="leaderMobile" label="领导联系方式" />
-          <el-table-column prop="description" label="描述">
+          <el-table-column prop="deptId" label="Department ID" />
+          <el-table-column prop="deptName" label="Department name" />
+          <el-table-column prop="leader" label="Leader name" />
+          <el-table-column prop="leaderMobile" label="Leader contact" />
+          <el-table-column prop="description" label="Description">
             <template #default="scope">
               <el-popover
                 placement="top-start"
@@ -30,25 +30,25 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="sort" label="排序" width="80" />
-          <el-table-column prop="createTime" label="创建时间">
+          <el-table-column prop="sort" label="Sort order" width="80" />
+          <el-table-column prop="createTime" label="Created at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.createTime" :entity="scope.row.createUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdateTime" label="修改时间">
+          <el-table-column prop="lastUpdateTime" label="Updated at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.lastUpdateTime" :entity="scope.row.lastUpdateUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="200">
+          <el-table-column label="Actions" width="200">
             <template #default="scope">
               <el-link :icon="Plus" type="primary" v-has="['pre_dept:create']" @click="handleAdd(scope.row)"
-                >新增</el-link
+                >Add</el-link
               >
               &nbsp;
               <el-link :icon="Edit" type="warning" v-has="['pre_dept:update']" @click="handleEdit(scope.row)"
-                >编辑</el-link
+                >Edit</el-link
               >
               &nbsp;
               <el-link
@@ -57,14 +57,14 @@
                 type="danger"
                 v-has="['pre_dept:delete']"
                 @click="handleDelete(scope.row)"
-                >删除</el-link
+                >Delete</el-link
               >
             </template>
           </el-table-column>
         </el-table>
       </div>
     </el-card>
-    <!-- 新增和修改的弹窗 -->
+    <!-- Add/edit dialog -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="50%" :close-on-click-modal="false">
       <el-form
         ref="entityFormRef"
@@ -76,12 +76,12 @@
       >
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="deptName" label="部门名称">
-              <el-input v-model.trim="entityForm.deptName" placeholder="名称" type="text" tabindex="1" />
+            <el-form-item prop="deptName" label="Department name">
+              <el-input v-model.trim="entityForm.deptName" placeholder="Name" type="text" tabindex="1" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="parentId" label="上级部门">
+            <el-form-item prop="parentId" label="Parent department">
               <el-cascader
                 v-model="entityForm.parentId"
                 :options="parentNodes"
@@ -96,15 +96,15 @@
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="leader" label="领导名称">
-              <el-input v-model.trim="entityForm.leader" placeholder="领导名称" type="text" tabindex="3" />
+            <el-form-item prop="leader" label="Leader name">
+              <el-input v-model.trim="entityForm.leader" placeholder="Leader name" type="text" tabindex="3" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="leaderMobile" label="联系方式">
+            <el-form-item prop="leaderMobile" label="Contact details">
               <el-input
                 v-model.trim="entityForm.leaderMobile"
-                placeholder="领导联系方式"
+                placeholder="Leader contact"
                 type="text"
                 maxlength="11"
                 show-word-limit
@@ -116,15 +116,15 @@
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item prop="sort" label="部门排序">
+            <el-form-item prop="sort" label="Department sort order">
               <el-input-number v-model="entityForm.sort" :min="1" :max="9999999" tabindex="5" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item prop="description" label="描述">
+            <el-form-item prop="description" label="Description">
               <el-input
                 v-model.trim="entityForm.description"
-                placeholder="描述"
+                placeholder="Description"
                 :rows="3"
                 type="textarea"
                 tabindex="6"
@@ -135,8 +135,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">确定</el-button>
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">OK</el-button>
         </span>
       </template>
     </el-dialog>
@@ -155,10 +155,10 @@ import { cloneDeep } from "lodash-es"
 import { showStringOverflow } from "@/hooks/useIndex"
 import { flatTreeToCascaderOption } from "@/utils"
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
-// true : 新增，false : 修改
+// true : add, false: edit
 const saveFlag = ref(false)
 
 const dialogVisible = ref(false)
@@ -169,7 +169,7 @@ const tableRef = ref<TableInstance | null>(null)
 
 const tableData = ref<IPmsDept[]>([])
 
-/// 表单数据
+/// Form data
 const entityForm = ref<IPmsDept>({
   deptId: 0,
   parentId: 0,
@@ -184,7 +184,7 @@ const entityForm = ref<IPmsDept>({
 
 const phoneValidator = (rule: any, value: any, callback: any) => {
   if (!isPhone(value)) {
-    callback(new Error("手机号码格式不正确!"))
+    callback(new Error("Invalid mobile number!"))
   } else {
     callback()
   }
@@ -192,20 +192,20 @@ const phoneValidator = (rule: any, value: any, callback: any) => {
 
 const entityFormRef = ref<FormInstance | null>(null)
 
-/// 表单校验规则
+/// Form validation rules
 const entityFormRules: FormRules = {
-  parentId: [{ required: true, message: "请选择上级部门", trigger: "blur" }],
-  deptName: [{ required: true, message: "请输入部门名称", trigger: "blur" }],
-  leader: [{ required: true, message: "请输入部门领导", trigger: "blur" }],
+  parentId: [{ required: true, message: "Select a parent department", trigger: "blur" }],
+  deptName: [{ required: true, message: "Enter a department name", trigger: "blur" }],
+  leader: [{ required: true, message: "Enter a department leader", trigger: "blur" }],
   leaderMobile: [
-    { required: true, message: "请输入领导联系方式", trigger: "blur" },
+    { required: true, message: "Enter the leader contact", trigger: "blur" },
     { validator: phoneValidator, trigger: "blur" }
   ],
-  sort: [{ required: true, message: "请输入排序", trigger: "blur" }],
-  description: [{ required: true, message: "请输入描述", trigger: "blur" }]
+  sort: [{ required: true, message: "Enter a sort order", trigger: "blur" }],
+  description: [{ required: true, message: "Enter a description", trigger: "blur" }]
 }
 
-// 上级节点
+// Parent node
 const parentNodes = ref<CascaderOption[]>()
 
 const cascaderChange = (data: CascaderValue) => {
@@ -215,7 +215,7 @@ const cascaderChange = (data: CascaderValue) => {
 
 const expandAndCollapse = ref(true)
 
-// 展开和折叠
+// Expand and collapse
 const switchExpandAndCollapse = () => {
   expandAndCollapse.value = !expandAndCollapse.value
   const deep = (arr1: IPmsDept[]) => {
@@ -229,7 +229,7 @@ const switchExpandAndCollapse = () => {
   deep(tableData.value!)
 }
 
-// 获取数据
+// Fetch data
 const getTableData = () => {
   loading.value = true
   treeDeptApi()
@@ -238,7 +238,7 @@ const getTableData = () => {
       parentNodes.value = flatTreeToCascaderOption(resp.data, { value: "deptId", label: "deptName" })
       const temp: CascaderOption = {
         value: 0,
-        label: "顶级部门"
+        label: "Top-level department"
       }
       parentNodes.value.unshift(temp)
     })
@@ -250,7 +250,7 @@ const getTableData = () => {
     })
 }
 
-// 重置 Entity 属性
+// Reset entity fields
 const resetEntity = () => {
   entityForm.value = {
     deptId: 0,
@@ -265,42 +265,42 @@ const resetEntity = () => {
   }
 }
 
-// 添加
+// Add
 const handleAdd = (data: IPmsDept | null) => {
   resetEntity()
   if (data) {
-    // 上级权限
+    // Parent permission
     entityForm.value.parentId = data.deptId
-    // 排序
+    // Sort order
     if (data.children) {
       entityForm.value.sort = (data.children.length + 1) * 10
     } else {
       entityForm.value.sort = 0
     }
   } else {
-    // 上级权限
+    // Parent permission
     entityForm.value.parentId = 0
     entityForm.value.sort = (tableData.value.length + 1) * 10
   }
-  dialogTitle.value = "新增"
+  dialogTitle.value = "Add"
   saveFlag.value = true
   dialogVisible.value = true
 }
 
-// 编辑
+// Edit
 const handleEdit = (data: IPmsDept) => {
   resetEntity()
   entityForm.value = cloneDeep(data)
-  dialogTitle.value = "修改"
+  dialogTitle.value = "Edit"
   saveFlag.value = false
   dialogVisible.value = true
 }
 
-// 删除
+// Delete
 const handleDelete = (data: IPmsDept) => {
-  ElMessageBox.confirm(`确要删除 ${data.deptName} 吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(`Delete ${data.deptName}?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
@@ -308,7 +308,7 @@ const handleDelete = (data: IPmsDept) => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `删除 ${data.deptName} 成功！`,
+              message: `Deleted ${data.deptName}`,
               type: "success"
             })
           }
@@ -325,7 +325,7 @@ const handleDelete = (data: IPmsDept) => {
     })
 }
 
-// 新增和修改
+// Add and edit
 const handleSaveAndFlush = () => {
   entityFormRef.value?.validate((valid: boolean) => {
     if (valid) {
@@ -335,7 +335,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "新增部门成功！",
+                message: "Department added",
                 type: "success"
               })
             }
@@ -351,7 +351,7 @@ const handleSaveAndFlush = () => {
       } else {
         if (entityForm.value.deptId === entityForm.value.parentId) {
           ElMessage({
-            message: "上级部门不能是自己！",
+            message: "A department cannot be its own parent",
             type: "warning"
           })
           loading.value = false
@@ -361,7 +361,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "修改部门成功！",
+                message: "Department updated",
                 type: "success"
               })
             }

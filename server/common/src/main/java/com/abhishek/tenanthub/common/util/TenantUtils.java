@@ -23,23 +23,23 @@ import java.util.Optional;
 
 public class TenantUtils {
 
-    // http 租户请求头
+    // http Tenant request header
     public final static String X_TENANT_ID = "x-tenant-id";
 
-    // http 租户 默认项目 请求头
+    // http Tenant default project request header
     public final static String X_PROJECT_ID = "x-project-id";
 
 
     private final static ThreadLocal<String> TENANT_ID_THREAD_LOCAL = new NamedInheritableThreadLocal<>("TENANT_ID_THREAD_LOCAL");
 
-    // 租户用户。使用 自定义的 租户ID。
+    // Tenant user. Uses a custom tenant ID.
     private final static ThreadLocal<Boolean> USE_CUSTOM_TENANT_ID_THREAD_LOCAL = new NamedInheritableThreadLocal<>("USE_CUSTOM_TENANT_ID_THREAD_LOCAL");
 
     private final static ThreadLocal<Long> PROJECT_ID_THREAD_LOCAL = new NamedInheritableThreadLocal<>("PROJECT_ID_THREAD_LOCAL");
 
 
     /**
-     * 获取 租户ID
+     * Get the tenant ID
      */
     public static String getTenantId() {
         if (StrUtil.isNotBlank(TENANT_ID_THREAD_LOCAL.get())) {
@@ -59,7 +59,7 @@ public class TenantUtils {
 
 
     /**
-     * 设置 租户ID
+     * Set the tenant ID
      */
     public static void setTenantId(String tenantId) {
         if (StrUtil.isNotBlank(tenantId)) {
@@ -71,7 +71,7 @@ public class TenantUtils {
 
 
     /**
-     * 获取 项目ID
+     * Get the project ID
      */
     public static Long getProjectId() {
         if (PROJECT_ID_THREAD_LOCAL.get() != null) {
@@ -82,10 +82,10 @@ public class TenantUtils {
             return null;
         }
         var request = attributes.getRequest();
-        // 先从请求头中 获取 项目id
+        // Read the project from the request header first id
         var projectIdStr = request.getHeader(X_PROJECT_ID);
         if (StrUtil.isEmpty(projectIdStr) || !NumberUtil.isNumber(projectIdStr)) {
-            // 从请求参数中 获取 项目id
+            // Read the project from the request parameters id
             projectIdStr = request.getParameter(X_PROJECT_ID);
         }
         if (StrUtil.isNotBlank(projectIdStr) && NumberUtil.isNumber(projectIdStr)) {
@@ -96,7 +96,7 @@ public class TenantUtils {
 
 
     /**
-     * 设置 项目ID
+     * Set the project ID
      */
     public static void setProjectId(Long projectId) {
         if (projectId != null) {
@@ -108,7 +108,7 @@ public class TenantUtils {
 
 
     /**
-     * 租户用户。使用自定义的 租户ID
+     * Tenant user. Uses a custom tenant ID
      */
     public static boolean getUseCustomTenantId() {
         return Optional.ofNullable(USE_CUSTOM_TENANT_ID_THREAD_LOCAL.get())
@@ -117,7 +117,7 @@ public class TenantUtils {
 
 
     /**
-     * 租户用户。使用自定义的 租户ID
+     * Tenant user. Uses a custom tenant ID
      */
     public static void setUseCustomTenantId(Boolean flag) {
         if (flag != null) {

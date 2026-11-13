@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 菜单表
+ * Menu table
  * </p>
  *
  * @author Wang Chen Chen
@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
  * @date 2021/7/5 9:31
  */
 
-@Schema(description = "权限菜单")
+@Schema(description = "Permission menu")
 @TableName("sys_menu")
 @Getter
 @Setter
@@ -34,88 +34,88 @@ import lombok.experimental.Accessors;
 public class SysMenu extends BaseEntity {
 
     /**
-     * 菜单 ID
+     * Menu ID
      */
-    @Schema(description = "菜单ID")
+    @Schema(description = "Menu ID")
     @TableId(type = IdType.AUTO)
-    @NotNull(message = "菜单ID,必须填写", groups = {ValidUpdate.class})
+    @NotNull(message = "Menu ID is required", groups = {ValidUpdate.class})
     private Long menuId;
 
     /**
-     * 上级菜单
+     * Parent menu
      */
-    @Schema(description = "上级菜单")
-    @NotNull(message = "上级菜单,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Parent menu")
+    @NotNull(message = "Parent menu is required", groups = {ValidCreate.class})
     private Long parentId;
 
     /**
-     * 菜单 名称
+     * Menu name
      */
-    @Schema(description = "菜单名称")
-    @NotEmpty(message = "菜单名称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Menu name")
+    @NotEmpty(message = "Menu name is required", groups = {ValidCreate.class})
     private String menuName;
 
     /**
-     * 权限标识
+     * Permission key
      */
-    @Schema(description = "权限标识")
-    @NotEmpty(message = "权限标识,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Permission key")
+    @NotEmpty(message = "Permission key is required", groups = {ValidCreate.class})
     private String perms;
 
     /**
-     * 组件
+     * Component
      */
-    @Schema(description = "组件")
-    @NotEmpty(message = "组件,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Component")
+    @NotEmpty(message = "Component is required", groups = {ValidCreate.class})
     private String component;
 
     /**
-     * 菜单图标
+     * Menu icon
      */
-    @Schema(description = "菜单图标")
-    @NotEmpty(message = "菜单图标,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Menu icon")
+    @NotEmpty(message = "Menu icon is required", groups = {ValidCreate.class})
     private String icon;
 
     /**
-     * 排序
+     * Sort order
      */
-    @Schema(description = "排序")
-    @NotNull(message = "排序,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Sort order")
+    @NotNull(message = "Sort order is required", groups = {ValidCreate.class})
     private Long sort;
 
     /**
-     * 路由地址
+     * Route path
      */
-    @Schema(description = "路由地址")
-    @NotEmpty(message = "路由地址,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Route path")
+    @NotEmpty(message = "Route path is required", groups = {ValidCreate.class})
     private String path;
 
     /**
-     * 0.租户用户   1. 系统用户   2.全部
+     * 0.Tenant user, 1 = platform user, 2 = all
      */
-    @Schema(description = "目标用户: 0.租户用户 1. 系统用户 2.全部")
-    @NotNull(message = "目标用户,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Target users: 0 = tenant users, 1 = platform users, 2 = all")
+    @NotNull(message = "Target users is required", groups = {ValidCreate.class})
     private Byte target;
 
     /**
-     * 菜单类型（0.菜单 1.按钮 2.外链）
+     * Menu type (0 = menu, 1 = button, 2 = external link)
      */
-    @Schema(description = "菜单类型（0.菜单 1.按钮 2.外链）")
-    @NotNull(message = "菜单类型,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Menu type (0 = menu, 1 = button, 2 = external link)")
+    @NotNull(message = "Menu type is required", groups = {ValidCreate.class})
     private Byte menuType;
 
     /**
-     * 菜单状态（1.显示 0.隐藏）
+     * Menu visibility (1 = shown, 0 = hidden)
      */
-    @Schema(description = "菜单状态（1.显示 0.隐藏）")
-    @NotNull(message = "菜单状态,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Menu visibility (1 = shown, 0 = hidden)")
+    @NotNull(message = "Menu status is required", groups = {ValidCreate.class})
     private Byte visible;
 
     /**
-     * 保持状态（1.保持 0.不保持）
+     * Keep alive (1 = yes, 0 = no)
      */
-    @Schema(description = "保持状态（1.保持 0.不保持）")
-    @NotNull(message = "保持状态,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Keep alive (1 = yes, 0 = no)")
+    @NotNull(message = "Keep-alive is required", groups = {ValidCreate.class})
     private Byte keepAlive;
 
 }

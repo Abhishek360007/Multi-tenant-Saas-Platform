@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * <p>
- * 字典类型 控制器
+ * Dictionary type controller
  * </p>
  *
  * @author Wang Chen Chen
@@ -28,7 +28,7 @@ import java.util.List;
  */
 
 @Slf4j
-@Tag(name = "[ 通用 ] 字典类型")
+@Tag(name = "[ Common ] Dictionary types")
 @RestController
 @RequestMapping("/dict/type")
 @AllArgsConstructor
@@ -38,21 +38,21 @@ public class SysDictTypeController {
     private SysDictTypeService baseService;
 
 
-    @Operation(summary = "单个查询", description = "根据Id查询")
+    @Operation(summary = "Get one", description = "Query by ID")
     @GetMapping("/{id}")
     public JsonResult<SysDictType> getById(@PathVariable("id") Long id) {
         return JsonResult.success(baseService.getById(id));
     }
 
 
-    @Operation(summary = "查询所有", description = "查询所有")
+    @Operation(summary = "Query all", description = "Query all")
     @GetMapping("/list")
     public JsonResult<List<SysDictType>> list() {
         return JsonResult.success(baseService.list());
     }
 
 
-    @Operation(summary = "分页", description = "分页 查询所有")
+    @Operation(summary = "Paged query", description = "Paged query of all")
     @GetMapping("/query")
     public JsonResult<Pagination<SysDictType>> pageQuery(SearchPO params) {
         var page = baseService.pageKeywords(
@@ -64,7 +64,7 @@ public class SysDictTypeController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "新增", description = "不需要添加id")
+    @Operation(summary = "Add", description = "Do not include id")
     @PostMapping()
     public JsonResult<SysDictType> save(@RequestBody @Validated(ValidCreate.class) SysDictType entity) {
         baseService.save(entity);
@@ -73,7 +73,7 @@ public class SysDictTypeController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改", description = "修改必须要id")
+    @Operation(summary = "Update", description = "Update requires id")
     @PutMapping()
     public JsonResult<Boolean> updateById(@RequestBody @Validated(ValidUpdate.class) SysDictType entity) {
         var flag = baseService.updateById(entity);
@@ -82,7 +82,7 @@ public class SysDictTypeController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "删除", description = "只需要id即可")
+    @Operation(summary = "Delete", description = "Only the ID is required")
     @DeleteMapping("/{id}")
     public JsonResult<Boolean> removeById(@PathVariable("id") Long id) {
         var flag = baseService.removeById(id);

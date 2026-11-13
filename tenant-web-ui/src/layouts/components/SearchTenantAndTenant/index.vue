@@ -26,17 +26,17 @@ const projectStore = useProjectStoreHook()
 
 const appStore = useAppStore()
 
-/** 控制搜索对话框宽度 */
+/** Search dialog width */
 const modalWidth = computed(() => (appStore.device === DeviceEnum.Mobile ? "80vw" : "40vw"))
 
 const dialogVisible = ref(false)
 
-// 项目切换组件
+// Project switcher
 const childProject = ref()
 
 const value = computed(() => projectStore.getCurrentProject().projectName)
 
-// 获取 input 焦点
+// Focus the input
 const inputFocus = () => {
   dialogVisible.value = true
 }

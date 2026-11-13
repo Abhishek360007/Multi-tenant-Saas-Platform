@@ -28,7 +28,7 @@ ip2region:
   external: false
   location: classpath*:ip2region.xdb
 
-# 多租户配置
+# Multi-tenant settings
 multi:
   tenant:
     prefix: tenanthub_
@@ -48,7 +48,7 @@ jwt:
     keys-dir: ./keys
 
 
-# mybatis-plus 自动配置
+# mybatis-plus Auto-configuration
 mybatis-plus:
   type-aliases-package: com.abhishek.tenanthub.*.entity
   configuration:

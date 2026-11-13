@@ -1,20 +1,20 @@
-/** 自定义 Element Plus 样式 */
+/** Custom Element Plus styles */
 
-// 表格
+// Table
 .el-table {
-  // 表头
+  // Table header
   th.el-table__cell {
     background-color: var(--el-fill-color-light) !important;
   }
-  // 行元素
+  // Row
   tr {
     background-color: transparent;
   }
 }
 
-// 分页
+// Paged query
 .el-pagination {
-  // 参考 Bootstrap 的响应式设计 WIDTH = 768
+  // Responsive breakpoints follow Bootstrap WIDTH = 768
   @media screen and (max-width: 768px) {
     .el-pagination__total,
     .el-pagination__sizes,

@@ -19,7 +19,7 @@ public interface ApiSysConfigService {
 
 
     /**
-     * 根据 configKey 查看配置信息,，返回 String
+     * Look up a config value by configKey; returns String
      *
      * @param configKey
      * @return SysConfig
@@ -30,7 +30,7 @@ public interface ApiSysConfigService {
 
 
     /**
-     * 根据 configKey 查看配置信息，返回 List
+     * Look up a config value by configKey; returns List
      *
      * @param configKey
      * @return SysConfig
@@ -41,7 +41,7 @@ public interface ApiSysConfigService {
 
 
     /**
-     * 根据 configKey 查看配置信息，返回 Map
+     * Look up a config value by configKey; returns Map
      *
      * @param configKey
      * @return SysConfig
@@ -52,7 +52,7 @@ public interface ApiSysConfigService {
 
 
     /**
-     * 根据 configKey 查看配置信息，返回 Integer
+     * Look up a config value by configKey; returns Integer
      *
      * @param configKey
      * @return SysConfig
@@ -63,7 +63,7 @@ public interface ApiSysConfigService {
 
 
     /**
-     * 根据 configKey 查看配置信息，返回 Byte
+     * Look up a config value by configKey; returns Byte
      *
      * @param configKey
      * @return SysConfig
@@ -75,7 +75,7 @@ public interface ApiSysConfigService {
 
 
     /**
-     * 根据 configKey 查看配置信息，返回 Double
+     * Look up a config value by configKey; returns Double
      *
      * @param configKey
      * @return SysConfig
@@ -86,7 +86,7 @@ public interface ApiSysConfigService {
 
 
     /**
-     * 根据 configKey 查看配置信息，返回 LocalDateTime
+     * Look up a config value by configKey; returns LocalDateTime
      *
      * @param configKey
      * @return SysConfig
@@ -96,7 +96,7 @@ public interface ApiSysConfigService {
     LocalDateTime getValueDateTimeByKey(String configKey);
 
     /**
-     * 根据 configKey 查看配置信息 ，返回 LocalTime
+     * Look up a config value by configKey; returns LocalTime
      *
      * @param configKey
      * @return SysConfig
@@ -106,7 +106,7 @@ public interface ApiSysConfigService {
     LocalTime getValueTimeByKey(String configKey);
 
     /**
-     * 根据 configKey 查看配置信息，返回 LocalDate
+     * Look up a config value by configKey; returns LocalDate
      *
      * @param configKey
      * @return SysConfig

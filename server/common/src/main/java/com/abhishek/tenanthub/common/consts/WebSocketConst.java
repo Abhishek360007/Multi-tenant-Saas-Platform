@@ -13,12 +13,12 @@ package com.abhishek.tenanthub.common.consts;
 public class WebSocketConst {
 
     /**
-     * 推送
+     * Push
      */
     public static final String STOMP_ENDPOINT = "/stomp/push";
 
     /**
-     * 方法
+     * Method
      */
     public static final String QUEUE = "/queue";
 
@@ -26,12 +26,12 @@ public class WebSocketConst {
     public static final String USER = "/user";
 
     /**
-     * 事件
+     * Event
      */
     public static final String TOPIC = "/topic";
 
     /**
-     * 事件
+     * Event
      */
     public static final String PREFIXES = "/app";
 

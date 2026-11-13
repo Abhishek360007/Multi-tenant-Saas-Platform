@@ -33,7 +33,7 @@ public class FileDetailService extends ServiceImpl<SysFileDetailMapper, SysFileD
     @Override
     public boolean save(FileInfo info) {
         var detail = BeanUtil.copyProperties(info, SysFileDetail.class, "attr");
-        //这是手动获 取附加属性字典 并转成 json 字符串，方便存储在数据库中
+        //Manually read the extra attributes map and convert it to a JSON string for storage
         if (info.getAttr() != null) {
             detail.setAttr(JsonUtils.toJson(info.getAttr()));
         }
@@ -47,7 +47,7 @@ public class FileDetailService extends ServiceImpl<SysFileDetailMapper, SysFileD
     @Override
     public void update(FileInfo info) {
         var detail = BeanUtil.copyProperties(info, SysFileDetail.class, "attr");
-        //这是手动获 取附加属性字典 并转成 json 字符串，方便存储在数据库中
+        //Manually read the extra attributes map and convert it to a JSON string for storage
         if (info.getAttr() != null) {
             detail.setAttr(JsonUtils.toJson(info.getAttr()));
         }
@@ -64,7 +64,7 @@ public class FileDetailService extends ServiceImpl<SysFileDetailMapper, SysFileD
             return null;
         }
         var info = BeanUtil.copyProperties(detail, FileInfo.class, "attr");
-        //这是手动获取数据库中的 json 字符串 并转成 附加属性字典，方便使用
+        //Manually read the JSON string from the database and convert it to the extra attributes map
         if (StrUtil.isNotBlank(detail.getAttr())) {
             info.setAttr(JsonUtils.toPojo(detail.getAttr(), Dict.class));
         }

@@ -22,7 +22,7 @@ public class TaxCompany<T> {
     @Schema(description = "ID")
     private T id;
 
-    @Schema(description = "上级ID")
+    @Schema(description = "Parent ID")
     private T parentId;
 
 }

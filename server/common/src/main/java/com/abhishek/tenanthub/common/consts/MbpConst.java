@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 /**
  * <p>
- * mybatis-plus 常量配置
+ * mybatis-plus Constants
  * </p>
  *
  * @author Wang Chen Chen
@@ -20,7 +20,7 @@ public class MbpConst {
 
 
     /**
-     * 数据字段。
+     * Data field.
      */
     public static final String PROJECT_ID = "project_id";
 
@@ -34,7 +34,7 @@ public class MbpConst {
 
 
     /**
-     * 属性字段。
+     * Property field.
      */
     public final static String ATTR_PROJECT_ID = "projectId";
 
@@ -47,7 +47,7 @@ public class MbpConst {
     public final static String ATTR_LAST_UPDATE_USER = "lastUpdateUser";
 
     /**
-     * 基础属性字段
+     * Base property fields
      */
     public final static Set<String> ATTR_BASE_FIELDS = Set.of(
             ATTR_CREATE_TIME,
@@ -57,34 +57,34 @@ public class MbpConst {
     );
 
     /**
-     * 不需要进行 拦截租户 的表名称
-     * 用法:
+     * Tables excluded from tenant interception
+     * Usage:
      *
      * @see com.abhishek.tenanthub.tenant.schema.SchemaInterceptor.ignoreTable()
      */
     public final static Set<String> TENANT_IGNORE_TABLES = new HashSet<>(
             Set.of(
-                    "sys_tenant",                   // 租户
-                    "sys_tenant_template",          // 租户关联模板
-                    "sys_template",                 // 模板
-                    "sys_template_menu",            // 模板关联菜单
-                    "sys_menu",                     // 菜单
-                    "sys_config",                   // 全局配置
-                    "sys_dict_data",                // 数据字典数据
-                    "sys_dict_type",                // 数据字典类型
-                    "sys_file_detail",              // 通用配置文件
+                    "sys_tenant",                   // Tenant
+                    "sys_tenant_template",          // Tenant templates
+                    "sys_template",                 // Template
+                    "sys_template_menu",            // Template menus
+                    "sys_menu",                     // Menu
+                    "sys_config",                   // Global settings
+                    "sys_dict_data",                // Dictionary data
+                    "sys_dict_type",                // Dictionary types
+                    "sys_file_detail",              // Common configuration file
                     "india_area"                    // India administrative areas
             )
     );
 
 
     /**
-     * 不需要进行拦截 project_id 的表名称
+     * Tables excluded from project_id interception
      *
      * <p>
-     * 在 项目初始化的时候，会自动从数据中读取，不包含 project_id 字段的表名称
+     * Tables without a project_id column are read from the database automatically at startup
      * <p>
-     * 必须添加 COLUMNS 否则，初始化的时候，自动读取表名称
+     * COLUMNS must be added, otherwise table names are read automatically at startup
      * <p>
      *
      * @see com.abhishek.tenanthub.corems.runner.ProjectTableRunner

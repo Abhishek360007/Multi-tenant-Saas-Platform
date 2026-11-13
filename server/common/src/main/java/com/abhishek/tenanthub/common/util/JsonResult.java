@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * <p>
- * RESTful API 统一返回实体类
+ * RESTful API Unified response entity
  * </p>
  *
  * @author Wang Chen Chen
@@ -20,7 +20,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Schema(description = "通用返回结果")
+@Schema(description = "Generic response")
 public class JsonResult<T> implements Serializable {
 
     private static final int SUCCESS = 200;
@@ -28,28 +28,28 @@ public class JsonResult<T> implements Serializable {
     private static final int FAIL = 100;
 
     /**
-     * 返回状态码
+     * Status code
      */
-    @Schema(description = "状态码 200: 成功！ 100: 失败！ 其他: 都是报错！")
+    @Schema(description = "Status code 200: success, 100: failure, anything else: error")
     private Integer status;
 
     /**
-     * 返回消息
+     * Response message
      */
-    @Schema(description = "消息")
+    @Schema(description = "Message")
     private String message;
 
     /**
-     * 返回内容
+     * Response content
      */
-    @Schema(description = "结果")
+    @Schema(description = "Result")
     private T data;
 
     private JsonResult() {
     }
 
     /**
-     * 自定义返回状态码
+     * Custom status code
      *
      * @param status
      * @param message
@@ -67,7 +67,7 @@ public class JsonResult<T> implements Serializable {
     }
 
     /**
-     * 自定义返回状态码
+     * Custom status code
      *
      * @param status
      * @param data
@@ -80,7 +80,7 @@ public class JsonResult<T> implements Serializable {
     }
 
     /**
-     * 自定义返回状态码 [不建议使用，建议扩展方法]
+     * Custom status code [not recommended; add a helper method instead]
      *
      * @param status
      * @param message
@@ -94,7 +94,7 @@ public class JsonResult<T> implements Serializable {
 
 
     /**
-     * 操作成功
+     * Done
      *
      * @return JsonResult
      * @author Wang Chen Chen<932560435@qq.com>
@@ -105,7 +105,7 @@ public class JsonResult<T> implements Serializable {
     }
 
     /**
-     * 操作成功
+     * Done
      *
      * @param total
      * @param list
@@ -118,7 +118,7 @@ public class JsonResult<T> implements Serializable {
 
 
     /**
-     * 操作成功
+     * Done
      *
      * @param message
      * @return JsonResult
@@ -130,7 +130,7 @@ public class JsonResult<T> implements Serializable {
     }
 
     /**
-     * 操作成功
+     * Done
      *
      * @param data
      * @return JsonResult
@@ -142,7 +142,7 @@ public class JsonResult<T> implements Serializable {
     }
 
     /**
-     * 操作成功
+     * Done
      *
      * @param message
      * @param data
@@ -156,7 +156,7 @@ public class JsonResult<T> implements Serializable {
 
 
     /**
-     * 操作失败
+     * Operation failed
      *
      * @param message
      * @return JsonResult
@@ -168,7 +168,7 @@ public class JsonResult<T> implements Serializable {
     }
 
     /**
-     * 操作失败
+     * Operation failed
      *
      * @param message
      * @return JsonResult
@@ -181,7 +181,7 @@ public class JsonResult<T> implements Serializable {
 
 
     /**
-     * 操作失败
+     * Operation failed
      *
      * @param message
      * @return JsonResult
@@ -194,7 +194,7 @@ public class JsonResult<T> implements Serializable {
 
 
     /**
-     * 操作失败
+     * Operation failed
      *
      * @param message
      * @return JsonResult
@@ -206,7 +206,7 @@ public class JsonResult<T> implements Serializable {
     }
 
     /**
-     * 异常错误
+     * Error
      *
      * @author Wang Chen Chen<932560435@qq.com>
      * @date 2019/12/12 21:08
@@ -217,7 +217,7 @@ public class JsonResult<T> implements Serializable {
 
 
     /**
-     * 异常错误
+     * Error
      *
      * @author Wang Chen Chen<932560435@qq.com>
      * @date 2019/12/12 21:08
@@ -228,7 +228,7 @@ public class JsonResult<T> implements Serializable {
 
 
     /**
-     * 获取 成功的常量
+     * Get the success constant
      *
      * @author Wang Chen Chen<932560435@qq.com>
      * @date 2019/12/12 21:08
@@ -238,7 +238,7 @@ public class JsonResult<T> implements Serializable {
     }
 
     /**
-     * 获取 失败的常量
+     * Get the failure constant
      *
      * @author Wang Chen Chen<932560435@qq.com>
      * @date 2019/12/12 21:08

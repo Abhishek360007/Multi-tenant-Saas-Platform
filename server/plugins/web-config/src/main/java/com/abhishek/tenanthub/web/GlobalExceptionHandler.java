@@ -18,7 +18,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 /**
  * <p>
- * 全局异常处理
+ * Global exception handler
  * </p>
  *
  * @author Wang Chen Chen
@@ -31,7 +31,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class GlobalExceptionHandler {
 
     /**
-     * 数据转换异常
+     * Data conversion error
      *
      * @param e
      */
@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * 参数校验异常
+     * Validation error
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public JsonResult<String> exceptionHandler(MethodArgumentNotValidException e) {
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * 参数缺失异常
+     * Missing parameter
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public JsonResult<String> exceptionHandler(MethodArgumentTypeMismatchException e) {
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * jwt认证异常
+     * jwt Authentication error
      *
      * @param e
      */
@@ -73,7 +73,7 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * 空指针异常
+     * Null pointer
      *
      * @param e
      */
@@ -85,27 +85,27 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * 认证失败异常
+     * Authentication failure
      */
     @ExceptionHandler(value = AuthenticationException.class)
     public JsonResult<String> exceptionHandler(HttpServletRequest request, AuthenticationException e) {
-        var msg = String.format("请求访问：%s，认证失败，无法访问系统资源", request.getRequestURI());
+        var msg = String.format("Request to %s: authentication failed, access denied", request.getRequestURI());
         return JsonResult.error(OAuth2Error.OAUTH2_EXCEPTION.getStatus(), msg);
     }
 
 
     /**
-     * 权限不足异常
+     * Access denied
      */
     @ExceptionHandler(value = AccessDeniedException.class)
     public JsonResult<String> exceptionHandler(HttpServletRequest request, AccessDeniedException e) {
-        var msg = String.format("请求访问：%s，权限不足，请联系管理员", request.getRequestURI());
+        var msg = String.format("Request to %s: insufficient permissions, contact your administrator", request.getRequestURI());
         return JsonResult.error(OAuth2Error.ACCESS_DENIED.getStatus(), msg);
     }
 
 
     /**
-     * 业务 异常
+     * Business exception
      *
      * @param e
      */
@@ -116,7 +116,7 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * 运行时异常
+     * Runtime error
      *
      * @param e
      */
@@ -127,14 +127,14 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * 处理其他异常
+     * Handle other errors
      *
      * @param e
      */
     @ExceptionHandler(value = Exception.class)
     public JsonResult<String> exceptionHandler(Exception e) {
         e.printStackTrace();
-        log.error("未知异常！原因是: {} ", e.getMessage());
+        log.error("Unknown error. Cause:: {} ", e.getMessage());
         if (e instanceof ErrorResponse er) {
             return JsonResult.error(er.getStatusCode().value(), e.getMessage());
         }

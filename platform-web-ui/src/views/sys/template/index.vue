@@ -3,13 +3,13 @@
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="params">
         <el-form-item>
-          <el-input v-model="params.keywords" clearable placeholder="根据 模板名称 搜索" />
+          <el-input v-model="params.keywords" clearable placeholder="Search by template name" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :icon="Search" @click="searchTableData">搜索</el-button>
+          <el-button type="primary" :icon="Search" @click="searchTableData">Search</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="success" :icon="Plus" @click="handleAdd()">新增</el-button>
+          <el-button type="success" :icon="Plus" @click="handleAdd()">Add</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -17,9 +17,9 @@
     <el-card shadow="never">
       <div class="toolbar-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="id" label="模板ID" />
-          <el-table-column prop="name" label="名称" />
-          <el-table-column prop="description" label="描述">
+          <el-table-column prop="id" label="Template ID" />
+          <el-table-column prop="name" label="Name" />
+          <el-table-column prop="description" label="Description">
             <template #default="scope">
               <el-popover placement="top-start" :width="300" trigger="hover" v-if="scope.row.description"
                 :content="scope.row.description">
@@ -29,23 +29,23 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间">
+          <el-table-column prop="createTime" label="Created at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.createTime" :entity="scope.row.createUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdateTime" label="修改时间">
+          <el-table-column prop="lastUpdateTime" label="Updated at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.lastUpdateTime" :entity="scope.row.lastUpdateUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="200">
+          <el-table-column label="Actions" width="200">
             <template #default="scope">
-              <el-link :icon="EditPen" type="info" @click="handleEditMenu(scope.row)">权限</el-link>
+              <el-link :icon="EditPen" type="info" @click="handleEditMenu(scope.row)">Permissions</el-link>
               &nbsp;
-              <el-link :icon="Edit" type="warning" @click="handleEdit(scope.row)">编辑</el-link>
+              <el-link :icon="Edit" type="warning" @click="handleEdit(scope.row)">Edit</el-link>
               &nbsp;
-              <el-link v-admin :icon="Delete" type="danger" @click="handleDelete(scope.row)">删除</el-link>
+              <el-link v-admin :icon="Delete" type="danger" @click="handleDelete(scope.row)">Delete</el-link>
             </template>
           </el-table-column>
         </el-table>
@@ -58,33 +58,33 @@
       </div>
     </el-card>
 
-    <!-- 新增和修改的弹窗 -->
+    <!-- Add/edit dialog -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="50%" :close-on-click-modal="false">
       <el-form ref="entityFormRef" :model="entityForm" :rules="entityFormRules" label-position="right"
         label-width="80px">
-        <el-form-item prop="name" label="名称">
-          <el-input v-model.trim="entityForm.name" placeholder="名称" type="text" tabindex="1" />
+        <el-form-item prop="name" label="Name">
+          <el-input v-model.trim="entityForm.name" placeholder="Name" type="text" tabindex="1" />
         </el-form-item>
-        <el-form-item prop="description" label="描述">
-          <el-input v-model="entityForm.description" placeholder="描述" :rows="5" :maxlength="100" type="textarea"
+        <el-form-item prop="description" label="Description">
+          <el-input v-model="entityForm.description" placeholder="Description" :rows="5" :maxlength="100" type="textarea"
             tabindex="3" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">确定</el-button>
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" v-preventReClick @click="handleSaveAndFlush">OK</el-button>
         </span>
       </template>
     </el-dialog>
 
-    <!-- 修改权限 -->
+    <!-- Edit permissions -->
     <el-dialog v-model="menusDialogVisible" :title="menusDialogTitle" width="50%" :close-on-click-modal="false">
       <custom-tree v-if="menusData" :data="menusData.all" ref="menusRef" />
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="menusDialogVisible = false">取消</el-button>
-          <el-button type="primary" v-preventReClick @click="handleUpdateMenus">确定</el-button>
+          <el-button @click="menusDialogVisible = false">Cancel</el-button>
+          <el-button type="primary" v-preventReClick @click="handleUpdateMenus">OK</el-button>
         </span>
       </template>
     </el-dialog>
@@ -109,10 +109,10 @@ import { IUpdateMenus } from "@/types/base"
 import { showStringOverflow } from "@/hooks/useIndex"
 import CustomTree from "@/components/CustomTree/index.vue"
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
-// true : 新增，false : 修改
+// true : add, false: edit
 const saveFlag = ref(false)
 
 const dialogVisible = ref(false)
@@ -136,7 +136,7 @@ const params = reactive({
   includeCauu: true
 })
 
-/// 表单数据
+/// Form data
 const entityForm = ref<ISysTemplate>({
   id: 0,
   name: "",
@@ -145,13 +145,13 @@ const entityForm = ref<ISysTemplate>({
 
 const entityFormRef = ref<FormInstance | null>(null)
 
-/// 表单校验规则
+/// Form validation rules
 const entityFormRules: FormRules = {
-  name: [{ required: true, message: "请输入名称", trigger: "blur" }],
-  description: [{ required: true, message: "请输入描述", trigger: "blur" }]
+  name: [{ required: true, message: "Enter a name", trigger: "blur" }],
+  description: [{ required: true, message: "Enter a description", trigger: "blur" }]
 }
 
-// 获取数据
+// Fetch data
 const getTableData = () => {
   loading.value = true
   queryTemplateApi(params)
@@ -167,7 +167,7 @@ const getTableData = () => {
     })
 }
 
-// 重置 Entity 属性
+// Reset entity fields
 const resetEntity = () => {
   entityForm.value = {
     id: 0,
@@ -191,11 +191,11 @@ const handleCurrentChange = (val: number) => {
   getTableData()
 }
 
-// 编辑权限
+// Edit permissions
 const handleEditMenu = (data: ISysTemplate) => {
   loading.value = true
   entityForm.value = cloneDeep(data)
-  menusDialogTitle.value = "修改"
+  menusDialogTitle.value = "Edit"
   getTemplateMenusApi(data.id)
     .then((resp) => {
       menusData.value = resp.data
@@ -205,25 +205,25 @@ const handleEditMenu = (data: ISysTemplate) => {
       console.log("err :>> ", err)
     })
     .finally(() => {
-      // 调用子组件的方法，重新渲染 tree
+      // Call the child component method to re-render tree
       menusRef.value!.setCheckedKeys(menusData.value!.have)
       loading.value = false
     })
 }
 
-// 修改权限
+// Edit permissions
 const handleUpdateMenus = () => {
   const menuIds: number[] = menusRef.value!.getCheckedKeys()
   if (menuIds && menuIds.length < 1) {
     ElMessage({
-      message: "至少选择一个权限",
+      message: "Select at least one permission",
       type: "warning"
     })
     return
   }
-  ElMessageBox.confirm(`确要修改 ${entityForm.value.name} 的权限吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(`Change the permissions of ${entityForm.value.name}?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
@@ -235,7 +235,7 @@ const handleUpdateMenus = () => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `修改 ${entityForm.value.name} 的权限成功！`,
+              message: `Updated permissions of ${entityForm.value.name}`,
               type: "success"
             })
           }
@@ -252,28 +252,28 @@ const handleUpdateMenus = () => {
     })
 }
 
-// 编辑
+// Edit
 const handleEdit = (data: ISysTemplate) => {
   resetEntity()
   entityForm.value = cloneDeep(data)
-  dialogTitle.value = "修改"
+  dialogTitle.value = "Edit"
   saveFlag.value = false
   dialogVisible.value = true
 }
 
-// 新增
+// Add
 const handleAdd = () => {
   resetEntity()
-  dialogTitle.value = "新增"
+  dialogTitle.value = "Add"
   saveFlag.value = true
   dialogVisible.value = true
 }
 
-// 删除
+// Delete
 const handleDelete = (data: ISysTemplate) => {
-  ElMessageBox.confirm(`确要删除 ${data.name} 吗?`, "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm(`Delete ${data.name}?`, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
@@ -281,7 +281,7 @@ const handleDelete = (data: ISysTemplate) => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: `删除 ${data.name} 成功！`,
+              message: `Deleted ${data.name}`,
               type: "success"
             })
           }
@@ -298,7 +298,7 @@ const handleDelete = (data: ISysTemplate) => {
     })
 }
 
-// 新增和修改
+// Add and edit
 const handleSaveAndFlush = () => {
   entityFormRef.value?.validate((valid: boolean) => {
     if (valid) {
@@ -308,7 +308,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "新增模板成功！",
+                message: "Template added",
                 type: "success"
               })
             }
@@ -326,7 +326,7 @@ const handleSaveAndFlush = () => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: "修改模板成功！",
+                message: "Template updated",
                 type: "success"
               })
             }

@@ -15,7 +15,7 @@ public interface ApiSysUserService {
 
 
     /**
-     * 根据 用户ID 获取 租户ID
+     * Get the tenant by user ID
      */
     Set<String> listHaveTenantIds(Long userId);
 

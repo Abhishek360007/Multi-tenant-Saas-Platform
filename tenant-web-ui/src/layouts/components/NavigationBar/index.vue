@@ -30,22 +30,22 @@ const { layoutMode, showNotify, showThemeSwitch, showScreenfull, showSearchTenan
 const isTop = computed(() => layoutMode.value === "top")
 const isMobile = computed(() => device.value === DeviceEnum.Mobile)
 
-/** 切换侧边栏 */
+/** Toggle sidebar */
 const toggleSidebar = () => {
   appStore.toggleSidebar(false)
 }
 
-/** 登出 */
+/** Sign out */
 const logout = () => {
-  ElMessageBox.confirm("确定要退出系统?", "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm("Sign out of the system?", "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     type: "warning"
   })
     .then(() => {
       userLogout().then(() => jumpToLogin())
     })
-    .catch(() => console.log("取消退出登录.. :>> "))
+    .catch(() => console.log("Sign-out cancelled.. :>> "))
 }
 </script>
 
@@ -69,10 +69,10 @@ const logout = () => {
         <template #dropdown>
           <el-dropdown-menu>
             <router-link :to="{ name: 'Personal' }">
-              <el-dropdown-item>个人信息</el-dropdown-item>
+              <el-dropdown-item>Profile</el-dropdown-item>
             </router-link>
             <el-dropdown-item divided @click="logout">
-              <span style="display: block">退出登录</span>
+              <span style="display: block">Sign out</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -97,14 +97,14 @@ const logout = () => {
   }
   .breadcrumb {
     flex: 1;
-    // 参考 Bootstrap 的响应式设计将宽度设置为 576
+    // Following Bootstrap responsive breakpoints, the width is set to 576
     @media screen and (max-width: 576px) {
       display: none;
     }
   }
   .sidebar {
     flex: 1;
-    // 设置 min-width 是为了让 Sidebar 里的 el-menu 宽度自适应
+    // min-width lets the el-menu inside Sidebar size itself
     min-width: 0px;
     :deep(.el-menu) {
       background-color: transparent;

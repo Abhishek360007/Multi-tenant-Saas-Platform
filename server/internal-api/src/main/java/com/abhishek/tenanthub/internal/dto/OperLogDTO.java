@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 操作日志记录表 oper_log
+ * Operation log table oper_log
  *
  * @author wangwei
  */
@@ -22,92 +22,92 @@ import java.util.Map;
 public class OperLogDTO implements java.io.Serializable {
 
     /**
-     * 消息ID
+     * Message ID
      */
     private String id;
 
     /**
-     * 标题
+     * Title
      */
     private String title;
 
     /**
-     * 描述
+     * Description
      */
     private String description;
 
     /**
-     * 服务名称
+     * Service name
      */
     private String serviceName;
 
     /**
-     * 租户ID
+     * Tenant ID
      */
     private String tenantId;
 
     /**
-     * 操作人员
+     * Operator
      */
     private Long userId;
 
     /**
-     * 操作人员
+     * Operator
      */
     private String nickname;
 
     /**
-     * 方法名称
+     * Method name
      */
     private String method;
 
     /**
-     * 方法参数
+     * Method arguments
      */
     private List<Map<String, Object>> methodArgs;
 
     /**
-     * 请求方式
+     * Request method
      */
     private String requestMethod;
 
     /**
-     * 请求 url
+     * Request url
      */
     private String requestUrl;
 
     /**
-     * 请求的ip地址
+     * Client IP address
      */
     private String requestIp;
 
     /**
-     * 操作地点
+     * Location
      */
     private String address;
 
     /**
-     * 响应结果
+     * Response
      */
     private Map<String, Object> responseResult;
 
     /**
-     * 操作状态（ 200.正常 其他.异常 ）
+     * Operation status (200 = normal, otherwise error)
      */
     private Integer status;
 
     /**
-     * 错误日志
+     * Error log
      */
     private String errorLog;
 
     /**
-     * 耗时
+     * Duration
      */
     private Long timeCost;
 
     /**
-     * 操作时间
+     * Operated at
      */
     private LocalDateTime createTime;
 

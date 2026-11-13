@@ -10,7 +10,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 /**
  * <p>
- * 修改密码
+ * Change password
  * </p>
  *
  * @author Wang Chen Chen
@@ -27,34 +27,34 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 public class UpdatePasswordVO {
 
     /**
-     * 用户ID
+     * User ID
      */
-    @Schema(description = "用户ID不能为空！", requiredMode = REQUIRED)
-    @NotNull(message = "用户ID不能为空!")
+    @Schema(description = "User ID is required", requiredMode = REQUIRED)
+    @NotNull(message = "User ID is required!")
     private Long userId;
 
     /**
-     * 旧密码
+     * Current password
      */
-    @Schema(description = "旧密码长度要大于5位！", requiredMode = REQUIRED)
-    @NotBlank(message = "旧密码不能为空!")
-    @Length(min = 5, max = 32, message = "旧密码,长度5~32位字符")
+    @Schema(description = "Current password must be longer than 5 characters", requiredMode = REQUIRED)
+    @NotBlank(message = "Current password is required!")
+    @Length(min = 5, max = 32, message = "Current password, 5 to 32 characters")
     private String oldPwd;
 
     /**
-     * 新密码
+     * New password
      */
-    @Schema(description = "新密码长度要大于5位！", requiredMode = REQUIRED)
-    @NotBlank(message = "新密码不能为空!")
-    @Length(min = 5, max = 32, message = "新密码,长度5~32位字符")
+    @Schema(description = "New password must be longer than 5 characters", requiredMode = REQUIRED)
+    @NotBlank(message = "New password is required!")
+    @Length(min = 5, max = 32, message = "New password, 5 to 32 characters")
     private String newPwd;
 
     /**
-     * 确认密码
+     * Confirm password
      */
-    @Schema(description = "确认密码长度要大于5位！", requiredMode = REQUIRED)
-    @NotBlank(message = "确认密码不能为空!")
-    @Length(min = 5, max = 32, message = "确认密码,长度5~32位字符")
+    @Schema(description = "Confirmation must be longer than 5 characters", requiredMode = REQUIRED)
+    @NotBlank(message = "Confirmation is required!")
+    @Length(min = 5, max = 32, message = "Confirmation, 5 to 32 characters")
     private String confirmPwd;
 
 }

@@ -20,20 +20,20 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Schema(description = "项目查询")
+@Schema(description = "Project query")
 public class ProjectQueryPO extends SearchParentPO {
 
     /**
-     * 部门 ID
+     * Department ID
      */
-    @Schema(description = "部门ID")
+    @Schema(description = "Department ID")
     private Long deptId;
 
     /**
-     * 包含关联部门信息
+     * Includes linked department details
      * include departments
      */
-    @Schema(description = "包含关联部门信息")
+    @Schema(description = "Includes linked department details")
     private Boolean includeDept;
 
     public boolean isIncludeDept() {

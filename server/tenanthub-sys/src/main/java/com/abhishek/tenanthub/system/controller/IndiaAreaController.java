@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * <p>
- * 中国行政地区 Controller
+ * India administrative areas Controller
  * </p>
  *
  * @author Wang Chen Chen
@@ -29,7 +29,7 @@ import java.util.List;
  */
 
 @Slf4j
-@Tag(name = "[ 通用 ] 中国行政地区")
+@Tag(name = "[ Common ] India administrative areas")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/india/area")
@@ -37,14 +37,14 @@ public class IndiaAreaController {
 
     private IndiaAreaService baseService;
 
-    @Operation(summary = "单个查询", description = "根据Id查询")
+    @Operation(summary = "Get one", description = "Query by ID")
     @GetMapping("/{id}")
     public JsonResult<IndiaArea> getById(@PathVariable("id") Long id) {
         return JsonResult.success(baseService.getById(id));
     }
 
 
-    @Operation(summary = "查询子节点", description = "查询所有，0.查询所有一级节点。")
+    @Operation(summary = "Query children", description = "Query children; 0 returns all states and UTs.")
     @GetMapping("/child/{parentCode}")
     public JsonResult<List<IndiaArea>> childList(@PathVariable Long parentCode) {
         if (parentCode == null || parentCode < 1) {
@@ -56,7 +56,7 @@ public class IndiaAreaController {
     }
 
 
-    @Operation(summary = "分页", description = "分页 查询所有")
+    @Operation(summary = "Paged query", description = "Paged query of all")
     @GetMapping("/query")
     public JsonResult<Pagination<IndiaArea>> pageQuery(SearchPO params) {
         IPage<IndiaArea> page = baseService.pageKeywords(params);

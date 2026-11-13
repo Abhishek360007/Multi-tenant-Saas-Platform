@@ -12,31 +12,31 @@
             <table cellspacing="0" style="width: 100%">
               <thead>
                 <tr>
-                  <th class="el-table__cell is-leaf"><div class="cell">属性</div></th>
-                  <th class="el-table__cell is-leaf"><div class="cell">值</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">Property</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">Value</div></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">核心数</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Cores</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.cpu">{{ server.cpu.cpuNum }}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">用户使用率</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">User usage</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.cpu">{{ server.cpu.used }}%</div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">系统使用率</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">System usage</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.cpu">{{ server.cpu.sys }}%</div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">当前空闲率</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Current idle</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.cpu">{{ server.cpu.free }}%</div>
                   </td>
@@ -51,21 +51,21 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>内存</span>
+              <span>Memory</span>
             </div>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <table cellspacing="0" style="width: 100%">
               <thead>
                 <tr>
-                  <th class="el-table__cell is-leaf"><div class="cell">属性</div></th>
-                  <th class="el-table__cell is-leaf"><div class="cell">内存</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">Property</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">Memory</div></th>
                   <th class="el-table__cell is-leaf"><div class="cell">JVM</div></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">总内存</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Total memory</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.mem">{{ server.mem.total }}G</div>
                   </td>
@@ -74,7 +74,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">已用内存</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Used memory</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.mem">{{ server.mem.used }}G</div>
                   </td>
@@ -83,7 +83,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">剩余内存</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Free memory</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.mem">{{ server.mem.free }}G</div>
                   </td>
@@ -92,7 +92,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">使用率</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Usage</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.mem" :class="{ 'text-danger': server.mem.usage > 80 }">
                       {{ server.mem.usage }}%
@@ -114,28 +114,28 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>服务器信息</span>
+              <span>Server information</span>
             </div>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <table cellspacing="0" style="width: 100%">
               <tbody>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">服务器名称</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Server name</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.sys">{{ server.sys.computerName }}</div>
                   </td>
-                  <td class="el-table__cell is-leaf"><div class="cell">操作系统</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Operating system</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.sys">{{ server.sys.osName }}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">服务器IP</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Server IP</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.sys">{{ server.sys.computerIp }}</div>
                   </td>
-                  <td class="el-table__cell is-leaf"><div class="cell">系统架构</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Architecture</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.sys">{{ server.sys.osArch }}</div>
                   </td>
@@ -150,46 +150,46 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>Java虚拟机信息</span>
+              <span>Java JVM information</span>
             </div>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <table cellspacing="0" style="width: 100%; table-layout: fixed">
               <tbody>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">Java名称</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Java Name</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.jvm">{{ server.jvm.name }}</div>
                   </td>
-                  <td class="el-table__cell is-leaf"><div class="cell">Java版本</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Java Version</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.jvm">{{ server.jvm.version }}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">启动时间</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Started at</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.jvm">{{ server.jvm.startTime }}</div>
                   </td>
-                  <td class="el-table__cell is-leaf"><div class="cell">运行时长</div></td>
+                  <td class="el-table__cell is-leaf"><div class="cell">Uptime</div></td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.jvm">{{ server.jvm.runTime }}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">安装路径</div></td>
+                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">Install path</div></td>
                   <td colspan="3" class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.jvm">{{ server.jvm.home }}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">项目路径</div></td>
+                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">Project path</div></td>
                   <td colspan="3" class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.sys">{{ server.sys.userDir }}</div>
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">运行参数</div></td>
+                  <td colspan="1" class="el-table__cell is-leaf"><div class="cell">Runtime arguments</div></td>
                   <td colspan="3" class="el-table__cell is-leaf">
                     <div class="cell" v-if="server.jvm">{{ server.jvm.inputArgs }}</div>
                   </td>
@@ -204,20 +204,20 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>磁盘状态</span>
+              <span>Disk status</span>
             </div>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <table cellspacing="0" style="width: 100%">
               <thead>
                 <tr>
-                  <th class="el-table__cell el-table__cell is-leaf"><div class="cell">盘符路径</div></th>
-                  <th class="el-table__cell is-leaf"><div class="cell">文件系统</div></th>
-                  <th class="el-table__cell is-leaf"><div class="cell">盘符类型</div></th>
-                  <th class="el-table__cell is-leaf"><div class="cell">总大小</div></th>
-                  <th class="el-table__cell is-leaf"><div class="cell">可用大小</div></th>
-                  <th class="el-table__cell is-leaf"><div class="cell">已用大小</div></th>
-                  <th class="el-table__cell is-leaf"><div class="cell">已用百分比</div></th>
+                  <th class="el-table__cell el-table__cell is-leaf"><div class="cell">Mount path</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">File system</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">File system type</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">Total size</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">Available</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">Used</div></th>
+                  <th class="el-table__cell is-leaf"><div class="cell">Used %</div></th>
                 </tr>
               </thead>
               <tbody v-if="server.sysFiles">
@@ -260,120 +260,120 @@ import { ref, onMounted } from "vue"
 const server = ref<IServerInfo>({
   cpu: {
     /**
-     * 核心数
+     * Cores
      */
     cpuNum: 0,
     /**
-     * CPU总的使用率
+     * CPU Total usage
      */
     total: 0,
     /**
-     * CPU系统使用率
+     * CPU System usage
      */
     sys: 0,
     /**
-     * CPU用户使用率
+     * CPU User usage
      */
     used: 0,
     /**
-     * CPU当前等待率
+     * CPU Current I/O wait
      */
     wait: 0,
     /**
-     * CPU当前空闲率
+     * CPU Current idle
      */
     free: 0
   },
   mem: {
     /**
-     * 内存总量
+     * Total memory
      */
     total: 0,
     /**
-     * 已用内存
+     * Used memory
      */
     used: 0,
     /**
-     * 剩余内存
+     * Free memory
      */
     free: 0,
     /**
-     * 使用率
+     * Usage
      */
     usage: 0
   },
   jvm: {
     /**
-     * 当前JVM占用的内存总数(M)
+     * Total memory held by the JVM (M)
      */
     total: 0,
     /**
-     * JVM最大可用内存总数(M)
+     * JVM Maximum available memory (M)
      */
     max: 0,
     /**
-     * JVM空闲内存(M)
+     * JVM Free memory (M)
      */
     free: 0,
     /**
-     * JVM使用的内存(M)
+     * JVM Memory used (M)
      */
     used: 0,
     /**
-     * JVM使用的内存(M)
+     * JVM Memory used (M)
      */
     usage: 0,
     /**
-     * JDK版本
+     * JDK Version
      */
     version: "",
     /**
-     * JDK路径
+     * JDK Path
      */
     home: "",
     /**
-     * Java名称
+     * Java Name
      */
     name: "",
     /**
-     * 启动时间
+     * Started at
      */
     startTime: "",
     /**
-     * 运行时长
+     * Uptime
      */
     runTime: "",
     /**
-     * 运行参数
+     * Runtime arguments
      */
     inputArgs: ""
   },
   sys: {
     /**
-     * 服务器名称
+     * Server name
      */
     computerName: "",
     /**
-     * 服务器Ip
+     * Server Ip
      */
     computerIp: "",
     /**
-     * 项目路径
+     * Project path
      */
     userDir: "",
     /**
-     * 操作系统,
+     * Operating system,
      */
     osName: "",
     /**
-     * 系统架构
+     * Architecture
      */
     osArch: ""
   },
   sysFiles: []
 })
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
 const getServerInfo = () => {

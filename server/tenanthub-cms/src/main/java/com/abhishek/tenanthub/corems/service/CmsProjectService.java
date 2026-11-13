@@ -10,7 +10,7 @@ import com.abhishek.tenanthub.tenant.base.service.BaseService;
 
 /**
  * <p>
- * 项目
+ * Project
  * </p>
  *
  * @author WangChenChen
@@ -24,7 +24,7 @@ public interface CmsProjectService extends BaseService<CmsProject> {
 
 
     /**
-     * 重置密码
+     * Reset password
      *
      * @param pwd
      * @return int
@@ -34,7 +34,7 @@ public interface CmsProjectService extends BaseService<CmsProject> {
 
 
     /**
-     * 分页查询项目简单字段
+     * Paged query of basic project fields
      *
      * @param po
      * @author WangChenChen

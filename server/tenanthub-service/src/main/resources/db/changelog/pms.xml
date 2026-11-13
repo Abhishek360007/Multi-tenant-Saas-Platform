@@ -6,35 +6,35 @@
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
 
-    <!-- [ 权限 ] 角色表 -->
+    <!-- [ Permissions ] Role table -->
     <changeSet context="tenant" author="WangChenChen (generated)" id="1699414131175-1">
-        <createTable remarks="[ 权限 ] 角色表" tableName="pms_role">
-            <column autoIncrement="true" name="role_id" remarks="角色id" type="BIGINT">
+        <createTable remarks="[ Permissions ] Role table" tableName="pms_role">
+            <column autoIncrement="true" name="role_id" remarks="Role id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="role_name" remarks="角色名" type="VARCHAR(255)">
+            <column name="role_name" remarks="Role name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="sort" remarks="排序" type="BIGINT">
+            <column name="sort" remarks="Sort order" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="data_scope" type="tinyint" defaultValue="4"
-                    remarks="数据范围（1：全部数据权限 2：自定数据权限 3：仅本部门数据权限 4：本部门及以下数据权限）">
+                    remarks="Data scope (1: all data, 2: custom, 3: own department only, 4: own department and below)">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" remarks="部门描述" type="VARCHAR(255)">
+            <column name="description" remarks="Department description" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_time" remarks="创建时间" type="datetime">
+            <column name="create_time" remarks="Created at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建人" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="最后一次修改时间" type="datetime">
+            <column name="last_update_time" remarks="Last updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="最后一次修改人" type="BIGINT">
+            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -42,68 +42,68 @@
     </changeSet>
 
 
-    <!-- [ 权限 ] 角色和菜单权限表 -->
+    <!-- [ Permissions ] Role-menu table -->
     <changeSet context="tenant" author="WangChenChen (generated)" id="1699414131175-2">
-        <createTable remarks="[ 权限 ] 角色和菜单权限表" tableName="pms_role_menu">
-            <column name="role_id" remarks="角色ID" type="BIGINT">
+        <createTable remarks="[ Permissions ] Role-menu table" tableName="pms_role_menu">
+            <column name="role_id" remarks="Role ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="menu_id" remarks="菜单ID" type="BIGINT">
+            <column name="menu_id" remarks="Menu ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
 
-    <!-- [ 权限 ] 角色和部门表 -->
+    <!-- [ Permissions ] Role-department table -->
     <changeSet context="tenant" author="WangChenChen (generated)" id="1699414131175-3">
-        <createTable remarks="[ 权限 ] 角色和部门表" tableName="pms_role_dept">
-            <column name="role_id" remarks="角色ID" type="BIGINT">
+        <createTable remarks="[ Permissions ] Role-department table" tableName="pms_role_dept">
+            <column name="role_id" remarks="Role ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="dept_id" remarks="部门ID" type="BIGINT">
+            <column name="dept_id" remarks="Department ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
-    <!--[ 权限 ] 部门表-->
+    <!--[ Permissions ] Department table-->
     <changeSet context="tenant" author="WangChenChen (generated)" id="1699414139574-1">
-        <createTable remarks="[ 权限 ] 部门表" tableName="pms_dept">
-            <column autoIncrement="true" name="dept_id" remarks="部门 ID" type="BIGINT">
+        <createTable remarks="[ Permissions ] Department table" tableName="pms_dept">
+            <column autoIncrement="true" name="dept_id" remarks="Department ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column defaultValueNumeric="0" name="parent_id" remarks="父主键" type="BIGINT">
+            <column defaultValueNumeric="0" name="parent_id" remarks="Parent key" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="dept_name" remarks="部门名" type="VARCHAR(50)">
+            <column name="dept_name" remarks="Department name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="leader" remarks="部门领导名称" type="VARCHAR(50)">
+            <column name="leader" remarks="Department leader name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="leader_mobile" remarks="领导手机号码" type="VARCHAR(50)">
+            <column name="leader_mobile" remarks="Leader mobile number" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="sort" remarks="排序" type="BIGINT">
+            <column name="sort" remarks="Sort order" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" remarks="部门描述" type="VARCHAR(255)">
+            <column name="description" remarks="Department description" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ancestors" remarks="祖先级别" type="VARCHAR(255)">
+            <column name="ancestors" remarks="Ancestors" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_time" remarks="创建时间" type="datetime">
+            <column name="create_time" remarks="Created at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建人" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="最后一次修改时间" type="datetime">
+            <column name="last_update_time" remarks="Last updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="最后一次修改人" type="BIGINT">
+            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -111,110 +111,110 @@
     </changeSet>
 
 
-    <!-- [ 权限 ] 部门和菜单权限表 -->
+    <!-- [ Permissions ] Department-menu table -->
     <changeSet context="tenant" author="WangChenChen (generated)" id="1699414139574-2">
-        <createTable remarks="[ 权限 ] 部门和菜单权限表" tableName="pms_dept_menu">
-            <column name="dept_id" remarks="部门ID" type="BIGINT">
+        <createTable remarks="[ Permissions ] Department-menu table" tableName="pms_dept_menu">
+            <column name="dept_id" remarks="Department ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="menu_id" remarks="菜单ID" type="BIGINT">
+            <column name="menu_id" remarks="Menu ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
 
-    <!-- [ 权限 ] 用户表 -->
+    <!-- [ Permissions ] User table -->
     <changeSet context="tenant" author="WangChenChen (generated)" id="1699414146178-1">
-        <createTable remarks="[ 权限 ] 用户表" tableName="pms_user">
-            <column name="user_id" remarks="用户ID" type="BIGINT">
+        <createTable remarks="[ Permissions ] User table" tableName="pms_user">
+            <column name="user_id" remarks="User ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="avatar" remarks="头像" type="VARCHAR(255)">
+            <column name="avatar" remarks="Avatar" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="username" remarks="账号" type="VARCHAR(50)">
+            <column name="username" remarks="Account" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="mobile" remarks="手机号码" type="VARCHAR(50)">
+            <column name="mobile" remarks="Mobile number" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="email" remarks="邮箱" type="VARCHAR(50)">
+            <column name="email" remarks="Email" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="nickname" remarks="用户名称" type="VARCHAR(255)">
+            <column name="nickname" remarks="User name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="password" remarks="密码" type="VARCHAR(255)">
+            <column name="password" remarks="Password" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="gender" remarks="性别[ 0.女  1.男  2.未知]" type="TINYINT(4)">
+            <column defaultValueNumeric="0" name="gender" remarks="Gender [0 = female, 1 = male, 2 = unknown]" type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="dept_id" remarks="部门ID" type="BIGINT">
+            <column name="dept_id" remarks="Department ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1" name="status" remarks="状态 【0.禁用 1.正常 2.锁定 】" type="TINYINT(4)">
+            <column defaultValueNumeric="1" name="status" remarks="Status [0 = disabled, 1 = normal, 2 = locked]" type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="0" name="admin_flag" remarks="0. 普通用户  1. 管理员" type="TINYINT(4)">
+            <column defaultValueNumeric="0" name="admin_flag" remarks="0. regular user, 1 = admin" type="TINYINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="expired" remarks="过期时间，如果为空，就是默认" type="datetime"/>
-            <column name="create_time" remarks="创建时间" type="datetime">
+            <column name="expired" remarks="Expiry time; empty means the default" type="datetime"/>
+            <column name="create_time" remarks="Created at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建人" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="最后一次修改时间" type="datetime">
+            <column name="last_update_time" remarks="Last updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="最后一次修改人" type="BIGINT">
+            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
 
-    <!-- [ 权限 ] 用户和角色表 -->
+    <!-- [ Permissions ] User-role table -->
     <changeSet context="tenant" author="WangChenChen (generated)" id="1699414146178-2">
-        <createTable remarks="[ 权限 ] 用户和角色表" tableName="pms_user_role">
-            <column name="user_id" remarks="用户ID" type="BIGINT">
+        <createTable remarks="[ Permissions ] User-role table" tableName="pms_user_role">
+            <column name="user_id" remarks="User ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="role_id" remarks="角色ID" type="BIGINT">
+            <column name="role_id" remarks="Role ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
 
-    <!-- [ 权限 ] 用户社交平台登录 -->
+    <!-- [ Permissions ] User social login -->
     <changeSet context="tenant" author="WangChenChen (generated)" id="1699414146178-3">
-        <createTable remarks="[ 权限 ] 用户社交平台登录" tableName="pms_user_social">
-            <column autoIncrement="true" name="social_id" remarks="用户社交ID" type="BIGINT">
+        <createTable remarks="[ Permissions ] User social login" tableName="pms_user_social">
+            <column autoIncrement="true" name="social_id" remarks="User social ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="user_id" remarks="用户唯一ID" type="BIGINT">
+            <column name="user_id" remarks="Unique user ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="" name="open_id" remarks="社交账号唯一ID" type="VARCHAR(100)">
+            <column defaultValue="" name="open_id" remarks="Social account is unique ID" type="VARCHAR(100)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="social_type" remarks="we_chat. 微信  tencent_qq. 腾讯QQ" type="VARCHAR(20)">
+            <column name="social_type" remarks="we_chat. WeChat  tencent_qq. Tencent QQ" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_time" remarks="创建时间" type="datetime">
+            <column name="create_time" remarks="Created at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_user" remarks="创建人" type="BIGINT">
+            <column name="create_user" remarks="Created by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_time" remarks="最后一次修改时间" type="datetime">
+            <column name="last_update_time" remarks="Last updated at" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_update_user" remarks="最后一次修改人" type="BIGINT">
+            <column name="last_update_user" remarks="Last updated by" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>

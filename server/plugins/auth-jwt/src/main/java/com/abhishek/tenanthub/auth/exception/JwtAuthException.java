@@ -11,7 +11,7 @@ import static com.abhishek.tenanthub.auth.enums.OAuth2Error.OAUTH2_EXCEPTION;
 
 /**
  * <p>
- * 认证异常
+ * Authentication error
  * </p>
  *
  * @author Wang Chen Chen

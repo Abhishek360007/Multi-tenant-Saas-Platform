@@ -34,7 +34,7 @@ import static com.abhishek.tenanthub.common.consts.JwtConst.WHITE_LIST;
 
 /**
  * <p>
- * spring Security 核心配置类
+ * spring Security Core configuration
  * </p>
  *
  * @author Wang Chen Chen <932560435@qq.com>
@@ -56,7 +56,7 @@ public class WebSecurityConfig {
 
 
     /**
-     * 认证管理器，登录的时候参数会传给 authenticationManager
+     * Authentication manager; sign-in parameters are passed to authenticationManager
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
@@ -72,7 +72,7 @@ public class WebSecurityConfig {
 
 
     /**
-     * TODO JWT token 保存服务端
+     * TODO JWT token Save on the server
      *
      * @author WangChenChen
      * @date 2022/12/10 16:30
@@ -85,7 +85,7 @@ public class WebSecurityConfig {
 
 
     /**
-     * TODO JWT token 认证 拦截器
+     * TODO JWT token Authentication interceptor
      *
      * @author WangChenChen
      * @date 2022/12/10 16:30
@@ -98,41 +98,41 @@ public class WebSecurityConfig {
 
 
     /**
-     * spring Security 配置
+     * spring Security Settings
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtAuthTokenFilter jwtAuthTokenFilter) throws Exception {
         return httpSecurity
-                // 关闭 csrf
+                // Close csrf
                 .csrf(CsrfConfigurer::disable)
-                // 允许跨域（也可以不允许，看具体需求）
+                // Allow cross-origin requests (optional, depends on your needs)
                 .cors(AbstractHttpConfigurer::disable)
                 .headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                // 不需要 Session
+                // Not needed Session
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // 自定义 认证的异常处理
+                // Custom authentication error handling
                 .exceptionHandling(ex -> ex
-                        // 身份验证异常 处理
+                        // Authentication error handling
                         .authenticationEntryPoint((request, response, ex1) -> {
                             log.warn(ex1.getMessage());
-                            var msg = String.format("请求访问：%s，认证失败，无法访问系统资源", request.getRequestURI());
+                            var msg = String.format("Request to %s: authentication failed, access denied", request.getRequestURI());
                             ServletUtils.renderError(response, OAuth2Error.OAUTH2_EXCEPTION.getStatus(), msg);
                         })
-                        // 权限不足异常 处理
+                        // Access denied handling
                         .accessDeniedHandler((request, response, ex2) -> {
                             log.warn(ex2.getMessage());
-                            var msg = String.format("请求访问：%s，权限不足，请联系管理员", request.getRequestURI());
+                            var msg = String.format("Request to %s: insufficient permissions, contact your administrator", request.getRequestURI());
                             ServletUtils.renderError(response, OAuth2Error.ACCESS_DENIED.getStatus(), msg);
                         })
                 )
                 .authorizeHttpRequests(a -> a
-                        // 跨域的调用
+                        // Cross-origin calls
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        //  获取白名单（不进行权限验证）
+                        //  Get the allowlist (no permission checks)
                         .requestMatchers(tokenProperties.getExcludePath()).permitAll()
-                        //  无需认证的固定的白名单
+                        //  Fixed allowlist that skips authentication
                         .requestMatchers(WHITE_LIST).permitAll()
-                        //  其他的请求全部要认证
+                        //  All other requests require authentication
                         .anyRequest()
                         .authenticated()
                 )

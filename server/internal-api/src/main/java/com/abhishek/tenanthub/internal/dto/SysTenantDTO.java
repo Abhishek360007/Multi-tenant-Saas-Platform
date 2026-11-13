@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 租户
+ * Tenant
  * </p>
  *
  * @author Wang Chen Chen
@@ -26,52 +26,52 @@ import java.time.LocalDateTime;
 public class SysTenantDTO implements java.io.Serializable {
 
     /**
-     * 租户 ID
+     * Tenant ID
      */
     private String tenantId;
 
     /**
-     * 租户 logo
+     * Tenant logo
      */
     private String logo;
 
     /**
-     * 租户名称
+     * Tenant name
      */
     private String name;
 
     /**
-     * 租户邮箱
+     * Tenant email
      */
     private String email;
 
     /**
-     * 联系人名称
+     * Contact name
      */
     private String linkman;
 
     /**
-     * 联系电话
+     * Contact number
      */
     private String contactNumber;
 
     /**
-     * 行政地址
+     * Address area
      */
     private Long areaCode;
 
     /**
-     * 联系地址
+     * Address
      */
     private String address;
 
     /**
-     * 状态 【0.禁用 1.正常】
+     * Status [0 = disabled, 1 = normal]
      */
     private Byte status;
 
     /**
-     * 过期时间  默认是 100 年
+     * Expiry time (default 100 years)
      */
     private LocalDateTime expired;
 

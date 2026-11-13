@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * <p>
- * 多租户全局配置
+ * Multi-tenant global settings
  * </p>
  *
  * @author WangChenChen
@@ -22,37 +22,37 @@ import org.springframework.stereotype.Component;
 public class MultiTenantProperties {
 
     /**
-     * 是否开启租户模式
+     * Enable multi-tenant mode
      */
     private Boolean enable = true;
 
     /**
-     * 是否开启项目模式
+     * Enable project mode
      */
     private Boolean enableProject = true;
 
     /**
-     * 数据库名称前缀
+     * Database name prefix
      */
     private String prefix = "tenanthub_";
 
     /**
-     * 默认租户ID
+     * Default tenant ID
      */
     private String defaultTenantId = "master";
 
     /**
-     * 默认 项目ID
+     * Default project ID
      */
     private Long defaultProjectId = 10001L;
 
     /**
-     * 默认 数据库名称
+     * Default database name
      */
     private String dbName = prefix + defaultTenantId;
 
     /**
-     * 创建表结构
+     * Create tables
      */
     private Boolean createTable = true;
 
@@ -62,7 +62,7 @@ public class MultiTenantProperties {
     private String contexts = "tenant";
 
     /**
-     * Liquibase 创建表结构的 Liquibase 文件地址
+     * Liquibase changelog used to create tables
      */
     private String changeLog = "classpath:db/changelog-master.xml";
 

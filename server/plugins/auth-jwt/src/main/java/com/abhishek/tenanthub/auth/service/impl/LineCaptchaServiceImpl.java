@@ -18,7 +18,7 @@ import static com.abhishek.tenanthub.common.consts.LoginConst.CAPTCHA_CODE_KEY;
 
 /**
  * <p>
- * 验证码
+ * Captcha
  * </p>
  *
  * @author Wang Chen Chen<932560435@qq.com>
@@ -42,9 +42,9 @@ public class LineCaptchaServiceImpl implements LineCaptchaService {
     public BufferedImage random(String codeKey) {
         var lineCaptcha = CaptchaUtil.createCircleCaptcha(120, 50, 4, 20);
         lineCaptcha.setGenerator(RANDOM_GENERATOR);
-        // 重新生成code
+        // Regenerate code
         lineCaptcha.createCode();
-        // 将验证码的 codeKey 和 codeText , 保存在 redis 中，有效时间为 10 分钟
+        // Store the captcha codeKey and codeText in Redis for 10 minutes
         redisTemplate.opsForValue().set(
                 CAPTCHA_CODE_KEY + codeKey,
                 lineCaptcha.getCode(),
@@ -62,9 +62,9 @@ public class LineCaptchaServiceImpl implements LineCaptchaService {
 
     @Override
     public boolean check(String codeKey, String userCodeText) {
-        // 获取服务器的 CodeText
+        // Get from the server CodeText
         String serverCodeText = redisTemplate.opsForValue().get(CAPTCHA_CODE_KEY + codeKey);
-        // 将 serverCodeText 和 user.codeText 都转换成小写，然后比较
+        // Compare serverCodeText and user.codeText case-insensitively
         return StringUtils.equalsIgnoreCase(serverCodeText, userCodeText);
     }
 

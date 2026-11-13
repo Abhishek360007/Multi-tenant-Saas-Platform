@@ -2,14 +2,14 @@ import { ref, onMounted } from "vue"
 
 type OptionValue = string | number
 
-/** Select 需要的数据格式 */
+/** Select Expected data format */
 interface SelectOption {
   value: OptionValue
   label: string
   disabled?: boolean
 }
 
-/** 入参格式，暂时只需要传递 api 函数即可 */
+/** Input format: only the API function is needed for now */
 interface FetchSelectProps {
   api: () => Promise<IJsonResult<SelectOption[]>>
 }
@@ -23,7 +23,7 @@ export function useFetchSelect(props: FetchSelectProps) {
 
   const value = ref<OptionValue>("")
 
-  /** 调用接口获取数据 */
+  /** Call the API to fetch data */
   const loadData = () => {
     loading.value = true
     options.value = []

@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户社交账号
+ * User social account
  * </p>
  *
  * @author Wang Chen Chen
@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
  */
 
 
-@Schema(description = "用户社交账号")
+@Schema(description = "User social account")
 @TableName("pms_user_social")
 @Getter
 @Setter
@@ -37,30 +37,30 @@ public class PmsUserSocial extends BaseEntity {
     /**
      * id
      */
-    @Schema(description = "社交账号ID")
+    @Schema(description = "Social account ID")
     @TableId(type = IdType.ASSIGN_ID)
-    @NotNull(message = "社交账号ID,必须填写", groups = {ValidUpdate.class})
+    @NotNull(message = "Social account ID is required", groups = {ValidUpdate.class})
     private Long socialId;
 
     /**
-     * 用户ID
+     * User ID
      */
-    @Schema(description = "用户ID")
-    @NotNull(message = "用户ID,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "User ID")
+    @NotNull(message = "User ID is required", groups = {ValidCreate.class})
     private Long userId;
 
     /**
-     * 社交账号唯一ID
+     * Social account is unique ID
      */
-    @Schema(description = "社交账号唯一ID")
-    @NotBlank(message = "社交账号唯一ID,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Social account is unique ID")
+    @NotBlank(message = "Social account unique ID is required", groups = {ValidCreate.class})
     private String openId;
 
     /**
-     * we_chat. 微信  tencent_qq. 腾讯QQ
+     * we_chat. WeChat  tencent_qq. Tencent QQ
      */
-    @Schema(description = "we_chat: 微信  tencent_qq: 腾讯QQ")
-    @NotBlank(message = "社交登录类型,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "we_chat: WeChat  tencent_qq: Tencent QQ")
+    @NotBlank(message = "Social login type is required", groups = {ValidCreate.class})
     private String socialType;
 
 }

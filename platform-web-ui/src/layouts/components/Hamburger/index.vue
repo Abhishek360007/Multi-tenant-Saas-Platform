@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<Props>(), {
   isActive: false
 })
 
-/** Vue 3.3+ defineEmits 语法 */
+/** Vue 3.3+ defineEmits Syntax */
 const emit = defineEmits<{
   toggleClick: []
 }>()

@@ -16,22 +16,22 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "推送消息")
+@Schema(description = "Push message")
 public class SimpPushMessage implements java.io.Serializable {
 
     @Schema(description = "Id")
     private Long id;
 
-    @Schema(description = "标题")
+    @Schema(description = "Title")
     private String title;
 
-    @Schema(description = "消息内容")
+    @Schema(description = "Message content")
     private String content;
 
-    @Schema(description = "创建时间")
+    @Schema(description = "Created at")
     private LocalDateTime createTime;
 
-    @Schema(description = "状态 0.失败  1.成功 ")
+    @Schema(description = "Status: 0 = failed, 1 = succeeded ")
     private Byte status;
 
 }

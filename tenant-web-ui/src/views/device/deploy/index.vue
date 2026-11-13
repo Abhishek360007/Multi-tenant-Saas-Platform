@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>设备规划</h1>
+    <h1>Device planning</h1>
   </div>
 </template>
 

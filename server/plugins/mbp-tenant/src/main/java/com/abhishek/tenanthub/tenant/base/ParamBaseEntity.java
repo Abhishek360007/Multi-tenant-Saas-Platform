@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * <p>
- * 项目基础类
+ * Project base class
  * </p>
  *
  * @author WangChenChen
@@ -23,7 +23,7 @@ import java.util.Map;
 public class ParamBaseEntity extends BaseEntity implements java.io.Serializable {
 
     /**
-     * 参数
+     * Parameters
      */
     @JsonIgnore
     @TableField(exist = false)

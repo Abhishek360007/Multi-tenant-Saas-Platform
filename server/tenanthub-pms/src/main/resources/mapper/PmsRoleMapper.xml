@@ -110,7 +110,7 @@
             <if test="p.description != null and p.description != ''">
                 AND CONCAT(r.`role_name`,r.description) LIKE CONCAT('%',#{p.description},'%')
             </if>
-            <!-- 数据范围过滤 -->
+            <!-- Data scope filter -->
             ${p.params.dataScope}
         </where>
     </sql>

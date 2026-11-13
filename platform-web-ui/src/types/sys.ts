@@ -1,337 +1,337 @@
 import { IBaseEntity } from "./base"
 
-/** 租户模板 */
+/** Tenant template */
 export interface ISysTemplate extends IBaseEntity {
   /**
-   * 唯一id
+   * Unique id
    */
   id: number
   /**
-   * 名称
+   * Name
    */
   name: string
   /**
-   * 描述
+   * Description
    */
   description: string
   /**
-   * 菜单ID
+   * Menu ID
    */
   menuIds?: number[]
 }
 
-/** 租户 */
+/** Tenant */
 export interface ISysTenant extends IBaseEntity {
   /**
-   * 租户id
+   * Tenant id
    */
   tenantId: string
   /**
-   * 租户logo
+   * Tenant logo
    */
   logo: string
   /**
-   * 租户名称
+   * Tenant name
    */
   name: string
   /**
-   * 租户邮箱
+   * Tenant email
    */
   email: string
   /**
-   * 联系人名称
+   * Contact name
    */
   linkman: string
   /**
-   * 联系电话
+   * Contact number
    */
   contactNumber: string
   /**
-   * 行政地址
+   * Address area
    */
   areaCode: number
   /**
-   * 联系地址
+   * Address
    */
   address: string
   /**
-   * 状态 【0.禁用 1.正常】
+   * Status [0 = disabled, 1 = normal]
    */
   status: number
   /**
-   * 过期时间  默认是 100 年
+   * Expiry time (default 100 years)
    */
   expired: string
   /**
-   * 租户 模板
+   * Tenant template
    */
   templates: ISysTemplate[]
 }
 
-/** 创建租户 */
+/** Create tenant */
 export interface ICreateTenantAdmin {
   /**
-   * 管理员昵称
+   * Admin nickname
    */
   adminNickname: string
   /**
-   * 管理员用户名
+   * Admin username
    */
   adminUsername: string
   /**
-   * 管理员手机号
+   * Admin mobile number
    */
   adminMobile: string
   /**
-   * 管理员邮箱
+   * Admin email
    */
   adminEmail: string
   /**
-   * 管理员密码
+   * Admin password
    */
   adminPwd: string
 }
 
-/** 创建租户 */
+/** Create tenant */
 export interface ICreateTenant extends ICreateTenantAdmin {
   /**
-   * 租户id
+   * Tenant id
    */
   tenantId: string
   /**
-   * 租户logo
+   * Tenant logo
    */
   logo: string
   /**
-   * 租户名称
+   * Tenant name
    */
   name: string
   /**
-   * 租户邮箱
+   * Tenant email
    */
   email: string
   /**
-   * 联系人名称
+   * Contact name
    */
   linkman: string
   /**
-   * 联系电话
+   * Contact number
    */
   contactNumber: string
   /**
-   * 行政地址
+   * Address area
    */
   areaCode: number
   /**
-   * 联系地址
+   * Address
    */
   address: string
   /**
-   * 租户 模板
+   * Tenant template
    */
   templates: ISysTemplate[]
   /**
-   * 过期时间  默认是 100 年
+   * Expiry time (default 100 years)
    */
   expired: string
 }
 
-/** 系统配置 */
+/** System settings */
 export interface ISysConfig extends IBaseEntity {
   /**
-   * 唯一id
+   * Unique id
    */
   configId: number
   /**
-   * 参数名称
+   * Parameter name
    */
   configName: string
   /**
-   * 参数键名
+   * Parameter key
    */
   configKey: string
   /**
-   * 参数键值
+   * Parameter value
    */
   configValue: string
   /**
-   * 系统内置（1.是 0.否）
+   * Built in (1 = yes, 0 = no)
    */
   configType: number
 }
 
-/** 服务器信息 */
+/** Server information */
 export interface IServerInfo {
   /**
-   * CPU相关信息
+   * CPU Related information
    */
   cpu: Cpu
   /**
-   * 內存相关信息
+   * Memory details
    */
   mem: Mem
   /**
-   * JVM相关信息
+   * JVM Related information
    */
   jvm: Jvm
   /**
-   * 服务器相关信息
+   * Server details
    */
   sys: Sys
   /**
-   * 磁盘相关信息
+   * Disk details
    */
   sysFiles: SysFile[]
 }
 
-/** 服务器CPU信息 */
+/** Server CPU */
 export interface Cpu {
   /**
-   * 核心数
+   * Cores
    */
   cpuNum: number
   /**
-   * CPU总的使用率
+   * CPU Total usage
    */
   total: number
   /**
-   * CPU系统使用率
+   * CPU System usage
    */
   sys: number
   /**
-   * CPU用户使用率
+   * CPU User usage
    */
   used: number
   /**
-   * CPU当前等待率
+   * CPU Current I/O wait
    */
   wait: number
   /**
-   * CPU当前空闲率
+   * CPU Current idle
    */
   free: number
 }
 
-/** 服务器Jvm信息 */
+/** Server JVM */
 export interface Jvm {
   /**
-   * 当前JVM占用的内存总数(M)
+   * Total memory held by the JVM (M)
    */
   total: number
   /**
-   * JVM最大可用内存总数(M)
+   * JVM Maximum available memory (M)
    */
   max: number
   /**
-   * JVM空闲内存(M)
+   * JVM Free memory (M)
    */
   free: number
   /**
-   * JVM使用的内存(M)
+   * JVM Memory used (M)
    */
   used: number
   /**
-   * JVM使用的内存(M)
+   * JVM Memory used (M)
    */
   usage: number
   /**
-   * JDK版本
+   * JDK Version
    */
   version: string
   /**
-   * JDK路径
+   * JDK Path
    */
   home: string
   /**
-   * Java名称
+   * Java Name
    */
   name: string
   /**
-   * 启动时间
+   * Started at
    */
   startTime: string
   /**
-   * 运行时长
+   * Uptime
    */
   runTime: string
   /**
-   * 运行参数
+   * Runtime arguments
    */
   inputArgs: string
 }
 
-/** 服务器内存信息 */
+/** Server memory */
 export interface Mem {
   /**
-   * 内存总量
+   * Total memory
    */
   total: number
   /**
-   * 已用内存
+   * Used memory
    */
   used: number
   /**
-   * 剩余内存
+   * Free memory
    */
   free: number
   /**
-   * 使用率
+   * Usage
    */
   usage: number
 }
 
-/** 服务器系统信息 */
+/** Server system */
 export interface Sys {
   /**
-   * 服务器名称
+   * Server name
    */
   computerName: string
   /**
-   * 服务器Ip
+   * Server Ip
    */
   computerIp: string
   /**
-   * 项目路径
+   * Project path
    */
   userDir: string
   /**
-   * 操作系统
+   * Operating system
    */
   osName: string
   /**
-   * 系统架构
+   * Architecture
    */
   osArch: string
 }
 
-/** 服务器文件系统信息 */
+/** Server file systems */
 export interface SysFile {
   /**
-   * 盘符路径
+   * Mount path
    */
   dirName: string
   /**
-   * 盘符类型
+   * File system type
    */
   sysTypeName: string
   /**
-   * 文件类型
+   * File type
    */
   typeName: string
   /**
-   * 总大小
+   * Total size
    */
   total: string
   /**
-   * 剩余大小
+   * Free space
    */
   free: string
   /**
-   * 已经使用量
+   * Used
    */
   used: string
   /**
-   * 资源的使用率
+   * Resource usage
    */
   usage: number
 }

@@ -40,7 +40,7 @@ import static com.abhishek.tenanthub.tenant.util.DelegateUtils.delegate;
 @Slf4j
 @RestController
 @RequestMapping("/pms/user")
-@Tag(name = "[ 权限 ] 用户")
+@Tag(name = "[ Permissions ] Users")
 @AllArgsConstructor
 public class PmsUserController {
 
@@ -49,7 +49,7 @@ public class PmsUserController {
     private final JwtTokenService jwtTokenService;
 
 
-    @Operation(summary = "用户权限", description = "用户权限")
+    @Operation(summary = "User permissions", description = "User permissions")
     @GetMapping("/rights")
     public JsonResult<UserRightsVO> getUserRights() {
         var result = baseService.getUserRights();
@@ -57,7 +57,7 @@ public class PmsUserController {
     }
 
 
-    @Operation(summary = "分页查询", description = "分页 查询所有")
+    @Operation(summary = "Paged query", description = "Paged query of all")
     @GetMapping("/query")
     public JsonResult<Pagination<PmsUser>> pageQuery(UserQueryPO params) {
         IPage<PmsUser> page = baseService.pageKeywords(params);
@@ -65,7 +65,7 @@ public class PmsUserController {
     }
 
 
-    @Operation(summary = "在线用户查询", description = "在线用户 查询所有")
+    @Operation(summary = "Online users", description = "Query all online users")
     @GetMapping("/online/query")
     public JsonResult<Collection<JwtLoginUser>> onlineQuery() {
         return JsonResult.success(jwtTokenService.mapLoginUser().values());
@@ -73,7 +73,7 @@ public class PmsUserController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "新增", description = "不需要添加id")
+    @Operation(summary = "Add", description = "Do not include id")
     @PostMapping()
     public JsonResult<PmsUser> save(@RequestBody @Validated({ValidCreate.class}) PmsUser entity) {
         baseService.save(entity);
@@ -82,7 +82,7 @@ public class PmsUserController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改", description = "修改必须要id")
+    @Operation(summary = "Update", description = "Update requires id")
     @PutMapping()
     public JsonResult<Boolean> updateById(@RequestBody @Validated({ValidUpdate.class}) PmsUser entity) {
         var flag = baseService.updateById(entity);
@@ -91,10 +91,10 @@ public class PmsUserController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改", description = "修改必须要id")
+    @Operation(summary = "Update", description = "Update requires id")
     @PutMapping("/info")
     public JsonResult<Boolean> updateInfo(@RequestBody @Validated({ValidUpdate.class}) PmsUser entity) {
-        // 使用 当前登录的用户 所在的租户ID。修改
+        // Uses the tenant ID of the signed-in user. Update
         var flag = delegate(JwtSecurityUtils.getTenantId(),
                 () -> baseService.updateById(entity));
         return JsonResult.success(flag);
@@ -102,7 +102,7 @@ public class PmsUserController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "删除", description = "修改必须要id")
+    @Operation(summary = "Delete", description = "Update requires id")
     @DeleteMapping("/{id}")
     public JsonResult<Boolean> removeById(@PathVariable Long id) {
         var flag = baseService.removeById(id);
@@ -111,7 +111,7 @@ public class PmsUserController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改用户密码", description = "修改用户密码")
+    @Operation(summary = "Change password", description = "Change the user password")
     @PostMapping("/update/password")
     public JsonResult<Boolean> updatePassword(@RequestBody @Validated UpdatePasswordVO data) {
         return JsonResult.success(
@@ -121,7 +121,7 @@ public class PmsUserController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "重置用户密码", description = "重置用户密码")
+    @Operation(summary = "Reset password", description = "Reset the user password")
     @PostMapping("/reset/password")
     public JsonResult<Boolean> resetPassword(@RequestBody @Validated ResetPasswordVO data) {
         return JsonResult.success(
@@ -131,7 +131,7 @@ public class PmsUserController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改用户角色", description = "修改用户角色,会删除之前的角色信息。")
+    @Operation(summary = "Update user roles", description = "Update the user roles; replaces the previous roles.")
     @PostMapping("/update/roles")
     public JsonResult<Boolean> updateUserRoles(@RequestBody @Validated UpdateUserRoleIdVO data) {
         return JsonResult.success(

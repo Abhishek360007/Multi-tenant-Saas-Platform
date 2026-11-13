@@ -10,7 +10,7 @@ import {isExternal} from "@/utils/validate"
 
 const Layout = () => import("@/layouts/index.vue")
 
-// 遍历后台传来的路由字符串，转换为组件对象
+// Convert the route strings from the backend into components
 function flatTreeRoutes(arr: IPermsMenus[]): RouteRecordRaw[] {
   const result: RouteRecordRaw[] = []
   const deep = (arr1: IPermsMenus[], arr2: RouteRecordRaw[]) => {
@@ -26,7 +26,7 @@ function flatTreeRoutes(arr: IPermsMenus[]): RouteRecordRaw[] {
           keepAlive: keepAlive
         }
       }
-      // 判断 路径是否为外链。
+      // Check whether the path is an external link.
       if (isExternal(source.path)) {
         target.component = () => {}
       } else {
@@ -48,7 +48,7 @@ function flatTreeRoutes(arr: IPermsMenus[]): RouteRecordRaw[] {
   return result
 }
 
-// 匹配views里面所有的.vue文件
+// Match every .vue file under views
 const modules = import.meta.glob("../../views/**/**.vue")
 
 export const loadView = (view: string) => {
@@ -75,7 +75,7 @@ export const usePermissionStore = defineStore("permission", () => {
   return { routes, dynamicRoutes, setRoutes }
 })
 
-/** 在 setup 外使用 */
+/** Use outside setup */
 export function usePermissionStoreHook() {
   return usePermissionStore(store)
 }

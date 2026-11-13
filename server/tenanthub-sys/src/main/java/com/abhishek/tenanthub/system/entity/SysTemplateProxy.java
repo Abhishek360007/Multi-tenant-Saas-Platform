@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <p>
- * 租户的 权限模板表
+ * Tenant permission template table
  * </p>
  *
  * @author Wang Chen Chen
@@ -24,9 +24,9 @@ import lombok.NoArgsConstructor;
 public class SysTemplateProxy extends SysTemplate {
 
     /**
-     * 租户 ID
+     * Tenant ID
      */
-    @Schema(description = "租户Id")
+    @Schema(description = "Tenant Id")
     private String tenantId;
 
 

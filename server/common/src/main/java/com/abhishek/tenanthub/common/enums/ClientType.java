@@ -7,8 +7,8 @@ import lombok.ToString;
 
 /**
  * <p>
- * 0.第三方应用
- * 1.系统内部应用
+ * 0.Third-party app
+ * 1.Internal app
  * </p>
  *
  * @author Wang Chen Chen
@@ -20,9 +20,9 @@ import lombok.ToString;
 @ToString
 public enum ClientType {
 
-    OTHER(0, "第三方应用"),
+    OTHER(0, "Third-party app"),
 
-    SYSTEM(1, "系统内部应用");
+    SYSTEM(1, "Internal app");
 
     ClientType(int code, String description) {
         this.code = code;

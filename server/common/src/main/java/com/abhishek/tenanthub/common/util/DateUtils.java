@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * <p>
- * 日期时间工具类
+ * Date and time utilities
  * </p>
  *
  * @author WangChenChen
@@ -26,7 +26,7 @@ public class DateUtils {
 
 
     /**
-     * 获取指定时间范围
+     * Get a time range
      *
      * @author WangChenChen
      * @version 2.0
@@ -63,9 +63,9 @@ public class DateUtils {
 
 
     /**
-     * 根据 类型，获取之前的日期
+     * Get an earlier date by type
      * <p>
-     * 查询类型！年: year , 季度: quarter , 月: month , 周: week, 日: date
+     * Query type: year, quarter, month, week, day: date
      *
      * @author WangChenChen
      * @date 2022/8/19 16:05

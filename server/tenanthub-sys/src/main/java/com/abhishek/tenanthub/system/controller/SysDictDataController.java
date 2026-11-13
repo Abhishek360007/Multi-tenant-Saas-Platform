@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * <p>
- * 字典数据 控制器
+ * Dictionary data controller
  * </p>
  *
  * @author Wang Chen Chen
@@ -31,7 +31,7 @@ import java.util.Map;
 
 
 @Slf4j
-@Tag(name = "[ 通用 ] 字典数据")
+@Tag(name = "[ Common ] Dictionary data")
 @RestController
 @RequestMapping("/dict/data")
 @AllArgsConstructor
@@ -39,14 +39,14 @@ public class SysDictDataController {
 
     private SysDictDataService baseService;
 
-    @Operation(summary = "Id查询", description = "根据Id查询")
+    @Operation(summary = "Id Query", description = "Query by ID")
     @GetMapping("/{id}")
     public JsonResult<SysDictData> getById(@PathVariable("id") Long id) {
         return JsonResult.success(baseService.getById(id));
     }
 
 
-    @Operation(summary = "分页查询", description = "分页 查询所有")
+    @Operation(summary = "Paged query", description = "Paged query of all")
     @GetMapping("/query")
     public JsonResult<Pagination<SysDictData>> pageQuery(DictQueryPO params) {
         var page = baseService.pageKeywords(params);
@@ -54,7 +54,7 @@ public class SysDictDataController {
     }
 
 
-    @Operation(summary = "[Map]查询所有", description = "分页 查询所有")
+    @Operation(summary = "[Map] Query all", description = "Paged query of all")
     @GetMapping("/mapKeys")
     public JsonResult<Map<String, List<DictDataVO>>> mapKeys() {
         var result = baseService.mapByKeys();
@@ -62,7 +62,7 @@ public class SysDictDataController {
     }
 
 
-    @Operation(summary = "根据Type Key查询所有", description = "根据字典type查询所有")
+    @Operation(summary = "Query by type key", description = "Query all by dictionary type")
     @GetMapping("/type/{key}")
     public JsonResult<List<SysDictData>> listByKey(@PathVariable("key") String key) {
         return JsonResult.success(baseService.listByKey(key));
@@ -70,7 +70,7 @@ public class SysDictDataController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "新增", description = "不需要添加id")
+    @Operation(summary = "Add", description = "Do not include id")
     @PostMapping()
     public JsonResult<SysDictData> save(@RequestBody @Validated(ValidCreate.class) SysDictData entity) {
         baseService.save(entity);
@@ -79,7 +79,7 @@ public class SysDictDataController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改", description = "修改必须要id")
+    @Operation(summary = "Update", description = "Update requires id")
     @PutMapping()
     public JsonResult<Boolean> updateById(@RequestBody @Validated(ValidUpdate.class) SysDictData entity) {
         var flag = baseService.updateById(entity);
@@ -88,7 +88,7 @@ public class SysDictDataController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "删除", description = "只需要id即可")
+    @Operation(summary = "Delete", description = "Only the ID is required")
     @DeleteMapping("/{id}")
     public JsonResult<Boolean> removeById(@PathVariable("id") Long id) {
         var flag = baseService.removeById(id);

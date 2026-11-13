@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 
 
 /**
- * 文件上传token。给前端使用，前端直接上传到 oss 服务器。无需经过后端
+ * Upload token for the front end to upload directly to OSS without going through the backend
  *
  * @author WangChenChen
  * @version 2.0
@@ -24,19 +24,19 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class FileUploadTokenVO {
 
-    @Schema(description = "上传凭证")
+    @Schema(description = "Upload credential")
     private String token;
 
-    @Schema(description = "OSS服务提供商")
+    @Schema(description = "OSS Provider")
     private String platform;
 
-    @Schema(description = "桶名称")
+    @Schema(description = "Bucket name")
     private String bucketName;
 
-    @Schema(description = "自定义域名")
+    @Schema(description = "Custom domain")
     private String domain;
 
-    @Schema(description = "前缀路径")
+    @Schema(description = "Path prefix")
     private String basePath;
 
 }

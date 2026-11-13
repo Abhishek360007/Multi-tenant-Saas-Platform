@@ -1,22 +1,22 @@
 import {IBaseEntity, ISimpleTenant} from "./base"
 
-/** 用户登录 */
+/** User login */
 export interface ILoginData {
-  /** 租户ID */
+  /** Tenant ID */
   tenantId: string
-  /** 用户名 */
+  /** Username */
   username: string
-  /** 密码 */
+  /** Password */
   password: string
-  /** 验证码 */
+  /** Captcha */
   codeText: string
-  /** 验证码key */
+  /** Captcha key */
   codeKey: string
-  /** 记住我 */
+  /** Remember me */
   rememberMe: boolean
 }
 
-/** 用户登录的信息 */
+/** Signed-in user details */
 export interface ILoginUserInfo {
   tenantId: string
   loginId: string
@@ -37,248 +37,248 @@ export interface ILoginUserInfo {
   passwordChangeRequired?: number
 }
 
-/** 用户登录的角色 */
+/** Signed-in user roles */
 export interface IUserRole {
-  /* 角色ID */
+  /* Role ID */
   roleId: number
-  /* 角色名称 */
+  /* Role name */
   roleName: string
-  /* 角色描述 */
+  /* Role description */
   description: string
 }
 
-/** 认证 token */
+/** Authentication token */
 export interface IOAuth2Token {
   /** `token` */
   access_token: string
-  /** 前缀 `Bearer ` */
+  /** Prefix `Bearer ` */
   token_type: string
-  /** 用于调用刷新`accessToken`的接口时所需的`token` */
+  /** needed when calling the endpoint that refreshes the `accessToken``token` */
   refresh_token: string
-  /* 授权返回 */
+  /* Authorization response */
   scope: string
-  /** `accessToken`的过期时间  秒 */
+  /** `accessToken`expiry time in seconds */
   expires_in: number
 }
 
-// 系统菜单
+// System menu
 export interface ISysMenu extends IBaseEntity {
-  /*菜单 ID*/
+  /*Menu ID*/
   menuId: number
-  /*上级菜单*/
+  /*Parent menu*/
   parentId: number
-  /*菜单 名称*/
+  /*Menu name*/
   menuName: string
-  /*权限标识*/
+  /*Permission key*/
   perms: string
-  /*组件*/
+  /*Component*/
   component: string
-  /*菜单图标*/
+  /*Menu icon*/
   icon: string
-  /*排序*/
+  /*Sort order*/
   sort: number
-  /*路由地址*/
+  /*Route path*/
   path: string
-  /*目标用户 0.租户用户 1. 系统用户  2.全部*/
+  /*Target users: 0 = tenant users, 1 = platform users, 2 = all*/
   target: number
-  /*菜单类型（0.菜单 1.按钮）*/
+  /*Menu type (0 = menu, 1 = button)*/
   menuType: number
-  /*菜单状态（1.显示 0.隐藏）*/
+  /*Menu visibility (1 = shown, 0 = hidden)*/
   visible: number
-  /*保持状态（1.保持 0.不保持）*/
+  /*Keep alive (1 = yes, 0 = no)*/
   keepAlive: number
-  /*子菜单*/
+  /*Submenu*/
   children: ISysMenu[]
 }
 
-/** 用户权限 */
+/** User permissions */
 export interface IUserPerms {
-  /** 按钮 */
+  /** Button */
   buttons: IPermsButton[]
-  /** 菜单 */
+  /** Menu */
   menus: IPermsMenus[]
 }
 
-/** 按钮权限 */
+/** Button permissions */
 export interface IPermsButton {
-  /** `标识符` */
+  /** `Identifier` */
   perms: string
-  /** 标题 */
+  /** Title */
   title: string
 }
 
-/** 菜单权限 */
+/** Menu permissions */
 export interface IPermsMenus {
-  /* 菜单ID */
+  /* Menu ID */
   id: number
-  /* 上级ID */
+  /* Parent ID */
   parentId: number
-  /* 权重 */
+  /* Weight */
   weight: number
-  /* 名称 */
+  /* Name */
   name: string
-  /* 属性 */
+  /* Property */
   meta: IPermsMenusMeta
-  /* 路径 */
+  /* Path */
   path: string
-  /* vue.js 组件 */
+  /* vue.js Component */
   component: string
-  /* 子菜单 */
+  /* Submenu */
   children: IPermsMenus[]
 }
 
-/** 菜单属性 */
+/** Menu properties */
 export interface IPermsMenusMeta {
-  /* 图标 */
+  /* Icon */
   icon: string
-  /* 标题 */
+  /* Title */
   title: string
-  /** 是否隐藏 */
+  /** Hidden */
   hidden: boolean
-  /** 保持状态 */
+  /** Keep alive */
   keepAlive: boolean
 }
 
-/** 系统用户 */
+/** Platform user */
 export interface IPmsUser extends IBaseEntity {
   /**
-   * 用户唯一id
+   * Unique user id
    */
   userId: number
   /**
-   * 头像
+   * Avatar
    */
   avatar: string
   /**
-   * 用户名
+   * Username
    */
   username: string
   /**
-   * 手机号码
+   * Mobile number
    */
   mobile: string
   /**
-   * 邮箱
+   * Email
    */
   email: string
   /**
-   * 昵称
+   * Nickname
    */
   nickname: string
   /**
-   * 密码
+   * Password
    */
   password: string
   /**
-   * 性别[ 0.女  1.男  2.未知]
+   * Gender [0 = female, 1 = male, 2 = unknown]
    */
   gender: number
   /**
-   * 是否管理员 0. 普通用户  1. 管理员
+   * Is admin: 0 = regular user, 1 = admin
    */
   adminFlag: number
   /**
-   * 状态 【0.禁用 1.正常】
+   * Status [0 = disabled, 1 = normal]
    */
   status: number
   /**
-   * 所属部门
+   * Department
    */
   deptId: number
   /**
-   * 过期时间  为空就是永久
+   * Expiry time (empty = never expires)
    */
   expired: string
   /**
-   * 部门
+   * Department
    */
   dept: IPmsDept | null
   /**
-   * 角色列表
+   * Roles
    */
   roles: IPmsRole[]
   /**
-   * 如果为空，表示 未登录。
+   * Empty means not signed in.
    */
   loginId: string
 }
 
-/** 系统角色 */
+/** System role */
 export interface IPmsRole extends IBaseEntity {
   /**
-   * 用户唯一id
+   * Unique user id
    */
   roleId: number
   /**
-   * 角色名称
+   * Role name
    */
   roleName: string
   /**
-   * 排序
+   * Sort order
    */
   sort: number
   /**
-   * 数据权限
+   * Data permissions
    */
   dataScope: number
   /**
-   * 角色描述
+   * Role description
    */
   description: string
   /**
-   * 部门ID
+   * Department ID
    */
   deptIds: Array<number>
 }
 
-/** 系统部门 */
+/** System department */
 export interface IPmsDept extends IBaseEntity {
   /**
-   * 部门 ID
+   * Department ID
    */
   deptId: number
   /**
-   * 部门上级
+   * Parent department
    */
   parentId: number
   /**
-   * 部门 名称
+   * Department name
    */
   deptName: string
   /**
-   * 部门 领导名称
+   * Department leader name
    */
   leader: string
   /**
-   * 部门 领导手机号
+   * Department leader mobile
    */
   leaderMobile: string
   /**
-   * 排序
+   * Sort order
    */
   sort: number
   /**
-   * 部门描述
+   * Department description
    */
   description: string
   /**
-   * 祖级列表
+   * Ancestor list
    */
   ancestors: string
   /**
-   * 子菜单
+   * Submenu
    */
   children: IPmsDept[]
 }
 
-/** 用户关联的租户 */
+/** Tenants linked to the user */
 export interface IUserListTenant {
   /**
-   * 已经拥有的 租户ID
+   * Assigned tenants ID
    */
   have: string[]
   /**
-   * 全部 租户信息
+   * All tenants
    */
   all: ISimpleTenant[]
 }

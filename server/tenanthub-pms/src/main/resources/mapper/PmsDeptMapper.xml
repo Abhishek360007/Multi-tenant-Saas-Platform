@@ -109,7 +109,7 @@
             <if test="p.deptName != null and p.deptName != ''">
                 AND CONCAT(d.dept_name,d.leader,d.description) LIKE CONCAT('%',#{p.deptName},'%')
             </if>
-            <!-- 数据范围过滤 -->
+            <!-- Data scope filter -->
             ${p.params.dataScope}
         </where>
     </sql>

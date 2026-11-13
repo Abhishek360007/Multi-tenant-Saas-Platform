@@ -1,27 +1,27 @@
-// json 返回值
+// json Return value
 interface IJsonResult<T> {
-  /* 状态码 200: 成功！ 100: 失败！ 其他: 都是报错！ */
+  /* Status code 200: success, 100: failure, anything else: error */
   status: number
-  /* 返回消息 */
+  /* Response message */
   message: string
-  /* 数据 */
+  /* Data */
   data: T
 }
 
-// 分页
+// Paged query
 interface IPagination<T> {
-  /* 总页数 */
+  /* Total pages */
   total: number
-  /* 数据列表 */
+  /* Data list */
   list: T[]
 }
 
-// 分页 返回值
+// Paged response
 interface IPageResult<T> {
-  /* 状态码 200: 成功！ 100: 失败！ 其他: 都是报错！ */
+  /* Status code 200: success, 100: failure, anything else: error */
   status: number
-  /* 返回消息 */
+  /* Response message */
   message: string
-  /* 分页数据 */
+  /* Paged data */
   data: IPagination<T>
 }

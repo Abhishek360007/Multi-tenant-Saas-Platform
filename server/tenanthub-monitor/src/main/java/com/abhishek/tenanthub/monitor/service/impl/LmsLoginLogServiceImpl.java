@@ -19,7 +19,7 @@ import java.time.LocalDate;
 
 /**
  * <p>
- * 登录日志
+ * Login log
  * </p>
  *
  * @author WangChenChen
@@ -37,9 +37,9 @@ public class LmsLoginLogServiceImpl extends ServiceImpl<LmsLoginLogMapper, LmsLo
     public IPage<LmsLoginLog> pageKeywords(SearchPO params) {
         Page<LmsLoginLog> pageRequest = Page.of(params.getPageIndex(), params.getPageSize());
         var wrapper = new LambdaQueryWrapper<LmsLoginLog>();
-        // 开始时间是否为空
+        // Whether the start time is empty
         if (ObjectUtil.isNotEmpty(params.getStartDate())) {
-            // 如果结束时间是否为空
+            // Whether the end time is empty
             if (ObjectUtil.isNotEmpty(params.getEndDate())) {
                 wrapper.between(LmsLoginLog::getCreateTime, params.getStartDate(), params.getEndDate());
             } else {

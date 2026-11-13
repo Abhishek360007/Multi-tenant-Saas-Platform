@@ -22,82 +22,82 @@ import java.util.Set;
 
 public interface PmsDeptMapper extends BaseMapper<PmsDept> {
 
-    // 根据 部门ID，查询 子孙 部门。不包含自己
+    // Query descendant departments by department ID, excluding itself
     @Select("select * from pms_dept where find_in_set(#{deptId}, ancestors)")
     Set<PmsDept> selectChildDept(Long deptId);
 
 
-    // 根据 部门ID，查询 子孙 部门id。不包含自己
+    // Query descendant department IDs by department ID, excluding itself
     @Select("select dept_id from pms_dept where find_in_set(#{deptId}, ancestors)")
     Set<Long> selectChildDeptId(Long deptId);
 
 
     /**
-     * 修改子元素关系
+     * Update child relationships
      *
-     * @param childs 子元素
+     * @param childs Children
      */
     int updateChilds(@Param("childs") Set<PmsDept> childs);
 
 
     /**
-     * 删除 部门 的所有权限
+     * Delete all permissions of the department
      *
-     * @param id 部门ID
+     * @param id Department ID
      */
     @Delete("DELETE FROM pms_dept_menu WHERE dept_id = #{id}")
     int deleteHaveMenus(Long id);
 
 
     /**
-     * 部门 添加 菜单权限
+     * Add menu permissions to the department
      *
-     * @param id    部门ID
-     * @param menus 菜单ID
+     * @param id    Department ID
+     * @param menus Menu ID
      */
     int insertByMenus(@Param("id") Long id,
                       @Param("menus") Set<Long> menus);
 
 
     /**
-     * 根据 用户id 查询 部门列表
+     * Query departments by user ID
      */
     List<PmsDept> selectChildDeptByUserId(Long userId);
 
 
     /**
-     * 根据 用户id 查询 部门id列表
+     * Query department IDs by user ID
      */
     Set<Long> selectChildDeptIdByUserId(Long userId);
 
 
     /**
-     * 根据 用户id 查询 部门
+     * Query departments by user ID
      */
     PmsDept selectDeptByUserId(Long userId);
 
 
     /**
-     * 查询 角色id 部门权限
+     * Query department permissions by role ID
      */
     List<PmsDept> selectDeptByRuleIds(Set<Long> roleIds);
 
 
     /**
-     * 查询 角色 部门权限
+     * Query role department permissions
      */
     Set<Long> selectDeptIdByRuleIds(Set<Long> roleIds);
 
 
     /**
-     * 根据条件分页查询数据
+     * Paged query by conditions
      */
     @DataScope()
     IPage<PmsDept> selectDeptPage(IPage<?> page, @Param("p") PmsDept role);
 
 
     /**
-     * 根据条件列表查询数据
+     * List query by conditions
      */
     @DataScope()
     List<PmsDept> selectDeptList(@Param("p") PmsDept dept);

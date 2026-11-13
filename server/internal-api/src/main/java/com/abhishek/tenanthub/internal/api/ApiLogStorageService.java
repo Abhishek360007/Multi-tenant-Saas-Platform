@@ -5,7 +5,7 @@ import com.abhishek.tenanthub.internal.dto.OperLogDTO;
 
 /**
  * <p>
- * 运行 日志 存储
+ * Runtime log storage
  * </p>
  *
  * @author WangChenChen
@@ -17,7 +17,7 @@ public interface ApiLogStorageService {
 
 
     /**
-     * 异步保存 登录日志 到 ES 中
+     * Save login logs to ES asynchronously
      *
      * @param loginLog
      * @author Wang Chen Chen
@@ -27,7 +27,7 @@ public interface ApiLogStorageService {
 
 
     /**
-     * 异步保存 操作日志 到 ES 中
+     * Save operation logs to ES asynchronously
      *
      * @param operLog
      * @author Wang Chen Chen

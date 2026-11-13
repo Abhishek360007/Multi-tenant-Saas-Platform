@@ -29,7 +29,7 @@ public class PmsUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var dbUser = userService.getByUsername(username);
         if (dbUser == null) {
-            throw new UsernameNotFoundException(String.format("用户名 %s 不存在！", username));
+            throw new UsernameNotFoundException(String.format("Username %s does not exist", username));
         }
         var result = new JwtLoginUser();
         BeanUtils.copyProperties(dbUser, result);

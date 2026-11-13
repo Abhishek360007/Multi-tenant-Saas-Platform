@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * <p>
- * 安全服务工具类
+ * Security utilities
  * </p>
  *
  * @author Wang Chen Chen
@@ -23,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class JwtSecurityUtils {
 
     /**
-     * 获取Authentication
+     * Get Authentication
      */
     public static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
@@ -31,7 +31,7 @@ public class JwtSecurityUtils {
 
 
     /**
-     * 经过认证！
+     * Authenticated
      */
     public static boolean isAuthenticated() {
         var auth = getAuthentication();
@@ -40,7 +40,7 @@ public class JwtSecurityUtils {
 
 
     /**
-     * 当前登录的用户，是否 Master 系统的用户
+     * Whether the signed-in user belongs to the master platform
      */
     public static boolean isMasterUser() {
         return JwtSecurityUtils.isAuthenticated() &&
@@ -49,7 +49,7 @@ public class JwtSecurityUtils {
 
 
     /**
-     * 当前登录的用户，是否 管理员
+     * Whether the signed-in user is an admin
      */
     public static boolean isAdminUser() {
         return JwtSecurityUtils.isAuthenticated() &&
@@ -58,7 +58,7 @@ public class JwtSecurityUtils {
 
 
     /**
-     * 获取当前登录的用户 租户ID
+     * Get the tenant of the signed-in user ID
      **/
     public static String getTenantId() {
         return getLoginUser().getTenantId();
@@ -66,7 +66,7 @@ public class JwtSecurityUtils {
 
 
     /**
-     * 获取用户 唯一登录ID
+     * Get the unique login of the user ID
      **/
     public static String getLoginId() {
         return getLoginUser().getLoginId();
@@ -74,7 +74,7 @@ public class JwtSecurityUtils {
 
 
     /**
-     * 获取用户账户
+     * Get the user account
      **/
     public static Long getUserId() {
         return getLoginUser().getUserId();
@@ -82,7 +82,7 @@ public class JwtSecurityUtils {
 
 
     /**
-     * 获取用户账户
+     * Get the user account
      **/
     public static String getUsername() {
         return getLoginUser().getUsername();
@@ -90,19 +90,19 @@ public class JwtSecurityUtils {
 
 
     /**
-     * 获取用户
+     * Get the user
      **/
     public static JwtLoginUser getLoginUser() {
         if (isAuthenticated()) {
             return (JwtLoginUser) getAuthentication().getPrincipal();
         } else {
-            throw new JwtNoLoginException("用户暂无登录！", new RuntimeException());
+            throw new JwtNoLoginException("No user is signed in", new RuntimeException());
         }
     }
 
 
     /**
-     * 设置用户
+     * Set the user
      **/
     public static void setLoginUser(JwtLoginUser loginUser) {
         if (loginUser == null) {
@@ -110,7 +110,7 @@ public class JwtSecurityUtils {
         } else {
             var authentication = new UsernamePasswordAuthenticationToken(
                     loginUser, null, loginUser.getAuthorities());
-            // 将用户信息，设置到 SecurityContext 中，可以在任何地方 使用 下面语句获取 获取 当前用户登录信息
+            // Put the user into the SecurityContext so the current user can be read anywhere with the statement below
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
     }
@@ -123,21 +123,21 @@ public class JwtSecurityUtils {
     }
 
     /**
-     * 生成BCryptPasswordEncoder密码
+     * Hash a password with BCryptPasswordEncoder
      *
-     * @param password 密码
-     * @return 加密字符串
+     * @param password Password
+     * @return String to hash
      */
     public static String encryptPassword(String password) {
         return PASSWORD_ENCODER.encode(password);
     }
 
     /**
-     * 判断密码是否相同
+     * Check whether the passwords match
      *
-     * @param rawPassword     真实密码
-     * @param encodedPassword 加密后字符
-     * @return 结果
+     * @param rawPassword     Plain password
+     * @param encodedPassword Hashed value
+     * @return Result
      */
     public static boolean matchesPassword(String rawPassword, String encodedPassword) {
         return PASSWORD_ENCODER.matches(rawPassword, encodedPassword);

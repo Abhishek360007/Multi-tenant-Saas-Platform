@@ -27,14 +27,14 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 public class UpdateUserRoleIdVO {
 
 
-    @Schema(description = "用户ID不能为空！", requiredMode = REQUIRED)
-    @NotNull(message = "用户ID不能为空!")
+    @Schema(description = "User ID is required", requiredMode = REQUIRED)
+    @NotNull(message = "User ID is required!")
     private Long userId;
 
 
-    @Schema(description = "角色Id列表！", requiredMode = REQUIRED)
-    @NotNull(message = "角色Id列表!")
-    @Size(min = 1, message = "角色列表,最少选择1个!")
+    @Schema(description = "Role IDs", requiredMode = REQUIRED)
+    @NotNull(message = "Role IDs!")
+    @Size(min = 1, message = "Roles: select at least 1!")
     private Set<Long> roles;
 
 }

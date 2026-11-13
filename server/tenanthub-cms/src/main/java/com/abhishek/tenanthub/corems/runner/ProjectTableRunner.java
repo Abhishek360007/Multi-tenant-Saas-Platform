@@ -18,7 +18,7 @@ import static com.abhishek.tenanthub.common.consts.MbpConst.PROJECT_ID;
 
 
 /**
- * 初始化 数据库中 包含 项目id 的 数据库表名称
+ * Load the names of tables that have a project ID
  *
  * @author WangChenChen
  * @date 2022/12/7 21:20
@@ -39,11 +39,11 @@ public class ProjectTableRunner {
     public void init() {
         log.info("ProjectTableRunner Initialized .....");
         if (multiTenantProperties.getEnableProject()) {
-            // 查询 所有的 不包含 project_id 的表
+            // Query all tables without project_id
             Set<String> tableNames = projectMapper.selectListTableNamesByNotIncludeColumn(PROJECT_ID);
-            // 从 CmsProject 实体类中。获取 CmsProject 在 mysql 中的表名称。
+            // Get the MySQL table name of the CmsProject entity.
             String projectTableName = CmsProject.class.getAnnotation(TableName.class).value();
-            // 删除 CmsProject 的表名称
+            // Remove the CmsProject table name
             tableNames.add(projectTableName);
             MbpConst.PROJECT_IGNORE_TABLES.addAll(tableNames);
             log.info("ignore project_id intercept table name : \n{}", JsonUtils.toJson(MbpConst.PROJECT_IGNORE_TABLES));

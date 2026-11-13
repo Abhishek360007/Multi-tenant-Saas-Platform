@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 矩形 范围 检测
+ * Rectangle range check
  * </p>
  *
  * @author Wang Chen Chen
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class RectRangeUtils {
 
     /**
-     * 在范围内的点位ID
+     * Points within range ID
      *
      * @author WangChenChen
      * @date 2022/5/11 16:10
@@ -42,13 +42,13 @@ public class RectRangeUtils {
      * -------------------------@
      * <p>
      *
-     * @param target      (+)目标点位
-     * @param topLeft     ($) 左上角
-     * @param bottomRight (@) 右下角
-     * @return true 在矩形内，false 没有在矩形内
+     * @param target      (+) Target point
+     * @param topLeft     ($) Top-left corner
+     * @param bottomRight (@) Bottom-right corner
+     * @return true inside the rectangle, false if outside
      */
     public static <T> boolean isIn(RectPoint<T> target, RectPoint<T> topLeft, RectPoint<T> bottomRight) {
-        // 如果在纬度的范围内
+        // If within the latitude range
         if (isInRange(target.getX(), topLeft.getX(), bottomRight.getX())) {
             if (topLeft.getY() * bottomRight.getY() > 0) {
                 return isInRange(target.getY(), topLeft.getY(), bottomRight.getY());
@@ -68,7 +68,7 @@ public class RectRangeUtils {
 
 
     /**
-     * 判断是否在经纬度范围内
+     * Check whether the point is within the latitude/longitude range
      *
      * @param point
      * @param left

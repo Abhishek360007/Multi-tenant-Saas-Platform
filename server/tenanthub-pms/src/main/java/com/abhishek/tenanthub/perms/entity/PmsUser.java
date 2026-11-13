@@ -21,7 +21,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 系统用户
+ * Platform user
  * </p>
  *
  * @author Wang Chen Chen
@@ -30,7 +30,7 @@ import java.util.Set;
  */
 
 
-@Schema(description = "用户")
+@Schema(description = "User")
 @TableName("pms_user")
 @Getter
 @Setter
@@ -41,83 +41,83 @@ import java.util.Set;
 public class PmsUser extends ParamBaseEntity {
 
     /**
-     * 用户ID
+     * User ID
      */
-    @Schema(description = "用户ID")
+    @Schema(description = "User ID")
     @TableId(type = IdType.ASSIGN_ID)
-    @NotNull(message = "用户ID,必须填写", groups = {ValidUpdate.class})
+    @NotNull(message = "User ID is required", groups = {ValidUpdate.class})
     private Long userId;
 
     /**
-     * 头像
+     * Avatar
      */
-    @Schema(description = "头像")
-    @NotBlank(message = "头像,必须填写", groups = {ValidCreate.class})
-    @URL(message = "头像,格式错误", groups = {ValidCreate.class, ValidUpdate.class})
+    @Schema(description = "Avatar")
+    @NotBlank(message = "Avatar is required", groups = {ValidCreate.class})
+    @URL(message = "Avatar is invalid", groups = {ValidCreate.class, ValidUpdate.class})
     private String avatar;
 
     /**
-     * 用户名
+     * Username
      */
-    @Schema(description = "用户名")
-    @NotBlank(message = "用户名,必须填写", groups = {ValidCreate.class})
-    @Length(min = 5, max = 32, message = "用户名,长度5~32位字符", groups = {ValidCreate.class, ValidUpdate.class})
+    @Schema(description = "Username")
+    @NotBlank(message = "Username is required", groups = {ValidCreate.class})
+    @Length(min = 5, max = 32, message = "Username must be 5 to 32 characters", groups = {ValidCreate.class, ValidUpdate.class})
     private String username;
 
     /**
-     * 手机号码
+     * Mobile number
      */
-    @Schema(description = "手机号码")
-    @NotBlank(message = "手机号码,必须填写", groups = {ValidCreate.class})
-    @Pattern(regexp = RegexConst.MOBILE, message = "手机号码,格式错误", groups = {ValidCreate.class, ValidUpdate.class})
+    @Schema(description = "Mobile number")
+    @NotBlank(message = "Mobile number is required", groups = {ValidCreate.class})
+    @Pattern(regexp = RegexConst.MOBILE, message = "Mobile number is invalid", groups = {ValidCreate.class, ValidUpdate.class})
     private String mobile;
 
     /**
-     * 邮箱
+     * Email
      */
-    @Schema(description = "邮箱")
-    @NotBlank(message = "邮箱,必须填写", groups = {ValidCreate.class})
-    @Email(message = "邮箱,格式错误", groups = {ValidCreate.class, ValidUpdate.class})
+    @Schema(description = "Email")
+    @NotBlank(message = "Email is required", groups = {ValidCreate.class})
+    @Email(message = "Email is invalid", groups = {ValidCreate.class, ValidUpdate.class})
     private String email;
 
     /**
-     * 昵称
+     * Nickname
      */
-    @Schema(description = "昵称")
-    @NotBlank(message = "昵称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Nickname")
+    @NotBlank(message = "Nickname is required", groups = {ValidCreate.class})
     private String nickname;
 
     /**
-     * 密码
+     * Password
      */
-    @Schema(description = "密码")
-    @Length(min = 5, max = 32, message = "密码,长度5~32位字符", groups = {ValidCreate.class, ValidUpdate.class})
+    @Schema(description = "Password")
+    @Length(min = 5, max = 32, message = "Password must be 5 to 32 characters", groups = {ValidCreate.class, ValidUpdate.class})
     private String password;
 
     /**
-     * 性别[ 0.女  1.男  2.未知]
+     * Gender [0 = female, 1 = male, 2 = unknown]
      */
-    @Schema(description = "性别[ 0.女  1.男  2.未知]")
-    @NotNull(message = "性别,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Gender [0 = female, 1 = male, 2 = unknown]")
+    @NotNull(message = "Gender is required", groups = {ValidCreate.class})
     private Byte gender;
 
     /**
-     * 是否管理员 0. 普通用户  1. 管理员
+     * Is admin: 0 = regular user, 1 = admin
      */
-    @Schema(description = "是否管理员 0. 普通用户  1. 管理员")
+    @Schema(description = "Is admin: 0 = regular user, 1 = admin")
     private Byte adminFlag;
 
     /**
-     * 状态 【 0.禁用  1.正常】
+     * Status [0 = disabled, 1 = normal]
      */
-    @Schema(description = "状态 【 0.禁用  1.正常】")
+    @Schema(description = "Status [0 = disabled, 1 = normal]")
     private Byte status;
 
     /**
-     * 所属部门
+     * Department
      */
-    @Schema(description = "所属部门Id")
-    @NotNull(message = "所属部门Id,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Department Id")
+    @NotNull(message = "Department ID is required", groups = {ValidCreate.class})
     private Long deptId;
 
     /**
@@ -128,31 +128,31 @@ public class PmsUser extends ParamBaseEntity {
     private Byte passwordChangeRequired;
 
     /**
-     * 过期时间  为空就是永久
+     * Expiry time (empty = never expires)
      */
-    @Schema(description = "过期时间 为空就是永久")
+    @Schema(description = "Expiry time; empty means never expires")
     private LocalDateTime expired;
 
     /**
-     * 部门信息
+     * Department details
      */
-    @Schema(description = "部门信息")
+    @Schema(description = "Department details")
     @TableField(exist = false)
     private PmsDept dept;
 
     /**
-     * 角色名称，列表
+     * Role names
      */
-    @Schema(description = "角色列表")
+    @Schema(description = "Roles")
     @TableField(exist = false)
-    @NotNull(message = "角色列表,必须填写", groups = {ValidCreate.class})
-    @Size(min = 1, message = "角色列表,最少选择1个", groups = {ValidCreate.class, ValidUpdate.class})
+    @NotNull(message = "Roles are required", groups = {ValidCreate.class})
+    @Size(min = 1, message = "Roles: select at least 1", groups = {ValidCreate.class, ValidUpdate.class})
     private Set<PmsRole> roles;
 
     /**
-     * 如果为空，表示 未登录。
+     * Empty means not signed in.
      */
-    @Schema(description = "如果为空，表示 未登录")
+    @Schema(description = "Empty means not signed in")
     @TableField(exist = false)
     private String loginId;
 

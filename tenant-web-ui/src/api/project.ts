@@ -2,37 +2,37 @@ import {ISearchQuery, ISimpleProject} from "@/types/base"
 import {ICmsProject} from "@/types/cms"
 import {httpDelete, httpGet, httpPost, httpPut} from "@/utils/service"
 
-/** 根据Id查询 */
+/** Query by ID */
 export const getProjectApi = (id: number) => {
   return httpGet<number, IJsonResult<ICmsProject>>(`/cms/project/${id}`)
 }
 
-// 简单查询
+// Simple query
 export const simpleQueryProjectApi = (params: ISearchQuery) => {
   return httpGet<ISearchQuery, IPageResult<ISimpleProject>>("/cms/project/simple/query", params)
 }
 
-/** 分页查询所有 */
+/** Paged query of all */
 export const queryProjectApi = (data: ISearchQuery) => {
   return httpGet<ISearchQuery, IPageResult<ICmsProject>>("/cms/project/query", data)
 }
 
-/** 查询所有 */
+/** Query all */
 export const listProjectApi = () => {
   return httpGet<any, IJsonResult<ICmsProject[]>>("/cms/project/list")
 }
 
-/** 新增 */
+/** Add */
 export const saveProjectApi = (data: ICmsProject) => {
   return httpPost<ICmsProject, IJsonResult<ICmsProject>>("/cms/project", data)
 }
 
-/** 修改 */
+/** Edit */
 export const updateProjectApi = (data: ICmsProject) => {
   return httpPut<any, IJsonResult<boolean>>("/cms/project", data)
 }
 
-/** 删除 */
+/** Delete */
 export const deleteProjectApi = (id: number, password: string) => {
   const params = {
     projectId: id,
@@ -41,7 +41,7 @@ export const deleteProjectApi = (id: number, password: string) => {
   return httpDelete<any, IJsonResult<boolean>>("/cms/project", params)
 }
 
-/** 重置密码 */
+/** Reset password */
 export const resetPasswordApi = (data: any) => {
   return httpPost<any, IJsonResult<boolean>>("/cms/project/reset/password", data)
 }

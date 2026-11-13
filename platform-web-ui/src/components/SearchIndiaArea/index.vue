@@ -14,7 +14,7 @@ const props = defineProps({
   }
 })
 
-// 基于类型
+// Type-based
 const emit = defineEmits<{
   (e: "change", val: number): void
 }>()

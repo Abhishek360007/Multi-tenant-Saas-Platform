@@ -8,7 +8,7 @@ import { IPushMessage } from "@/types/base"
 
 const { broadcast, pushNotices } = useNoticeStoreHook()
 
-type TabName = "通知" | "消息" | "待办"
+type TabName = "Notifications" | "Messages" | "To-dos"
 
 interface DataItem {
   name: TabName
@@ -16,40 +16,40 @@ interface DataItem {
   list: IPushMessage[]
 }
 
-/** 角标当前值 */
+/** Current badge value */
 const badgeValue = computed(() => {
   return data.value.reduce((sum, item) => sum + item.list.length, 0)
 })
-/** 角标最大值 */
+/** Maximum badge value */
 const badgeMax = 99
-/** 面板宽度 */
+/** Panel width */
 const popoverWidth = 350
-/** 当前 Tab */
-const activeName = ref<TabName>("通知")
-/** 所有数据 */
+/** Current Tab */
+const activeName = ref<TabName>("Notifications")
+/** All data */
 const data = ref<DataItem[]>([
-  // 通知数据
+  // Notifications
   {
-    name: "通知",
+    name: "Notifications",
     type: "primary",
     list: broadcast
   },
-  // 消息数据
+  // Messages
   {
-    name: "消息",
+    name: "Messages",
     type: "danger",
     list: pushNotices
   },
-  // 待办数据
+  // To-dos
   {
-    name: "待办",
+    name: "To-dos",
     type: "warning",
     list: []
   }
 ])
 
 const handleHistory = () => {
-  ElMessage.success(`跳转到${activeName.value}历史页面`)
+  ElMessage.success(`Go to the ${activeName.value} history page`)
 }
 </script>
 
@@ -58,7 +58,7 @@ const handleHistory = () => {
     <el-popover placement="bottom" :width="popoverWidth" trigger="click">
       <template #reference>
         <el-badge :value="badgeValue" :max="badgeMax" :hidden="badgeValue === 0">
-          <el-tooltip effect="dark" content="消息通知" placement="bottom">
+          <el-tooltip effect="dark" content="Notifications" placement="bottom">
             <el-icon :size="20">
               <Bell />
             </el-icon>
@@ -78,7 +78,7 @@ const handleHistory = () => {
           </el-tab-pane>
         </el-tabs>
         <div class="notify-history">
-          <el-button link @click="handleHistory">查看{{ activeName }}历史</el-button>
+          <el-button link @click="handleHistory">View {{ activeName }} history</el-button>
         </div>
       </template>
     </el-popover>

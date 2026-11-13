@@ -14,8 +14,8 @@ const changeSwagger = () => {
   const deviceHeight = document.body.clientHeight
   if (swagger) {
     if (swagger!.style) {
-      swagger!.style.width = Number(deviceWidth) - 240 + "px" // 数字是页面布局宽度差值
-      swagger!.style.height = Number(deviceHeight) - 64 + "px" // 数字是页面布局高度差
+      swagger!.style.width = Number(deviceWidth) - 240 + "px" // The number is the layout width offset
+      swagger!.style.height = Number(deviceHeight) - 64 + "px" // The number is the layout height offset
     }
   }
 }

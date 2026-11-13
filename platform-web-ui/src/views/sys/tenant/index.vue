@@ -3,13 +3,13 @@
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="params">
         <el-form-item>
-          <el-input v-model="params.keywords" clearable placeholder="根据 租户名称 搜索" />
+          <el-input v-model="params.keywords" clearable placeholder="Search by tenant name" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :icon="Search" @click="searchTableData">搜索</el-button>
+          <el-button type="primary" :icon="Search" @click="searchTableData">Search</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="success" :icon="Plus" @click="handleAdd()">新增</el-button>
+          <el-button type="success" :icon="Plus" @click="handleAdd()">Add</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -17,23 +17,23 @@
     <el-card shadow="never">
       <div class="toolbar-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="tenantId" label="租户ID" />
+          <el-table-column prop="tenantId" label="Tenant ID" />
           <el-table-column prop="logo" label="Logo">
             <template #default="scope">
               <el-avatar :size="40" :icon="UserFilled" :src="scope.row.logo" />
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="名称" />
-          <el-table-column prop="email" label="邮箱" />
-          <el-table-column prop="linkman" label="联系人" />
-          <el-table-column prop="contactNumber" label="联系方式" />
-          <el-table-column prop="areaCode" label="行政区域">
+          <el-table-column prop="name" label="Name" />
+          <el-table-column prop="email" label="Email" />
+          <el-table-column prop="linkman" label="Contact person" />
+          <el-table-column prop="contactNumber" label="Contact details" />
+          <el-table-column prop="areaCode" label="Area">
             <template #default="scope">
               {{ showIndiaArea(scope.row.areaCode) }}
             </template>
           </el-table-column>
-          <el-table-column prop="address" label="联系地址" />
-          <el-table-column prop="templates" label="权限模板">
+          <el-table-column prop="address" label="Address" />
+          <el-table-column prop="templates" label="Permission templates">
             <template #default="scope">
               <el-tooltip
                 v-for="(item, index) in scope.row.templates"
@@ -46,10 +46,10 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column prop="status" label="状态">
+          <el-table-column prop="status" label="Status">
             <template #default="scope">
               <template v-if="scope.row.status === 9">
-                <el-text class="mx-1" type="warning">初始化中...</el-text>
+                <el-text class="mx-1" type="warning">Initializing...</el-text>
                 <el-icon class="is-loading">
                   <Loading />
                 </el-icon>
@@ -59,50 +59,50 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="expired" label="过期时间">
+          <el-table-column prop="expired" label="Expiry time">
             <template #default="scope">
               <el-tooltip v-if="scope.row.expired" :content="scope.row.expired" placement="top">
                 <el-link> {{ showExpiredDateAgo(scope.row.expired) }}</el-link>
               </el-tooltip>
-              <span v-else>永久</span>
+              <span v-else>Never expires</span>
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间">
+          <el-table-column prop="createTime" label="Created at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.createTime" :entity="scope.row.createUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdateTime" label="修改时间">
+          <el-table-column prop="lastUpdateTime" label="Updated at">
             <template #default="scope">
               <operateUser :dateTime="scope.row.lastUpdateTime" :entity="scope.row.lastUpdateUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="130">
+          <el-table-column label="Actions" width="130">
             <template #default="scope">
-              <el-link :icon="Edit" type="warning" @click="handleEdit(scope.row)">编辑</el-link>
+              <el-link :icon="Edit" type="warning" @click="handleEdit(scope.row)">Edit</el-link>
               &nbsp;
-              <!-- v-admin 只有管理员才可以 删除租户、重置数据 -->
+              <!-- v-admin Only admins can delete tenants and reset data -->
               <el-dropdown
                 @command="(cmd: string) => handleCommand(cmd, scope.row)"
                 v-if="!isDefaultTenantId(scope.row.tenantId)"
               >
                 <span class="el-dropdown-link">
-                  更多
+                  More
                   <el-icon class="el-icon--right">
                     <arrow-down />
                   </el-icon>
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item :icon="Link" command="Jump">跳转客户系统</el-dropdown-item>
+                    <el-dropdown-item :icon="Link" command="Jump">Open tenant portal</el-dropdown-item>
                     <el-dropdown-item command="QRcode">
-                      <template #default><SvgIcon name="qrcode" />&nbsp;生成二维码</template>
+                      <template #default><SvgIcon name="qrcode" />&nbsp;Generate QR code</template>
                     </el-dropdown-item>
                     <div v-admin>
-                      <el-dropdown-item :icon="Refresh" command="ResetData">重置数据</el-dropdown-item>
+                      <el-dropdown-item :icon="Refresh" command="ResetData">Reset data</el-dropdown-item>
                     </div>
                     <div v-admin>
-                      <el-dropdown-item :icon="Delete" command="Delete">删除</el-dropdown-item>
+                      <el-dropdown-item :icon="Delete" command="Delete">Delete</el-dropdown-item>
                     </div>
                   </el-dropdown-menu>
                 </template>
@@ -125,7 +125,7 @@
       </div>
     </el-card>
 
-    <!-- 生成二维码弹窗 -->
+    <!-- QR code dialog -->
     <el-dialog v-model="qrCodeDialog.visible" :title="qrCodeDialog.title" width="500px">
       <div style="text-align: center">
         <el-link type="primary" :href="qrCodeDialog.link" target="_blank">
@@ -143,7 +143,7 @@
       </div>
     </el-dialog>
 
-    <!-- 新增和修改的弹窗 -->
+    <!-- Add/edit dialog -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="50%" :close-on-click-modal="false">
       <template v-if="saveFlag">
         <create-tenant :template-list="templateList!" @close="closeCreateTenant" />
@@ -162,11 +162,11 @@
           </el-form-item>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item prop="tenantId" label="租户ID">
+              <el-form-item prop="tenantId" label="Tenant ID">
                 <el-input
                   v-model.trim="entityForm.tenantId"
                   clearable
-                  placeholder="租户ID"
+                  placeholder="Tenant ID"
                   disabled
                   type="text"
                   tabindex="1"
@@ -174,41 +174,41 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item prop="name" label="名称">
-                <el-input v-model.trim="entityForm.name" clearable placeholder="租户名称" type="text" tabindex="2" />
+              <el-form-item prop="name" label="Name">
+                <el-input v-model.trim="entityForm.name" clearable placeholder="Tenant name" type="text" tabindex="2" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item prop="email" label="邮箱">
-                <el-input v-model.trim="entityForm.email" clearable placeholder="租户邮箱" type="text" tabindex="3" />
+              <el-form-item prop="email" label="Email">
+                <el-input v-model.trim="entityForm.email" clearable placeholder="Tenant email" type="text" tabindex="3" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item prop="status" label="状态">
+              <el-form-item prop="status" label="Status">
                 <select-dict-data v-model:value="entityForm.status" dictTypeKey="sys_normal_disable" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item prop="linkman" label="联系人">
+              <el-form-item prop="linkman" label="Contact person">
                 <el-input
                   v-model.trim="entityForm.linkman"
                   clearable
-                  placeholder="租户联系人"
+                  placeholder="Tenant contact"
                   type="text"
                   tabindex="4"
                 />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item prop="contactNumber" label="联系方式">
+              <el-form-item prop="contactNumber" label="Contact details">
                 <el-input
                   v-model.trim="entityForm.contactNumber"
                   clearable
-                  placeholder="租户联系方式"
+                  placeholder="Tenant contact number"
                   type="text"
                   tabindex="5"
                 />
@@ -217,16 +217,16 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item prop="areaCode" label="行政地址">
+              <el-form-item prop="areaCode" label="Address area">
                 <search-india-area v-model="entityForm.areaCode" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item prop="address" label="联系地址">
+              <el-form-item prop="address" label="Address">
                 <el-input
                   v-model.trim="entityForm.address"
                   clearable
-                  placeholder="租户联系地址"
+                  placeholder="Tenant address"
                   type="text"
                   tabindex="6"
                 />
@@ -235,8 +235,8 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item prop="templates" label="租户模板">
-                <el-select v-model="entityTemplates" filterable clearable multiple placeholder="选择租户模板">
+              <el-form-item prop="templates" label="Tenant template">
+                <el-select v-model="entityTemplates" filterable clearable multiple placeholder="Select tenant templates">
                   <el-option v-for="item in templateList" :key="item.id" :label="item.name" :value="item.id">
                     <span style="float: left">{{ item.name }}</span>
                     <span style="float: right; color: var(--el-text-color-secondary); font-size: 13px">{{
@@ -247,12 +247,12 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item prop="expired" label="过期时间">
+              <el-form-item prop="expired" label="Expiry time">
                 <el-date-picker
                   v-model="entityForm.expired"
                   clearable
                   type="datetime"
-                  placeholder="请选择过期时间"
+                  placeholder="Select an expiry time"
                   format="YYYY-MM-DD HH:mm:ss"
                   value-format="YYYY-MM-DD HH:mm:ss"
                   :shortcuts="futureShortcuts"
@@ -266,8 +266,8 @@
 
       <template v-if="!saveFlag" #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" v-preventReClick @click="handleUpdate">确定</el-button>
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" v-preventReClick @click="handleUpdate">OK</el-button>
         </span>
       </template>
     </el-dialog>
@@ -297,13 +297,13 @@ const dictStore = useDictStoreHook()
 
 const noticeStore = useNoticeStoreHook()
 
-// 监听
+// Watch
 watch(
   () => noticeStore.createTenantNotice,
   (newValue, _) => {
-    ElMessageBox.confirm(newValue!.content, "是否重新加载数据?", {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
+    ElMessageBox.confirm(newValue!.content, "Reload data??", {
+      confirmButtonText: "OK",
+      cancelButtonText: "Cancel",
       type: "warning"
     })
       .then(() => getTableData())
@@ -311,10 +311,10 @@ watch(
   }
 )
 
-/** 加载 */
+/** Load */
 const loading = ref(false)
 
-// true : 新增，false : 修改
+// true : add, false: edit
 const saveFlag = ref(false)
 
 const dialogVisible = ref(false)
@@ -333,7 +333,7 @@ const params = reactive({
   includeCauu: true
 })
 
-/// 表单数据
+/// Form data
 const entityForm = ref<ISysTenant>({
   tenantId: "",
   logo: "",
@@ -352,7 +352,7 @@ const entityFormRef = ref<FormInstance | null>(null)
 
 const emailValidator = (rule: any, value: any, callback: any) => {
   if (!isEmail(value)) {
-    callback(new Error("邮箱格式不正确!"))
+    callback(new Error("Invalid email address!"))
   } else {
     callback()
   }
@@ -360,33 +360,33 @@ const emailValidator = (rule: any, value: any, callback: any) => {
 
 const telphoneValidator = (rule: any, value: any, callback: any) => {
   if (!isTelphone(value)) {
-    callback(new Error("手机或者电话号码格式不正确!"))
+    callback(new Error("Invalid mobile or phone number!"))
   } else {
     callback()
   }
 }
 
-/// 表单校验规则
+/// Form validation rules
 const entityFormRules: FormRules = {
-  tenantId: [{ required: true, message: "请输入租户ID", trigger: "blur" }],
-  logo: [{ required: true, message: "请上传租户Logo", trigger: "blur" }],
-  name: [{ required: true, message: "请输入名称", trigger: "blur" }],
+  tenantId: [{ required: true, message: "Enter a tenant ID", trigger: "blur" }],
+  logo: [{ required: true, message: "Upload a tenant Logo", trigger: "blur" }],
+  name: [{ required: true, message: "Enter a name", trigger: "blur" }],
   email: [
-    { required: true, message: "请输入邮箱", trigger: "blur" },
+    { required: true, message: "Enter an email", trigger: "blur" },
     { validator: emailValidator, trigger: "blur" }
   ],
-  linkman: [{ required: true, message: "请输入联系人", trigger: "blur" }],
+  linkman: [{ required: true, message: "Enter a contact person", trigger: "blur" }],
   contactNumber: [
-    { required: true, message: "请输入联系方式", trigger: "blur" },
+    { required: true, message: "Enter contact details", trigger: "blur" },
     { validator: telphoneValidator, trigger: "blur" }
   ],
-  areaCode: [{ required: true, message: "请选择行政区域", trigger: "blur" }],
-  address: [{ required: true, message: "请输入联系地址", trigger: "blur" }],
-  status: [{ required: true, message: "请输入状态", trigger: "blur" }],
-  templates: [{ required: true, message: "请选择租户模板", trigger: "blur" }]
+  areaCode: [{ required: true, message: "Select an area", trigger: "blur" }],
+  address: [{ required: true, message: "Enter an address", trigger: "blur" }],
+  status: [{ required: true, message: "Enter a status", trigger: "blur" }],
+  templates: [{ required: true, message: "Select a tenant template", trigger: "blur" }]
 }
 
-// 获取模板数据
+// Fetch template data
 const getListTemplateData = () => {
   loading.value = true
   listTemplateApi()
@@ -401,7 +401,7 @@ const getListTemplateData = () => {
     })
 }
 
-// 获取数据
+// Fetch data
 const getTableData = () => {
   loading.value = true
   queryTenantApi(params)
@@ -417,7 +417,7 @@ const getTableData = () => {
     })
 }
 
-// 重置 Entity 属性
+// Reset entity fields
 const resetEntity = () => {
   entityForm.value = {
     tenantId: "",
@@ -472,19 +472,19 @@ const handleCurrentChange = (val: number) => {
   getTableData()
 }
 
-// 编辑
+// Edit
 const handleEdit = (data: ISysTenant) => {
   resetEntity()
   entityForm.value = cloneDeep(data)
-  dialogTitle.value = "修改"
+  dialogTitle.value = "Edit"
   saveFlag.value = false
   dialogVisible.value = true
 }
 
-// 新增
+// Add
 const handleAdd = () => {
   resetEntity()
-  dialogTitle.value = "新增"
+  dialogTitle.value = "Add"
   saveFlag.value = true
   dialogVisible.value = true
 }
@@ -506,7 +506,7 @@ const handleCommand = (command: string, data: ISysTenant) => {
           const reader = new FileReader()
           reader.readAsDataURL(blob)
           reader.onload = () => {
-            qrCodeDialog.value.title = `扫码进入 ${data.name} 客户管理系统`
+            qrCodeDialog.value.title = `Scan to open the ${data.name} tenant portal`
             qrCodeDialog.value.link = genTenantLink(data.tenantId)
             qrCodeDialog.value.tenantId = data.tenantId
             const base64 = reader.result as string
@@ -533,18 +533,18 @@ const qrCodeDialog = ref({
   logo: ""
 })
 
-// 生成租户二级域名跳转链接
+// Build the tenant subdomain link
 const genTenantLink = (tenantId: string) => {
   return `http://${tenantId}.${import.meta.env.VITE_TENANT_LINK}`
 }
 
-// 删除
+// Delete
 const handleDelete = (data: ISysTenant) => {
-  ElMessageBox.prompt(`请在下方的输入框中填写租户ID`, `确要删除 ${data.name} 吗?`, {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.prompt(`Enter the tenant ID below`, `Delete ${data.name}?`, {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     inputPattern: /^\w{4,12}$/,
-    inputErrorMessage: "租户ID可以是字母和数字，长度4~12位",
+    inputErrorMessage: "Tenant ID: 4 to 12 letters and numbers",
     type: "warning"
   })
     .then((value) => {
@@ -553,7 +553,7 @@ const handleDelete = (data: ISysTenant) => {
           .then((resp) => {
             if (resp.data) {
               ElMessage({
-                message: `删除 ${data.name} 成功！`,
+                message: `Deleted ${data.name}`,
                 type: "success"
               })
             }
@@ -566,7 +566,7 @@ const handleDelete = (data: ISysTenant) => {
           })
       } else {
         ElMessage({
-          message: `租户ID输入错误！`,
+          message: `Tenant ID does not match`,
           type: "error"
         })
       }
@@ -576,13 +576,13 @@ const handleDelete = (data: ISysTenant) => {
     })
 }
 
-// 重置数据
+// Reset data
 const handleResetData = (data: ISysTenant) => {
-  ElMessageBox.prompt(`请在下方的输入框中填写租户ID`, `确要重置 ${data.name} 的数据吗?`, {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.prompt(`Enter the tenant ID below`, `Reset the data of ${data.name}?`, {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
     inputPattern: /^\w{4,12}$/,
-    inputErrorMessage: "租户ID可以是字母和数字，长度4~12位",
+    inputErrorMessage: "Tenant ID: 4 to 12 letters and numbers",
     type: "warning"
   })
     .then((value) => {
@@ -607,7 +607,7 @@ const handleResetData = (data: ISysTenant) => {
           })
       } else {
         ElMessage({
-          message: `租户ID输入错误！`,
+          message: `Tenant ID does not match`,
           type: "error"
         })
       }
@@ -617,7 +617,7 @@ const handleResetData = (data: ISysTenant) => {
     })
 }
 
-// 修改
+// Edit
 const handleUpdate = () => {
   entityFormRef.value?.validate((valid: boolean) => {
     if (valid) {
@@ -626,7 +626,7 @@ const handleUpdate = () => {
         .then((resp) => {
           if (resp.data) {
             ElMessage({
-              message: "修改租户成功！",
+              message: "Tenant updated",
               type: "success"
             })
           }
@@ -645,7 +645,7 @@ const handleUpdate = () => {
   })
 }
 
-// 新增
+// Add
 const closeCreateTenant = () => {
   dialogVisible.value = false
   getTableData()

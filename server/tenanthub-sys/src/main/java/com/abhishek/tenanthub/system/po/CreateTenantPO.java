@@ -30,62 +30,62 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "用于创建租户")
+@Schema(description = "Used to create tenants")
 public class CreateTenantPO implements java.io.Serializable {
 
-    @Schema(description = "租户唯一ID！不填写就随机生成")
+    @Schema(description = "Unique tenant ID. Randomly generated if empty")
     private String tenantId;
 
-    @Schema(description = "租户名称必须填写！", requiredMode = REQUIRED)
-    @NotBlank(message = "租户名称必须填写！")
+    @Schema(description = "Tenant name is required", requiredMode = REQUIRED)
+    @NotBlank(message = "Tenant name is required")
     private String name;
 
-    @Schema(description = "租户邮箱必须填写！", requiredMode = REQUIRED)
-    @NotBlank(message = "租户邮箱必须填写！")
-    @Email(message = "邮箱格式错误！")
+    @Schema(description = "Tenant email is required", requiredMode = REQUIRED)
+    @NotBlank(message = "Tenant email is required")
+    @Email(message = "Invalid email address")
     private String email;
 
-    @Schema(description = "租户联系人必须填写！", requiredMode = REQUIRED)
-    @NotBlank(message = "租户联系人必须填写！")
+    @Schema(description = "Tenant contact is required", requiredMode = REQUIRED)
+    @NotBlank(message = "Tenant contact is required")
     private String linkman;
 
-    @Schema(description = "联系方式必须填写！支持手机和座机", requiredMode = REQUIRED)
-    @Pattern(regexp = RegexConst.TEL_PHONE, message = "联系方式格式错误,支持手机和座机！")
+    @Schema(description = "Contact number is required (mobile or landline)", requiredMode = REQUIRED)
+    @Pattern(regexp = RegexConst.TEL_PHONE, message = "Invalid contact number (mobile or landline)")
     private String contactNumber;
 
-    @Schema(description = "租户logo, 如果不填写会使用默认logo", requiredMode = REQUIRED)
-    @URL(message = "租户logo,格式错误")
+    @Schema(description = "Tenant logo; uses the default if empty logo", requiredMode = REQUIRED)
+    @URL(message = "Tenant logo is invalid")
     private String logo;
 
-    @Schema(description = "租户所在地编号！", requiredMode = REQUIRED)
-    @NotNull(message = "租户所在地编号必须填写！")
+    @Schema(description = "Tenant area code", requiredMode = REQUIRED)
+    @NotNull(message = "Tenant area code is required")
     private Long areaCode;
 
-    @Schema(description = "租户详细地址！", requiredMode = REQUIRED)
-    @NotBlank(message = "租户详细地址必须填写！")
+    @Schema(description = "Tenant address", requiredMode = REQUIRED)
+    @NotBlank(message = "Tenant address is required")
     private String address;
 
-    @Schema(description = "租户权限模板Id！", requiredMode = REQUIRED)
-    @NotNull(message = "租户权限模板必须填写！")
-    @Size(min = 1, message = "租户权限模板！最少选择一个！")
+    @Schema(description = "Tenant permission template ID", requiredMode = REQUIRED)
+    @NotNull(message = "Tenant permission template is required")
+    @Size(min = 1, message = "Select at least one tenant permission template")
     private Set<SysTemplate> templates;
 
-    @Schema(description = "过期时间,如果不填写，默认是 10 年！")
+    @Schema(description = "Expiry time; defaults to 10 years if empty")
     private LocalDateTime expired;
 
-    @Schema(description = "管理员名称！如果不填写，默认是商户名称！")
+    @Schema(description = "Admin name. Defaults to the tenant name if empty.")
     private String adminNickname;
 
-    @Schema(description = "管理员登录用户名,如果不填写，随机生成！")
+    @Schema(description = "Admin login username. Randomly generated if empty.")
     private String adminUsername;
 
-    @Schema(description = "管理员手机号,如果不填写，默认使用商户联系人手机号！")
+    @Schema(description = "Admin mobile number. Defaults to the tenant contact number if empty.")
     private String adminMobile;
 
-    @Schema(description = "管理员邮箱,如果不填写，默认使用商户邮箱！")
+    @Schema(description = "Admin email. Defaults to the tenant email if empty.")
     private String adminEmail;
 
-    @Schema(description = "管理员密码,如果不填写，默认使用默认密码！")
+    @Schema(description = "Admin password. A random one-time password is generated if empty.")
     private String adminPwd;
 
 }

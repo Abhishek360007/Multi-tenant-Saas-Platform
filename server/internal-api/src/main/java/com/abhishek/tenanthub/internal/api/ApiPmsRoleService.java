@@ -18,7 +18,7 @@ public interface ApiPmsRoleService {
 
 
     /**
-     * 根据 用户ID 获取 关联的角色
+     * Get the roles linked to a user ID
      *
      * @author WangChenChen
      * @date 2023/2/14 10:47
@@ -27,7 +27,7 @@ public interface ApiPmsRoleService {
 
 
     /**
-     * 根据 角色ID 获取 关联的菜单ID
+     * Get the menus linked to a role ID
      *
      * @author WangChenChen
      * @date 2023/2/14 10:47

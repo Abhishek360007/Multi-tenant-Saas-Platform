@@ -25,7 +25,7 @@ public interface SysDictDataService extends BaseService<SysDictData> {
 
 
     /**
-     * 根据关键字查询
+     * Query by keyword
      *
      * @author Wang Chen Chen
      * @date 2021/8/24 18:24
@@ -34,7 +34,7 @@ public interface SysDictDataService extends BaseService<SysDictData> {
 
 
     /**
-     * 根据关键字查询
+     * Query by keyword
      *
      * @author Wang Chen Chen
      * @date 2021/8/24 18:24

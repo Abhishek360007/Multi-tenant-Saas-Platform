@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 字典数据表
+ * Dictionary data table
  * </p>
  *
  * @author Wang Chen Chen
@@ -26,33 +26,33 @@ import lombok.experimental.Accessors;
 public class DictDataVO implements java.io.Serializable {
 
     /**
-     * 字典排序
+     * Dictionary sort order
      */
-    @Schema(description = "字典排序！")
+    @Schema(description = "Dictionary sort order")
     private Long dictSort;
 
     /**
-     * 字典标签
+     * Dictionary label
      */
-    @Schema(description = "字典标签！")
+    @Schema(description = "Dictionary label")
     private String dictLabel;
 
     /**
-     * 字典键值
+     * Dictionary value
      */
-    @Schema(description = "字典键值！")
+    @Schema(description = "Dictionary value")
     private Object dictValue;
 
     /**
-     * 字典类型关键字
+     * Dictionary type key
      */
     @JsonIgnore
     private String typeKey;
 
     /**
-     * 是否默认（1.是 0.否）
+     * Is default (1 = yes, 0 = no)
      */
-    @Schema(description = "是否默认！")
+    @Schema(description = "Default")
     private Boolean isDefault;
 
 }

@@ -13,19 +13,19 @@ import JSEncrypt from "jsencrypt"
 
 export const useUserStore = defineStore("user", () => {
 
-  // RSA加密
+  // RSA Encrypt
   const encryptor = ref<JSEncrypt>(new JSEncrypt())
 
-  // token信息
+  // token Info
   const accessToken = ref<string>(getToken() || "")
 
-  // 用户详情
+  // User details
   const userInfo = ref<ILoginUserInfo>()
 
-  // 用户的权限按钮
+  // User permission buttons
   const buttons = ref<IPermsButton[]>([])
 
-  // 用户的权限菜单
+  // User permission menus
   const menus = ref<IPermsMenus[]>([])
 
   const noticeStore = useNoticeStoreHook()
@@ -34,7 +34,7 @@ export const useUserStore = defineStore("user", () => {
 
   const settingsStore = useSettingsStore()
 
-  /** 登录 */
+  /** Sign in */
   const userLogin = async (loginData: ILoginData) => {
     return new Promise((resolve, reject) => {
       let encryptLoginData: ILoginData = {
@@ -57,7 +57,7 @@ export const useUserStore = defineStore("user", () => {
     })
   }
 
-  /** 获取用户详情 */
+  /** Get user details */
   const getUserInfo = () => {
     return new Promise((resolve, reject) => {
       getUserInfoApi()
@@ -76,7 +76,7 @@ export const useUserStore = defineStore("user", () => {
     })
   }
 
-  /** 获取用户权限菜单 */
+  /** Get user permission menus */
   const getUserPerms = () => {
     return new Promise((resolve, reject) => {
       getUserPermsApi()
@@ -86,7 +86,7 @@ export const useUserStore = defineStore("user", () => {
             menus.value = resp.data.menus
             if (resp.data.menus.length === 0) {
               ElMessage({
-                message: "您暂无权限，请联系管理员!",
+                message: "You do not have permission. Contact your administrator.!",
                 type: "warning"
               })
               fedLogout()
@@ -103,7 +103,7 @@ export const useUserStore = defineStore("user", () => {
     })
   }
 
-  /** 登出 */
+  /** Sign out */
   const userLogout = () => {
     return new Promise((resolve, reject) => {
       logoutApi()
@@ -117,14 +117,14 @@ export const useUserStore = defineStore("user", () => {
     })
   }
 
-  /** 前端登录，不用请求后台，直接删除所有 cookie */
+  /** Front-end sign-out without calling the backend: remove all cookie */
   const fedLogout = () => {
     removeToken()
     userInfo.value = undefined
     accessToken.value = ""
     resetRouter()
 
-    // 关闭 WebSocket
+    // Close WebSocket
     noticeStore.stopWebSocket()
     noticeStore.broadcast = []
     noticeStore.pushNotices = []
@@ -134,7 +134,7 @@ export const useUserStore = defineStore("user", () => {
     _resetTagsView()
   }
 
-  /** 重置 Visited Views 和 Cached Views */
+  /** Reset Visited Views and Cached Views */
   const _resetTagsView = () => {
     if (!settingsStore.cacheTagsView) {
       tagsViewStore.delAllVisitedViews()
@@ -142,7 +142,7 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  /** 获取公钥 */
+  /** Get public key */
   const getPublicKey = () => {
     return new Promise((resolve, reject) => {
       getPublicKeyApi()
@@ -174,7 +174,7 @@ export const useUserStore = defineStore("user", () => {
   }
 })
 
-/** 在 setup 外使用 */
+/** Use outside setup */
 export function useUserStoreHook() {
   return useUserStore(store)
 }

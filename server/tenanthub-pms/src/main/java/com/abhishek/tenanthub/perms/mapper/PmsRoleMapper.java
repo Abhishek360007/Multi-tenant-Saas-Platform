@@ -16,23 +16,23 @@ import java.util.Set;
 
 public interface PmsRoleMapper extends BaseMapper<PmsRole> {
 
-    // 角色添加 菜单权限
+    // Add menu permissions to the role
     int insertByMenus(@Param("roleId") Long roleId,
                       @Param("menus") Set<Long> menus);
 
 
-    // 删除 角色 的所有权限
+    // Delete all permissions of the role
     @Delete("delete from pms_role_menu where role_id = #{roleId}")
     int deleteHaveMenus(Long roleId);
 
 
-    // 是否还有 用户 引用此角色
+    // Whether any user still uses this role
     @Select("select count(*) from pms_user_role where role_id = #{roleId}")
     int userReference(Long roleId);
 
 
     /**
-     * 查询用户的角色
+     * Query the user roles
      *
      * @author WangChenChen
      * @date 2022/3/22 18:14
@@ -40,7 +40,7 @@ public interface PmsRoleMapper extends BaseMapper<PmsRole> {
     Set<PmsRoleProxy> selectListByUserIds(@Param("userIds") Set<Long> userIds);
 
     /**
-     * 查询用户的角色
+     * Query the user roles
      *
      * @author WangChenChen
      * @date 2022/3/22 18:14
@@ -49,32 +49,32 @@ public interface PmsRoleMapper extends BaseMapper<PmsRole> {
 
 
     /**
-     * 查询 角色 的 菜单
+     * Query the menus of a role
      */
     @Select("select menu_id from pms_role_menu where role_id = #{roleId}")
     Set<Long> selectMenuIdByRoleId(Long roleId);
 
 
     /**
-     * 查询 角色 的 菜单
+     * Query the menus of a role
      */
     Set<Long> selectMenuIdByRoleIds(Set<Long> roleIds);
 
 
     /**
-     * 根据 角色 查询关联的部门id
+     * Query the departments linked to a role id
      */
     List<LinkedTarget> selectDeptIdByRoleIds(Set<Long> roleIds);
 
     /**
-     * 删除 角色 关联 的 部门
+     * Delete the departments linked to a role
      */
     @Delete("DELETE FROM pms_role_dept WHERE role_id = #{roleId}")
     int deleteHaveDepts(Long roleId);
 
 
     /**
-     * 角色 关联 部门
+     * Link the role to departments
      */
     int insertByDepts(@Param("roleId") Long roleId,
                       @Param("deptIds") Set<Long> deptIds);
@@ -82,14 +82,14 @@ public interface PmsRoleMapper extends BaseMapper<PmsRole> {
 
 
     /**
-     * 根据条件列表查询数据
+     * List query by conditions
      */
     @DataScope()
     List<PmsRole> selectRoleList(@Param("p") PmsRole role);
 
 
     /**
-     * 根据条件分页查询数据
+     * Paged query by conditions
      */
     @DataScope()
     IPage<PmsRole> selectRolePage(IPage<?> page, @Param("p") PmsRole role);

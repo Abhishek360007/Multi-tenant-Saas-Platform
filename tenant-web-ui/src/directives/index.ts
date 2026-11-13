@@ -1,7 +1,7 @@
 import {type App, type Directive} from "vue"
 import {useUserStoreHook} from "@/store/modules/user"
 
-/** 挂载自定义指令 */
+/** Register custom directives */
 export function loadDirectives(app: App) {
   // example: v-has='pre_dept:view'
   app.directive("has", permission)
@@ -11,7 +11,7 @@ export function loadDirectives(app: App) {
   app.directive("preventReClick", preventReClick)
 }
 
-/** 权限指令，和权限判断函数 checkPermission 功能类似 */
+/** Permission directive, similar to checkPermission */
 const permission: Directive = {
   mounted(el, binding) {
     const { value } = binding
@@ -29,7 +29,7 @@ const permission: Directive = {
   }
 }
 
-/** 权限指令，判断当前登录的用户是否管理员 */
+/** Permission directive: checks whether the signed-in user is an admin */
 const adminFlag: Directive = {
   mounted(el) {
     const hasPermission = useUserStoreHook().userInfo?.adminFlag === 1
@@ -39,7 +39,7 @@ const adminFlag: Directive = {
   }
 }
 
-/** 防止重复请求 指令 */
+/** Directive that prevents duplicate requests */
 const preventReClick: Directive = {
   mounted(el, binding) {
     const { value } = binding

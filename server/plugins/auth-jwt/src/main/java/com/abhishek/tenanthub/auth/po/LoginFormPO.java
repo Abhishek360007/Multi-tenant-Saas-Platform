@@ -9,7 +9,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 /**
  * <p>
- * 用户登录，参数传递
+ * User login parameters
  * </p>
  *
  * @author Wang Chen Chen <932560435@qq.com>
@@ -18,7 +18,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
  */
 
 
-@Schema(description = "用户密码登录参数")
+@Schema(description = "Username/password login parameters")
 @Getter
 @Setter
 @ToString
@@ -26,24 +26,24 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 @NoArgsConstructor
 public class LoginFormPO {
 
-    @Schema(description = "用户名", requiredMode = REQUIRED)
-    @NotNull(message = "用户名不能为空")
-    @Length(min = 5, message = "用户名长度不能少于5位")
+    @Schema(description = "Username", requiredMode = REQUIRED)
+    @NotNull(message = "Username is required")
+    @Length(min = 5, message = "Username must be at least 5 characters")
     private String username;
 
-    @Schema(description = "密码", requiredMode = REQUIRED)
-    @NotNull(message = "密码不能为空")
-    @Length(min = 5, message = "密码长度不能少于5位")
+    @Schema(description = "Password", requiredMode = REQUIRED)
+    @NotNull(message = "Password is required")
+    @Length(min = 5, message = "Password must be at least 5 characters")
     private String password;
 
-    @Schema(description = "验证码", requiredMode = REQUIRED)
-    @NotNull(message = "验证码不能为空")
-    @Length(min = 4, max = 4, message = "验证码长度是4位")
+    @Schema(description = "Captcha", requiredMode = REQUIRED)
+    @NotNull(message = "Captcha is required")
+    @Length(min = 4, max = 4, message = "Captcha must be 4 characters")
     private String codeText;
 
-    @Schema(description = "验证码 KEY", requiredMode = REQUIRED)
-    @NotNull(message = "验证码 KEY 不能为空")
-    @Length(min = 5, message = "验证码 KEY长度不能少于16位")
+    @Schema(description = "Captcha KEY", requiredMode = REQUIRED)
+    @NotNull(message = "Captcha key is required")
+    @Length(min = 5, message = "Captcha key must be at least 16 characters")
     private String codeKey;
 
 }

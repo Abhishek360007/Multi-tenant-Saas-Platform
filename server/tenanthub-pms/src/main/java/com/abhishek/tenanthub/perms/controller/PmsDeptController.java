@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * <p>
- * 部门 控制器
+ * Department controller
  * </p>
  *
  * @author Wang Chen Chen
@@ -30,7 +30,7 @@ import java.util.List;
  */
 
 @Slf4j
-@Tag(name = "[ 权限 ] 部门")
+@Tag(name = "[ Permissions ] Departments")
 @RestController
 @RequestMapping("/pms/dept")
 @AllArgsConstructor
@@ -39,14 +39,14 @@ public class PmsDeptController {
     private PmsDeptService baseService;
 
 
-    @Operation(summary = "单个查询", description = "根据Id查询")
+    @Operation(summary = "Get one", description = "Query by ID")
     @GetMapping("/{id}")
     public JsonResult<PmsDept> getById(@PathVariable("id") Long id) {
         return JsonResult.success(baseService.getById(id));
     }
 
 
-    @Operation(summary = "分页", description = "分页 查询所有")
+    @Operation(summary = "Paged query", description = "Paged query of all")
     @GetMapping("/query")
     public JsonResult<Pagination<PmsDept>> pageQuery(SearchParentPO params) {
         IPage<PmsDept> page = baseService.pageKeywords(params);
@@ -54,14 +54,14 @@ public class PmsDeptController {
     }
 
 
-    @Operation(summary = "查询所有", description = " 查询所有")
+    @Operation(summary = "Query all", description = " Query all")
     @GetMapping("/list")
     public JsonResult<List<PmsDept>> list() {
         return JsonResult.success(baseService.list());
     }
 
 
-    @Operation(summary = "查询树节点", description = "查询所有[以树节点形式展示]")
+    @Operation(summary = "Query tree nodes", description = "Query all [as a tree]")
     @GetMapping("/tree")
     public JsonResult<List<Tree<Long>>> tree() {
         return JsonResult.success(baseService.treeNode());
@@ -69,7 +69,7 @@ public class PmsDeptController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "新增", description = "不需要添加id")
+    @Operation(summary = "Add", description = "Do not include id")
     @PostMapping()
     public JsonResult<Boolean> save(@RequestBody @Validated({ValidCreate.class}) PmsDept entity) {
         var flag = baseService.save(entity);
@@ -78,7 +78,7 @@ public class PmsDeptController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "修改", description = "修改必须要id")
+    @Operation(summary = "Update", description = "Update requires id")
     @PutMapping()
     public JsonResult<Boolean> updateById(@RequestBody @Validated({ValidUpdate.class}) PmsDept entity) {
         return JsonResult.success(baseService.updateById(entity));
@@ -86,7 +86,7 @@ public class PmsDeptController {
 
 
     @NoRepeatSubmit
-    @Operation(summary = "删除", description = "只需要id即可")
+    @Operation(summary = "Delete", description = "Only the ID is required")
     @DeleteMapping("/{id}")
     public JsonResult<Boolean> removeById(@PathVariable("id") Long id) {
         return JsonResult.success(baseService.removeById(id));

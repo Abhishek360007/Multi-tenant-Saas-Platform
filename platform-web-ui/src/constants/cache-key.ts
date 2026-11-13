@@ -1,6 +1,6 @@
 const SYSTEM_NAME = "tenanthub-platform"
 
-/** 缓存数据时用到的 Key */
+/** Used when caching data Key */
 class CacheKey {
   static readonly CONFIG_LAYOUT = `${SYSTEM_NAME}-config-layout-key`
   static readonly SIDEBAR_STATUS = `${SYSTEM_NAME}-sidebar-status-key`

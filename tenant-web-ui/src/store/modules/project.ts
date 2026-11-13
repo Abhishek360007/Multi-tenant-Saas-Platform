@@ -6,36 +6,36 @@ import {defaultProject} from "@/utils"
 import {getCurrentProject as getProject, setCurrentProject as setProject} from "@/utils/cache/local-storage"
 
 export const useProjectStore = defineStore("project", () => {
-  // 当前项目
+  // Current project
   const currentProject = ref<ISimpleProject>(getProject())
 
-  // 获取当前项目
+  // Get current project
   const getCurrentProjectId = (): number => {
     return getCurrentProject().projectId
   }
 
-  // 获取默认项目
+  // Get the default project
   const getDefaultProjectId = (): number => {
     return defaultProject.projectId
   }
 
-  // 获取当前项目
+  // Get current project
   const getCurrentProject = (): ISimpleProject => {
     return currentProject.value
   }
 
-  // 设置当前项目信息
+  // Set the current project
   const setCurrentProject = (project: ISimpleProject): void => {
     currentProject.value = project
     setProject(project)
   }
 
-  // 重置当前操作的项目
+  // Reset the current project
   const resetCurrentProject = (): void => {
     setCurrentProject(defaultProject)
   }
 
-  // 获取当前项目
+  // Get current project
   const isDefaultProjectId = (): boolean => {
     return getCurrentProjectId() === getDefaultProjectId()
   }
@@ -50,7 +50,7 @@ export const useProjectStore = defineStore("project", () => {
   }
 })
 
-/** 在 setup 外使用 */
+/** Use outside setup */
 export function useProjectStoreHook() {
   return useProjectStore(store)
 }

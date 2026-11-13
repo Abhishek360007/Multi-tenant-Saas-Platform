@@ -3,7 +3,7 @@ package com.abhishek.tenanthub.tenant.ds;
 import java.lang.annotation.*;
 
 /**
- * 数据权限过滤注解
+ * Data permission filter annotation
  */
 
 @Target(ElementType.METHOD)
@@ -12,12 +12,12 @@ import java.lang.annotation.*;
 public @interface DataScope {
 
     /**
-     * 部门的别名
+     * Department table alias
      */
     String deptAlias() default "d";
 
     /**
-     * 用户表的别名
+     * User table alias
      */
     String userAlias() default "u";
 

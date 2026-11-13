@@ -15,7 +15,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 项目
+ * Project
  * </p>
  *
  * @author WangChenChen
@@ -27,41 +27,41 @@ import java.util.Set;
 public interface CmsProjectMapper extends BaseMapper<CmsProject> {
 
 
-    // 查询 所有的 不包含 project_id 的表
+    // Query all tables without project_id
     @InterceptorIgnore(tenantLine = "true")
     Set<String> selectListTableNamesByNotIncludeColumn(String column);
 
 
-    // 查询 所有的包含 project_id 的表
+    // Query all tables with project_id
     @InterceptorIgnore(tenantLine = "true")
     Set<String> selectListTableNamesByIncludeColumn(String column);
 
 
-    // 删除项目
+    // Delete project
     @InterceptorIgnore(tenantLine = "true")
     int deleteByProjectId(@Param("tableName") Set<String> tableName, @Param("projectId") Long projectId);
 
 
-    // 根据 租户的数据名称  查询 项目列表。如: tenanthub_master 、tenanthub_google
+    // Query projects by tenant database name, e.g. tenanthub_master,tenanthub_google
     Set<TenantAndProject> selectListByTenantDbName(Collection<String> tenantDbNameList);
 
 
     /**
-     * 根据条件分页查询数据
+     * Paged query by conditions
      */
     @DataScope()
     List<CmsProject> selectProjectList(@Param("p") CmsProject user);
 
 
     /**
-     * 根据条件分页查询数据
+     * Paged query by conditions
      */
     @DataScope()
     IPage<CmsProject> selectProjectPage(IPage<?> page, @Param("p") CmsProject user);
 
 
     /**
-     * 根据条件分页查询数据
+     * Paged query by conditions
      */
     @DataScope()
     IPage<CmsProject> selectSimpleProjectPage(IPage<?> page, @Param("p") CmsProject user);

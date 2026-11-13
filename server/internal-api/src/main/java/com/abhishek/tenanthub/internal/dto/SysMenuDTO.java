@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 菜单表
+ * Menu table
  * </p>
  *
  * @author Wang Chen Chen
@@ -23,62 +23,62 @@ import lombok.experimental.Accessors;
 public class SysMenuDTO implements java.io.Serializable {
 
     /**
-     * 菜单 ID
+     * Menu ID
      */
     private Long menuId;
 
     /**
-     * 上级菜单
+     * Parent menu
      */
     private Long parentId;
 
     /**
-     * 菜单 名称
+     * Menu name
      */
     private String menuName;
 
     /**
-     * 权限标识
+     * Permission key
      */
     private String perms;
 
     /**
-     * 组件
+     * Component
      */
     private String component;
 
     /**
-     * 菜单图标
+     * Menu icon
      */
     private String icon;
 
     /**
-     * 排序
+     * Sort order
      */
     private Long sort;
 
     /**
-     * 路由地址
+     * Route path
      */
     private String path;
 
     /**
-     * 0.租户用户   1. 系统用户   2.全部
+     * 0.Tenant user, 1 = platform user, 2 = all
      */
     private Byte target;
 
     /**
-     * 菜单类型（0.菜单 1.按钮）
+     * Menu type (0 = menu, 1 = button)
      */
     private Byte menuType;
 
     /**
-     * 菜单状态（1.显示 0.隐藏）
+     * Menu visibility (1 = shown, 0 = hidden)
      */
     private Byte visible;
 
     /**
-     * 保持状态（0.不保持 1.保持）
+     * Keep alive (0 = no, 1 = yes)
      */
     private Byte keepAlive;
 }

@@ -22,21 +22,21 @@ import lombok.experimental.Accessors;
 public class FileInfoVO implements java.io.Serializable {
 
     /**
-     * 文件访问地址
+     * File URL
      */
-    @Schema(description = "文件访问地址！")
+    @Schema(description = "File URL")
     private String url;
 
     /**
-     * 文件名称
+     * File name
      */
-    @Schema(description = "文件名称！")
+    @Schema(description = "File name")
     private String filename;
 
     /**
-     * 文件扩展名
+     * File extension
      */
-    @Schema(description = "文件扩展名！")
+    @Schema(description = "File extension")
     private String ext;
 
 }

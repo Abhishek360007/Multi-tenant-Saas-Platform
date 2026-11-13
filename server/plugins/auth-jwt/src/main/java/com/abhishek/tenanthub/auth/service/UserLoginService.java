@@ -10,7 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 
 /**
  * <p>
- * 用户 登录 Service 接口
+ * User login service interface
  * </p>
  *
  * @author Wang Chen Chen <932560435@qq.com>
@@ -22,24 +22,24 @@ import org.springframework.security.core.AuthenticationException;
 public interface UserLoginService {
 
     /**
-     * 用户登录
+     * User login
      *
      * @param po
      * @param request
-     * @return TokenValue 值
+     * @return TokenValue Value
      * @throws AuthenticationException
      */
     JwtTokenValue login(LoginFormPO po, HttpServletRequest request) throws JwtAuthException;
 
 
     /**
-     * 刷新内存中用户的权限
+     * Refresh the in-memory permissions of the user
      */
     void refreshAuthoritys();
 
 
     /**
-     * 刷新内存中用户的权限
+     * Refresh the in-memory permissions of the user
      */
     void refreshAuthoritys(JwtLoginUser loginUser);
 

@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * TODO 防止重复提交 注解
+ * TODO Duplicate submission annotation
  *
  * @author WangChenChen
  * @date 2023/10/31 19:30
@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 public @interface NoRepeatSubmit {
 
     /**
-     * 默认失效时间 1500 毫秒
+     * Default expiry 1500 ms
      */
     long value() default 1500;
 

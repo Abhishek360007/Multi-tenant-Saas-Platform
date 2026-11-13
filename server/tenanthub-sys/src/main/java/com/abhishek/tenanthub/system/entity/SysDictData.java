@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 字典数据表
+ * Dictionary data table
  * </p>
  *
  * @author Wang Chen Chen
@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
  * @date 2021/7/15 10:42
  */
 
-@Schema(description = "字典数据")
+@Schema(description = "Dictionary data")
 @TableName("sys_dict_data")
 @Getter
 @Setter
@@ -33,46 +33,46 @@ import lombok.experimental.Accessors;
 public class SysDictData extends BaseEntity {
 
     /**
-     * 字典数据 ID
+     * Dictionary data ID
      */
-    @Schema(description = "数据ID")
+    @Schema(description = "Data ID")
     @TableId(type = IdType.AUTO)
-    @NotNull(message = "字典数据ID,必须填写", groups = {ValidUpdate.class})
+    @NotNull(message = "Dictionary data ID is required", groups = {ValidUpdate.class})
     private Long dictCode;
 
     /**
-     * 字典排序
+     * Dictionary sort order
      */
-    @Schema(description = "排序")
-    @NotNull(message = "排序,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Sort order")
+    @NotNull(message = "Sort order is required", groups = {ValidCreate.class})
     private Long dictSort;
 
     /**
-     * 字典标签
+     * Dictionary label
      */
-    @Schema(description = "标签")
-    @NotEmpty(message = "标签,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Label")
+    @NotEmpty(message = "Label is required", groups = {ValidCreate.class})
     private String dictLabel;
 
     /**
-     * 字典键值
+     * Dictionary value
      */
-    @Schema(description = "键值")
-    @NotEmpty(message = "键值,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Key")
+    @NotEmpty(message = "Value is required", groups = {ValidCreate.class})
     private String dictValue;
 
     /**
-     * 字典类型关键字
+     * Dictionary type key
      */
-    @Schema(description = "类型关键字")
-    @NotEmpty(message = "类型关键字,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Type key")
+    @NotEmpty(message = "Type key is required", groups = {ValidCreate.class})
     private String typeKey;
 
     /**
-     * 是否默认（1.是 0.否）
+     * Is default (1 = yes, 0 = no)
      */
-    @Schema(description = "是否默认（1.是 0.否）")
-    @NotNull(message = "类型关键字,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Is default (1 = yes, 0 = no)")
+    @NotNull(message = "Type key is required", groups = {ValidCreate.class})
     private Byte isDefault;
 
 }

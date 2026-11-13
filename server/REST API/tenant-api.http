@@ -1,18 +1,18 @@
-### 创建租户
+### Create tenant
 POST {{baseUrl}}/sys/tenant
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
 Authorization: Bearer {{tokenValue}}
 
 {
-  "tenantId": "baidu120",
-  "logo": "https://baidu.com/baidu.png",
-  "name": "百度科技有限公司",
-  "email": "baidu@qq.com",
-  "linkman": "李彦宏",
-  "contactNumber": "15111111333",
+  "tenantId": "acme120",
+  "logo": "https://example.com/acme.png",
+  "name": "Acme Technologies Pvt Ltd",
+  "email": "acme@example.com",
+  "linkman": "Ravi Kumar",
+  "contactNumber": "9876500101",
   "areaCode": "29052505542",
-  "address": "中国北京海淀区上地十街10号百度大厦",
+  "address": "12 MG Road, Bengaluru, Karnataka",
   "templates": [
     {
       "id": 10001
@@ -21,21 +21,21 @@ Authorization: Bearer {{tokenValue}}
 }
 
 
-### 创建租户
+### Create tenant
 POST {{baseUrl}}/sys/tenant
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
 Authorization: Bearer {{tokenValue}}
 
 {
-  "tenantId": "google",
-  "logo": "https://google.com/google.png",
-  "name": "google",
-  "email": "google@gmail.com",
-  "linkman": "拉里·佩奇",
-  "contactNumber": "15213324660",
+  "tenantId": "globex",
+  "logo": "https://example.com/globex.png",
+  "name": "Globex Industries",
+  "email": "globex@example.com",
+  "linkman": "Priya Sharma",
+  "contactNumber": "9876500102",
   "areaCode": "27048307179",
-  "address": "美国加利福尼亚州圣克拉拉县山景市",
+  "address": "Andheri East, Mumbai, Maharashtra",
   "templates": [
     {
       "id": 10001
@@ -44,7 +44,7 @@ Authorization: Bearer {{tokenValue}}
 }
 
 
-### 修改租户
+### Update tenant
 PUT {{baseUrl}}/sys/tenant
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
@@ -55,15 +55,15 @@ Authorization: Bearer {{tokenValue}}
   "logo": "https://apple.com/apple.png",
   "name": "apple",
   "email": "apple@gmail.com",
-  "linkman": "史蒂夫·乔布斯",
+  "linkman": "Arjun Mehta",
   "contactNumber": "1521332423",
   "areaCode": "27048307179",
-  "address": "美国-加利福尼亚州-库比蒂诺"
+  "address": "Andheri East, Mumbai, Maharashtra"
 }
 
 
 
-### 获取租户列表
+### Get the tenant list
 GET {{baseUrl}}/sys/tenant/query?includeCauu=true
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
@@ -71,7 +71,7 @@ x-tenant-id: {{tenantId}}
 Authorization: Bearer {{tokenValue}}
 
 
-### 获取租户列表[简单字段]
+### Get the tenant list [basic fields]
 GET {{baseUrl}}/sys/tenant/simple/query?includeCauu=true
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
@@ -80,7 +80,7 @@ Authorization: Bearer {{tokenValue}}
 
 
 
-### 获取租户详情
+### Get tenant details
 GET {{baseUrl}}/sys/tenant/apple
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
@@ -88,7 +88,7 @@ Authorization: Bearer {{tokenValue}}
 
 
 
-### 租户是否存在
+### Does the tenant exist
 GET {{baseUrl}}/sys/tenant/exist/apple1
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
@@ -96,7 +96,7 @@ Authorization: Bearer {{tokenValue}}
 
 
 
-### 删除租户
+### Delete tenant
 DELETE {{baseUrl}}/sys/tenant/apple
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
@@ -104,19 +104,19 @@ Authorization: Bearer {{tokenValue}}
 
 
 
-### 重置租户数据
+### Reset tenant data
 GET {{baseUrl}}/sys/tenant/reset/data?tenantId=d9a4e12ae4ef
 Content-Type: application/json
 x-tenant-id: {{tenantId}}
 Authorization: Bearer {{tokenValue}}
 
 
-### 搜索租户列表
-GET {{baseUrl}}/sys/tenant/simple/search?keywords=google
+### Search tenants
+GET {{baseUrl}}/sys/tenant/simple/search?keywords=globex
 Content-Type: application/json
 
 
-### 搜索租户列表
+### Search tenants
 GET {{baseUrl}}/sys/tenant/list/export
 Content-Type: application/json
 

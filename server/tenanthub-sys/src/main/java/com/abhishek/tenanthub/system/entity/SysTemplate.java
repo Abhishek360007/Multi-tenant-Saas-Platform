@@ -18,7 +18,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 租户的 权限模板表
+ * Tenant permission template table
  * </p>
  *
  * @author Wang Chen Chen
@@ -26,7 +26,7 @@ import java.util.Set;
  * @date 2021/7/5 9:31
  */
 
-@Schema(description = "租户权限模板")
+@Schema(description = "Tenant permission template")
 @TableName("sys_template")
 @Getter
 @Setter
@@ -37,32 +37,32 @@ import java.util.Set;
 public class SysTemplate extends BaseEntity {
 
     /**
-     * 模板 ID
+     * Template ID
      */
-    @Schema(description = "模板 ID")
+    @Schema(description = "Template ID")
     @TableId(type = IdType.AUTO)
-    @NotNull(message = "模板ID,必须填写", groups = {ValidUpdate.class})
+    @NotNull(message = "Template ID is required", groups = {ValidUpdate.class})
     private Long id;
 
     /**
-     * 模板名称
+     * Template name
      */
-    @Schema(description = "模板名称")
-    @NotEmpty(message = "模板名称,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Template name")
+    @NotEmpty(message = "Template name is required", groups = {ValidCreate.class})
     private String name;
 
     /**
-     * 模板描述
+     * Template description
      */
-    @Schema(description = "模板描述")
-    @NotEmpty(message = "模板描述,必须填写", groups = {ValidCreate.class})
+    @Schema(description = "Template description")
+    @NotEmpty(message = "Template description is required", groups = {ValidCreate.class})
     private String description;
 
     /**
-     * 菜单 Id
+     * Menu Id
      */
     @TableField(exist = false)
-    @Schema(description = "菜单Id")
+    @Schema(description = "Menu Id")
     private Set<Long> menuIds;
 
 }

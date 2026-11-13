@@ -23,22 +23,22 @@ import lombok.experimental.Accessors;
 public class PmsRoleDTO implements java.io.Serializable {
 
     /**
-     * 角色id
+     * Role id
      */
     private Long roleId;
 
     /**
-     * 角色名
+     * Role name
      */
     private String roleName;
 
     /**
-     * 角色描述
+     * Role description
      */
     private String description;
 
     /**
-     * 数据范围
+     * Data scope
      */
     private int dataScope;
 

@@ -18,7 +18,7 @@ import java.util.Set;
 
 /**
  * <p>
- * spring security 认证 UserDetails 实现类
+ * spring security UserDetails implementation
  * </p>
  *
  * @author Wang Chen Chen <932560435@qq.com>
@@ -26,7 +26,7 @@ import java.util.Set;
  * @date 2019/4/18 11:45
  */
 
-@Schema(description = "登录的用户信息")
+@Schema(description = "Signed-in user")
 @ToString
 @Getter
 @Setter
@@ -37,94 +37,94 @@ import java.util.Set;
 public class JwtLoginUser implements UserDetails, Principal {
 
     /**
-     * 租户ID
+     * Tenant ID
      */
-    @Schema(description = "租户ID")
+    @Schema(description = "Tenant ID")
     private String tenantId;
 
     /**
-     * 登录ID
+     * Sign in ID
      */
-    @Schema(description = "唯一登录ID")
+    @Schema(description = "Unique login ID")
     private String loginId;
 
     /**
-     * 认证授权方式
+     * Authentication method
      */
-    @Schema(description = "授权方式")
+    @Schema(description = "Grant type")
     private GrantType grantType;
 
     /**
-     * 用户ID
+     * User ID
      */
-    @Schema(description = "用户ID")
+    @Schema(description = "User ID")
     private Long userId;
 
     /**
-     * 头像
+     * Avatar
      */
-    @Schema(description = "用户头像")
+    @Schema(description = "User avatar")
     private String avatar;
 
     /**
-     * 用户名
+     * Username
      */
-    @Schema(description = "用户名")
+    @Schema(description = "Username")
     private String username;
 
     /**
-     * 手机号码
+     * Mobile number
      */
-    @Schema(description = "手机号码")
+    @Schema(description = "Mobile number")
     private String mobile;
 
     /**
-     * 邮箱
+     * Email
      */
-    @Schema(description = "用户邮箱")
+    @Schema(description = "User email")
     private String email;
 
     /**
-     * 昵称
+     * Nickname
      */
-    @Schema(description = "用户昵称")
+    @Schema(description = "User nickname")
     private String nickname;
 
     /**
-     * 密码
+     * Password
      */
-    @Schema(description = "密码")
+    @Schema(description = "Password")
     @JsonIgnore
     private String password;
 
     /**
-     * 用户状态， [ 0.禁用 1.正常 2.被删除 ]
+     * User status [0 = disabled, 1 = normal, 2 = deleted ]
      */
-    @Schema(description = "用户状态， [ 0.禁用 1.正常 2.被删除 ]")
+    @Schema(description = "User status [0 = disabled, 1 = normal, 2 = deleted ]")
     private StatusEnum status;
 
     /**
-     * 是否管理员 0. 普通用户  1. 管理员
+     * Is admin: 0 = regular user, 1 = admin
      */
-    @Schema(description = "是否管理员 0. 普通用户  1. 管理员")
+    @Schema(description = "Is admin: 0 = regular user, 1 = admin")
     private AdminFlag adminFlag;
 
     /**
-     * 用户类型 0. 租户用户  1. 系统用户
+     * User type: 0 = tenant user, 1 = platform user
      */
-    @Schema(description = "用户类型 0. 租户用户  1. 系统用户")
+    @Schema(description = "User type: 0 = tenant user, 1 = platform user")
     private UserType userType;
 
     /**
-     * 性别[ 0.女  1.男  2.未知]
+     * Gender [0 = female, 1 = male, 2 = unknown]
      */
-    @Schema(description = "性别[ 0.女  1.男  2.未知]")
+    @Schema(description = "Gender [0 = female, 1 = male, 2 = unknown]")
     private Byte gender;
 
     /**
-     * 所属部门
+     * Department
      */
-    @Schema(description = "所属部门")
+    @Schema(description = "Department")
     private Long deptId;
 
     /**
@@ -134,45 +134,45 @@ public class JwtLoginUser implements UserDetails, Principal {
     private Byte passwordChangeRequired;
 
     /**
-     * 过期时间  为空就是永久
+     * Expiry time (empty = never expires)
      */
-    @Schema(description = "过期时间,为空就是永久")
+    @Schema(description = "Expiry time; empty means never expires")
     private LocalDateTime expired;
 
     /**
-     * 登录时间
+     * Signed in at
      */
-    @Schema(description = "登录时间")
+    @Schema(description = "Signed in at")
     private LocalDateTime loginTime;
 
     /**
-     * 角色列表
+     * Roles
      */
-    @Schema(description = "角色列表")
+    @Schema(description = "Roles")
     private Collection<PmsRoleDTO> roles;
 
     /**
-     * 拥有的 部门ID
+     * Assigned departments ID
      */
-    @Schema(description = "部门ID")
+    @Schema(description = "Department ID")
     private Set<Long> haveDeptIds;
 
     /**
-     * 拥有的租户ID
+     * Assigned tenants ID
      */
-    @Schema(description = "拥有的租户ID")
+    @Schema(description = "Assigned tenants ID")
     private Set<String> haveTenantIds;
 
     /**
-     * 拥有的项目ID
+     * Assigned projects ID
      */
-    @Schema(description = "拥有的项目ID")
+    @Schema(description = "Assigned projects ID")
     private Set<Long> haveProjectIds;
 
     /**
-     * 权限列表
+     * Permissions
      */
-    @Schema(description = "权限列表")
+    @Schema(description = "Permissions")
     private Collection<StringGrantedAuthority> authorities;
 
     @JsonIgnore
