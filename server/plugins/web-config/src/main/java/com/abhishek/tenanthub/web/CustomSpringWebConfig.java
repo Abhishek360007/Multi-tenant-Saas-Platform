@@ -137,7 +137,10 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOriginPattern("*");
+        // Comma-separated origins (patterns allowed, e.g. https://*.example.com); "*" allows any website
+        var origins = environment.getProperty("tenanthub.cors.allowed-origins", "*");
+        Stream.of(origins.split(",")).map(String::trim).filter(o -> !o.isEmpty())
+                .forEach(config::addAllowedOriginPattern);
         config.setAllowCredentials(true);
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");

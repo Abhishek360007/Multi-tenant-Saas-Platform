@@ -57,6 +57,9 @@ services:
         sync: false
       - key: RAZORPAY_WEBHOOK_SECRET
         sync: false
+      # Only these websites may call the API from a browser (update if Render gives them other addresses)
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://tenanthub-admin.onrender.com,https://tenanthub-portal.onrender.com
       # Public URL of uploaded files (change if Render gives the service a different address)
       - key: STORAGE_LOCAL_DOMAIN
         value: https://tenanthub-api.onrender.com/files/
