@@ -183,3 +183,8 @@ tenanthub:
     key-secret: ${RAZORPAY_KEY_SECRET:}
     webhook-secret: ${RAZORPAY_WEBHOOK_SECRET:}
 
+
+# The file storage library logs its startup messages in Chinese; keep only its warnings and errors
+logging:
+  level:
+    "[org.dromara.x.file.storage]": WARN
