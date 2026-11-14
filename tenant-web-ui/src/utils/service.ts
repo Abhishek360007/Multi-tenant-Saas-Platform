@@ -77,6 +77,13 @@ function createService() {
     (error) => {
       // status is the HTTP status code
       const status = get(error, "response.status")
+      if (!error.response && !axios.isCancel(error)) {
+        // No answer at all: the server is down, unreachable, or (on free hosting) still waking up
+        error.message =
+          error.code === "ECONNABORTED"
+            ? "The server is taking too long to answer. If it was idle, it may be waking up: try again in a minute."
+            : "Can't reach the server. If it was idle, it may be waking up: try again in a minute."
+      }
       switch (status) {
         case 400:
           error.message = "Bad request"
@@ -162,7 +169,8 @@ function createRequest(service: AxiosInstance) {
         "x-project-id": projectId,
         "Content-Type": "application/json"
       },
-      timeout: 10000,
+      // Request timeout: 30 seconds (a sleeping free-tier server can be slow to answer)
+      timeout: 30000,
       baseURL: getEnvBaseURLPrefix()
     }
     // Merge the default config defaultConfig with the custom config into mergeConfig
