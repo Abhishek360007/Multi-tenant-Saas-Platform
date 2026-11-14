@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -62,8 +63,8 @@ public class JwtAuthTokenFilter extends BasicAuthenticationFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        // Check whether this path skips validation
-        if (urlIgnore(request.getRequestURI())) {
+        // Browser CORS preflights never carry a token; skip them, as do paths that need no login
+        if (HttpMethod.OPTIONS.matches(request.getMethod()) || urlIgnore(request.getRequestURI())) {
             chain.doFilter(request, response);
             return;
         }

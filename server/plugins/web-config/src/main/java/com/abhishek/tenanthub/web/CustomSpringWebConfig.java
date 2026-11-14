@@ -15,9 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.Ordered;
 import org.springframework.format.Formatter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
@@ -127,7 +129,7 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
      * @date 2022/12/30 13:42
      */
     @Bean
-    public CorsFilter corsFilter() {
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOriginPattern("*");
         config.setAllowCredentials(true);
@@ -136,7 +138,11 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
         config.addExposedHeader("*");
         UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
         configSource.registerCorsConfiguration("/**", config);
-        return new CorsFilter(configSource);
+        // Run before Spring Security, so browser preflight requests (which carry no token) and
+        // authentication errors still get the CORS headers when the websites are on another domain
+        var registration = new FilterRegistrationBean<>(new CorsFilter(configSource));
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return registration;
     }
 
 
