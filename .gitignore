@@ -34,6 +34,8 @@ build/
 
 ### Local secrets ###
 .env
+!/platform-web-ui/.env
+!/tenant-web-ui/.env
 node_modules/
 dist/
 
