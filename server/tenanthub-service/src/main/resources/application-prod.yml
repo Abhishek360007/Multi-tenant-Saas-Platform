@@ -1,5 +1,6 @@
 # Production. Credentials have no defaults: startup fails unless they are provided.
 # Required: DB_HOST, DB_USERNAME, DB_PASSWORD, REDIS_HOST, REDIS_PASSWORD (may be empty)
+# Hosted Redis over TLS (e.g. Upstash): REDIS_SSL=true
 # Managed MySQL over TLS (e.g. TiDB Cloud): DB_PORT=4000, DB_SSL_MODE=VERIFY_IDENTITY
 # Storage:  STORAGE_PLATFORM=s3-1 with S3_* variables, or STORAGE_LOCAL_DOMAIN for local disk
 spring:

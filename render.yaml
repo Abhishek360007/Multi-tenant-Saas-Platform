@@ -28,16 +28,20 @@ services:
         value: VERIFY_IDENTITY
       - key: DB_POOL_SIZE
         value: "5"
+      # Redis. Render allows one free Key Value per account, so TenantHub uses one you already have
+      # (same region: its internal hostname, no password, REDIS_SSL=false) or a free hosted Redis
+      # such as Upstash (its endpoint, port 6379, password, REDIS_SSL=true).
       - key: REDIS_HOST
-        fromService:
-          type: keyvalue
-          name: tenanthub-redis
-          property: host
+        sync: false
       - key: REDIS_PORT
-        fromService:
-          type: keyvalue
-          name: tenanthub-redis
-          property: port
+        value: "6379"
+      - key: REDIS_PASSWORD
+        sync: false
+      - key: REDIS_SSL
+        sync: false
+      # Upstash: 0 (the only one it has). Shared Render Key Value: 3, so TenantHub never mixes with another app's data
+      - key: REDIS_DATABASE
+        sync: false
       # Keeps sign-ins valid across restarts (the disk-based key would be lost)
       - key: JWT_TOKEN_SECRET
         generateValue: true
@@ -56,14 +60,6 @@ services:
       # Public URL of uploaded files (change if Render gives the service a different address)
       - key: STORAGE_LOCAL_DOMAIN
         value: https://tenanthub-api.onrender.com/files/
-
-  # ---------------- Redis ----------------
-  - type: keyvalue
-    name: tenanthub-redis
-    plan: free
-    region: singapore
-    maxmemoryPolicy: noeviction
-    ipAllowList: []            # reachable only from your Render services
 
   # ---------------- Platform admin website ----------------
   - type: web

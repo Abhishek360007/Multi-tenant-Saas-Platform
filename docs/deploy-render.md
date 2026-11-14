@@ -3,11 +3,13 @@
 | Part | Service | Free plan |
 | --- | --- | --- |
 | API server | Render web service (Docker) | 512 MB RAM, sleeps after 15 min idle |
-| Redis | Render Key Value | 25 MB |
+| Redis | Upstash Redis, or a Render Key Value you already have | 256 MB / 25 MB |
 | Admin + tenant websites | Render static sites | free |
 | Database | TiDB Cloud Serverless (MySQL-compatible) | 5 GB |
 
-Everything is described in [`render.yaml`](../render.yaml), so Render creates all four services at once.
+The three Render services are described in [`render.yaml`](../render.yaml), so Render creates them at once.
+Render allows only one free Key Value (Redis) per account, so the Blueprint doesn't create one; you give it the
+details of a Redis instead (step 2).
 
 ## 1. Create the database (TiDB Cloud)
 
@@ -21,7 +23,18 @@ Everything is described in [`render.yaml`](../render.yaml), so Render creates al
 
 You don't need to create any database: TenantHub creates `tenanthub_master` itself.
 
-## 2. Create the services (Render)
+## 2. Get a Redis
+
+Pick one:
+
+- **Upstash (simplest):** sign up at https://upstash.com > **Create Database** > Redis, region **ap-south-1 (Mumbai)**
+  or **ap-southeast-1 (Singapore)**, free plan. On the database page note the **Endpoint** (host), and the
+  **Password** (the token). Use `REDIS_SSL` = `true` and `REDIS_DATABASE` = `0`.
+- **A Render Key Value you already have:** it must be in the **Singapore** region. Open it > **Connect** >
+  **Internal** and take the host from the URL `redis://<host>:6379`. Leave `REDIS_PASSWORD` empty and use
+  `REDIS_SSL` = `false` and `REDIS_DATABASE` = `3`, so TenantHub doesn't mix with your other app's data.
+
+## 3. Create the services (Render)
 
 1. Sign up at https://render.com with your GitHub account.
 2. **New** > **Blueprint** > choose `Multi-tenant-Saas-Platform` > **Connect**.
@@ -32,9 +45,10 @@ You don't need to create any database: TenantHub creates `tenanthub_master` itse
    | `DB_HOST` | TiDB host |
    | `DB_USERNAME` | TiDB user |
    | `DB_PASSWORD` | TiDB password |
+   | `REDIS_HOST`, `REDIS_PASSWORD`, `REDIS_SSL`, `REDIS_DATABASE` | from step 2 |
    | `TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD` | the password you want for the platform `admin` user |
    | `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | your (regenerated) Razorpay test keys |
-   | `RAZORPAY_WEBHOOK_SECRET` | any long random text; you will paste the same text into Razorpay in step 4 |
+   | `RAZORPAY_WEBHOOK_SECRET` | any long random text; you will paste the same text into Razorpay in step 5 |
 
 4. Click **Apply**. The first deploy takes about 10-15 minutes (the server is built from source).
 
@@ -48,7 +62,7 @@ a suffix. Then, in the Render dashboard:
 - **tenanthub-portal** > Environment: set `VITE_BASE_API`, then **Manual Deploy**.
 - **tenanthub-api** > Environment: set `STORAGE_LOCAL_DOMAIN` to `<API address>/files/`.
 
-## 3. Keep the server awake (recommended)
+## 4. Keep the server awake (recommended)
 
 On the free plan the server sleeps after 15 minutes without traffic, and waking it can take several minutes.
 The free 750 hours a month are enough to keep one service running all month, so:
@@ -56,16 +70,16 @@ The free 750 hours a month are enough to keep one service running all month, so:
 1. Sign up at https://uptimerobot.com (free).
 2. **Add New Monitor** > HTTP(s) > URL `https://tenanthub-api.onrender.com/actuator/health` > interval **5 minutes**.
 
-## 4. Razorpay webhook
+## 5. Razorpay webhook
 
 1. Razorpay Dashboard > **Settings** > **Webhooks** > **Add New Webhook**.
 2. URL: `https://tenanthub-api.onrender.com/razorpay/webhook`
 3. Secret: the same text as `RAZORPAY_WEBHOOK_SECRET`.
 4. Events: `payment.captured` and `order.paid`.
 
-## 5. Sign in
+## 6. Sign in
 
-- Admin: `https://tenanthub-admin.onrender.com`, user `admin`, the password from step 2.
+- Admin: `https://tenanthub-admin.onrender.com`, user `admin`, the password from step 3.
 - Create a tenant (System > Tenants), then sign in to `https://tenanthub-portal.onrender.com` with the tenant ID and
   the admin credentials it shows.
 

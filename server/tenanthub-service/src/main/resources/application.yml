@@ -43,6 +43,9 @@ spring:
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:}
       database: ${REDIS_DATABASE:1}
+      # Hosted Redis over the internet (e.g. Upstash) needs TLS: REDIS_SSL=true
+      ssl:
+        enabled: ${REDIS_SSL:false}
       timeout: 5000
       lettuce:
         pool:
