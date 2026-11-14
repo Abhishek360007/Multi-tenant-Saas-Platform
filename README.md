@@ -15,6 +15,29 @@
 Hosted on free plans (Render, TiDB Cloud, Redis Cloud); payments run in Razorpay test mode.
 If the server has been idle, the first request can take a minute while it wakes up.
 
+## Screenshots
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/portal-billing.png" alt="Tenant portal: subscription plans in rupees with payment history"><br><sub><b>Tenant portal: Billing.</b> Plans in ₹ + 18% GST, usage against plan limits, paid invoices.</sub></td>
+    <td width="50%"><img src="docs/screenshots/portal-billing-quote.png" alt="Order summary with CGST and SGST"><br><sub><b>Order summary.</b> CGST + SGST within the seller's state, IGST otherwise; paid through Razorpay.</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/admin-tenants.png" alt="Platform admin: tenant list"><br><sub><b>Admin: Tenants.</b> Each tenant gets its own database, with Indian address areas, PIN and GSTIN.</sub></td>
+    <td><img src="docs/screenshots/admin-tenant-create.png" alt="Add tenant form"><br><sub><b>Add tenant.</b> GSTIN is checked by format and checksum, PAN by format.</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/admin-plans.png" alt="Platform admin: subscription plans"><br><sub><b>Admin: Plans.</b> Monthly and yearly prices, user and project limits.</sub></td>
+    <td><img src="docs/screenshots/admin-dashboard.png" alt="Dashboard"><br><sub><b>Dashboard.</b> Sample charts.</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/login.png" alt="Sign-in page"><br><sub><b>Sign in</b> with password + captcha, or a one-time code by email/SMS.</sub></td>
+    <td></td>
+  </tr>
+</table>
+
+The demo businesses, GSTINs and contacts in these screenshots are made up.
+
 ## Overview
 
 Every tenant gets its own MySQL database (`tenanthub_<tenantId>`). It is created and migrated

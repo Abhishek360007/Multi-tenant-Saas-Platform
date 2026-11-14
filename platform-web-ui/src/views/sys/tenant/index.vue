@@ -17,22 +17,22 @@
     <el-card shadow="never">
       <div class="toolbar-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="tenantId" label="Tenant ID" />
-          <el-table-column prop="logo" label="Logo">
+          <el-table-column prop="tenantId" label="Tenant ID" min-width="110" />
+          <el-table-column prop="logo" label="Logo" min-width="70">
             <template #default="scope">
               <el-avatar :size="40" :icon="UserFilled" :src="scope.row.logo" />
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="Name" />
-          <el-table-column prop="email" label="Email" />
-          <el-table-column prop="linkman" label="Contact person" />
-          <el-table-column prop="contactNumber" label="Contact details" />
-          <el-table-column prop="areaCode" label="Area">
+          <el-table-column prop="name" label="Name" min-width="190" />
+          <el-table-column prop="email" label="Email" min-width="230" />
+          <el-table-column prop="linkman" label="Contact person" min-width="150" />
+          <el-table-column prop="contactNumber" label="Contact details" min-width="140" />
+          <el-table-column prop="areaCode" label="Area" min-width="230">
             <template #default="scope">
               {{ showIndiaArea(scope.row.areaCode) }}
             </template>
           </el-table-column>
-          <el-table-column prop="address" label="Address" />
+          <el-table-column prop="address" label="Address" min-width="220" />
           <el-table-column prop="pinCode" label="PIN" width="90" />
           <el-table-column prop="gstin" label="GSTIN" width="170" />
           <el-table-column prop="planCode" label="Plan" width="90">
@@ -40,7 +40,7 @@
               <el-tag>{{ planName(scope.row.planCode) }}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="templates" label="Permission templates">
+          <el-table-column prop="templates" label="Permission templates" min-width="180">
             <template #default="scope">
               <el-tooltip
                 v-for="(item, index) in scope.row.templates"
@@ -53,7 +53,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column prop="status" label="Status">
+          <el-table-column prop="status" label="Status" min-width="110">
             <template #default="scope">
               <template v-if="scope.row.status === 9">
                 <el-text class="mx-1" type="warning">Initializing...</el-text>
@@ -66,7 +66,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="expired" label="Expiry time">
+          <el-table-column prop="expired" label="Expiry time" min-width="130">
             <template #default="scope">
               <el-tooltip v-if="scope.row.expired" :content="scope.row.expired" placement="top">
                 <el-link> {{ showExpiredDateAgo(scope.row.expired) }}</el-link>
@@ -74,12 +74,12 @@
               <span v-else>Never expires</span>
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="Created at">
+          <el-table-column prop="createTime" label="Created at" min-width="190">
             <template #default="scope">
               <operateUser :dateTime="scope.row.createTime" :entity="scope.row.createUserEntity" />
             </template>
           </el-table-column>
-          <el-table-column prop="lastUpdateTime" label="Updated at">
+          <el-table-column prop="lastUpdateTime" label="Updated at" min-width="190">
             <template #default="scope">
               <operateUser :dateTime="scope.row.lastUpdateTime" :entity="scope.row.lastUpdateUserEntity" />
             </template>
@@ -151,7 +151,7 @@
     </el-dialog>
 
     <!-- Add/edit dialog -->
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="50%" :close-on-click-modal="false">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="60%" :close-on-click-modal="false">
       <template v-if="saveFlag">
         <create-tenant :template-list="templateList!" @close="closeCreateTenant" />
       </template>

@@ -6,7 +6,7 @@
   </el-steps>
   <br />
   <br />
-  <el-form ref="entityFormRef" :model="entityForm" :rules="entityFormRules" label-position="right" label-width="100px">
+  <el-form ref="entityFormRef" :model="entityForm" :rules="entityFormRules" label-position="right" label-width="140px">
     <template v-if="active === 0">
       <el-alert title="Logo Recommended: a 100x100 px PNG..." type="info" />
       <br />
