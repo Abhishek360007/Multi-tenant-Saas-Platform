@@ -3,7 +3,7 @@
 | Part | Service | Free plan |
 | --- | --- | --- |
 | API server | Render web service (Docker) | 512 MB RAM, sleeps after 15 min idle |
-| Redis | Upstash Redis, or a Render Key Value you already have | 256 MB / 25 MB |
+| Redis | Upstash, Redis Cloud, or a Render Key Value you already have | 256 MB / 30 MB / 25 MB |
 | Admin + tenant websites | Render static sites | free |
 | Database | TiDB Cloud Serverless (MySQL-compatible) | 5 GB |
 
@@ -29,9 +29,13 @@ Pick one:
 
 - **Upstash (simplest):** sign up at https://upstash.com > **Create Database** > Redis, region **ap-south-1 (Mumbai)**
   or **ap-southeast-1 (Singapore)**, free plan. On the database page note the **Endpoint** (host), and the
-  **Password** (the token). Use `REDIS_SSL` = `true` and `REDIS_DATABASE` = `0`.
+  **Password** (the token). Use `REDIS_PORT` = `6379`, `REDIS_SSL` = `true` and `REDIS_DATABASE` = `0`.
+- **Redis Cloud:** sign up at https://redis.io/try-free > create a **free** database (30 MB) on AWS, region
+  **ap-south-1 (Mumbai)** or **ap-southeast-1 (Singapore)**. From the database's **Connect** details take the
+  host and port (the public endpoint is `host:port`) and the password of the `default` user. Use
+  `REDIS_SSL` = `false` and `REDIS_DATABASE` = `0`.
 - **A Render Key Value you already have:** it must be in the **Singapore** region. Open it > **Connect** >
-  **Internal** and take the host from the URL `redis://<host>:6379`. Leave `REDIS_PASSWORD` empty and use
+  **Internal** and take the host from the URL `redis://<host>:6379`. Leave `REDIS_PASSWORD` empty and use `REDIS_PORT` = `6379`,
   `REDIS_SSL` = `false` and `REDIS_DATABASE` = `3`, so TenantHub doesn't mix with your other app's data.
 
 ## 3. Create the services (Render)
@@ -45,7 +49,7 @@ Pick one:
    | `DB_HOST` | TiDB host |
    | `DB_USERNAME` | TiDB user |
    | `DB_PASSWORD` | TiDB password |
-   | `REDIS_HOST`, `REDIS_PASSWORD`, `REDIS_SSL`, `REDIS_DATABASE` | from step 2 |
+   | `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD`, `REDIS_SSL`, `REDIS_DATABASE` | from step 2 |
    | `TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD` | the password you want for the platform `admin` user |
    | `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | your (regenerated) Razorpay test keys |
    | `RAZORPAY_WEBHOOK_SECRET` | any long random text; you will paste the same text into Razorpay in step 5 |

@@ -30,11 +30,11 @@ services:
         value: "5"
       # Redis. Render allows one free Key Value per account, so TenantHub uses one you already have
       # (same region: its internal hostname, no password, REDIS_SSL=false) or a free hosted Redis
-      # such as Upstash (its endpoint, port 6379, password, REDIS_SSL=true).
+      # such as Upstash (its endpoint, port 6379, password, REDIS_SSL=true) or Redis Cloud (host, port, password).
       - key: REDIS_HOST
         sync: false
       - key: REDIS_PORT
-        value: "6379"
+        sync: false            # 6379 for Upstash/Render; Redis Cloud shows its own port
       - key: REDIS_PASSWORD
         sync: false
       - key: REDIS_SSL
