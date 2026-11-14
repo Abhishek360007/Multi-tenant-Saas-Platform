@@ -2,6 +2,19 @@
   <img src="docs/brand/tenanthub-wordmark.png" alt="TenantHub" width="360">
 
   <p>A multi-tenant, database-per-tenant SaaS foundation with a platform admin console and a tenant portal.</p>
+
+  <p>
+    <a href="https://github.com/Abhishek360007/Multi-tenant-Saas-Platform/actions/workflows/build.yml"><img src="https://github.com/Abhishek360007/Multi-tenant-Saas-Platform/actions/workflows/build.yml/badge.svg?branch=main" alt="build"></a>
+    <a href="https://tenanthub-admin.onrender.com"><img src="https://img.shields.io/website?url=https%3A%2F%2Ftenanthub-api.onrender.com%2Factuator%2Fhealth&label=live%20demo&up_message=online&down_message=sleeping" alt="live demo"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="license"></a>
+    <br>
+    <img src="https://img.shields.io/badge/Java-21%2B-orange?logo=openjdk&logoColor=white" alt="Java 21+">
+    <img src="https://img.shields.io/badge/Spring%20Boot-3.5-6DB33F?logo=springboot&logoColor=white" alt="Spring Boot 3.5">
+    <img src="https://img.shields.io/badge/Vue-3-4FC08D?logo=vuedotjs&logoColor=white" alt="Vue 3">
+    <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" alt="TypeScript">
+    <img src="https://img.shields.io/badge/MySQL-8%20%7C%20TiDB-4479A1?logo=mysql&logoColor=white" alt="MySQL 8 or TiDB">
+    <img src="https://img.shields.io/badge/payments-Razorpay-0C2451?logo=razorpay&logoColor=white" alt="Razorpay">
+  </p>
 </div>
 
 ## Live demo
@@ -184,6 +197,8 @@ Environment variables (defaults suit local development; the `prod` profile requi
 | `S3_ENABLED`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_REGION`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_PUBLIC_URL` | region `ap-south-1` | any S3-compatible store: AWS (Mumbai), DigitalOcean Spaces (blr1), MinIO, Cloudflare R2 |
 | `GEOIP_CITY_DB` | `./data/GeoLite2-City.mmdb` | [MaxMind GeoLite2 City](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) database (free account) for login locations; without it they show "Unknown" |
 | `TENANTHUB_BOOTSTRAP_ADMIN_PASSWORD` | empty | initial password for the platform admin |
+| `CORS_ALLOWED_ORIGINS` | `*` | websites allowed to call the API from a browser, comma-separated (e.g. `https://admin.example.com,https://portal.example.com`) |
+| `API_DOCS_ENABLED` | `true` (`false` in prod) | serve the OpenAPI spec and Swagger UI |
 | `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM` | empty, `587` | SMTP for email sign-in codes (e.g. Amazon SES Mumbai, Zoho Mail) |
 | `MSG91_AUTH_KEY`, `MSG91_TEMPLATE_ID`, `MSG91_OTP_VARIABLE` | empty, empty, `otp` | SMS sign-in codes via MSG91 (needs a DLT-approved template) |
 | `GST_SELLER_STATE_CODE` | `29` (Karnataka) | GST state code of your business: CGST + SGST for tenants in that state, IGST otherwise |
@@ -196,6 +211,13 @@ Personal overrides can go in `application-local.yml` (git-ignored); run with `--
 ## Changelog
 
 Newest first. Full history: `git log`.
+
+**Production polish**
+- API docs (`/v3/api-docs`, Swagger UI) are off in production; `API_DOCS_ENABLED=true` turns them back on
+- Only the TenantHub websites may call the API from a browser (`CORS_ALLOWED_ORIGINS`)
+- A sleeping or unreachable server shows a clear "may be waking up" message; requests wait 30 seconds
+- Payment history shows plan names; tenant list and add-tenant form no longer squash their text
+- README screenshots and badges
 
 **Free deployment (Render + TiDB Cloud + Redis Cloud)**
 - Every tenant gets the Billing menu, whatever permission template it was created with
