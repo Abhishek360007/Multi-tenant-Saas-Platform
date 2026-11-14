@@ -2,8 +2,6 @@ HELP.md
 target/
 
 
-/platform-web-ui/pnpm-lock.yaml
-/tenant-web-ui/pnpm-lock.yaml
 
 
 ### STS ###
