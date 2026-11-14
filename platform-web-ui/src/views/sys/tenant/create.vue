@@ -173,19 +173,19 @@
       </el-row>
     </template>
     <template v-else>
-      <el-form-item prop="adminNickname" label="Admin nickname">
+      <el-form-item prop="adminNickname" label-width="170px" label="Admin nickname">
         {{ adminResult.adminNickname }}
       </el-form-item>
-      <el-form-item prop="adminUsername" label="Sign-in username">
+      <el-form-item prop="adminUsername" label-width="170px" label="Sign-in username">
         {{ adminResult.adminUsername }}
       </el-form-item>
-      <el-form-item prop="adminPwd" label="Sign-in password">
+      <el-form-item prop="adminPwd" label-width="170px" label="Sign-in password">
         {{ adminResult.adminPwd }}
       </el-form-item>
-      <el-form-item prop="adminEmail" label="Admin email">
+      <el-form-item prop="adminEmail" label-width="170px" label="Admin email">
         {{ adminResult.adminEmail }}
       </el-form-item>
-      <el-form-item prop="adminMobile" label="Admin mobile number">
+      <el-form-item prop="adminMobile" label-width="170px" label="Admin mobile number">
         {{ adminResult.adminMobile }}
       </el-form-item>
     </template>
