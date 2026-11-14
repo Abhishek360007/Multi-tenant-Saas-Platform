@@ -200,5 +200,17 @@
         <sql>DELETE FROM sys_menu WHERE menu_id IN (10052, 10053, 10054)</sql>
     </changeSet>
 
+    <!-- Every tenant needs Billing, whatever permission template it was given -->
+    <changeSet context="platform" author="Abhishek Raj" id="tenanthub-20261114-3">
+        <sql>
+            INSERT INTO sys_template_menu (template_id, menu_id)
+            SELECT t.id, m.menu_id
+            FROM sys_template AS t
+                     JOIN sys_menu AS m ON m.menu_id IN (10056, 10057)
+            WHERE NOT EXISTS (SELECT 1 FROM sys_template_menu AS x
+                              WHERE x.template_id = t.id AND x.menu_id = m.menu_id)
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>

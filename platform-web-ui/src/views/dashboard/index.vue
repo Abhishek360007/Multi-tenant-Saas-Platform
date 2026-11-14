@@ -115,13 +115,13 @@ const option1 = ref({
       center: ["50%", "60%"],
       data: [
         { value: 1350, name: "WhatsApp" },
-        { value: 2101, name: "Tencent QQ" },
-        { value: 334, name: "Douyin" },
-        { value: 165, name: "Weibo" },
-        { value: 190, name: "Zhihu" },
-        { value: 1248, name: "Alipay" },
-        { value: 548, name: "Taobao" },
-        { value: 348, name: "Pinduoduo" }
+        { value: 2101, name: "Instagram" },
+        { value: 334, name: "YouTube" },
+        { value: 165, name: "X" },
+        { value: 190, name: "LinkedIn" },
+        { value: 1248, name: "Paytm" },
+        { value: 548, name: "Flipkart" },
+        { value: 348, name: "Meesho" }
       ],
       emphasis: {
         itemStyle: {
@@ -200,31 +200,31 @@ const option3 = ref({
   },
   series: [
     {
-      name: "Pinduoduo",
+      name: "Flipkart",
       type: "line",
       stack: "Total",
       data: [120, 132, 101, 134, 90, 230, 210]
     },
     {
-      name: "Taobao",
+      name: "Amazon",
       type: "line",
       stack: "Total",
       data: [220, 182, 191, 234, 290, 330, 310]
     },
     {
-      name: "JD.com",
+      name: "Meesho",
       type: "line",
       stack: "Total",
       data: [150, 232, 201, 154, 190, 330, 410]
     },
     {
-      name: "Vipshop",
+      name: "Myntra",
       type: "line",
       stack: "Total",
       data: [320, 332, 301, 334, 390, 330, 320]
     },
     {
-      name: "Douyin Live",
+      name: "Nykaa",
       type: "line",
       stack: "Total",
       data: [820, 932, 901, 934, 1290, 1330, 1320]

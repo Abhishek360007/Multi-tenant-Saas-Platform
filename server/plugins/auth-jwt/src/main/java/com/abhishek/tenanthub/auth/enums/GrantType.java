@@ -12,9 +12,9 @@ import lombok.ToString;
  * password : Password grant
  * client_credentials : Client credentials grant
  * refresh_token : Refresh token
- * we_chat : WeChat sign-in
- * tencent_qq : Tencent QQ sign-in
- * sms : SMS grant
+ * send_sms : Send an SMS code
+ * sms : SMS OTP sign-in
+ * email_otp : Email OTP sign-in
  * </p>
  *
  * @author Wang Chen Chen
