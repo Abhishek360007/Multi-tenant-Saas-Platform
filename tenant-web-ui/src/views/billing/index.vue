@@ -49,6 +49,9 @@ const limitOf = (n: number, noun: string) => (n < 0 ? `Unlimited ${noun}s` : `${
 const usagePercent = (used: number, max: number) => (max <= 0 ? 0 : Math.min(100, Math.round((used / max) * 100)))
 const priceOf = (plan: IPlan) => (cycle.value === "YEARLY" ? plan.yearlyPricePaise : plan.monthlyPricePaise)
 const isCurrent = (plan: IPlan) => summary.value?.plan.planCode === plan.planCode
+
+/** Plan name for a plan code (falls back to the code for plans no longer offered) */
+const planName = (code: string) => plans.value.find((p) => p.planCode === code)?.name ?? code
 const pad2 = (n?: number) => String(n ?? "").padStart(2, "0")
 
 /** Yearly price compared with 12 monthly payments */
@@ -172,7 +175,7 @@ const statusType = (s: string) => (s === "paid" ? "success" : s === "failed" ? "
           <template #default="{ row }">{{ row.invoiceNo || "-" }}</template>
         </el-table-column>
         <el-table-column label="Plan" min-width="120">
-          <template #default="{ row }">{{ row.planCode }} · {{ row.billingCycle === "YEARLY" ? "Yearly" : "Monthly" }}</template>
+          <template #default="{ row }">{{ planName(row.planCode) }} · {{ row.billingCycle === "YEARLY" ? "Yearly" : "Monthly" }}</template>
         </el-table-column>
         <el-table-column label="Amount (incl. GST)" min-width="140" align="right">
           <template #default="{ row }">{{ formatPaise(row.totalPaise) }}</template>
