@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.Environment;
 import org.springframework.format.Formatter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
@@ -48,6 +49,8 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
 
     private final ServerProperties sp;
 
+    private final Environment environment;
+
     /**
      * TODO Print the docs URL
      *
@@ -56,6 +59,9 @@ public class CustomSpringWebConfig implements WebMvcConfigurer {
      */
     @PostConstruct
     public void outputDocAddress() {
+        if (!environment.getProperty("springdoc.api-docs.enabled", Boolean.class, true)) {
+            return;
+        }
         Set<String> localIPS = getLocalIPS();
         localIPS.add("localhost");
         localIPS.add(Ipv4Util.LOCAL_IP);

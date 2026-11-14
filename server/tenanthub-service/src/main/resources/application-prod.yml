@@ -17,3 +17,14 @@ spring:
   cache:
     redis:
       time-to-live: 60s
+
+# API docs are public pages (no sign-in), so they are off in production.
+# API_DOCS_ENABLED=true brings them back (/v3/api-docs, /swagger-ui.html, /doc.html).
+springdoc:
+  api-docs:
+    enabled: ${API_DOCS_ENABLED:false}
+  swagger-ui:
+    enabled: ${API_DOCS_ENABLED:false}
+knife4j:
+  # Its add-ons need the API spec. While off, /doc.html is an empty page with no API details.
+  enable: ${API_DOCS_ENABLED:false}
