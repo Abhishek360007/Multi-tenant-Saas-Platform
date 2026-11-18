@@ -81,11 +81,19 @@ public class SchemaInterceptor implements InnerInterceptor {
     }
 
 
-    private void switchSchema(Connection conn, String schema) {
-        // Switch database
-        var sql = String.format("use %s%s", multiTenantProperties.getPrefix(), schema);
+    void switchSchema(Connection conn, String schema) {
+        // Switch database with Connection.setCatalog rather than executing "USE ...":
+        //  - HikariCP tracks a catalog changed through setCatalog and resets it to the pool's
+        //    catalog (spring.datasource.hikari.catalog) when the connection goes back to the
+        //    pool, so the next borrower never inherits this tenant's database. A raw USE
+        //    statement is invisible to the pool and stayed on the connection.
+        //  - The driver quotes the name itself; no SQL is built from the tenant ID.
+        //  - It is skipped when the connection is already on that database.
+        var database = multiTenantProperties.getPrefix() + schema;
         try {
-            conn.createStatement().execute(sql);
+            if (!database.equals(conn.getCatalog())) {
+                conn.setCatalog(database);
+            }
         } catch (SQLException e) {
             log.error("switchSchema: \n{}", e.getMessage());
             throw new RuntimeException(e);

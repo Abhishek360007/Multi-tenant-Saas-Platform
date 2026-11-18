@@ -212,6 +212,11 @@ Personal overrides can go in `application-local.yml` (git-ignored); run with `--
 
 Newest first. Full history: `git log`.
 
+**Tenant isolation hardening**
+- The tenant context (tenant, project, custom-tenant flag) is cleared at the start and end of every request by a servlet filter, so a value can no longer carry over to the next request on a reused server thread
+- The tenant database is selected with `Connection.setCatalog` instead of a `USE` statement, and the pool resets each connection to the master database when it is returned (`spring.datasource.hikari.catalog`), so a pooled connection never keeps another tenant's database
+- The `x-tenant-id` header now takes precedence over the URL parameter of the same name
+
 **Production polish**
 - API docs (`/v3/api-docs`, Swagger UI) are off in production; `API_DOCS_ENABLED=true` turns them back on
 - Only the TenantHub websites may call the API from a browser (`CORS_ALLOWED_ORIGINS`)

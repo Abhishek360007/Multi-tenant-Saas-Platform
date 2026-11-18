@@ -39,6 +39,20 @@ public class TenantUtils {
 
 
     /**
+     * Forgets the tenant ID, project ID and custom-tenant flag of the current thread.
+     *
+     * <p>Servlet threads are pooled and reused: a value left behind by one request would be
+     * seen by the next request handled on the same thread (for example one that never goes
+     * through {@code TenantIdInterceptor}). {@code TenantContextCleanupFilter} calls this
+     * at the start and end of every request.</p>
+     */
+    public static void clear() {
+        TENANT_ID_THREAD_LOCAL.remove();
+        USE_CUSTOM_TENANT_ID_THREAD_LOCAL.remove();
+        PROJECT_ID_THREAD_LOCAL.remove();
+    }
+
+    /**
      * Get the tenant ID
      */
     public static String getTenantId() {
