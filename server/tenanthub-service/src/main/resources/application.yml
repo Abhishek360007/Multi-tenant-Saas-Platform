@@ -33,6 +33,9 @@ spring:
     password: ${DB_PASSWORD:123456}
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
+      # The database a connection is reset to when it returns to the pool, so a tenant's
+      # database selected by SchemaInterceptor never leaks to the next request.
+      catalog: ${multi.tenant.db-name}
       maximum-pool-size: ${DB_POOL_SIZE:10}
       minimum-idle: 5
       connection-test-query: SELECT 1

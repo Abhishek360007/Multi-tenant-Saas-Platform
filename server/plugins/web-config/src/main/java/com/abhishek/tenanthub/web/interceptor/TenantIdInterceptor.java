@@ -49,8 +49,10 @@ public class TenantIdInterceptor implements HandlerInterceptor {
          * GET https://www.baidu.com/hello?x-tenant-id=master
          * */
         var paramTenantId = request.getParameter(X_TENANT_ID);
-        // URL tenant ID in. Overrides the tenant in the request header id
-        if (StringUtils.isEmpty(tenantId) || StringUtils.isNotEmpty(paramTenantId)) {
+        // The header wins; the URL parameter is only a fallback for requests that can't
+        // set headers. (It used to override the header, which made the URL, which ends up
+        // in logs and browser history, the stronger of the two sources.)
+        if (StringUtils.isEmpty(tenantId)) {
             tenantId = paramTenantId;
         }
         if (StringUtils.isEmpty(tenantId)) {
